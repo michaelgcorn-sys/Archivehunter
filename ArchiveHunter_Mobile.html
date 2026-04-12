@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Archive Hunter">
+<title>Archive Hunter</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --panel: #0d1117;
+    --border: #1e2d3d;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --green: #39ff14;
+    --text: #c9d1d9;
+    --muted: #4a5568;
+    --danger: #ff4757;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow Condensed', sans-serif;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow-x: hidden;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,212,255,0.015) 2px,
+      rgba(0,212,255,0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(180deg, #0d1117 0%, transparent 100%);
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent), #0066ff);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(0,212,255,0.3);
+  }
+
+  .logo-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 20px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(0,212,255,0.5);
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  /* Search bar */
+  .search-wrap {
+    position: relative;
+    display: flex;
+    gap: 8px;
+  }
+
+  .search-input {
+    flex: 1;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(0,212,255,0.15);
+  }
+
+  .search-input::placeholder { color: var(--muted); }
+
+  .search-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+    -webkit-appearance: none;
+  }
+
+  .search-btn:active { transform: scale(0.97); background: #00b8d9; }
+  .search-btn.loading { background: var(--muted); }
+
+  /* Source toggles */
+  .sources {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 10px 16px 0;
+  }
+
+  .source-toggle {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+    -webkit-appearance: none;
+  }
+
+  .source-toggle.active {
+    border-color: currentColor;
+    color: var(--accent);
+    background: rgba(0,212,255,0.08);
+  }
+
+  .source-toggle.active.loc { color: #ffd700; background: rgba(255,215,0,0.08); border-color: #ffd700; }
+  .source-toggle.active.ia  { color: #ff6b35; background: rgba(255,107,53,0.08); border-color: #ff6b35; }
+  .source-toggle.active.cia { color: #39ff14; background: rgba(57,255,20,0.08);  border-color: #39ff14; }
+  .source-toggle.active.wiki{ color: #a78bfa; background: rgba(167,139,250,0.08);border-color: #a78bfa; }
+  .source-toggle.active.fbi { color: #ff4757; background: rgba(255,71,87,0.08);  border-color: #ff4757; }
+  .source-toggle.active.doj { color: #ffa502; background: rgba(255,165,2,0.08);  border-color: #ffa502; }
+  .source-toggle.active.court{color: #2ed573; background: rgba(46,213,115,0.08); border-color: #2ed573; }
+  .source-toggle.active.nsa { color: #eccc68; background: rgba(236,204,104,0.08);border-color: #eccc68; }
+
+  /* Status bar */
+  .status-bar {
+    padding: 8px 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .status-dot.active {
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    animation: pulse 1s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Results */
+  .results {
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Source section */
+  .source-section {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .source-header {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .source-header.wikimedia { background: rgba(167,139,250,0.1); border-bottom: 1px solid rgba(167,139,250,0.2); }
+  .source-header.loc       { background: rgba(255,215,0,0.08);  border-bottom: 1px solid rgba(255,215,0,0.2); }
+  .source-header.ia        { background: rgba(255,107,53,0.08); border-bottom: 1px solid rgba(255,107,53,0.2); }
+  .source-header.cia       { background: rgba(57,255,20,0.06);  border-bottom: 1px solid rgba(57,255,20,0.2); }
+  .source-header.fbi       { background: rgba(255,71,87,0.08);  border-bottom: 1px solid rgba(255,71,87,0.2); }
+  .source-header.doj       { background: rgba(255,165,2,0.08);  border-bottom: 1px solid rgba(255,165,2,0.2); }
+  .source-header.court     { background: rgba(46,213,115,0.06); border-bottom: 1px solid rgba(46,213,115,0.2); }
+  .source-header.nsa       { background: rgba(236,204,104,0.06);border-bottom: 1px solid rgba(236,204,104,0.2); }
+
+  .source-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .source-label.wikimedia { color: #a78bfa; }
+  .source-label.loc       { color: #ffd700; }
+  .source-label.ia        { color: #ff6b35; }
+  .source-label.cia       { color: #39ff14; }
+  .source-label.fbi       { color: #ff4757; }
+  .source-label.doj       { color: #ffa502; }
+  .source-label.court     { color: #2ed573; }
+  .source-label.nsa       { color: #eccc68; }
+
+  .source-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .chevron {
+    font-size: 12px;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+  .chevron.open { transform: rotate(180deg); }
+
+  /* Result items */
+  .result-item {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .result-item:last-child { border-bottom: none; }
+  .result-item:active { background: rgba(255,255,255,0.04); }
+
+  .result-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e6edf3;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .result-meta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .result-desc {
+    font-size: 13px;
+    color: #8b949e;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .result-thumb {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 6px;
+    float: right;
+    margin-left: 10px;
+    margin-bottom: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .result-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+
+  /* Loading skeleton */
+  .skeleton {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .skel-line {
+    height: 12px;
+    background: linear-gradient(90deg, var(--border) 25%, #1e2d3d 50%, var(--border) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Empty / error state */
+  .empty-state {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-state p { font-size: 14px; line-height: 1.6; }
+
+  /* Quick searches */
+  .quick-searches {
+    padding: 0 16px 16px;
+  }
+
+  .quick-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .quick-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: #8b949e;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-user-select: none;
+  }
+
+  .chip:active {
+    background: rgba(0,212,255,0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Modal for full result */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 500;
+    display: flex;
+    align-items: flex-end;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px 16px 0 0;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-handle {
+    width: 36px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 0 auto 16px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #e6edf3;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .modal-meta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .modal-desc {
+    font-size: 15px;
+    color: #8b949e;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .modal-img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    background: #000;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .modal-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    -webkit-appearance: none;
+  }
+
+  .modal-btn.primary {
+    background: var(--accent);
+    color: #000;
+  }
+
+  .modal-btn.secondary {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo-icon">🔍</div>
+    <div>
+      <div class="logo-text">ARCHIVE HUNTER</div>
+      <div class="logo-sub">Declassified Document Search</div>
+    </div>
+  </div>
+  <div class="search-wrap">
+    <input class="search-input" id="searchInput" type="search" 
+           placeholder="Search declassified docs..." 
+           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <button class="search-btn" id="searchBtn" onclick="runSearch()">SEARCH</button>
+  </div>
+</div>
+
+<div class="sources" id="sourceToggles">
+  <button class="source-toggle active wiki" data-source="wiki" onclick="toggleSource(this)">WIKIMEDIA</button>
+  <button class="source-toggle active ia"   data-source="ia"   onclick="toggleSource(this)">INTERNET ARCHIVE</button>
+  <button class="source-toggle active loc"  data-source="loc"  onclick="toggleSource(this)">LIBRARY OF CONGRESS</button>
+  <button class="source-toggle active cia"  data-source="cia"  onclick="toggleSource(this)">CIA READING ROOM</button>
+  <button class="source-toggle active fbi"  data-source="fbi"  onclick="toggleSource(this)">FBI VAULT</button>
+  <button class="source-toggle active doj"  data-source="doj"  onclick="toggleSource(this)">DOJ DISCLOSURES</button>
+  <button class="source-toggle active court"data-source="court"onclick="toggleSource(this)">FEDERAL COURTS</button>
+  <button class="source-toggle active nsa"  data-source="nsa"  onclick="toggleSource(this)">NSA RELEASES</button>
+</div>
+
+<div class="status-bar">
+  <div class="status-dot" id="statusDot"></div>
+  <span id="statusText">Ready — enter a search term above</span>
+</div>
+
+<div id="quickSearches" class="quick-searches" style="padding-top:16px">
+  <div class="quick-label">RECENT SEARCHES</div>
+  <div class="quick-chips" id="recentChips"></div>
+  <br>
+  <div class="quick-label">SUGGESTED</div>
+  <div class="quick-chips">
+    <div class="chip" onclick="setSearch('MKUltra CIA')">MKUltra CIA</div>
+    <div class="chip" onclick="setSearch('Jeffrey Epstein FBI')">Epstein FBI files</div>
+    <div class="chip" onclick="setSearch('JFK assassination documents')">JFK assassination</div>
+    <div class="chip" onclick="setSearch('Iran Contra')">Iran Contra</div>
+    <div class="chip" onclick="setSearch('COINTELPRO FBI')">COINTELPRO</div>
+    <div class="chip" onclick="setSearch('Operation Mockingbird')">Op. Mockingbird</div>
+    <div class="chip" onclick="setSearch('Watergate')">Watergate</div>
+    <div class="chip" onclick="setSearch('Gulf of Tonkin NSA')">Gulf of Tonkin</div>
+    <div class="chip" onclick="setSearch('Pentagon Papers')">Pentagon Papers</div>
+    <div class="chip" onclick="setSearch('VENONA Soviet spies')">VENONA</div>
+    <div class="chip" onclick="setSearch('Ghislaine Maxwell court')">Maxwell court docs</div>
+    <div class="chip" onclick="setSearch('UFO declassified')">UFO files</div>
+  </div>
+</div>
+
+<div class="results" id="results"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <img class="modal-img" id="modalImg" style="display:none">
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-meta" id="modalMeta"></div>
+    <div class="modal-desc" id="modalDesc"></div>
+    <div class="modal-actions">
+      <a class="modal-btn primary" id="modalLink" target="_blank">OPEN DOCUMENT ↗</a>
+      <button class="modal-btn secondary" onclick="closeModal()">CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+let activeSources = new Set(['wiki','ia','loc','cia','fbi','doj','court','nsa']);
+let recentSearches = JSON.parse(localStorage.getItem('ah_recent') || '[]');
+let currentResults = {};
+let isSearching = false;
+
+// ── Source toggle ─────────────────────────────────────────────────────────────
+function toggleSource(btn) {
+  const s = btn.dataset.source;
+  if (activeSources.has(s)) {
+    if (activeSources.size === 1) return; // keep at least one
+    activeSources.delete(s);
+    btn.classList.remove('active');
+  } else {
+    activeSources.add(s);
+    btn.classList.add('active');
+  }
+}
+
+// ── Quick search ──────────────────────────────────────────────────────────────
+function setSearch(q) {
+  document.getElementById('searchInput').value = q;
+  runSearch();
+}
+
+function renderRecentChips() {
+  const el = document.getElementById('recentChips');
+  el.innerHTML = recentSearches.slice(0,6).map(q =>
+    `<div class="chip" onclick="setSearch('${q.replace(/'/g,"\\'")}')">↩ ${q}</div>`
+  ).join('');
+}
+renderRecentChips();
+
+// ── Enter key ─────────────────────────────────────────────────────────────────
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); runSearch(); }
+});
+
+// ── Main search ───────────────────────────────────────────────────────────────
+async function runSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q || isSearching) return;
+
+  isSearching = true;
+  document.getElementById('searchBtn').textContent = '...';
+  document.getElementById('searchBtn').classList.add('loading');
+  document.getElementById('quickSearches').style.display = 'none';
+  document.getElementById('statusDot').classList.add('active');
+  setStatus(`Searching ${activeSources.size} source${activeSources.size>1?'s':''}...`);
+
+  // Save recent
+  recentSearches = [q, ...recentSearches.filter(r=>r!==q)].slice(0,10);
+  localStorage.setItem('ah_recent', JSON.stringify(recentSearches));
+
+  // Clear results
+  document.getElementById('results').innerHTML = '';
+  currentResults = {};
+
+  // Build skeleton placeholders
+  activeSources.forEach(src => {
+    renderSkeleton(src);
+  });
+
+  // Fire searches in parallel
+  const searches = [];
+  if (activeSources.has('wiki'))  searches.push(searchWikimedia(q));
+  if (activeSources.has('ia'))    searches.push(searchInternetArchive(q));
+  if (activeSources.has('loc'))   searches.push(searchLibraryOfCongress(q));
+  if (activeSources.has('cia'))   searches.push(searchCIA(q));
+  if (activeSources.has('fbi'))   searches.push(searchFBIVault(q));
+  if (activeSources.has('doj'))   searches.push(searchDOJ(q));
+  if (activeSources.has('court')) searches.push(searchCourtListener(q));
+  if (activeSources.has('nsa'))   searches.push(searchNSA(q));
+
+  await Promise.allSettled(searches);
+
+  let total = Object.values(currentResults).reduce((a,v) => a + (v.items||[]).length, 0);
+  setStatus(`Found ${total} result${total!==1?'s':''} for "${q}"`);
+  document.getElementById('statusDot').classList.remove('active');
+  document.getElementById('searchBtn').textContent = 'SEARCH';
+  document.getElementById('searchBtn').classList.remove('loading');
+  isSearching = false;
+}
+
+function setStatus(msg) {
+  document.getElementById('statusText').textContent = msg;
+}
+
+// ── Skeleton loader ───────────────────────────────────────────────────────────
+const SOURCE_LABELS = {
+  wiki:  'WIKIMEDIA',
+  ia:    'INTERNET ARCHIVE',
+  loc:   'LIBRARY OF CONGRESS',
+  cia:   'CIA READING ROOM',
+  fbi:   'FBI VAULT',
+  doj:   'DOJ DISCLOSURES',
+  court: 'FEDERAL COURTS',
+  nsa:   'NSA RELEASES'
+};
+
+function renderSkeleton(src) {
+  const section = document.createElement('div');
+  section.className = 'source-section';
+  section.id = `section-${src}`;
+  section.innerHTML = `
+    <div class="source-header ${src === 'wiki' ? 'wikimedia' : src}">
+      <span class="source-label ${src === 'wiki' ? 'wikimedia' : src}">${SOURCE_LABELS[src]}</span>
+      <span class="source-count">searching...</span>
+    </div>
+    <div class="skeleton">
+      <div class="skel-line" style="width:80%"></div>
+      <div class="skel-line" style="width:60%"></div>
+      <div class="skel-line" style="width:90%"></div>
+    </div>
+  `;
+  document.getElementById('results').appendChild(section);
+}
+
+function renderSource(src, items, error) {
+  const section = document.getElementById(`section-${src}`);
+  if (!section) return;
+
+  const headerClass = src === 'wiki' ? 'wikimedia' : src;
+  const labelClass  = src === 'wiki' ? 'wikimedia' : src;
+  const count = items ? items.length : 0;
+
+  section.innerHTML = `
+    <div class="source-header ${headerClass}" onclick="toggleSection('${src}')">
+      <span class="source-label ${labelClass}">${SOURCE_LABELS[src]}</span>
+      <span style="display:flex;align-items:center;gap:8px">
+        <span class="source-count">${error ? 'error' : count + ' results'}</span>
+        <span class="chevron open" id="chev-${src}">▼</span>
+      </span>
+    </div>
+    <div id="body-${src}">
+      ${error ? `<div class="empty-state"><p>${error}</p></div>` :
+        count === 0 ? `<div class="empty-state"><p>No results found in this archive.</p></div>` :
+        items.map((item, i) => renderItem(item, src, i)).join('')
+      }
+    </div>
+  `;
+}
+
+function toggleSection(src) {
+  const body = document.getElementById(`body-${src}`);
+  const chev = document.getElementById(`chev-${src}`);
+  if (body.style.display === 'none') {
+    body.style.display = '';
+    chev.classList.add('open');
+  } else {
+    body.style.display = 'none';
+    chev.classList.remove('open');
+  }
+}
+
+function renderItem(item, src, i) {
+  const thumb = item.thumb ? `<img class="result-thumb" src="${item.thumb}" loading="lazy" onerror="this.style.display='none'">` : '';
+  return `
+    <div class="result-item" onclick="openModal(${JSON.stringify(JSON.stringify({...item, src}))})">
+      ${thumb}
+      <div class="result-title">${escHtml(item.title)}</div>
+      <div class="result-meta">${escHtml(item.meta || '')}</div>
+      <div class="result-desc">${escHtml(item.desc || 'No description available.')}</div>
+    </div>
+  `;
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+function openModal(jsonStr) {
+  const item = JSON.parse(jsonStr);
+  document.getElementById('modalTitle').textContent = item.title || '';
+  document.getElementById('modalMeta').textContent = item.meta || '';
+  document.getElementById('modalDesc').textContent = item.desc || 'No description available.';
+  document.getElementById('modalLink').href = item.url || '#';
+
+  const img = document.getElementById('modalImg');
+  if (item.thumb) {
+    img.src = item.thumb;
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
+  }
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay') || e.currentTarget === document.querySelector('.modal-btn.secondary')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+
+// ── Wikimedia Commons ─────────────────────────────────────────────────────────
+async function searchWikimedia(q) {
+  try {
+    const url = `https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q)}&srnamespace=6&srlimit=10&srprop=snippet|titlesnippet&format=json&origin=*`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const hits = data.query?.search || [];
+
+    const items = await Promise.all(hits.slice(0,6).map(async h => {
+      const title = h.title.replace('File:','');
+      const desc = h.snippet?.replace(/<[^>]+>/g,'') || '';
+      const fileUrl = `https://commons.wikimedia.org/wiki/${encodeURIComponent(h.title)}`;
+      
+      // Try to get thumbnail
+      let thumb = null;
+      try {
+        const infoUrl = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(h.title)}&prop=imageinfo&iiprop=url|thumburl&iiurlwidth=120&format=json&origin=*`;
+        const infoRes = await fetch(infoUrl);
+        const infoData = await infoRes.json();
+        const pages = infoData.query?.pages || {};
+        const page = Object.values(pages)[0];
+        thumb = page?.imageinfo?.[0]?.thumburl || null;
+      } catch(e) {}
+
+      return { title, desc, url: fileUrl, thumb, meta: 'Wikimedia Commons' };
+    }));
+
+    currentResults['wiki'] = { items };
+    renderSource('wiki', items, null);
+  } catch(e) {
+    renderSource('wiki', [], 'Could not reach Wikimedia Commons');
+  }
+}
+
+// ── Internet Archive ──────────────────────────────────────────────────────────
+async function searchInternetArchive(q) {
+  try {
+    const url = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(q)}+AND+(subject%3A%22government%22+OR+subject%3A%22declassified%22+OR+mediatype%3Atexts)&fl=identifier,title,description,date,subject&rows=8&output=json`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const docs = data.response?.docs || [];
+
+    const items = docs.map(d => ({
+      title: d.title || d.identifier,
+      desc:  Array.isArray(d.description) ? d.description[0] : (d.description || ''),
+      meta:  d.date ? `Internet Archive · ${d.date}` : 'Internet Archive',
+      url:   `https://archive.org/details/${d.identifier}`,
+      thumb: `https://archive.org/services/img/${d.identifier}`,
+    }));
+
+    currentResults['ia'] = { items };
+    renderSource('ia', items, null);
+  } catch(e) {
+    renderSource('ia', [], 'Could not reach Internet Archive');
+  }
+}
+
+// ── Library of Congress ───────────────────────────────────────────────────────
+async function searchLibraryOfCongress(q) {
+  try {
+    const url = `https://www.loc.gov/search/?q=${encodeURIComponent(q)}&fo=json&c=8`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const results = data.results || [];
+
+    const items = results.slice(0,8).map(r => ({
+      title: r.title || 'Untitled',
+      desc:  r.description?.join(' ') || r.summary?.join(' ') || '',
+      meta:  `Library of Congress · ${r.date || ''}`,
+      url:   r.url || r.id || '#',
+      thumb: r.image_url?.[0] || null,
+    }));
+
+    currentResults['loc'] = { items };
+    renderSource('loc', items, null);
+  } catch(e) {
+    renderSource('loc', [], 'Could not reach Library of Congress');
+  }
+}
+
+// ── FBI Vault ─────────────────────────────────────────────────────────────────
+async function searchFBIVault(q) {
+  try {
+    const searchUrl = `https://vault.fbi.gov/search?SearchableText=${encodeURIComponent(q)}`;
+    // FBI Vault has a search endpoint that returns HTML — link out with context items
+    // For known high-value collections, surface them directly
+    const knownDocs = {
+      'epstein': [
+        { title: 'Jeffrey Epstein — FBI Vault (22 parts)', desc: 'Thousands of pages of FBI FOIA documents on Jeffrey Epstein released in 22 batches. Heavily redacted but includes investigative records, correspondence, and evidence inventory.', url: 'https://vault.fbi.gov/jeffrey-epstein', meta: 'FBI Vault · FOIA Release' },
+      ],
+      'jfk': [{ title: 'JFK Assassination Records — FBI', desc: 'FBI records related to the assassination of President Kennedy, released under the JFK Records Act.', url: 'https://vault.fbi.gov/jfk', meta: 'FBI Vault · JFK Records' }],
+      'kennedy': [{ title: 'Kennedy Assassination — FBI Files', desc: 'FBI investigative files related to the Kennedy assassination.', url: 'https://vault.fbi.gov/jfk', meta: 'FBI Vault' }],
+      'martin luther king': [{ title: 'Martin Luther King Jr. — FBI File', desc: 'Declassified FBI surveillance and investigative records on Dr. King spanning decades.', url: 'https://vault.fbi.gov/martin-luther-king-jr', meta: 'FBI Vault · FOIA Release' }],
+      'mlk': [{ title: 'Martin Luther King Jr. — FBI File', desc: 'Declassified FBI surveillance and investigative records.', url: 'https://vault.fbi.gov/martin-luther-king-jr', meta: 'FBI Vault' }],
+      'mkultra': [{ title: 'COINTELPRO & Mind Control — FBI', desc: 'FBI files touching on domestic surveillance programs and related intelligence operations.', url: 'https://vault.fbi.gov/cointel-pro', meta: 'FBI Vault' }],
+      'cointelpro': [{ title: 'COINTELPRO — FBI Files', desc: 'Declassified records from the FBI counterintelligence program targeting domestic political organizations.', url: 'https://vault.fbi.gov/cointel-pro', meta: 'FBI Vault · FOIA Release' }],
+      'ufo': [{ title: 'UFO / Project Blue Book — FBI', desc: 'FBI files on unidentified flying objects and related investigations.', url: 'https://vault.fbi.gov/unexplained-phenomenon', meta: 'FBI Vault' }],
+      'roswell': [{ title: 'Roswell / UFO Files — FBI', desc: 'Declassified FBI records on unexplained phenomenon including the famous 1950 Hottel memo.', url: 'https://vault.fbi.gov/unexplained-phenomenon', meta: 'FBI Vault' }],
+    };
+
+    const ql = q.toLowerCase();
+    let items = [];
+    for (const [key, docs] of Object.entries(knownDocs)) {
+      if (ql.includes(key)) items = [...items, ...docs];
+    }
+
+    // Always add a live search link
+    items.push({
+      title: `Search FBI Vault: "${q}"`,
+      desc: 'The FBI Vault contains nearly 7,000 FOIA-released documents including Epstein files (22 parts), COINTELPRO, JFK records, and more. Tap to search directly.',
+      meta: 'FBI Vault · vault.fbi.gov',
+      url: searchUrl,
+      thumb: null,
+    });
+
+    currentResults['fbi'] = { items };
+    renderSource('fbi', items, null);
+  } catch(e) {
+    renderSource('fbi', [], 'Could not reach FBI Vault');
+  }
+}
+
+// ── DOJ Disclosures ───────────────────────────────────────────────────────────
+async function searchDOJ(q) {
+  try {
+    const ql = q.toLowerCase();
+    let items = [];
+
+    if (ql.includes('epstein') || ql.includes('maxwell') || ql.includes('ghislaine')) {
+      items = [
+        { title: 'DOJ Epstein Disclosures — All Released Court Files', desc: 'Official DOJ disclosure page for all Epstein and Maxwell-related court filings released to the public, including civil suits, criminal cases, and Virgin Islands proceedings.', url: 'https://www.justice.gov/epstein/doj-disclosures', meta: 'DOJ · justice.gov/epstein' },
+        { title: 'House Oversight Committee — Epstein Records', desc: 'Documents provided by DOJ to the House Oversight Committee in late 2025 transparency releases.', url: 'https://oversight.house.gov/release/oversight-committee-releases-epstein-records-provided-by-the-department-of-justice/', meta: 'House Oversight · 2025' },
+      ];
+    }
+
+    // General DOJ FOIA search
+    const dojSearchUrl = `https://www.justice.gov/search?query=${encodeURIComponent(q)}&type=component_page`;
+    items.push({
+      title: `Search DOJ for: "${q}"`,
+      desc: 'The Department of Justice maintains FOIA reading rooms for FBI, DEA, ATF, BOP, and other agencies. Includes Epstein releases, drug enforcement records, and civil rights investigations.',
+      meta: 'DOJ · justice.gov',
+      url: dojSearchUrl,
+      thumb: null,
+    });
+
+    // State Dept FOIA — good for foreign intelligence & diplomatic records
+    if (ql.includes('iran') || ql.includes('russia') || ql.includes('china') || ql.includes('cuba') || ql.includes('diplomatic') || ql.includes('foreign')) {
+      items.push({
+        title: 'State Department FOIA Reading Room',
+        desc: 'Over 221,000 searchable documents from State Department FOIA releases including diplomatic cables, intelligence assessments, and foreign policy documents.',
+        url: `https://foia.state.gov/search/results.aspx?searchText=${encodeURIComponent(q)}`,
+        meta: 'State Dept · 221,000+ docs',
+        thumb: null,
+      });
+    }
+
+    currentResults['doj'] = { items };
+    renderSource('doj', items, null);
+  } catch(e) {
+    renderSource('doj', [], 'Could not reach DOJ');
+  }
+}
+
+// ── CourtListener / RECAP (Federal Courts) ────────────────────────────────────
+async function searchCourtListener(q) {
+  try {
+    // CourtListener has a free public REST API
+    const url = `https://www.courtlistener.com/api/rest/v3/search/?q=${encodeURIComponent(q)}&type=o&format=json&page_size=8`;
+    const res = await fetch(url, { headers: { 'Accept': 'application/json' }});
+    const data = await res.json();
+    const results = data.results || [];
+
+    let items = results.slice(0,6).map(r => ({
+      title: r.caseName || r.case_name || 'Federal Court Document',
+      desc:  r.snippet || r.text || r.summary || '',
+      meta:  `${r.court || 'Federal Court'} · ${r.dateFiled || r.date_filed || ''}`,
+      url:   r.absolute_url ? `https://www.courtlistener.com${r.absolute_url}` : `https://www.courtlistener.com/opinion/${r.id}/`,
+      thumb: null,
+    }));
+
+    // If no API results, link to RECAP archive search
+    if (items.length === 0) {
+      items = [{
+        title: `Search Federal Court Records: "${q}"`,
+        desc: 'CourtListener/RECAP contains millions of PACER federal court documents — free to search. Includes Epstein/Maxwell filings, civil rights cases, intelligence-related litigation, and more.',
+        meta: 'CourtListener · RECAP Archive',
+        url: `https://www.courtlistener.com/?q=${encodeURIComponent(q)}&type=r`,
+        thumb: null,
+      }];
+    }
+
+    currentResults['court'] = { items };
+    renderSource('court', items, null);
+  } catch(e) {
+    // Fallback to direct search link
+    const items = [{
+      title: `Search Federal Courts: "${q}"`,
+      desc: 'Search millions of federal court documents in the RECAP Archive — free alternative to PACER.',
+      meta: 'CourtListener',
+      url: `https://www.courtlistener.com/?q=${encodeURIComponent(q)}&type=r`,
+      thumb: null,
+    }];
+    currentResults['court'] = { items };
+    renderSource('court', items, null);
+  }
+}
+
+// ── NSA Historical Releases ───────────────────────────────────────────────────
+async function searchNSA(q) {
+  try {
+    const ql = q.toLowerCase();
+    // NSA releases are organized by topic — map common searches
+    const nsaTopics = {
+      'gulf of tonkin': { title: 'Gulf of Tonkin — NSA Declassified', desc: 'NSA\'s own declassified records on the Gulf of Tonkin incident, including the signals intelligence that shaped U.S. entry into Vietnam.', url: 'https://www.nsa.gov/news-features/declassified-documents/gulf-of-tonkin/' },
+      'uss liberty': { title: 'USS Liberty — NSA Files', desc: 'Declassified NSA documents on the 1967 Israeli attack on the USS Liberty signals intelligence ship.', url: 'https://www.nsa.gov/news-features/declassified-documents/uss-liberty/' },
+      'ukusa': { title: 'UKUSA Agreement — Five Eyes', desc: 'Declassified NSA files on the UK-USA signals intelligence sharing agreement (Five Eyes origins).', url: 'https://www.nsa.gov/news-features/declassified-documents/ukusa/' },
+      'venona': { title: 'VENONA — Soviet Spy Decrypts', desc: 'NSA\'s declassified VENONA project files — the signals intelligence operation that uncovered Soviet espionage in the U.S.', url: 'https://www.nsa.gov/news-features/declassified-documents/venona/' },
+      'crypto': { title: 'Cryptologic History — NSA', desc: 'NSA declassified historical cryptology documents spanning WWII through the Cold War.', url: 'https://www.nsa.gov/news-features/declassified-documents/' },
+      'iran': { title: 'NSA Iran-Related Releases', desc: 'NSA declassified signals intelligence records related to Iran, including Cold War-era intercepts.', url: 'https://www.nsa.gov/news-features/declassified-documents/' },
+    };
+
+    let items = [];
+    for (const [key, doc] of Object.entries(nsaTopics)) {
+      if (ql.includes(key)) {
+        items.push({ ...doc, meta: 'NSA Historical Releases', thumb: null });
+      }
+    }
+
+    // Always add the general NSA search link
+    items.push({
+      title: `NSA Declassified Documents: "${q}"`,
+      desc: 'The NSA periodically releases declassified historical documents on topics including Gulf of Tonkin, USS Liberty, VENONA (Soviet spies), UKUSA (Five Eyes), and Cold War signals intelligence.',
+      meta: 'NSA · nsa.gov',
+      url: `https://www.nsa.gov/news-features/declassified-documents/`,
+      thumb: null,
+    });
+
+    // National Security Archive (GWU) — massive independent collection
+    items.push({
+      title: `National Security Archive (GWU): "${q}"`,
+      desc: 'The world\'s largest nongovernmental collection of declassified documents — over 100,000 records assembled by journalists and scholars via FOIA. Covers CIA, State Dept, Pentagon, and White House files.',
+      meta: 'NSA Archive · nsarchive.gwu.edu',
+      url: `https://nsarchive.gwu.edu/search?keywords=${encodeURIComponent(q)}`,
+      thumb: null,
+    });
+
+    currentResults['nsa'] = { items };
+    renderSource('nsa', items, null);
+  } catch(e) {
+    renderSource('nsa', [], 'Could not reach NSA releases');
+  }
+}
+
+async function searchCIA(q) {
+  try {
+    // CIA Reading Room search via their public API
+    const url = `https://www.cia.gov/readingroom/search/site/${encodeURIComponent(q)}?f%5B0%5D=im_field_collection_topic%3A1&f%5B1%5D=bundle%3Adocument`;
+    
+    // CIA doesn't have a clean JSON API — use their search page scrape approach
+    // via a CORS proxy isn't reliable, so we link directly with good UX
+    const directUrl = `https://www.cia.gov/readingroom/search/site/${encodeURIComponent(q)}`;
+    
+    // Try the CIA search API endpoint
+    const apiUrl = `https://www.cia.gov/readingroom/search/site/${encodeURIComponent(q)}?_format=json`;
+    
+    let items = [];
+    try {
+      const res = await fetch(apiUrl, { headers: { 'Accept': 'application/json' }});
+      if (res.ok) {
+        const data = await res.json();
+        // Parse whatever format they return
+        const rows = data.rows || data.results || data.docs || [];
+        items = rows.slice(0,6).map(r => ({
+          title: r.title || r.node_title || 'CIA Document',
+          desc:  r.body || r.field_abstract || r.snippet || '',
+          meta:  `CIA Reading Room · ${r.field_date_approved || ''}`,
+          url:   r.url ? `https://www.cia.gov${r.url}` : directUrl,
+          thumb: null,
+        }));
+      }
+    } catch(e2) {}
+
+    if (items.length === 0) {
+      // Fallback: provide direct link item
+      items = [{
+        title: `Search CIA Reading Room: "${q}"`,
+        desc: 'The CIA Reading Room contains thousands of declassified documents. Tap to search directly on their site.',
+        meta: 'CIA Reading Room (opens external)',
+        url: directUrl,
+        thumb: null,
+      }];
+    }
+
+    currentResults['cia'] = { items };
+    renderSource('cia', items, null);
+  } catch(e) {
+    renderSource('cia', [], 'Could not reach CIA Reading Room');
+  }
+}
+</script>
+</body>
+</html>
