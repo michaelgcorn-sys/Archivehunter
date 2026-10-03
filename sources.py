@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 26
+CODE_VERSION = 27
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -862,7 +862,8 @@ def _title_from_url(url):
     return name[:1].upper() + name[1:] if name else url
 
 
-def vanished_pages(q, limit=15):
+def vanished_pages(q, limit=15):   # not shown in the app (Oct 2026): document addresses are codes, so
+    #                                  searching by address misses the best material
     """Government pages whose web address matches the search, that the Wayback Machine saved,
     and that are gone from the live site now. Returns (results, domains_searched_ok)."""
     words = [w for t in terms_of(q) for w in re.findall(r"\w+", t)]

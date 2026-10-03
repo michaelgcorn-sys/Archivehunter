@@ -13,13 +13,13 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 26
+APP_CODE_VERSION = 27
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url,
-                     search_all, top_secret_pool, vanished_pages, VANISHED_DOMAINS)
+                     search_all, top_secret_pool)
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
 
@@ -61,7 +61,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 26 · updated Oct 3, 2026</div>
+<div class="ver">Version 27 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -225,11 +225,6 @@ def render_result(r, uid, saved_copy=True):
                 st.link_button("Open the PDF these came from", p["read_url"])
 
 
-@st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=40)
-def cached_vanished(q, v=APP_CODE_VERSION):
-    return vanished_pages(q)
-
-
 # ── Results ──────────────────────────────────────────────────────────────────
 results, status = ss.results, ss.status
 if status:
@@ -248,31 +243,23 @@ if status:
     for i, r in enumerate(shown[:80]):
         render_result(r, f"r{i}")
 
-# ── Vanished Files: deleted government pages, rescued from the Wayback Machine ──
-if ss.query:
-    st.divider()
-    st.markdown('<div class="ts-head"><b>🕰 VANISHED FILES</b><span>government pages that have been deleted, '
-                'but the Wayback Machine saved a copy</span></div>', unsafe_allow_html=True)
-    st.caption("Digs through saved copies of CIA, FBI, NSA, Pentagon, State Dept, National Archives, "
-               "Justice Dept and UFO-office websites for pages with your words in their web address, "
-               "then keeps only the ones that no longer exist on the live site.")
-    if st.button(f"Dig up deleted pages about “{ss.query}”", use_container_width=True, key="dig"):
-        ss.dig_query = ss.query
-    if ss.get("dig_query") == ss.query:
-        with st.spinner("Digging through the Wayback Machine… this can take up to a minute"):
-            try:
-                gone, searched = cached_vanished(ss.query, APP_CODE_VERSION)
-            except Exception as e:
-                gone, searched = [], 0
-                st.warning(f"The Wayback Machine didn't answer ({type(e).__name__}). Try again in a minute.")
-        if gone:
-            st.success(f"{len(gone)} deleted page(s) found · searched {searched} of {len(VANISHED_DOMAINS)} government sites")
-            for i, r in enumerate(gone):
-                render_result(r, f"v{i}", saved_copy=False)
-        elif searched:
-            st.info(f"No deleted pages found with those words in their web address "
-                    f"(searched {searched} of {len(VANISHED_DOMAINS)} government sites). Try another word, "
-                    "like a program, a person's last name or a place.")
+# ── Time Machine: the Wayback Machine as a fun link ───────────────────────────
+st.divider()
+st.markdown('<div class="ts-head"><b>🕰 TIME MACHINE</b><span>see government websites as they looked years ago, '
+            'saved by the Wayback Machine</span></div>', unsafe_allow_html=True)
+TRIPS = [
+    ("CIA.gov in 1997", "https://web.archive.org/web/1997/https://www.cia.gov/"),
+    ("FBI.gov in 2001", "https://web.archive.org/web/2001/https://www.fbi.gov/"),
+    ("FBI Vault at launch, 2011", "https://web.archive.org/web/2011/https://vault.fbi.gov/"),
+    ("NSA.gov in 2013, the Snowden year", "https://web.archive.org/web/2013/https://www.nsa.gov/"),
+    ("CIA reading room, 2017", "https://web.archive.org/web/2017/https://www.cia.gov/library/readingroom/"),
+    ("Open the Wayback Machine", "https://web.archive.org/"),
+]
+tm = st.columns(2)
+for j, (label, url) in enumerate(TRIPS):
+    tm[j % 2].link_button(label, url, use_container_width=True)
+st.caption("Tip: every result above also has a 🕰 Saved copy link, and Find my words inside uses a saved "
+           "copy automatically when a document has been taken down.")
 
 # ── Sites that only work in the browser ──────────────────────────────────────
 st.divider()
