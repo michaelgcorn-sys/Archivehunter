@@ -45,11 +45,53 @@ def _res(source, title, url, date="", kind="", snippet="", doc_url=None, file_ur
 
 
 # ════════════════════════════════════════════════════════════════════════════
+# Web search limited to one site — used when a site's own search can't be read
+# by a server (JavaScript-built results, bot blocking). Uses DuckDuckGo's
+# plain-HTML results page, which needs no JavaScript.
+# ════════════════════════════════════════════════════════════════════════════
+
+def site_search(site, q, source, kind, limit=10):
+    page = _get("https://html.duckduckgo.com/html/", params={"q": f"site:{site} {q}"}).text
+    if "result__a" not in page and "anomaly" in page.lower():
+        raise RuntimeError("web search asked for a captcha; try again in a minute")
+    out, seen = [], set()
+    domain = site.split("/")[0]
+    anchors = list(re.finditer(r'<a[^>]+class="result__a"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', page, re.S))
+    for k, m in enumerate(anchors):
+        href, title = m.groups()
+        rest = page[m.end(): anchors[k + 1].start() if k + 1 < len(anchors) else len(page)]
+        href = htmllib.unescape(href)
+        if "uddg=" in href:
+            href = urllib.parse.unquote(re.search(r"uddg=([^&]+)", href).group(1))
+        elif href.startswith("//"):
+            href = "https:" + href
+        if domain not in href or href in seen:
+            continue
+        seen.add(href)
+        snip = re.search(r'class="result__snippet"[^>]*>(.*?)</a>', rest, re.S)
+        is_pdf = href.lower().split("?")[0].endswith(".pdf")
+        out.append(_res(source, title, href, kind=kind, snippet=snip.group(1) if snip else "",
+                        doc_url=href, file_url=href if is_pdf else None))
+        if len(out) >= limit:
+            break
+    return out
+
+
+# ════════════════════════════════════════════════════════════════════════════
 # Declassified / intelligence
 # ════════════════════════════════════════════════════════════════════════════
 
 def search_cia(q, limit=12):
-    """CIA CREST reading room. Its search page is server-rendered (checked Oct 2026)."""
+    """CIA CREST reading room. Tries the CIA's own search first; its results are
+    often built by JavaScript (empty for a server), so falls back to a site web search."""
+    try:
+        got = _search_cia_direct(q, limit)
+    except Exception:
+        got = []
+    return got or site_search("cia.gov/readingroom", q, "CIA", "Declassified CIA record", limit)
+
+
+def _search_cia_direct(q, limit):
     page = _get("https://www.cia.gov/readingroom/search/site/" + urllib.parse.quote(q)).text
     out, seen = [], set()
     # Each hit: <h3 class="title"><a href="…/readingroom/document/…">Title</a></h3> … <p class="search-snippet">…</p>
@@ -118,23 +160,31 @@ def search_gwu(q, limit=12):
 
 
 def search_blackvault(q, limit=10):
-    """The Black Vault document archive (WordPress search API)."""
-    data = _get("https://www.theblackvault.com/documentarchive/wp-json/wp/v2/search",
-                params={"search": q, "per_page": limit}).json()
-    return [_res("Black Vault", d.get("title", ""), d.get("url", ""), kind="FOIA document archive",
-                 doc_url=d.get("url")) for d in data if d.get("url")]
+    """The Black Vault. Its built-in search API skips the document pages, so use a site web search."""
+    return site_search("theblackvault.com/documentarchive", q, "Black Vault", "FOIA document archive", limit)
 
 
 def search_muckrock(q, limit=10):
-    data = _get("https://www.muckrock.com/api_v1/foia/",
-                params={"q": q, "format": "json", "page_size": limit, "status": "done"}).json()
-    out = []
-    for item in data.get("results", []):
-        u = item.get("absolute_url", "")
-        url = "https://www.muckrock.com" + u if u.startswith("/") else u
-        out.append(_res("MuckRock", item.get("title", ""), url, kind="Completed FOIA request",
-                        date=item.get("datetime_done") or item.get("date_filed"), doc_url=url))
-    return out
+    """MuckRock. Its API started refusing servers (403) in 2026, so fall back to a site web search."""
+    try:
+        data = _get("https://www.muckrock.com/api_v1/foia/",
+                    params={"q": q, "format": "json", "page_size": limit, "status": "done"}).json()
+        out = []
+        for item in data.get("results", []):
+            u = item.get("absolute_url", "")
+            url = "https://www.muckrock.com" + u if u.startswith("/") else u
+            out.append(_res("MuckRock", item.get("title", ""), url, kind="Completed FOIA request",
+                            date=item.get("datetime_done") or item.get("date_filed"), doc_url=url))
+        if out:
+            return out
+    except Exception:
+        pass
+    return site_search("muckrock.com/foi", q, "MuckRock", "FOIA request", limit)
+
+
+def search_doj_epstein(q, limit=10):
+    """DOJ Epstein Library (justice.gov/epstein) via site web search."""
+    return site_search("justice.gov/epstein", q, "DOJ Epstein Library", "DOJ release", limit)
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -234,6 +284,7 @@ SOURCES = {
     "FBI Vault": search_fbi,
     "GWU Natl Security Archive": search_gwu,
     "Black Vault": search_blackvault,
+    "DOJ Epstein Library": search_doj_epstein,
     "MuckRock": search_muckrock,
     "Internet Archive": search_internet_archive,
     "Library of Congress": search_loc,
@@ -243,7 +294,7 @@ SOURCES = {
 }
 # Declassified sources rank a little higher when relevance is otherwise equal.
 SOURCE_WEIGHT = {"CIA": 3, "FBI Vault": 3, "GWU Natl Security Archive": 3, "Black Vault": 2,
-                 "MuckRock": 2, "NASA": 1, "Dept of Energy": 1}
+                 "DOJ Epstein Library": 2, "MuckRock": 2, "NASA": 1, "Dept of Energy": 1}
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -379,13 +430,12 @@ def _hits_in(text, terms):
 BROWSER_ONLY = [
     ("National Archives (JFK, RFK, MLK)", "https://catalog.archives.gov/search?q={q}"),
     ("Mary Ferrell Foundation", "https://www.google.com/search?q=site%3Amaryferrell.org+{q}"),
-    ("DOJ Epstein Library", "https://www.google.com/search?q=site%3Ajustice.gov%2Fepstein+{q}"),
     ("WAR.GOV UFO files", "https://www.war.gov/ufo/"),
     ("State Dept FOIA", "https://www.google.com/search?q=site%3Afoia.state.gov+{q}"),
     ("FilesDropped", "https://www.google.com/search?q=site%3Afilesdropped.com+{q}"),
 ]
 
 TEST_QUERIES = {"CIA": "MKUltra", "FBI Vault": "Roswell", "GWU Natl Security Archive": "MKUltra",
-                "Black Vault": "UFO", "MuckRock": "CIA", "Internet Archive": "Warren Commission",
+                "Black Vault": "UFO", "DOJ Epstein Library": "Maxwell", "MuckRock": "CIA", "Internet Archive": "Warren Commission",
                 "Library of Congress": "Kennedy", "NASA": "Apollo 11", "Dept of Energy": "Manhattan Project",
                 "Wikimedia Commons": "Apollo 11"}
