@@ -25,9 +25,11 @@ st.markdown("""
          background:rgba(200,169,110,.07);border-radius:0 4px 4px 0}
 .passage mark{background:#c8a96e;color:#111;padding:0 2px;border-radius:2px}
 .pg{font:700 .7rem 'Courier New',monospace;opacity:.6}
+.ver{font:.72rem 'Courier New',monospace;opacity:.5;margin-bottom:.6rem}
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
+<div class="ver">Version 11 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
