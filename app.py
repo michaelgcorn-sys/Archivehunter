@@ -13,7 +13,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 21
+APP_CODE_VERSION = 22
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -55,10 +55,13 @@ st.markdown("""
 .ts-src{font:700 .6rem 'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;color:#c8a96e}
 .ts-title{font-size:.8rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .which{font-size:.78rem;opacity:.65;margin:.3rem 0 .1rem}
+.links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
+.links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
+.links a:hover{border-color:#c8a96e}
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 21 · updated Oct 3, 2026</div>
+<div class="ver">Version 22 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -116,15 +119,24 @@ with st.spinner("Pulling Top Secret documents from the archives…"):
 QUICK = ["MKUltra", "JFK Oswald Mexico City", "Roswell", "Epstein", "Area 51", "Stargate",
          "COINTELPRO", "Bay of Pigs", "Operation Northwoods"]
 
+def _use_quick():
+    """A quick button fills the search box and runs it, then un-highlights itself."""
+    if ss.get("quick"):
+        ss.qbox = ss.quick
+        ss.run_quick = True
+    ss.quick = None
+
+
+ss.setdefault("qbox", "")
 with st.form("search", border=False):
-    q = st.text_input("Search", value=ss.query, placeholder='Name, program or event. Use "quotes" for exact phrases',
-                      label_visibility="collapsed")
+    st.text_input("Search", key="qbox", placeholder='Name, program or event. Use "quotes" for exact phrases',
+                  label_visibility="collapsed")
     go = st.form_submit_button("Search all archives", type="primary", use_container_width=True)
 
-pick = st.pills("Try", QUICK, label_visibility="collapsed")
-if pick and pick != ss.get("last_pick"):
-    ss.last_pick = pick
-    q, go = pick, True
+st.pills("Try", QUICK, key="quick", on_change=_use_quick, label_visibility="collapsed")
+q = ss.qbox
+if ss.pop("run_quick", False):
+    go = True
 
 ss.setdefault("chosen", ALL)
 st.markdown(f'<div class="which"><b>Searching {len(ss.chosen)} archives:</b> {html.escape(" · ".join(ss.chosen))}</div>',
@@ -152,17 +164,17 @@ def render_result(r, uid, saved_copy=True):
             f'<div class="meta">{html.escape(" · ".join(x for x in (r["kind"], r["date"][:4]) if x))}</div>'
             + (f'<div class="snip">{html.escape(r["snippet"])}</div>' if r["snippet"] else ""),
             unsafe_allow_html=True)
-        cols = st.columns([1.5, 1, 1, 1.1])
+        links = [f'<a href="{html.escape(r["url"])}" target="_blank">Open ↗</a>']
+        if r["file_url"]:
+            links.append(f'<a href="{html.escape(r["file_url"])}" target="_blank">Download ⬇</a>')
+        if saved_copy:
+            links.append(f'<a href="{html.escape(saved_copy_url(r["url"]))}" target="_blank" '
+                         f'title="The Wayback Machine\'s most recent saved copy of this page">🕰 Saved copy</a>')
+        st.markdown(f'<div class="links">{" ".join(links)}</div>', unsafe_allow_html=True)
         if r["doc_url"]:
-            if cols[0].button("🔎 Find my words inside", key=f"f{uid}{key}", use_container_width=True):
+            if st.button("🔎 Find my words inside", key=f"f{uid}{key}", use_container_width=True):
                 ss.open_doc = None if ss.open_doc == key else key
                 ss.ocr_doc = None
-        cols[1].link_button("Open", r["url"], use_container_width=True)
-        if r["file_url"]:
-            cols[2].link_button("Download", r["file_url"], use_container_width=True)
-        if saved_copy:
-            cols[3].link_button("🕰 Saved copy", saved_copy_url(r["url"]), use_container_width=True,
-                                help="The Wayback Machine's most recent saved copy of this page")
 
         if ss.open_doc != key:
             return
