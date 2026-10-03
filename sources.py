@@ -81,34 +81,94 @@ def site_search(site, q, source, kind, limit=10):
 # Declassified / intelligence
 # ════════════════════════════════════════════════════════════════════════════
 
+# ════════════════════════════════════════════════════════════════════════════
+# Hidden browser — for sites that build their pages with JavaScript.
+# On Streamlit Cloud, Chromium comes from packages.txt. One page at a time,
+# because the free server has about 1 GB of memory.
+# ════════════════════════════════════════════════════════════════════════════
+
+import shutil
+import threading
+
+_BROWSER_LOCK = threading.Lock()
+
+
+def _chromium_path():
+    for name in ("chromium", "chromium-browser", "google-chrome"):
+        p = shutil.which(name)
+        if p:
+            return p
+    return None  # let Playwright use its own downloaded browser (local testing)
+
+
+def browser_html(url, wait_for=None, timeout_s=30):
+    """Load url in headless Chromium, let its JavaScript run, return the final HTML."""
+    from playwright.sync_api import sync_playwright
+    with _BROWSER_LOCK, sync_playwright() as pw:
+        exe = _chromium_path()
+        browser = pw.chromium.launch(headless=True, executable_path=exe,
+                                     args=["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu"])
+        try:
+            page = browser.new_page(user_agent=UA, viewport={"width": 1280, "height": 900})
+            page.goto(url, wait_until="domcontentloaded", timeout=timeout_s * 1000)
+            if wait_for:
+                try:
+                    page.wait_for_selector(wait_for, timeout=timeout_s * 1000)
+                except Exception:
+                    pass
+            try:
+                page.wait_for_load_state("networkidle", timeout=8000)
+            except Exception:
+                pass
+            return page.content()
+        finally:
+            browser.close()
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# Declassified / intelligence
+# ════════════════════════════════════════════════════════════════════════════
+
+CIA_SEARCH = "https://www.cia.gov/readingroom/search/site/"
+
+
 def search_cia(q, limit=12):
-    """CIA CREST reading room. Tries the CIA's own search first; its results are
-    often built by JavaScript (empty for a server), so falls back to a site web search."""
-    try:
-        got = _search_cia_direct(q, limit)
-    except Exception:
-        got = []
-    return got or site_search("cia.gov/readingroom", q, "CIA", "Declassified CIA record", limit)
+    """CIA CREST reading room, three ways, fastest first:
+       1. plain request to the CIA's own full-text search
+       2. the same page in a hidden browser (its results are built by JavaScript)
+       3. a web search limited to the CIA reading room"""
+    url = CIA_SEARCH + urllib.parse.quote(q)
+    for how, fetch in (("CIA full-text search", lambda: _get(url).text),
+                       ("CIA full-text search", lambda: browser_html(url, wait_for="a[href*='/readingroom/document/']"))):
+        try:
+            got = parse_cia(fetch(), limit, how)
+            if got:
+                return got
+        except Exception:
+            pass
+    return site_search("cia.gov/readingroom", q, "CIA", "CIA record (via web search)", limit)
 
 
-def _search_cia_direct(q, limit):
-    page = _get("https://www.cia.gov/readingroom/search/site/" + urllib.parse.quote(q)).text
+def parse_cia(page, limit=12, how="Declassified CIA record"):
     out, seen = [], set()
-    # Each hit: <h3 class="title"><a href="…/readingroom/document/…">Title</a></h3> … <p class="search-snippet">…</p>
-    blocks = re.split(r'<li[^>]*class="[^"]*search-result', page)
-    for b in blocks[1:] or [page]:
+    # Usual hit: <li class="search-result"><h3 class="title"><a href="…/readingroom/document/…">Title</a></h3>
+    #            … <p class="search-snippet">…</p></li>
+    blocks = re.split(r'<li[^>]*class="[^"]*search-result', page)[1:]
+    if not blocks:  # unknown layout: treat every document link as a hit
+        blocks = re.split(r'(?=<a[^>]+href="(?:https://www\.cia\.gov)?/readingroom/(?:document|docs)/)', page)[1:]
+    for b in blocks:
         m = re.search(r'href="((?:https://www\.cia\.gov)?/readingroom/(?:document|docs)/[^"#?]+)"[^>]*>(.*?)</a>',
                       b, re.S)
-        if not m:
+        if not m or len(clean(m.group(2))) < 3:
             continue
         href = m.group(1)
         href = href if href.startswith("http") else "https://www.cia.gov" + href
         if href in seen:
             continue
         seen.add(href)
-        snip = re.search(r'class="search-snippet[^"]*"[^>]*>(.*?)</', b, re.S)
+        snip = re.search(r'class="search-snippet[^"]*"[^>]*>(.*?)</(?:p|div)>', b, re.S)
         is_pdf = href.lower().endswith(".pdf")
-        out.append(_res("CIA", m.group(2), href, kind="Declassified CIA record",
+        out.append(_res("CIA", m.group(2), href, kind=how,
                         snippet=snip.group(1) if snip else "", doc_url=href,
                         file_url=href if is_pdf else None))
         if len(out) >= limit:
@@ -373,18 +433,50 @@ def _first_pdf_link(page_html, base):
     return urllib.parse.urljoin(base, links[0]) if links else None
 
 
-def find_passages(url: str, query: str, width: int = 240, max_hits: int = 30):
+OCR_MAX_PAGES = 40      # character recognition is ~2-4 s a page on the free server
+OCR_TIME_BUDGET = 150   # seconds
+
+
+def _fetch_page(url):
+    """Like _fetch_bytes, but if a site blocks plain requests, load its page in the hidden browser."""
+    try:
+        return _fetch_bytes(url)
+    except requests.HTTPError as e:
+        if e.response is None or e.response.status_code not in (401, 403, 406, 429, 503):
+            raise
+    html_text = browser_html(url)
+    return html_text.encode("utf-8"), "text/html", url
+
+
+def _ocr_pages(data):
+    """Render each PDF page to an image and read it with Tesseract."""
+    import time
+    import pypdfium2 as pdfium
+    import pytesseract
+    pdf = pdfium.PdfDocument(data)
+    start = time.time()
+    for i in range(min(len(pdf), OCR_MAX_PAGES)):
+        if time.time() - start > OCR_TIME_BUDGET:
+            break
+        img = pdf[i].render(scale=2.2).to_pil().convert("L")
+        yield i + 1, pytesseract.image_to_string(img)
+
+
+def find_passages(url: str, query: str, width: int = 240, max_hits: int = 30, ocr: bool = False):
     """
     Reads the document at url and returns
-        {"read_url", "pages", "chars", "hits": [(page, text, [(start, end), ...]), ...], "note"}
+        {"read_url", "pages", "chars", "hits": [(page, text, [(start, end), ...]), ...],
+         "note", "scanned"}
     Follows a web page to the first PDF on it when the page itself has no matches.
+    With ocr=True, scanned PDFs (no text layer) are read with character recognition.
     """
     terms = sorted({t.lower() for t in terms_of(query)}, key=len, reverse=True)
     if not terms:
-        return {"read_url": url, "pages": 0, "chars": 0, "hits": [], "note": "No search terms."}
+        return {"read_url": url, "pages": 0, "chars": 0, "hits": [], "note": "No search terms.",
+                "scanned": False}
 
-    data, ctype, final = _fetch_bytes(url)
-    pages, note = [], ""
+    data, ctype, final = _fetch_page(url)
+    pages, note, scanned = [], "", False
     is_pdf = data[:5] == b"%PDF-" or "pdf" in ctype
 
     if not is_pdf:
@@ -398,15 +490,24 @@ def find_passages(url: str, query: str, width: int = 240, max_hits: int = 30):
                 is_pdf = data[:5] == b"%PDF-"
     if is_pdf:
         pages = list(_pdf_pages(data))
-        if sum(len(t.strip()) for _, t in pages) < 40 * max(1, len(pages)) // 4:
-            note = ("This PDF is mostly scanned images with no text layer, so words "
-                    "can't be searched. Open it and read it directly.")
+        scanned = sum(len(t.strip()) for _, t in pages) < 10 * max(1, len(pages))
+        if scanned and ocr:
+            pages = list(_ocr_pages(data))
+            total = len(list(_pdf_pages(data)))
+            note = (f"Read {len(pages)} of {total} scanned pages with character recognition. "
+                    "Old typewriter scans can have misread words.")
+        elif scanned:
+            note = "This PDF is scanned page images, so there's no text to search yet."
 
     hits = []
     for pno, text in pages:
         text = re.sub(r"\s+", " ", text)
         low = text.lower()
-        spots = sorted((m.start(), m.start() + len(t)) for t in terms for m in re.finditer(re.escape(t), low))
+        spots, last_end = [], -1
+        for s in sorted((m.start(), m.start() + len(t)) for t in terms for m in re.finditer(re.escape(t), low)):
+            if s[0] >= last_end:  # drop overlapping matches (e.g. "mk" inside "mkultra")
+                spots.append(s)
+                last_end = s[1]
         i = 0
         while i < len(spots) and len(hits) < max_hits:
             a = max(0, spots[i][0] - width // 2)
@@ -418,7 +519,8 @@ def find_passages(url: str, query: str, width: int = 240, max_hits: int = 30):
                 i += 1
             hits.append((pno, text[a:b], marks))
     return {"read_url": final, "pages": len(pages) if is_pdf else 0,
-            "chars": sum(len(t) for _, t in pages), "hits": hits, "note": note}
+            "chars": sum(len(t) for _, t in pages), "hits": hits, "note": note,
+            "scanned": scanned and not ocr}
 
 
 def _hits_in(text, terms):

@@ -35,6 +35,7 @@ ss = st.session_state
 ss.setdefault("results", [])
 ss.setdefault("status", {})
 ss.setdefault("open_doc", None)
+ss.setdefault("ocr_doc", None)
 ss.setdefault("query", "")
 
 
@@ -44,8 +45,8 @@ def cached_search(q, names):
 
 
 @st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=60)
-def cached_passages(url, q):
-    return find_passages(url, q)
+def cached_passages(url, q, ocr=False):
+    return find_passages(url, q, ocr=ocr)
 
 
 # ── Search box ───────────────────────────────────────────────────────────────
@@ -99,6 +100,7 @@ if status:
             if r["doc_url"]:
                 if cols[0].button("🔎 Find my words inside", key=f"f{i}{key}", use_container_width=True):
                     ss.open_doc = None if ss.open_doc == key else key
+                    ss.ocr_doc = None
             cols[1].link_button("Open", r["url"], use_container_width=True)
             if r["file_url"]:
                 cols[2].link_button("Download", r["file_url"], use_container_width=True)
@@ -110,12 +112,25 @@ if status:
                     except Exception as e:
                         p = None
                         st.warning(f"Couldn't read this one ({type(e).__name__}). Tap Open to read it on the site.")
-                if p:
+                if p and p.get("scanned"):
+                    st.warning(p["note"])
+                    if st.button("📷 Read the scanned pages (takes 1–2 minutes)", key=f"o{i}{key}",
+                                 use_container_width=True):
+                        ss.ocr_doc = key
+                    if ss.ocr_doc == key:
+                        with st.spinner("Reading scanned pages with character recognition…"):
+                            try:
+                                p = cached_passages(r["doc_url"], ss.query, True)
+                            except Exception as e:
+                                st.warning(f"Character recognition failed ({type(e).__name__}).")
+                if p and not p.get("scanned"):
                     where = f"{p['pages']} pages" if p["pages"] else "the page"
                     if p["hits"]:
                         st.success(f"{len(p['hits'])} passage(s) mention your search · read {where}")
+                        if p["note"]:
+                            st.caption(p["note"])
                     elif p["note"]:
-                        st.warning(p["note"])
+                        st.warning(p["note"] + " Your words didn't turn up in what was read.")
                     else:
                         st.info(f"Read {where} — your words don't appear in the text. "
                                 "The search may have matched the title or catalog entry instead.")
@@ -144,7 +159,9 @@ with st.expander("Check which archives are working"):
         from concurrent.futures import ThreadPoolExecutor
         def one(n):
             try:
-                return n, f"✅ {len(SOURCES[n](TEST_QUERIES[n]))} results"
+                got = SOURCES[n](TEST_QUERIES[n])
+                how = f" · {got[0]['kind']}" if n == "CIA" and got else ""
+                return n, f"✅ {len(got)} results{how}"
             except Exception as e:
                 return n, f"❌ {type(e).__name__}: {str(e)[:80]}"
         with st.spinner("Testing each archive…"), ThreadPoolExecutor(10) as ex:
