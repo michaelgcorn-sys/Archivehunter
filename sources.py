@@ -551,7 +551,13 @@ _TS = re.compile(r"\btop[\s-]*secret\b|\bTS//|\bTS/SCI\b", re.I)
 
 
 def _ia_top_secret(limit=60):
-    params = {"q": 'title:("top secret") AND mediatype:texts',
+    # Government documents only: the item must be tagged or described as declassified /
+    # intelligence / FOIA material, and anything tagged as fiction, novels or comics is excluded.
+    gov = ('(subject:(declassified OR declassification OR "national security" OR intelligence OR CIA OR FBI '
+           'OR NSA OR FOIA OR "freedom of information" OR "united states government" OR military) '
+           'OR description:(declassified OR FOIA OR "freedom of information" OR "national archives"))')
+    params = {"q": f'title:("top secret") AND mediatype:texts AND {gov} '
+                   'AND NOT subject:(fiction OR novel OR novels OR comics OR pulp OR "science fiction")',
               "fl[]": ["identifier", "title", "date", "description"], "rows": limit,
               "output": "json", "sort[]": "downloads desc"}
     docs = _get("https://archive.org/advancedsearch.php", params=params).json()["response"]["docs"]
@@ -569,7 +575,8 @@ def _ia_top_secret(limit=60):
 
 def _wikimedia_top_secret(limit=40):
     data = _get("https://commons.wikimedia.org/w/api.php", params={
-        "action": "query", "list": "search", "srsearch": 'intitle:"top secret"', "srnamespace": 6,
+        "action": "query", "list": "search", "srsearch": ('intitle:"top secret" (declassified OR memorandum OR CIA OR NSA OR FBI '
+                     'OR "Department of" OR "Joint Chiefs" OR military OR government)'), "srnamespace": 6,
         "srlimit": limit, "format": "json"}).json()
     out = []
     for it in data.get("query", {}).get("search", []):
