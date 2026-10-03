@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 30
+CODE_VERSION = 31
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -719,6 +719,7 @@ BROWSER_ONLY = [
     ("Mary Ferrell Foundation", "https://www.google.com/search?q=site%3Amaryferrell.org+{q}"),
     ("WAR.GOV UFO files", "https://www.war.gov/ufo/"),
     ("State Dept FOIA", "https://www.google.com/search?q=site%3Afoia.state.gov+{q}"),
+    ("Stasi files (East Germany, mostly in German)", "https://www.google.com/search?q=site%3Astasi-mediathek.de+{q}"),
     ("FilesDropped", "https://www.google.com/search?q=site%3Afilesdropped.com+{q}"),
 ]
 

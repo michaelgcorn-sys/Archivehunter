@@ -87,6 +87,39 @@ TEASERS = {
 # Ancient Intelligence: verified items with translations quoted from the source
 ANCIENT = [
     {
+        "title": "The Harem Conspiracy: a plot to kill Pharaoh",
+        "where": "Egypt · reign of Ramesses III, about 1155 BC · papyrus court record",
+        "what": "Trial record of the conspirators who plotted to murder Ramesses III. A queen, Tiye, worked "
+                "with harem women and palace officials to put her son Pentaweret on the throne. Scans of the "
+                "king's mummy in 2012 found his throat had been cut, so the plot may well have worked, but "
+                "his chosen heir still became king and the plotters went on trial.",
+        "quote": None,
+        "source": "Judicial Papyrus of Turin, Cat. 1875 (Museo Egizio)",
+        "url": "https://collezionepapiri.museoegizio.it/en-GB/document/391/",
+        "met_id": None,
+    },
+    {
+        "title": "The tomb-robbery investigation",
+        "where": "Thebes, Egypt · 20th Dynasty, about 1110 BC · papyrus",
+        "what": "Official inquiry into the looting of royal tombs, in which two rival officials of Thebes "
+                "traded accusations over who was protecting the robbers. A 3,000-year-old corruption probe.",
+        "quote": None,
+        "source": "The Abbott Papyrus, EA 10221,1 (British Museum)",
+        "url": "https://www.britishmuseum.org/collection/object/Y_EA10221-1",
+        "met_id": None,
+    },
+    {
+        "title": "A Roman curse on a cloak thief",
+        "where": "Bath, Roman Britain · AD 100s–300s · lead tablet thrown into the sacred spring",
+        "what": "A victim of theft asks the goddess to punish whoever stole a hooded cloak. More than 100 of "
+                "these curse tablets were found in the spring at Bath.",
+        "quote": "To Minerva the goddess Sulis I have given the thief who has stolen my hooded cloak, whether "
+                 "slave or free, whether man or woman. He is not to buy back this gift unless with his own blood.",
+        "source": "Tab. Sulis 65 (Roman Inscriptions of Britain)",
+        "url": "https://romaninscriptionsofbritain.org/inscriptions/TabSulis65",
+        "met_id": None,
+    },
+    {
         "title": "A Coup d’État in Urartu",
         "where": "Assyria · reign of Sargon II, 8th century BC · clay tablet",
         "what": "An intelligence report to the Assyrian king on a palace coup in the rival kingdom of Urartu.",

@@ -13,7 +13,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 30
+APP_CODE_VERSION = 31
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -88,7 +88,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 30 · updated Oct 3, 2026</div>
+<div class="ver">Version 31 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -254,7 +254,7 @@ def topic_tiles(prefix, with_ancient=False):
             st.button(f"{icon}  **{name}**\n\n{TEASERS[name]}", key=f"{prefix}-tile{sel}-{i}",
                       on_click=_open_topic, args=(label,), width=164, wrap=True)
         if with_ancient:
-            st.button("🏺  **Ancient Intelligence**\n\nSpy reports on clay, 2,700 years old", key=f"{prefix}-tile-anc",
+            st.button("🏺  **Ancient Intelligence**\n\nPlots, spies and curses, 3,000 years old", key=f"{prefix}-tile-anc",
                       on_click=_open_ancient, width=164, wrap=True)
 
 
@@ -371,8 +371,8 @@ with tab_explore:
 # ── Ancient Intelligence: spies and secret reports from the ancient world ─────
 with tab_ancient:
     st.markdown('<div class="anc-intro"><b>Long before the CIA</b>, kings ran spies, read intelligence '
-                'reports and sent secret diplomatic cables, on clay and wood. These are real ones, with '
-                'translations quoted from the scholars who published them.</div>', unsafe_allow_html=True)
+                'reports, put plotters on trial and investigated corruption, on clay, papyrus, wood and lead. '
+                'These are real ones, and every quote comes from the scholars who published them.</div>', unsafe_allow_html=True)
     for i, item in enumerate(ANCIENT):
         img = None
         if item["met_id"]:
