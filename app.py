@@ -13,7 +13,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 37
+APP_CODE_VERSION = 38
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -63,6 +63,12 @@ st.markdown("""
 .pop-label{font-size:1.17rem;font-weight:700;color:#c4544a;line-height:1.3;padding:.1rem 0 .5rem;display:block}
 .st-key-popular [data-testid="stMarkdownContainer"]{overflow:visible;margin-bottom:0}
 .st-key-popular [data-testid="stElementContainer"]{height:auto!important}
+.st-key-qbox div:has(> input),.st-key-qbox [data-baseweb="input"]{border:2px solid #c8a96e!important;border-radius:10px!important;background:#1d1a14!important;box-shadow:0 0 0 3px rgba(200,169,110,.12)}
+.st-key-qbox div:has(> input):focus-within,.st-key-qbox [data-baseweb="input"]:focus-within{box-shadow:0 0 0 4px rgba(200,169,110,.35)}
+.st-key-qbox [data-baseweb="base-input"]{background:transparent!important}
+.st-key-qbox input{font-size:1.1rem!important;height:3.2rem;padding-left:2.7rem!important;color:#f1e6cc!important;background-color:transparent!important;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%23c8a96e' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E") no-repeat .8rem center!important}
+.st-key-qbox input::placeholder{color:#b9ab8c!important;opacity:1}
 .which{font-size:1.17rem;line-height:1.4;opacity:.9;margin:.5rem 0 .4rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
@@ -102,7 +108,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 37 · updated Oct 3, 2026</div>
+<div class="ver">Version 38 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -307,7 +313,7 @@ with tab_search:
 
     ss.setdefault("qbox", "")
     with st.form("search", border=False):
-        st.text_input("Search", key="qbox", placeholder='Name, program or event. Use "quotes" for exact phrases',
+        st.text_input("Search", key="qbox", placeholder='Search: name, program or event…',
                       label_visibility="collapsed")
         go = st.form_submit_button("Search all archives", type="primary", use_container_width=True)
 
