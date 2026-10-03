@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 25
+CODE_VERSION = 26
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -499,7 +499,7 @@ def score(r, q):
 
 
 # Sources whose own search matches loosely (any word, or deep in full text). Their results must
-# show the search in the title or description: one word for a one-word search, two otherwise.
+# show the search in the title or description: every word, or all but one for 4+ word searches.
 LOOSE_SOURCES = {"Library of Congress", "Internet Archive", "Wikimedia Commons", "Dept of Energy",
                  "DOJ Epstein Library", "NASA"}
 
@@ -524,7 +524,7 @@ def search_all(q: str, names: list[str]):
         if r["source"] not in LOOSE_SOURCES or not terms:
             return True
         text = (r["title"] + " " + r["snippet"]).lower()
-        need = 1 if len(terms) == 1 else 2
+        need = len(terms) if len(terms) <= 3 else len(terms) - 1   # all words, or all but one for long searches
         return sum(t in text for t in terms) >= need
     hidden = [r for r in results if not relevant(r)]
     results = [r for r in results if relevant(r)]
