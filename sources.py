@@ -19,6 +19,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
 
+# Bump together with APP_CODE_VERSION in app.py on every update, so a running
+# server that still has an old copy of this file in memory reloads it.
+CODE_VERSION = 14
+
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
 HEADERS = {"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9",
