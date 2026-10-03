@@ -261,7 +261,16 @@ def search_pdb(day, window=4, limit=12, widen=(30, 120)):
                          sort="date asc")
         if res:
             break
-    return sorted(res, key=lambda r: abs((date.fromisoformat((r["date"] or day)[:10]) - d).days))[:limit]
+    def gap(r):     # titles carry the full date ("THE PRESIDENT'S DAILY BRIEF 15 MAY 1965"); r["date"] is year only
+        m = re.search(r"(\d{1,2})\s+([A-Z]{3})[A-Z]*\.?,?\s+(\d{4})", r["title"].upper())
+        if m:
+            try:
+                from datetime import datetime
+                return abs((datetime.strptime(f"{m[1]} {m[2]} {m[3]}", "%d %b %Y").date() - d).days)
+            except ValueError:
+                pass
+        return 10 ** 6
+    return sorted(res, key=gap)[:limit]
 
 
 def diagnose_cia(q="MKUltra"):
