@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 28
+CODE_VERSION = 29
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -459,18 +459,45 @@ def search_wikimedia(q, limit=8):
     return out
 
 
+def search_uk_archives(q, limit=10):
+    """UK National Archives "Discovery" catalogue API (free, official). Records held at Kew,
+    including MI5 (KV), GCHQ (HW), Foreign Office and War Office files. Catalogue entries:
+    many link to free digitized copies on the Discovery page."""
+    r = _get("https://discovery.nationalarchives.gov.uk/API/search/records",
+             params={"sps.searchQuery": q, "sps.recordRepositories": "TNA", "sps.resultsPageSize": limit},
+             headers={"Accept": "application/json"}, timeout=20)
+    data = r.json()
+    records = data.get("records") or data.get("Records") or []
+    out = []
+    for rec in records:
+        rid = rec.get("id") or rec.get("Id") or ""
+        ref = rec.get("reference") or rec.get("Reference") or ""
+        title = rec.get("title") or rec.get("Title") or rec.get("description") or ref
+        desc = rec.get("description") or rec.get("Description") or ""
+        dates = rec.get("coveringDates") or rec.get("CoveringDates") or ""
+        if not rid:
+            continue
+        kind = "UK National Archives" + (f" · {ref}" if ref else "")
+        if ref.startswith("KV"):
+            kind += " (MI5 file)"
+        elif ref.startswith("HW"):
+            kind += " (GCHQ file)"
+        out.append(_res("UK National Archives", title, f"https://discovery.nationalarchives.gov.uk/details/r/{rid}",
+                        date=str(dates)[:4], kind=kind, snippet=desc if desc != title else ""))
+    return out
+
+
 SOURCES = {
     "CIA": search_cia,
     "FBI Vault": search_fbi,
     "GWU Natl Security Archive": search_gwu,
-    "Black Vault": search_blackvault,
     "DOJ Epstein Library": search_doj_epstein,
-    "MuckRock": search_muckrock,
     "Internet Archive": search_internet_archive,
     "Library of Congress": search_loc,
     "NASA": search_nasa,
     "Dept of Energy": search_doe,
     "Wikimedia Commons": search_wikimedia,
+    "UK National Archives": search_uk_archives,
 }
 # Declassified sources rank a little higher when relevance is otherwise equal.
 SOURCE_WEIGHT = {"CIA": 3, "FBI Vault": 3, "GWU Natl Security Archive": 3, "Black Vault": 2,
@@ -501,7 +528,7 @@ def score(r, q):
 # Sources whose own search matches loosely (any word, or deep in full text). Their results must
 # show the search in the title or description: every word, or all but one for 4+ word searches.
 LOOSE_SOURCES = {"Library of Congress", "Internet Archive", "Wikimedia Commons", "Dept of Energy",
-                 "DOJ Epstein Library", "NASA"}
+                 "DOJ Epstein Library", "NASA", "UK National Archives"}
 
 
 def search_all(q: str, names: list[str]):
@@ -683,6 +710,11 @@ def _hits_in(text, terms):
 
 # Sites with no usable search from a server — opened in the browser instead.
 BROWSER_ONLY = [
+    ("The Black Vault", "https://www.google.com/search?q=site%3Atheblackvault.com+{q}"),
+    ("MuckRock FOIA requests", "https://www.google.com/search?q=site%3Amuckrock.com+{q}"),
+    ("NSA declassified releases", "https://www.google.com/search?q=site%3Ansa.gov+declassified+{q}"),
+    ("NRO spy satellite files", "https://www.google.com/search?q=site%3Anro.gov+declassified+{q}"),
+    ("Wilson Center (Soviet & Cold War files)", "https://www.google.com/search?q=site%3Adigitalarchive.wilsoncenter.org+{q}"),
     ("National Archives (JFK, RFK, MLK)", "https://catalog.archives.gov/search?q={q}"),
     ("Mary Ferrell Foundation", "https://www.google.com/search?q=site%3Amaryferrell.org+{q}"),
     ("WAR.GOV UFO files", "https://www.war.gov/ufo/"),
@@ -693,7 +725,8 @@ BROWSER_ONLY = [
 TEST_QUERIES = {"CIA": "MKUltra", "FBI Vault": "Roswell", "GWU Natl Security Archive": "MKUltra",
                 "Black Vault": "UFO", "DOJ Epstein Library": "Maxwell", "MuckRock": "CIA", "Internet Archive": "Warren Commission",
                 "Library of Congress": "Kennedy", "NASA": "Apollo 11", "Dept of Energy": "Manhattan Project",
-                "Wikimedia Commons": "Apollo 11"}
+                "Wikimedia Commons": "Apollo 11",
+                "UK National Archives": "Philby"}
 
 
 # ════════════════════════════════════════════════════════════════════════════

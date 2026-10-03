@@ -1,0 +1,151 @@
+"""
+Curated content for the Explore and Ancient Intelligence tabs.
+
+Every hand-picked item here was checked against its source in Oct 2026 (title, date and wording).
+Anything that couldn't be confirmed was left out. Each Explore category also pulls featured
+documents live from the CIA reading room mirror, so those titles are the CIA's own.
+"""
+
+import requests
+
+from sources import HEADERS, _res
+
+IA = "https://archive.org/details/cia-readingroom-document-"
+IA_TXT = "https://archive.org/download/cia-readingroom-document-{id}/{id}_djvu.txt"
+IA_PDF = "https://archive.org/download/cia-readingroom-document-{id}/{id}.pdf"
+
+
+def _cia(doc_id, title, date, blurb):
+    return _res("CIA", title, IA + doc_id, date=date, kind=f"CIA document {doc_id.upper()}",
+                snippet=blurb, doc_url=IA_TXT.format(id=doc_id), file_url=IA_PDF.format(id=doc_id))
+
+
+def _gwu(title, url, date, blurb, pdf=None):
+    return _res("GWU Natl Security Archive", title, url, date=date, kind="National Security Archive",
+                snippet=blurb, doc_url=pdf or url, file_url=pdf)
+
+
+# Hand-picked documents, verified against the source
+PICKS = {
+    "northwoods": _gwu(
+        "Operation Northwoods: Joint Chiefs memo, “Justification for US Military Intervention in Cuba”",
+        "https://nsarchive.gwu.edu/CMC-60/joint-chiefs-pretexts-to-invade-Cuba-1962", "1962",
+        "TOP SECRET SPECIAL HANDLING NOFORN, 13 March 1962. The Joint Chiefs proposed staged pretexts for "
+        "invading Cuba, including a faked shoot-down of a civilian airliner.",
+        pdf="https://nsarchive.gwu.edu/sites/default/files/2022-10/Joint-Chiefs-pretexts-to-invade-Cuba-March-1962_0.pdf"),
+    "assassination_plots": _cia(
+        "cia-rdp83-01042r000200090002-0", "Alleged Assassination Plots Involving Foreign Leaders", "1975",
+        "CIA file dated 20 November 1975, the day the Senate’s Church Committee released its report of the same "
+        "name on U.S. plots against foreign leaders."),
+    "kugown": _cia(
+        "0000915588", "KUGOWN: Black operation against José Manuel Fortuny Arana", "1954",
+        "April 1954 CIA “black” operation against a Guatemalan communist leader, two months before the "
+        "CIA-backed coup in Guatemala."),
+    "able_archer": _gwu(
+        "“The Soviet ‘War Scare’”: President's Foreign Intelligence Advisory Board report",
+        "https://nsarchive.gwu.edu/document/33591-document-4-authoritative-presidents-foreign-intelligence-advisory-board-report",
+        "1990", "Declassified in 2015. Concludes the Soviets were genuinely worried that NATO's 1983 "
+        "Able Archer exercise could be cover for a real nuclear attack."),
+    "chile": _gwu(
+        "CIA Cover-Up on Chile", "https://nsarchive.gwu.edu/briefing-book/chile/2016-09-09/cia-cover-chile",
+        "2016", "The National Security Archive on CIA records about the 1973 Chile coup that the agency "
+        "still withholds, including what it told President Nixon."),
+}
+
+# Explore categories: (name, icon, live CIA-mirror query, main-search query, hand-picked ids)
+CATEGORIES = [
+    ("Assassination Plots", "🎯", "assassination", "assassination plot", ["assassination_plots"]),
+    ("Coups & Covert Action", "🕴", "covert action", "covert action coup", ["kugown", "chile"]),
+    ("Cuba", "🇨🇺", "Cuba", "Cuba", ["northwoods"]),
+    ("Secret Experiments", "🧪", "MKULTRA", "MKUltra", []),
+    ("Psychic Spies", "🔮", "GRILL FLAME", "remote viewing", []),
+    ("UFO Files", "🛸", "UFO", "UFO", []),
+    ("Spy Satellites", "🛰", "CORONA satellite", "CORONA satellite", []),
+    ("Secret Aircraft", "✈️", "OXCART", "OXCART U-2", []),
+    ("Soviet Espionage", "☭", "KGB", "KGB espionage", []),
+    ("Nuclear Close Calls", "☢️", "nuclear war", "nuclear war scare", ["able_archer"]),
+    ("Vietnam", "🎖", "Vietnam", "Vietnam", []),
+]
+
+
+# Ancient Intelligence: verified items with translations quoted from the source
+ANCIENT = [
+    {
+        "title": "A Coup d’État in Urartu",
+        "where": "Assyria · reign of Sargon II, 8th century BC · clay tablet",
+        "what": "An intelligence report to the Assyrian king on a palace coup in the rival kingdom of Urartu.",
+        "quote": "His magnates surrounded him… and killed him. The right-hand commander-in-chief, of the family "
+                 "of Sarduri, […] but has not yet entered Ṭurušpâ.",
+        "source": "State Archives of Assyria, SAA 05 093 (ORACC)",
+        "url": "https://oracc.museum.upenn.edu/saao/saa05/P313779/html",
+        "met_id": None,
+    },
+    {
+        "title": "A Roman officer sizes up the Britons",
+        "where": "Vindolanda fort, Roman Britain · about AD 92 · ink on a wooden tablet",
+        "what": "A Roman military memo on how the local Britons fight, using the mocking word “Brittunculi,” "
+                "“little Brits.”",
+        "quote": "The Britons are unprotected by armor. There are very many cavalry. The cavalry do not use swords "
+                 "nor do the Brittunculi mount in order to throw javelins.",
+        "source": "Vindolanda tablet 164 (Roman Inscriptions of Britain)",
+        "url": "https://romaninscriptionsofbritain.org/inscriptions/TabVindol164",
+        "met_id": None,
+    },
+    {
+        "title": "Gezer begs Pharaoh for help",
+        "where": "Canaan · Amarna period, 14th century BC · clay tablet",
+        "what": "Yapahu, ruler of Gezer, asks the Egyptian king for military help against raiders called the "
+                "Habiru.",
+        "quote": "Since the [‘Apiru] are stronger than we, may the king, my lord, (g)ive me his help.",
+        "source": "Amarna letter EA 299, British Museum",
+        "url": "https://www.britishmuseum.org/collection/object/W_1888-1013-45",
+        "met_id": None,
+    },
+    {
+        "title": "Assyria writes to Egypt",
+        "where": "Assyria to Egypt · about 1347–1330 BC · clay tablet",
+        "what": "Royal letter from Ashur-uballit, King of Assyria, to the King of Egypt, written in the "
+                "diplomatic language of the age.",
+        "quote": None,
+        "source": "Amarna letter, Metropolitan Museum of Art",
+        "url": "https://www.metmuseum.org/art/collection/search/544695",
+        "met_id": 544695,
+    },
+    {
+        "title": "A report from Tyre",
+        "where": "Tyre to Egypt · about 1347–1330 BC · unfired clay tablet",
+        "what": "Royal letter from Abi-milku, ruler of the port city of Tyre, to the King of Egypt.",
+        "quote": None,
+        "source": "Amarna letter, Metropolitan Museum of Art",
+        "url": "https://www.metmuseum.org/art/collection/search/544696",
+        "met_id": 544696,
+    },
+]
+
+
+def met_image(object_id):
+    """Public-domain photo of a Metropolitan Museum object, via the Met's free official API."""
+    d = requests.get(f"https://collectionapi.metmuseum.org/public/collection/v1/objects/{object_id}",
+                     headers=HEADERS, timeout=15).json()
+    return d.get("primaryImageSmall") or d.get("primaryImage") or None
+
+
+def met_gallery(q="Amarna letter", limit=8):
+    """More ancient tablets from the Met's public-domain collection (live)."""
+    ids = requests.get("https://collectionapi.metmuseum.org/public/collection/v1/search",
+                       params={"q": q, "hasImages": "true"}, headers=HEADERS, timeout=15).json().get("objectIDs") or []
+    out = []
+    for oid in ids[:limit * 2]:
+        try:
+            d = requests.get(f"https://collectionapi.metmuseum.org/public/collection/v1/objects/{oid}",
+                             headers=HEADERS, timeout=15).json()
+        except Exception:
+            continue
+        img = d.get("primaryImageSmall")
+        if not img or not d.get("isPublicDomain"):
+            continue
+        out.append({"title": d.get("title", ""), "date": d.get("objectDate", ""), "img": img,
+                    "url": d.get("objectURL", f"https://www.metmuseum.org/art/collection/search/{oid}")})
+        if len(out) >= limit:
+            break
+    return out

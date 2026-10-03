@@ -13,13 +13,14 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 28
+APP_CODE_VERSION = 29
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url,
-                     search_all, top_secret_pool)
+                     search_all, search_cia, top_secret_pool)
+from catalog import ANCIENT, CATEGORIES, PICKS, met_gallery, met_image
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
 
@@ -58,10 +59,27 @@ st.markdown("""
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
 .links a:hover{border-color:#c8a96e}
+.intro{font-size:.88rem;opacity:.75;margin:.2rem 0 .6rem}
+.sect{font:700 .7rem 'Courier New',monospace;letter-spacing:.16em;color:#c8a96e;margin:1rem 0 .3rem}
+.anc-intro{font-family:Georgia,'Times New Roman',serif;font-size:1rem;line-height:1.55;color:#e6d6b8;
+           border-left:3px solid #b98a4e;padding:.2rem .9rem;margin:.3rem 0 1rem}
+.anc-card{background:#1c1710;border:1px solid #4a3a22;border-radius:6px;padding:1rem 1.1rem;margin:0 0 .9rem}
+.anc-img{width:100%;max-height:340px;object-fit:contain;background:#120f0a;border-radius:4px;margin-bottom:.7rem}
+.anc-where{font:700 .66rem 'Courier New',monospace;letter-spacing:.12em;text-transform:uppercase;color:#b98a4e}
+.anc-title{font-family:Georgia,'Times New Roman',serif;font-size:1.3rem;color:#ecd9b0;margin:.15rem 0 .35rem}
+.anc-what{font-size:.9rem;opacity:.85}
+.anc-quote{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:1rem;line-height:1.55;
+           color:#e6d6b8;background:rgba(185,138,78,.08);border-left:3px solid #b98a4e;padding:.5rem .8rem;margin:.6rem 0}
+.anc-src{font-size:.8rem;font-weight:600;color:#b98a4e!important;text-decoration:none}
+.met-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:.6rem}
+.met-tile{display:flex;flex-direction:column;background:#1c1710;border:1px solid #4a3a22;border-radius:6px;
+          overflow:hidden;text-decoration:none!important;color:#e6d6b8!important}
+.met-tile img{width:100%;height:140px;object-fit:cover;background:#120f0a}
+.met-tile span{font-size:.72rem;padding:.4rem .5rem;line-height:1.3}
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 28 · updated Oct 3, 2026</div>
+<div class="ver">Version 29 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -97,7 +115,7 @@ def top_secret_strip():
             f'<span class="ts-src">{html.escape(r["source"])}{year}</span>'
             f'<span class="ts-title">{html.escape(r["title"])}</span></div></a>')
     st.markdown(
-        f'<div class="ts-head"><b>● TOP SECRET</b><span>{len(pool)} documents marked Top Secret · '
+        f'<div class="ts-head"><b>● TOP SECRET</b><span>{len(pool)} document{"" if len(pool) == 1 else "s"} marked Top Secret · '
         f'new picks every 30 seconds · swipe and tap to open</span></div>'
         f'<div class="ts-strip">{"".join(cards)}</div>', unsafe_allow_html=True)
 
@@ -115,48 +133,26 @@ def cached_passages(url, q, ocr=False, v=APP_CODE_VERSION):
 with st.spinner("Pulling Top Secret documents from the archives…"):
     top_secret_strip()
 
-# ── Search box ───────────────────────────────────────────────────────────────
-QUICK = ["MKUltra", "JFK Oswald Mexico City", "Roswell", "Epstein", "Area 51", "Stargate",
-         "COINTELPRO", "Bay of Pigs", "Operation Northwoods"]
 
-def _use_quick():
-    """A quick button fills the search box and runs it, then un-highlights itself."""
-    if ss.get("quick"):
-        ss.qbox = ss.quick
-        ss.run_quick = True
-    ss.quick = None
+@st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=40)
+def cached_cia(q, v=APP_CODE_VERSION):
+    return search_cia(q, limit=6)
 
 
-ss.setdefault("qbox", "")
-with st.form("search", border=False):
-    st.text_input("Search", key="qbox", placeholder='Name, program or event. Use "quotes" for exact phrases',
-                  label_visibility="collapsed")
-    go = st.form_submit_button("Search all archives", type="primary", use_container_width=True)
+@st.cache_data(ttl=24 * 3600, show_spinner=False)
+def cached_met_image(object_id, v=APP_CODE_VERSION):
+    return met_image(object_id)
 
-st.pills("Try", QUICK, key="quick", on_change=_use_quick, label_visibility="collapsed")
-q = ss.qbox
-if ss.pop("run_quick", False):
-    go = True
 
-ss.setdefault("chosen", ALL)
-st.markdown(f'<div class="which"><b>Searching {len(ss.chosen)} archives:</b> {html.escape(" · ".join(ss.chosen))}</div>',
-            unsafe_allow_html=True)
-with st.expander("Turn archives on or off"):
-    chosen = st.pills("Archives", ALL, selection_mode="multi", default=ss.chosen, label_visibility="collapsed")
-    if chosen is not None and list(chosen) != list(ss.chosen):
-        ss.chosen = list(chosen)
-        st.rerun()
-chosen = ss.chosen
+@st.cache_data(ttl=24 * 3600, show_spinner=False)
+def cached_met_gallery(v=APP_CODE_VERSION):
+    return met_gallery()
 
-if go and q.strip():
-    ss.query = q.strip()
-    ss.open_doc = None
-    with st.spinner(f"Searching {len(chosen)} archives at once…"):
-        ss.results, ss.status = cached_search(ss.query, tuple(chosen), APP_CODE_VERSION)
 
-def render_result(r, uid, saved_copy=True):
+def render_result(r, uid, saved_copy=True, query=None):
     """One result card: title, source, buttons, and the "find my words" passages."""
     key = r["url"]
+    q_used = query or ss.query
     with st.container(border=True):
         st.markdown(
             f'<div class="src">{html.escape(r["source"])}</div>'
@@ -180,7 +176,7 @@ def render_result(r, uid, saved_copy=True):
             return
         with st.spinner("Reading the document… big PDFs take up to a minute"):
             try:
-                p = cached_passages(r["doc_url"], ss.query, False, APP_CODE_VERSION)
+                p = cached_passages(r["doc_url"], q_used, False, APP_CODE_VERSION)
             except Exception as e:
                 p = None
                 st.warning(f"Couldn't read this one, and the Wayback Machine has no saved copy "
@@ -198,7 +194,7 @@ def render_result(r, uid, saved_copy=True):
             if ss.ocr_doc == key:
                 with st.spinner("Reading scanned pages with character recognition…"):
                     try:
-                        p = cached_passages(r["doc_url"], ss.query, True, APP_CODE_VERSION)
+                        p = cached_passages(r["doc_url"], q_used, True, APP_CODE_VERSION)
                     except Exception as e:
                         st.warning(f"Character recognition failed ({type(e).__name__}).")
         if p and not p.get("scanned"):
@@ -225,32 +221,148 @@ def render_result(r, uid, saved_copy=True):
                 st.link_button("Open the PDF these came from", p["read_url"])
 
 
-# ── Results ──────────────────────────────────────────────────────────────────
-results, status = ss.results, ss.status
-if status:
-    ok = [f"{n} {c}" for n, c in status.items() if isinstance(c, int)]
-    bad = [n for n, c in status.items() if not isinstance(c, int)]
-    st.caption(f"**{len(results)} results** for “{ss.query}” · " + " · ".join(ok)
-               + (f"  \n⚠️ No answer from: {', '.join(bad)}" if bad else ""))
 
-    have = sorted({r["source"] for r in results})
-    only = st.pills("Show", ["All"] + have, default="All", label_visibility="collapsed") or "All"
-    shown = [r for r in results if only == "All" or r["source"] == only]
+tab_search, tab_explore, tab_ancient = st.tabs(["🔎  Search", "🗂  Explore", "🏺  Ancient Intelligence"])
 
-    if not shown:
-        st.info("Nothing came back. Try fewer or different words, or one of the browser links below.")
+with tab_search:
+    # ── Search box ───────────────────────────────────────────────────────────────
+    QUICK = ["MKUltra", "JFK Oswald Mexico City", "Roswell", "Epstein", "Area 51", "Stargate",
+             "COINTELPRO", "Bay of Pigs", "Operation Northwoods"]
 
-    for i, r in enumerate(shown[:80]):
-        render_result(r, f"r{i}")
+    def _use_quick():
+        """A quick button fills the search box and runs it, then un-highlights itself."""
+        if ss.get("quick"):
+            ss.qbox = ss.quick
+            ss.run_quick = True
+        ss.quick = None
 
-# ── Sites that only work in the browser ──────────────────────────────────────
-st.divider()
-st.markdown("**Not in the main search** · these archives only work on their own websites. "
-            "Tap one to open it with your search filled in.")
-term = urllib.parse.quote(ss.query or "")
-c = st.columns(2)
-for j, (name, tpl) in enumerate(BROWSER_ONLY):
-    c[j % 2].link_button(name, tpl.replace("{q}", term), use_container_width=True)
+
+    ss.setdefault("qbox", "")
+    with st.form("search", border=False):
+        st.text_input("Search", key="qbox", placeholder='Name, program or event. Use "quotes" for exact phrases',
+                      label_visibility="collapsed")
+        go = st.form_submit_button("Search all archives", type="primary", use_container_width=True)
+
+    st.pills("Try", QUICK, key="quick", on_change=_use_quick, label_visibility="collapsed")
+    q = ss.qbox
+    if ss.pop("run_quick", False):
+        go = True
+
+    ss.setdefault("chosen", ALL)
+    st.markdown(f'<div class="which"><b>Searching {len(ss.chosen)} archives:</b> {html.escape(" · ".join(ss.chosen))}</div>',
+                unsafe_allow_html=True)
+    with st.expander("Turn archives on or off"):
+        chosen = st.pills("Archives", ALL, selection_mode="multi", default=ss.chosen, label_visibility="collapsed")
+        if chosen is not None and list(chosen) != list(ss.chosen):
+            ss.chosen = list(chosen)
+            st.rerun()
+    chosen = ss.chosen
+
+    if go and q.strip():
+        ss.query = q.strip()
+        ss.open_doc = None
+        with st.spinner(f"Searching {len(chosen)} archives at once…"):
+            ss.results, ss.status = cached_search(ss.query, tuple(chosen), APP_CODE_VERSION)
+
+    # ── Results ──────────────────────────────────────────────────────────────────
+    results, status = ss.results, ss.status
+    if status:
+        ok = [f"{n} {c}" for n, c in status.items() if isinstance(c, int)]
+        bad = [n for n, c in status.items() if not isinstance(c, int)]
+        st.caption(f"**{len(results)} results** for “{ss.query}” · " + " · ".join(ok)
+                   + (f"  \n⚠️ No answer from: {', '.join(bad)}" if bad else ""))
+
+        have = sorted({r["source"] for r in results})
+        only = st.pills("Show", ["All"] + have, default="All", label_visibility="collapsed") or "All"
+        shown = [r for r in results if only == "All" or r["source"] == only]
+
+        if not shown:
+            st.info("Nothing came back. Try fewer or different words, or one of the browser links below.")
+
+        for i, r in enumerate(shown[:80]):
+            render_result(r, f"r{i}")
+
+    # ── Sites that only work in the browser ──────────────────────────────────────
+    st.divider()
+    st.markdown("**Not in the main search** · these archives only work on their own websites. "
+                "Tap one to open it with your search filled in.")
+    term = urllib.parse.quote(ss.query or "")
+    c = st.columns(2)
+    for j, (name, tpl) in enumerate(BROWSER_ONLY):
+        c[j % 2].link_button(name, tpl.replace("{q}", term), use_container_width=True)
+
+
+# ── Explore: browse by topic ──────────────────────────────────────────────────
+with tab_explore:
+    st.markdown('<div class="intro">Not sure what to search for? Pick a topic. You get hand-picked '
+                'documents (checked against the source) plus fresh finds from the CIA files.</div>',
+                unsafe_allow_html=True)
+    labels = [f"{icon} {name}" for name, icon, *_ in CATEGORIES]
+    topic = st.pills("Topics", labels, key="topic", default=labels[0], label_visibility="collapsed")
+    if topic:
+        name, icon, cia_q, main_q, pick_ids = CATEGORIES[labels.index(topic)]
+        picks = [PICKS[p] for p in pick_ids]
+        if picks:
+            st.markdown('<div class="sect">★ EDITOR\'S PICKS</div>', unsafe_allow_html=True)
+            for i, r in enumerate(picks):
+                render_result(r, f"ep{i}", query=main_q)
+        st.markdown(f'<div class="sect">FROM THE CIA FILES · “{html.escape(cia_q)}”</div>', unsafe_allow_html=True)
+        try:
+            live = cached_cia(cia_q, APP_CODE_VERSION)
+        except Exception:
+            live = []
+            st.caption("The CIA files didn't answer just now. Try again in a minute.")
+        for i, r in enumerate(live):
+            render_result(r, f"ec{i}", query=main_q)
+        if st.button(f"Search all {len(ALL)} archives for “{main_q}”", key=f"exall{name}", use_container_width=True):
+            ss.explore_all = main_q
+        if ss.get("explore_all") == main_q:
+            with st.spinner("Searching every archive…"):
+                more, _ = cached_search(main_q, tuple(ALL), APP_CODE_VERSION)
+            seen = {r["url"] for r in picks + live}
+            more = [r for r in more if r["url"] not in seen]
+            st.markdown(f'<div class="sect">MORE FROM ALL ARCHIVES · {len(more)}</div>', unsafe_allow_html=True)
+            for i, r in enumerate(more[:40]):
+                render_result(r, f"ea{i}", query=main_q)
+
+# ── Ancient Intelligence: spies and secret reports from the ancient world ─────
+with tab_ancient:
+    st.markdown('<div class="anc-intro"><b>Long before the CIA</b>, kings ran spies, read intelligence '
+                'reports and sent secret diplomatic cables, on clay and wood. These are real ones, with '
+                'translations quoted from the scholars who published them.</div>', unsafe_allow_html=True)
+    for i, item in enumerate(ANCIENT):
+        img = None
+        if item["met_id"]:
+            try:
+                img = cached_met_image(item["met_id"], APP_CODE_VERSION)
+            except Exception:
+                img = None
+        quote = (f'<div class="anc-quote">“{html.escape(item["quote"])}”</div>' if item["quote"] else "")
+        pic = (f'<img class="anc-img" src="{html.escape(img)}" alt="{html.escape(item["title"])}">' if img else "")
+        st.markdown(
+            f'<div class="anc-card">{pic}<div class="anc-where">{html.escape(item["where"])}</div>'
+            f'<div class="anc-title">{html.escape(item["title"])}</div>'
+            f'<div class="anc-what">{html.escape(item["what"])}</div>{quote}'
+            f'<a class="anc-src" href="{html.escape(item["url"])}" target="_blank">{html.escape(item["source"])} ↗</a></div>',
+            unsafe_allow_html=True)
+    if st.button("🏺 Show more ancient tablets from the Met Museum", key="metmore", use_container_width=True):
+        ss.met_more = True
+    if ss.get("met_more"):
+        with st.spinner("Pulling tablets from the Metropolitan Museum…"):
+            try:
+                gallery = cached_met_gallery(APP_CODE_VERSION)
+            except Exception:
+                gallery = []
+        if gallery:
+            tiles = "".join(
+                f'<a class="met-tile" href="{html.escape(g["url"])}" target="_blank">'
+                f'<img src="{html.escape(g["img"])}" alt=""><span>{html.escape(g["title"])}'
+                f'{" · " + html.escape(g["date"]) if g["date"] else ""}</span></a>' for g in gallery)
+            st.markdown(f'<div class="met-grid">{tiles}</div>', unsafe_allow_html=True)
+            st.caption("Photos: The Metropolitan Museum of Art, public domain.")
+        else:
+            st.caption("The Met didn't answer just now. Try again in a minute.")
+
 
 # ── Self-test ────────────────────────────────────────────────────────────────
 with st.expander("Check which archives are working"):
