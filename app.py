@@ -13,7 +13,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 32
+APP_CODE_VERSION = 33
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -58,7 +58,7 @@ st.markdown("""
 .ts-body{padding:.5rem .6rem .6rem;display:flex;flex-direction:column;gap:.2rem}
 .ts-src{font:700 .6rem 'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;color:#c8a96e}
 .ts-title{font-size:.8rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.which{font-size:.78rem;opacity:.65;margin:.3rem 0 .1rem}
+.which{font-size:1.56rem;line-height:1.35;opacity:.9;margin:.5rem 0 .4rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
 .links a:hover{border-color:#c8a96e}
@@ -97,7 +97,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 32 · updated Oct 3, 2026</div>
+<div class="ver">Version 33 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
