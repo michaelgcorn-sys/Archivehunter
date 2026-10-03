@@ -8,6 +8,8 @@ documents live from the CIA reading room mirror, so those titles are the CIA's o
 
 import requests
 
+CATALOG_VERSION = 32   # keep in step with APP_CODE_VERSION in app.py
+
 from sources import HEADERS, _res
 
 IA = "https://archive.org/details/cia-readingroom-document-"
@@ -198,3 +200,55 @@ def met_gallery(q="Amarna letter", limit=8):
         if len(out) >= limit:
             break
     return out
+
+
+# Corporate Secrets: internal company records made public through lawsuits, leaks and investigations.
+# Kept separate from the government search. Counts are given only where the host's own page states them.
+CORPORATE = [
+    {"title": "Big Tobacco", "icon": "🚬", "search": "nicotine addiction",
+     "what": "The tobacco companies' own research, marketing plans and memos, forced into the open by "
+             "lawsuits in the 1990s. The biggest corporate-secrets archive there is.",
+     "source": "Truth Tobacco Industry Documents (UCSF)",
+     "url": "https://www.industrydocuments.ucsf.edu/tobacco/"},
+    {"title": "The Opioid Files", "icon": "💊", "search": "McKinsey OxyContin",
+     "what": "Records from the opioid lawsuits, including McKinsey's advice to opioid makers on how to "
+             "sell more pills.",
+     "source": "Opioid Industry Documents Archive (UCSF)",
+     "url": "https://www.industrydocuments.ucsf.edu/opioids/"},
+    {"title": "Coca-Cola and the Sugar Science", "icon": "🥤", "search": "Global Energy Balance Network",
+     "what": "Internal Coca-Cola emails about shaping public-health policy, and records on its funding of "
+             "a research group that pushed exercise over cutting sugar.",
+     "source": "Food Industry Documents (UCSF)",
+     "url": "https://www.industrydocuments.ucsf.edu/food/collections/coca-cola-emails/"},
+    {"title": "Forever Chemicals", "icon": "🧪", "search": "DuPont C8",
+     "what": "DuPont records on the toxicity of C8 (PFOA), the litigation, and how the company handled "
+             "the message, plus a large European investigation of PFAS lobbying.",
+     "source": "Chemical Industry Documents (UCSF)",
+     "url": "https://www.industrydocuments.ucsf.edu/chemical/collections/pfas-collection/"},
+    {"title": "Big Oil and Climate", "icon": "🛢", "search": "Exxon climate",
+     "what": "Oil-industry research, policy strategy and climate messaging, including a Shell and "
+             "Exxon set.",
+     "source": "Fossil Fuel Industry Documents (UCSF)",
+     "url": "https://www.industrydocuments.ucsf.edu/fossilfuel/"},
+    {"title": "The Poison Papers", "icon": "☠️", "search": "dioxin",
+     "what": "About 20,000 documents (250,000+ pages) from chemical makers and regulators, including Dow, "
+             "Monsanto and DuPont, on Agent Orange, dioxins, PCBs and pesticides. Pried loose through "
+             "FOIA requests and lawsuits.",
+     "source": "Bioscience Resource Project",
+     "url": "https://bioscienceresource.org/document-leaks/the-poison-papers/"},
+    {"title": "The Enron Emails", "icon": "📧", "search": None,
+     "what": "About half a million emails from roughly 150 Enron employees, mostly senior management. "
+             "Made public by federal energy regulators during their investigation.",
+     "source": "Enron Email Dataset (Carnegie Mellon)",
+     "url": "https://www.cs.cmu.edu/~enron/"},
+    {"title": "Facebook and Cambridge Analytica", "icon": "👍", "search": None,
+     "what": "Confidential Facebook documents seized and published by the British Parliament, alongside "
+             "Cambridge Analytica evidence from Alexander Nix, Christopher Wylie and Brittany Kaiser.",
+     "source": "UK Parliament, Disinformation and ‘fake news’ inquiry",
+     "url": "https://committees.parliament.uk/work/6330/disinformation-and-fake-news/publications/14/older-evidence/"},
+    {"title": "Microsoft on Trial", "icon": "🖥", "search": None,
+     "what": "The government's original exhibits from the browser-war antitrust trial: Microsoft's "
+             "internal emails and memos.",
+     "source": "U.S. Justice Department, Antitrust Division",
+     "url": "https://www.justice.gov/atr/us-v-microsoft-corporation-browser-and-middleware-trial-exhibits"},
+]

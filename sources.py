@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 31
+CODE_VERSION = 32
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -485,6 +485,50 @@ def search_uk_archives(q, limit=10):
         out.append(_res("UK National Archives", title, f"https://discovery.nationalarchives.gov.uk/details/r/{rid}",
                         date=str(dates)[:4], kind=kind, snippet=desc if desc != title else ""))
     return out
+
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# Corporate secrets — UCSF Industry Documents Library (tobacco, opioids, food,
+# chemicals, fossil fuels, pharma). Kept out of the main search on purpose:
+# the main search is government records only.
+# ════════════════════════════════════════════════════════════════════════════
+
+UCSF_SOLR = "https://metadata.idl.ucsf.edu/solr/ltdl3/query"
+UCSF_DOC = "https://www.industrydocuments.ucsf.edu/docs/{id}"
+
+
+def _ucsf_api(q, limit):
+    """UCSF's public Solr metadata service. Field names follow the library's published Data API
+    (id, ti = title, dd = document date, industry, collection). Not reachable from the dev sandbox,
+    so search_ucsf falls back to web search if this fails or comes back empty."""
+    data = _get(UCSF_SOLR, params={"q": q, "rows": limit, "wt": "json"}, timeout=20).json()
+    out = []
+    for d in data.get("response", {}).get("docs", []):
+        doc_id = d.get("id") or d.get("tid")
+        if not doc_id:
+            continue
+        def one(v):
+            return (v[0] if isinstance(v, list) and v else v) or ""
+        title = clean(str(one(d.get("ti")) or one(d.get("title")) or doc_id))
+        date = str(one(d.get("dd")) or one(d.get("date")))[:4]
+        ind = str(one(d.get("industry"))).title()
+        coll = str(one(d.get("collection")) or one(d.get("collectionname")))
+        kind = " · ".join(x for x in (f"{ind} industry" if ind else "", coll) if x) or "Industry document"
+        out.append(_res("UCSF Industry Documents", title, UCSF_DOC.format(id=doc_id), date=date, kind=kind))
+    return out
+
+
+def search_ucsf(q, limit=15):
+    """Internal company documents released through lawsuits, leaks and investigations."""
+    try:
+        res = _ucsf_api(q, limit)
+        if res:
+            return res
+    except Exception:
+        pass
+    return site_search("industrydocuments.ucsf.edu", q, "UCSF Industry Documents", "Industry document",
+                       limit, url_must_match=r"/docs/", hint="industry documents")
 
 
 SOURCES = {

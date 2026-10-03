@@ -13,14 +13,17 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 31
+APP_CODE_VERSION = 32
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
+import catalog
+if getattr(catalog, "CATALOG_VERSION", None) != APP_CODE_VERSION:
+    catalog = importlib.reload(catalog)   # same stale-module problem for catalog.py
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url,
-                     search_all, search_cia, top_secret_pool)
-from catalog import ANCIENT, CATEGORIES, PICKS, TEASERS, met_gallery, met_image
+                     search_all, search_cia, search_ucsf, top_secret_pool)
+from catalog import ANCIENT, CATEGORIES, CORPORATE, PICKS, TEASERS, met_gallery, met_image
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
 
@@ -68,6 +71,12 @@ st.markdown("""
 [class*="-tile"] button p strong{display:block;font-size:.92rem;line-height:1.2;color:#e8d3a0;opacity:1;margin:.3rem 0 .25rem}
 [class*="-tilesel-"] button{border-color:#c8a96e;box-shadow:0 0 0 1px #c8a96e inset;background:linear-gradient(160deg,#3a3020,#1c1810)}
 [class*="-tile-anc"] button{background:linear-gradient(160deg,#2a2013,#17120b);border-color:#6b5230}
+.corp-card{background:#17181b;border:1px solid #34373d;border-left:3px solid #8a9bb0;border-radius:6px;padding:.85rem 1rem;margin:.6rem 0 .1rem}
+.corp-title{font-weight:700;font-size:1.05rem;color:#dfe6ee;margin-bottom:.25rem}
+.corp-what{font-size:.88rem;opacity:.85;margin-bottom:.35rem}
+.corp-src{font-size:.8rem;font-weight:600;color:#9fb3c8!important;text-decoration:none}
+[class*="st-key-corpgo"] button p{color:#c8a96e;font-weight:600;font-size:.85rem}
+[class*="-tile-corp"] button{background:linear-gradient(160deg,#1a1d22,#121417);border-color:#3c4450}
 .topic-head{font:700 1.35rem 'Courier New',monospace;color:#c8a96e;margin:1rem 0 .1rem}
 .sect{font:700 .7rem 'Courier New',monospace;letter-spacing:.16em;color:#c8a96e;margin:1rem 0 .3rem}
 .anc-intro{font-family:Georgia,'Times New Roman',serif;font-size:1rem;line-height:1.55;color:#e6d6b8;
@@ -88,7 +97,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 31 · updated Oct 3, 2026</div>
+<div class="ver">Version 32 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -146,6 +155,11 @@ with st.spinner("Pulling Top Secret documents from the archives…"):
 @st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=40)
 def cached_cia(q, v=APP_CODE_VERSION):
     return search_cia(q, limit=6)
+
+
+@st.cache_data(ttl=3600, show_spinner=False, max_entries=40)
+def cached_corp(q, v=APP_CODE_VERSION):
+    return search_ucsf(q, limit=15)
 
 
 @st.cache_data(ttl=24 * 3600, show_spinner=False)
@@ -231,7 +245,7 @@ def render_result(r, uid, saved_copy=True, query=None):
 
 
 
-TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT = "🔎  Search", "🗂  Explore", "🏺  Ancient Intelligence"
+TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP = "🔎  Search", "🗂  Explore", "🏺  Ancient", "🏢  Corporate"
 TOPIC_LABELS = [f"{icon} {name}" for name, icon, *_ in CATEGORIES]
 ss.setdefault("topic", TOPIC_LABELS[0])
 
@@ -245,6 +259,10 @@ def _open_ancient():
     ss.main_tabs = TAB_ANCIENT
 
 
+def _open_corp():
+    ss.main_tabs = TAB_CORP
+
+
 def topic_tiles(prefix, with_ancient=False):
     """Deep-dive tiles. Tapping one opens that topic in the Explore tab."""
     with st.container(horizontal=True, wrap=True, gap="small", key=f"{prefix}-tiles"):
@@ -256,9 +274,11 @@ def topic_tiles(prefix, with_ancient=False):
         if with_ancient:
             st.button("🏺  **Ancient Intelligence**\n\nPlots, spies and curses, 3,000 years old", key=f"{prefix}-tile-anc",
                       on_click=_open_ancient, width=164, wrap=True)
+            st.button("🏢  **Corporate Secrets**\n\nTobacco, opioids, Enron: the memos they hid", key=f"{prefix}-tile-corp",
+                      on_click=_open_corp, width=164, wrap=True)
 
 
-tab_search, tab_explore, tab_ancient = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT], key="main_tabs", on_change="rerun")
+tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
 
 with tab_search:
     # ── Search box ───────────────────────────────────────────────────────────────
@@ -407,6 +427,51 @@ with tab_ancient:
             st.caption("The Met didn't answer just now. Try again in a minute.")
 
 
+# ── Corporate Secrets: company records pried loose by lawsuits, leaks and investigations ──
+def _corp_go(q):
+    ss.corp_q = q
+
+
+with tab_corp:
+    st.markdown('<div class="intro"><b>Not every secret is the government\'s.</b> These are companies\' own '
+                'internal memos, emails and research, made public through lawsuits, leaks and investigations. '
+                'Kept separate from the main search, which sticks to government records.</div>',
+                unsafe_allow_html=True)
+    with st.form("corpform", border=False):
+        cq = st.text_input("Search company documents", value=ss.get("corp_q", ""), label_visibility="collapsed",
+                           placeholder="Company, product or chemical, e.g. Marlboro, OxyContin, PFOA")
+        if st.form_submit_button("Search company documents", type="primary", use_container_width=True):
+            ss.corp_q = cq.strip()
+    if ss.get("corp_q"):
+        q = ss.corp_q
+        with st.spinner("Searching the industry documents archive…"):
+            try:
+                corp_res = cached_corp(q, APP_CODE_VERSION)
+            except Exception:
+                corp_res = None
+        if corp_res is None:
+            st.caption("The industry documents archive didn't answer just now. Try again in a minute.")
+        else:
+            st.markdown(f'<div class="sect">INDUSTRY DOCUMENTS · “{html.escape(q)}” · {len(corp_res)}</div>',
+                        unsafe_allow_html=True)
+            if not corp_res:
+                st.caption("Nothing came back. Try one distinctive word, or open the archive directly below.")
+            for i, r in enumerate(corp_res):
+                render_result(r, f"co{i}", query=q)
+        st.link_button(f"More from the UCSF archive on Google: “{q}”",
+                       "https://www.google.com/search?q=" + urllib.parse.quote(f"site:industrydocuments.ucsf.edu {q}"),
+                       use_container_width=True)
+    st.markdown('<div class="sect">THE BIG CORPORATE FILES</div>', unsafe_allow_html=True)
+    for i, c in enumerate(CORPORATE):
+        st.markdown(
+            f'<div class="corp-card"><div class="corp-title">{html.escape(c["icon"])} {html.escape(c["title"])}</div>'
+            f'<div class="corp-what">{html.escape(c["what"])}</div>'
+            f'<a class="corp-src" href="{html.escape(c["url"])}" target="_blank">{html.escape(c["source"])} ↗</a></div>',
+            unsafe_allow_html=True)
+        if c["search"]:
+            st.button(f"🔎 Search these files: “{c['search']}”", key=f"corpgo{i}", on_click=_corp_go,
+                      args=(c["search"],), type="tertiary")
+
 # ── Self-test ────────────────────────────────────────────────────────────────
 with st.expander("Check which archives are working"):
     if st.button("Run check", use_container_width=True):
@@ -423,6 +488,16 @@ with st.expander("Check which archives are working"):
                 st.write(f"**{n}** — {msg}")
         with st.spinner("Checking the CIA…"):
             st.caption("**CIA details:**  \n" + "  \n".join(diagnose_cia()))
+        with st.spinner("Checking Corporate Secrets…"):
+            try:
+                direct = len(sources._ucsf_api("nicotine", 5))
+                st.write(f"**Corporate Secrets (UCSF)** — direct line: ✅ {direct} results")
+            except Exception as e:
+                try:
+                    st.write(f"**Corporate Secrets (UCSF)** — direct line ❌ {type(e).__name__}; "
+                             f"web-search backup: {len(search_ucsf('nicotine', 5))} results")
+                except Exception as e2:
+                    st.write(f"**Corporate Secrets (UCSF)** — ❌ {type(e2).__name__}")
 
 # ── Time Machine: the Wayback Machine as a fun link ───────────────────────────
 st.divider()
