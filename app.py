@@ -13,7 +13,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 23
+APP_CODE_VERSION = 24
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -61,7 +61,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 23 · updated Oct 3, 2026</div>
+<div class="ver">Version 24 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -74,13 +74,13 @@ ss.setdefault("query", "")
 
 
 @st.cache_data(ttl=6 * 3600, show_spinner=False)
-def cached_pool():
+def cached_pool(v=APP_CODE_VERSION):    # version in the key: an update throws out old answers
     return top_secret_pool()
 
 
 @st.fragment(run_every="30s")
 def top_secret_strip():
-    pool = cached_pool()
+    pool = cached_pool(APP_CODE_VERSION)
     if not pool:
         return
     picks = random.sample(pool, min(10, len(pool)))
@@ -103,12 +103,12 @@ def top_secret_strip():
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
-def cached_search(q, names):
+def cached_search(q, names, v=APP_CODE_VERSION):
     return search_all(q, list(names))
 
 
 @st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=60)
-def cached_passages(url, q, ocr=False):
+def cached_passages(url, q, ocr=False, v=APP_CODE_VERSION):
     return find_passages(url, q, ocr=ocr)
 
 
@@ -152,7 +152,7 @@ if go and q.strip():
     ss.query = q.strip()
     ss.open_doc = None
     with st.spinner(f"Searching {len(chosen)} archives at once…"):
-        ss.results, ss.status = cached_search(ss.query, tuple(chosen))
+        ss.results, ss.status = cached_search(ss.query, tuple(chosen), APP_CODE_VERSION)
 
 def render_result(r, uid, saved_copy=True):
     """One result card: title, source, buttons, and the "find my words" passages."""
@@ -180,7 +180,7 @@ def render_result(r, uid, saved_copy=True):
             return
         with st.spinner("Reading the document… big PDFs take up to a minute"):
             try:
-                p = cached_passages(r["doc_url"], ss.query)
+                p = cached_passages(r["doc_url"], ss.query, False, APP_CODE_VERSION)
             except Exception as e:
                 p = None
                 st.warning(f"Couldn't read this one, and the Wayback Machine has no saved copy "
@@ -198,7 +198,7 @@ def render_result(r, uid, saved_copy=True):
             if ss.ocr_doc == key:
                 with st.spinner("Reading scanned pages with character recognition…"):
                     try:
-                        p = cached_passages(r["doc_url"], ss.query, True)
+                        p = cached_passages(r["doc_url"], ss.query, True, APP_CODE_VERSION)
                     except Exception as e:
                         st.warning(f"Character recognition failed ({type(e).__name__}).")
         if p and not p.get("scanned"):
@@ -226,7 +226,7 @@ def render_result(r, uid, saved_copy=True):
 
 
 @st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=40)
-def cached_vanished(q):
+def cached_vanished(q, v=APP_CODE_VERSION):
     return vanished_pages(q)
 
 
@@ -261,7 +261,7 @@ if ss.query:
     if ss.get("dig_query") == ss.query:
         with st.spinner("Digging through the Wayback Machine… this can take up to a minute"):
             try:
-                gone, searched = cached_vanished(ss.query)
+                gone, searched = cached_vanished(ss.query, APP_CODE_VERSION)
             except Exception as e:
                 gone, searched = [], 0
                 st.warning(f"The Wayback Machine didn't answer ({type(e).__name__}). Try again in a minute.")
