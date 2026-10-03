@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 15
+CODE_VERSION = 16
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -479,7 +479,17 @@ def find_passages(url: str, query: str, width: int = 240, max_hits: int = 30, oc
         return {"read_url": url, "pages": 0, "chars": 0, "hits": [], "note": "No search terms.",
                 "scanned": False}
 
-    data, ctype, final = _fetch_page(url)
+    # Dead or "page not found" document? Use the Wayback Machine's saved copy instead.
+    wayback = None
+    try:
+        data, ctype, final = _fetch_page(url)
+        if data[:5] != b"%PDF-" and _NOT_FOUND.search(data[:20000]):
+            raise LookupError("page not found")
+    except Exception:
+        wayback = wayback_snapshot(url)
+        if not wayback:
+            raise
+        data, ctype, final = _fetch_bytes(wayback["raw"])
     pages, note, scanned = [], "", False
     is_pdf = data[:5] == b"%PDF-" or "pdf" in ctype
 
@@ -488,7 +498,9 @@ def find_passages(url: str, query: str, width: int = 240, max_hits: int = 30, oc
         body = clean(text_html) if "html" in ctype or "<html" in text_html[:2000].lower() else text_html
         pages = [(None, body)]
         if not _hits_in(body, terms):
-            pdf = _first_pdf_link(text_html, final)
+            pdf = _first_pdf_link(text_html, url if wayback else final)
+            if pdf and wayback:
+                pdf = f"https://web.archive.org/web/{wayback['timestamp']}id_/{pdf}"
             if pdf:
                 data, ctype, final = _fetch_bytes(pdf)
                 is_pdf = data[:5] == b"%PDF-"
@@ -524,7 +536,7 @@ def find_passages(url: str, query: str, width: int = 240, max_hits: int = 30, oc
             hits.append((pno, text[a:b], marks))
     return {"read_url": final, "pages": len(pages) if is_pdf else 0,
             "chars": sum(len(t) for _, t in pages), "hits": hits, "note": note,
-            "scanned": scanned and not ocr}
+            "scanned": scanned and not ocr, "wayback": wayback}
 
 
 def _hits_in(text, terms):
@@ -617,3 +629,108 @@ def top_secret_pool():
             except Exception:
                 pass
     return pool
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# Wayback Machine — saved copies of pages that are gone or changed
+# ════════════════════════════════════════════════════════════════════════════
+
+def saved_copy_url(url):
+    """Most recent Wayback Machine copy of a page (the Wayback Machine redirects to it)."""
+    return "https://web.archive.org/web/2/" + url
+
+
+def wayback_snapshot(url):
+    """Closest saved copy of url, or None. Official, free availability API."""
+    d = _get("https://archive.org/wayback/available", params={"url": url}, timeout=15).json()
+    c = (d.get("archived_snapshots") or {}).get("closest") or {}
+    if not c.get("available"):
+        return None
+    ts = c["timestamp"]
+    return {"timestamp": ts, "date": f"{ts[:4]}-{ts[4:6]}-{ts[6:8]}",
+            "view": f"https://web.archive.org/web/{ts}/{url}",
+            "raw": f"https://web.archive.org/web/{ts}id_/{url}"}   # id_ = the original file, no Wayback toolbar
+
+
+_NOT_FOUND = re.compile(rb"<title>[^<]{0,80}(not found|404|page cannot be found|no longer available)", re.I)
+
+# Government sites the Vanished Files search digs through
+VANISHED_DOMAINS = ["cia.gov", "fbi.gov", "nsa.gov", "defense.gov", "war.gov", "aaro.mil",
+                    "state.gov", "archives.gov", "justice.gov", "dni.gov"]
+
+
+def _cdx(domain, pattern):
+    """Wayback Machine index: saved pages on a domain whose web address matches pattern."""
+    params = [("url", domain), ("matchType", "domain"), ("output", "json"),
+              ("fl", "original,timestamp,mimetype"), ("filter", "statuscode:200"),
+              ("filter", "mimetype:(text/html|application/pdf)"), ("filter", "original:" + pattern),
+              ("collapse", "urlkey"), ("limit", "150")]
+    r = requests.get("https://web.archive.org/cdx/search/cdx", params=params, headers=HEADERS, timeout=35)
+    r.raise_for_status()
+    rows = r.json() if r.text.strip() else []
+    return rows[1:] if rows else []
+
+
+def _is_gone(url):
+    """True only when we're confident the page no longer exists on the live site."""
+    try:
+        with requests.get(url, headers=HEADERS, timeout=12, allow_redirects=True, stream=True) as r:
+            head = next(r.iter_content(8192), b"")
+            if r.status_code in (404, 410):
+                return True
+            if r.status_code >= 400:
+                return False      # blocked or server trouble: can't tell, so don't claim it's gone
+            orig_path = urllib.parse.urlparse(url).path.strip("/")
+            final_path = urllib.parse.urlparse(r.url).path.strip("/")
+            if orig_path and final_path in ("", "index.html", "home"):
+                return True       # quietly redirected to the homepage
+            return bool(_NOT_FOUND.search(head))
+    except Exception:
+        return False
+
+
+def _title_from_url(url):
+    path = urllib.parse.unquote(urllib.parse.urlparse(url).path).rstrip("/")
+    name = path.split("/")[-1] or path
+    name = re.sub(r"\.(pdf|html?|aspx?|php)$", "", name, flags=re.I)
+    name = re.sub(r"[-_+]+", " ", name).strip()
+    return name[:1].upper() + name[1:] if name else url
+
+
+def vanished_pages(q, limit=15):
+    """Government pages whose web address matches the search, that the Wayback Machine saved,
+    and that are gone from the live site now. Returns (results, domains_searched_ok)."""
+    words = [w for t in terms_of(q) for w in re.findall(r"\w+", t)]
+    if not words:
+        return [], 0
+    pattern = "(?i).*" + "[^/]*".join(re.escape(w) for w in words) + ".*"
+    cands, ok = {}, 0
+    with ThreadPoolExecutor(max_workers=len(VANISHED_DOMAINS)) as ex:
+        futs = {ex.submit(_cdx, d, pattern): d for d in VANISHED_DOMAINS}
+        for f in as_completed(futs):
+            try:
+                rows = f.result()
+                ok += 1
+            except Exception:
+                continue
+            for original, ts, mime in rows:
+                key = re.sub(r"^https?://(www\.)?|:80(?=/)", "", original).rstrip("/").lower()
+                if key not in cands or ts > cands[key][1]:
+                    cands[key] = (original.replace(":80/", "/"), ts, mime, futs[f])
+    # PDFs first (more likely to be actual documents), newest first, then check which are gone
+    order = sorted(cands.values(), key=lambda c: (c[2] != "application/pdf", -int(c[1][:8])))[:60]
+    with ThreadPoolExecutor(max_workers=16) as ex:
+        gone = list(ex.map(lambda c: _is_gone(c[0]), order))
+    out = []
+    for (url, ts, mime, domain), is_gone in zip(order, gone):
+        if not is_gone:
+            continue
+        date = f"{ts[:4]}-{ts[4:6]}-{ts[6:8]}"
+        raw = f"https://web.archive.org/web/{ts}id_/{url}"
+        r = _res(f"Vanished from {domain}", _title_from_url(url), f"https://web.archive.org/web/{ts}/{url}",
+                 date=ts, kind=f"{'PDF' if mime == 'application/pdf' else 'Web page'} · gone from the live site · saved {date}",
+                 snippet=url, doc_url=raw, file_url=raw if mime == "application/pdf" else None)
+        out.append(r)
+        if len(out) >= limit:
+            break
+    return out, ok

@@ -13,13 +13,13 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 15
+APP_CODE_VERSION = 16
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
 
-from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, find_passages, search_all,
-                     top_secret_pool)
+from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, find_passages, saved_copy_url,
+                     search_all, top_secret_pool, vanished_pages)
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
 
@@ -58,7 +58,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 15 · updated Oct 3, 2026</div>
+<div class="ver">Version 16 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -142,6 +142,81 @@ if go and q.strip():
     with st.spinner(f"Searching {len(chosen)} archives at once…"):
         ss.results, ss.status = cached_search(ss.query, tuple(chosen))
 
+def render_result(r, uid, saved_copy=True):
+    """One result card: title, source, buttons, and the "find my words" passages."""
+    key = r["url"]
+    with st.container(border=True):
+        st.markdown(
+            f'<div class="src">{html.escape(r["source"])}</div>'
+            f'<div class="res-title"><a href="{html.escape(r["url"])}" target="_blank">{html.escape(r["title"])}</a></div>'
+            f'<div class="meta">{html.escape(" · ".join(x for x in (r["kind"], r["date"][:4]) if x))}</div>'
+            + (f'<div class="snip">{html.escape(r["snippet"])}</div>' if r["snippet"] else ""),
+            unsafe_allow_html=True)
+        cols = st.columns([1.5, 1, 1, 1.1])
+        if r["doc_url"]:
+            if cols[0].button("🔎 Find my words inside", key=f"f{uid}{key}", use_container_width=True):
+                ss.open_doc = None if ss.open_doc == key else key
+                ss.ocr_doc = None
+        cols[1].link_button("Open", r["url"], use_container_width=True)
+        if r["file_url"]:
+            cols[2].link_button("Download", r["file_url"], use_container_width=True)
+        if saved_copy:
+            cols[3].link_button("🕰 Saved copy", saved_copy_url(r["url"]), use_container_width=True,
+                                help="The Wayback Machine's most recent saved copy of this page")
+
+        if ss.open_doc != key:
+            return
+        with st.spinner("Reading the document… big PDFs take up to a minute"):
+            try:
+                p = cached_passages(r["doc_url"], ss.query)
+            except Exception as e:
+                p = None
+                st.warning(f"Couldn't read this one, and the Wayback Machine has no saved copy "
+                           f"({type(e).__name__}). Tap Open to try it on the site.")
+        if p and p.get("wayback"):
+            wb = p["wayback"]
+            st.info(f"🕰 The original page is gone. These results come from a saved copy "
+                    f"from {wb['date']} (Wayback Machine).")
+            st.link_button("Open saved copy", wb["view"])
+        if p and p.get("scanned"):
+            st.warning(p["note"])
+            if st.button("📷 Read the scanned pages (takes 1–2 minutes)", key=f"o{uid}{key}",
+                         use_container_width=True):
+                ss.ocr_doc = key
+            if ss.ocr_doc == key:
+                with st.spinner("Reading scanned pages with character recognition…"):
+                    try:
+                        p = cached_passages(r["doc_url"], ss.query, True)
+                    except Exception as e:
+                        st.warning(f"Character recognition failed ({type(e).__name__}).")
+        if p and not p.get("scanned"):
+            where = f"{p['pages']} pages" if p["pages"] else "the page"
+            if p["hits"]:
+                st.success(f"{len(p['hits'])} passage(s) mention your search · read {where}")
+                if p["note"]:
+                    st.caption(p["note"])
+            elif p["note"]:
+                st.warning(p["note"] + " Your words didn't turn up in what was read.")
+            else:
+                st.info(f"Read {where} — your words don't appear in the text. "
+                        "The search may have matched the title or catalog entry instead.")
+            for pno, text, marks in p["hits"]:
+                out, last = [], 0
+                for a, b in marks:
+                    out += [html.escape(text[last:a]), "<mark>", html.escape(text[a:b]), "</mark>"]
+                    last = b
+                out.append(html.escape(text[last:]))
+                tag = f'<div class="pg">PAGE {pno}</div>' if pno else ""
+                st.markdown(f'<div class="passage">{tag}…{"".join(out)}…</div>', unsafe_allow_html=True)
+            if p["read_url"] not in (r["doc_url"], (p.get("wayback") or {}).get("raw")):
+                st.link_button("Open the PDF these came from", p["read_url"])
+
+
+@st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=40)
+def cached_vanished(q):
+    return vanished_pages(q)
+
+
 # ── Results ──────────────────────────────────────────────────────────────────
 results, status = ss.results, ss.status
 if status:
@@ -158,62 +233,32 @@ if status:
         st.info("Nothing came back. Try fewer or different words, or one of the browser links below.")
 
     for i, r in enumerate(shown[:80]):
-        key = r["url"]
-        with st.container(border=True):
-            st.markdown(
-                f'<div class="src">{html.escape(r["source"])}</div>'
-                f'<div class="res-title"><a href="{html.escape(r["url"])}" target="_blank">{html.escape(r["title"])}</a></div>'
-                f'<div class="meta">{html.escape(" · ".join(x for x in (r["kind"], r["date"]) if x))}</div>'
-                + (f'<div class="snip">{html.escape(r["snippet"])}</div>' if r["snippet"] else ""),
-                unsafe_allow_html=True)
-            cols = st.columns([1.4, 1, 1])
-            if r["doc_url"]:
-                if cols[0].button("🔎 Find my words inside", key=f"f{i}{key}", use_container_width=True):
-                    ss.open_doc = None if ss.open_doc == key else key
-                    ss.ocr_doc = None
-            cols[1].link_button("Open", r["url"], use_container_width=True)
-            if r["file_url"]:
-                cols[2].link_button("Download", r["file_url"], use_container_width=True)
+        render_result(r, f"r{i}")
 
-            if ss.open_doc == key:
-                with st.spinner("Reading the document… big PDFs take up to a minute"):
-                    try:
-                        p = cached_passages(r["doc_url"], ss.query)
-                    except Exception as e:
-                        p = None
-                        st.warning(f"Couldn't read this one ({type(e).__name__}). Tap Open to read it on the site.")
-                if p and p.get("scanned"):
-                    st.warning(p["note"])
-                    if st.button("📷 Read the scanned pages (takes 1–2 minutes)", key=f"o{i}{key}",
-                                 use_container_width=True):
-                        ss.ocr_doc = key
-                    if ss.ocr_doc == key:
-                        with st.spinner("Reading scanned pages with character recognition…"):
-                            try:
-                                p = cached_passages(r["doc_url"], ss.query, True)
-                            except Exception as e:
-                                st.warning(f"Character recognition failed ({type(e).__name__}).")
-                if p and not p.get("scanned"):
-                    where = f"{p['pages']} pages" if p["pages"] else "the page"
-                    if p["hits"]:
-                        st.success(f"{len(p['hits'])} passage(s) mention your search · read {where}")
-                        if p["note"]:
-                            st.caption(p["note"])
-                    elif p["note"]:
-                        st.warning(p["note"] + " Your words didn't turn up in what was read.")
-                    else:
-                        st.info(f"Read {where} — your words don't appear in the text. "
-                                "The search may have matched the title or catalog entry instead.")
-                    for pno, text, marks in p["hits"]:
-                        out, last = [], 0
-                        for a, b in marks:
-                            out += [html.escape(text[last:a]), "<mark>", html.escape(text[a:b]), "</mark>"]
-                            last = b
-                        out.append(html.escape(text[last:]))
-                        tag = f'<div class="pg">PAGE {pno}</div>' if pno else ""
-                        st.markdown(f'<div class="passage">{tag}…{"".join(out)}…</div>', unsafe_allow_html=True)
-                    if p["read_url"] != r["doc_url"]:
-                        st.link_button("Open the PDF these came from", p["read_url"])
+# ── Vanished Files: deleted government pages, rescued from the Wayback Machine ──
+if ss.query:
+    st.divider()
+    st.markdown('<div class="ts-head"><b>🕰 VANISHED FILES</b><span>government pages that have been deleted, '
+                'but the Wayback Machine saved a copy</span></div>', unsafe_allow_html=True)
+    st.caption("Digs through saved copies of CIA, FBI, NSA, Pentagon, State Dept, National Archives, "
+               "Justice Dept and UFO-office websites for pages with your words in their web address, "
+               "then keeps only the ones that no longer exist on the live site.")
+    if st.button(f"Dig up deleted pages about “{ss.query}”", use_container_width=True, key="dig"):
+        ss.dig_query = ss.query
+    if ss.get("dig_query") == ss.query:
+        with st.spinner("Digging through the Wayback Machine… this can take up to a minute"):
+            try:
+                gone, searched = cached_vanished(ss.query)
+            except Exception as e:
+                gone, searched = [], 0
+                st.warning(f"The Wayback Machine didn't answer ({type(e).__name__}). Try again in a minute.")
+        if gone:
+            st.success(f"{len(gone)} deleted page(s) found · searched {searched} government sites")
+            for i, r in enumerate(gone):
+                render_result(r, f"v{i}", saved_copy=False)
+        elif searched:
+            st.info(f"No deleted pages found with those words in their web address "
+                    f"(searched {searched} government sites). Try a shorter word, like one name or program.")
 
 # ── Sites that only work in the browser ──────────────────────────────────────
 st.divider()
