@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 17
+CODE_VERSION = 18
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -50,39 +50,103 @@ def _res(source, title, url, date="", kind="", snippet="", doc_url=None, file_ur
 
 # ════════════════════════════════════════════════════════════════════════════
 # Web search limited to one site — used when a site's own search can't be read
-# by a server (JavaScript-built results, bot blocking). Uses DuckDuckGo's
-# plain-HTML results page, which needs no JavaScript.
+# by a server (JavaScript-built results, bot blocking). Free search engines often
+# block shared cloud servers with a captcha, so several are tried in turn.
 # ════════════════════════════════════════════════════════════════════════════
+
+import base64
+import time as _time
 
 # Search engines tack the site name onto titles, e.g. "… | CIA FOIA (foia.cia.gov)"
 _SITE_SUFFIX = re.compile(r"\s*[|\-–]\s*(CIA FOIA \(foia\.cia\.gov\)|CIA FOIA|FBI|The Black Vault|MuckRock)\s*$", re.I)
+import threading as _thr
+_WEB_SEARCH_SLOTS = _thr.Semaphore(2)
+
+
+def _unwrap(href):
+    href = htmllib.unescape(href)
+    if "uddg=" in href:                                   # DuckDuckGo redirect link
+        return urllib.parse.unquote(re.search(r"uddg=([^&]+)", href).group(1))
+    if "bing.com/ck/a" in href:                           # Bing click-tracking link, base64 inside
+        u = re.search(r"[?&]u=a1([^&]+)", href)
+        if u:
+            raw = u.group(1)
+            return base64.urlsafe_b64decode(raw + "=" * (-len(raw) % 4)).decode("utf-8", "replace")
+    return "https:" + href if href.startswith("//") else href
+
+
+def _parse_ddg_html(page):
+    anchors = list(re.finditer(r'<a[^>]+class="result__a"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', page, re.S))
+    for k, m in enumerate(anchors):
+        rest = page[m.end(): anchors[k + 1].start() if k + 1 < len(anchors) else len(page)]
+        snip = re.search(r'class="result__snippet"[^>]*>(.*?)</a>', rest, re.S)
+        yield m.group(1), m.group(2), snip.group(1) if snip else ""
+
+
+def _parse_ddg_lite(page):
+    anchors = list(re.finditer(r'<a[^>]+href="([^"]+)"[^>]*class=[\'"]result-link[\'"][^>]*>(.*?)</a>', page, re.S))
+    for k, m in enumerate(anchors):
+        rest = page[m.end(): anchors[k + 1].start() if k + 1 < len(anchors) else len(page)]
+        snip = re.search(r"class=['\"]result-snippet['\"][^>]*>(.*?)</td>", rest, re.S)
+        yield m.group(1), m.group(2), snip.group(1) if snip else ""
+
+
+def _parse_bing(page):
+    for block in re.split(r'<li class="b_algo', page)[1:]:
+        m = re.search(r'<h2[^>]*>\s*<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', block, re.S)
+        if m:
+            snip = re.search(r"<p[^>]*>(.*?)</p>", block, re.S)
+            yield m.group(1), m.group(2), snip.group(1) if snip else ""
+
+
+def _parse_mojeek(page):
+    for block in re.split(r"<li[ >]", page)[1:]:
+        m = re.search(r'<a[^>]+class="title"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', block, re.S) or \
+            re.search(r'<h2[^>]*>\s*<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', block, re.S)
+        if m:
+            snip = re.search(r'<p class="s"[^>]*>(.*?)</p>', block, re.S)
+            yield m.group(1), m.group(2), snip.group(1) if snip else ""
+
+
+_ENGINES = [   # (name, url, query parameter name, parser)
+    ("DuckDuckGo", "https://html.duckduckgo.com/html/", "q", _parse_ddg_html),
+    ("DuckDuckGo Lite", "https://lite.duckduckgo.com/lite/", "q", _parse_ddg_lite),
+    ("Bing", "https://www.bing.com/search", "q", _parse_bing),
+    ("Mojeek", "https://www.mojeek.com/search", "q", _parse_mojeek),
+]
+
+
+def web_search(query):
+    """Returns (engine name, [(url, title, snippet), ...]). Tries each engine until one answers."""
+    problems = []
+    for name, url, param, parse in _ENGINES:
+        try:
+            page = _get(url, params={param: query}, timeout=15).text
+            hits = [(_unwrap(h), t, s) for h, t, s in parse(page)]
+            if hits:
+                return name, hits
+            problems.append(f"{name}: " + ("captcha" if re.search(r"captcha|anomaly|unusual traffic", page, re.I)
+                                            else "no results"))
+        except Exception as e:
+            problems.append(f"{name}: {type(e).__name__}")
+        _time.sleep(0.3)
+    raise RuntimeError("every search engine refused (" + "; ".join(problems) + ")")
 
 
 def site_search(site, q, source, kind, limit=10, url_must_match=None):
-    page = _get("https://html.duckduckgo.com/html/", params={"q": f"site:{site} {q}"}).text
-    if "result__a" not in page and "anomaly" in page.lower():
-        raise RuntimeError("web search asked for a captcha; try again in a minute")
-    out, seen = [], set()
     domain = site.split("/")[0]
-    anchors = list(re.finditer(r'<a[^>]+class="result__a"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', page, re.S))
-    for k, m in enumerate(anchors):
-        href, title = m.groups()
-        rest = page[m.end(): anchors[k + 1].start() if k + 1 < len(anchors) else len(page)]
-        href = htmllib.unescape(href)
-        if "uddg=" in href:
-            href = urllib.parse.unquote(re.search(r"uddg=([^&]+)", href).group(1))
-        elif href.startswith("//"):
-            href = "https:" + href
+    with _WEB_SEARCH_SLOTS:
+        engine, hits = web_search(f"site:{site} {q}")
+    out, seen = [], set()
+    for href, title, snip in hits:
         if domain not in href or href in seen:
             continue
         if url_must_match and not re.search(url_must_match, href):
             continue
-        title = _SITE_SUFFIX.sub("", clean(title))
         seen.add(href)
-        snip = re.search(r'class="result__snippet"[^>]*>(.*?)</a>', rest, re.S)
         is_pdf = href.lower().split("?")[0].endswith(".pdf")
-        out.append(_res(source, title, href, kind=kind, snippet=snip.group(1) if snip else "",
-                        doc_url=href, file_url=href if is_pdf else None))
+        out.append(_res(source, _SITE_SUFFIX.sub("", clean(title)), href, kind=f"{kind} · found via {engine}",
+                        snippet=snip, doc_url=href, file_url=href if is_pdf else None))
         if len(out) >= limit:
             break
     return out
@@ -161,6 +225,27 @@ def search_cia(q, limit=12):
             pass
     return site_search("cia.gov/readingroom", q, "CIA", "CIA record (via web search)", limit,
                        url_must_match=CIA_DOC_URL)
+
+
+def diagnose_cia(q="MKUltra"):
+    """For the archive check: what happens at each CIA step."""
+    url = CIA_SEARCH + urllib.parse.quote(q)
+    lines = []
+    try:
+        r = requests.get(url, headers=HEADERS, timeout=20)
+        lines.append(f"Plain request: HTTP {r.status_code}, {len(r.text):,} characters, "
+                     f"{len(parse_cia(r.text))} documents found")
+    except Exception as e:
+        lines.append(f"Plain request: {type(e).__name__}: {str(e)[:80]}")
+    lines.append(f"Browser program on server: {_chromium_path() or 'not found (using Playwright default)'}")
+    try:
+        page = browser_html(url, wait_for="a[href*='/readingroom/document/']", timeout_s=25)
+        title = re.search(r"<title>(.*?)</title>", page, re.S)
+        lines.append(f"Hidden browser: {len(page):,} characters, page title "
+                     f"\"{clean(title.group(1))[:60] if title else '?'}\", {len(parse_cia(page))} documents found")
+    except Exception as e:
+        lines.append(f"Hidden browser: {type(e).__name__}: {str(e)[:120]}")
+    return lines
 
 
 def parse_cia(page, limit=12, how="Declassified CIA record"):
