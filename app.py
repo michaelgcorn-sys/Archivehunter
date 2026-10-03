@@ -13,7 +13,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 27
+APP_CODE_VERSION = 28
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -61,7 +61,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 27 · updated Oct 3, 2026</div>
+<div class="ver">Version 28 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -243,24 +243,6 @@ if status:
     for i, r in enumerate(shown[:80]):
         render_result(r, f"r{i}")
 
-# ── Time Machine: the Wayback Machine as a fun link ───────────────────────────
-st.divider()
-st.markdown('<div class="ts-head"><b>🕰 TIME MACHINE</b><span>see government websites as they looked years ago, '
-            'saved by the Wayback Machine</span></div>', unsafe_allow_html=True)
-TRIPS = [
-    ("CIA.gov in 1997", "https://web.archive.org/web/1997/https://www.cia.gov/"),
-    ("FBI.gov in 2001", "https://web.archive.org/web/2001/https://www.fbi.gov/"),
-    ("FBI Vault at launch, 2011", "https://web.archive.org/web/2011/https://vault.fbi.gov/"),
-    ("NSA.gov in 2013, the Snowden year", "https://web.archive.org/web/2013/https://www.nsa.gov/"),
-    ("CIA reading room, 2017", "https://web.archive.org/web/2017/https://www.cia.gov/library/readingroom/"),
-    ("Open the Wayback Machine", "https://web.archive.org/"),
-]
-tm = st.columns(2)
-for j, (label, url) in enumerate(TRIPS):
-    tm[j % 2].link_button(label, url, use_container_width=True)
-st.caption("Tip: every result above also has a 🕰 Saved copy link, and Find my words inside uses a saved "
-           "copy automatically when a document has been taken down.")
-
 # ── Sites that only work in the browser ──────────────────────────────────────
 st.divider()
 st.markdown("**Not in the main search** · these archives only work on their own websites. "
@@ -286,3 +268,21 @@ with st.expander("Check which archives are working"):
                 st.write(f"**{n}** — {msg}")
         with st.spinner("Checking the CIA…"):
             st.caption("**CIA details:**  \n" + "  \n".join(diagnose_cia()))
+
+# ── Time Machine: the Wayback Machine as a fun link ───────────────────────────
+st.divider()
+st.markdown('<div class="ts-head"><b>🕰 TIME MACHINE</b><span>see government websites as they looked years ago, '
+            'saved by the Wayback Machine</span></div>', unsafe_allow_html=True)
+TRIPS = [
+    ("CIA.gov in 1997", "https://web.archive.org/web/1997/https://www.cia.gov/"),
+    ("FBI.gov in 2001", "https://web.archive.org/web/2001/https://www.fbi.gov/"),
+    ("FBI Vault at launch, 2011", "https://web.archive.org/web/2011/https://vault.fbi.gov/"),
+    ("NSA.gov in 2013, the Snowden year", "https://web.archive.org/web/2013/https://www.nsa.gov/"),
+    ("CIA reading room, 2017", "https://web.archive.org/web/2017/https://www.cia.gov/library/readingroom/"),
+    ("Open the Wayback Machine", "https://web.archive.org/"),
+]
+tm = st.columns(2)
+for j, (label, url) in enumerate(TRIPS):
+    tm[j % 2].link_button(label, url, use_container_width=True)
+st.caption("Tip: every result above also has a 🕰 Saved copy link, and Find my words inside uses a saved "
+           "copy automatically when a document has been taken down.")

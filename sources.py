@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 27
+CODE_VERSION = 28
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -703,54 +703,15 @@ TEST_QUERIES = {"CIA": "MKUltra", "FBI Vault": "Roswell", "GWU Natl Security Arc
 _TS = re.compile(r"\btop[\s-]*secret\b|\bTS//|\bTS/SCI\b", re.I)
 
 
-def _ia_top_secret(limit=60):
-    # Government documents only: the item must be tagged or described as declassified /
-    # intelligence / FOIA material, and anything tagged as fiction, novels or comics is excluded.
-    gov = ('(subject:(declassified OR declassification OR "national security" OR intelligence OR CIA OR FBI '
-           'OR NSA OR FOIA OR "freedom of information" OR "united states government" OR military) '
-           'OR description:(declassified OR FOIA OR "freedom of information" OR "national archives"))')
-    params = {"q": f'title:("top secret") AND mediatype:texts AND {gov} '
-                   'AND NOT subject:(fiction OR novel OR novels OR comics OR pulp OR "science fiction")',
-              "fl[]": ["identifier", "title", "date", "description"], "rows": limit,
-              "output": "json", "sort[]": "downloads desc"}
-    docs = _get("https://archive.org/advancedsearch.php", params=params).json()["response"]["docs"]
-    out = []
-    for d in docs:
-        ident = d["identifier"]
-        title = d.get("title", ident)
-        title = title[0] if isinstance(title, list) else title
-        r = _res("Internet Archive", title, f"https://archive.org/details/{ident}", date=d.get("date"),
-                 kind="Document", doc_url=f"https://archive.org/download/{ident}/{ident}_djvu.txt")
-        r["thumb"] = f"https://archive.org/services/img/{ident}"
-        out.append(r)
-    return out
-
-
-def _wikimedia_top_secret(limit=40):
-    data = _get("https://commons.wikimedia.org/w/api.php", params={
-        "action": "query", "list": "search", "srsearch": ('intitle:"top secret" (declassified OR memorandum OR CIA OR NSA OR FBI '
-                     'OR "Department of" OR "Joint Chiefs" OR military OR government)'), "srnamespace": 6,
-        "srlimit": limit, "format": "json"}).json()
-    out = []
-    for it in data.get("query", {}).get("search", []):
-        name = it["title"].replace("File:", "")
-        r = _res("Wikimedia Commons", re.sub(r"\.(jpe?g|png|tiff?|pdf|gif)$", "", name, flags=re.I),
-                 "https://commons.wikimedia.org/wiki/" + urllib.parse.quote(it["title"]),
-                 kind="Scanned document", snippet=it.get("snippet", ""))
-        r["thumb"] = ("https://commons.wikimedia.org/wiki/Special:FilePath/"
-                      + urllib.parse.quote(name) + "?width=320")
-        out.append(r)
-    return out
-
-
 def top_secret_pool():
     """Pool of documents marked TOP SECRET, drawn from several archives at once.
-    Internet Archive is left out on purpose: its matches are mostly books, not documents.
+    Only government document collections: CIA (via its Internet Archive mirror), GWU National Security
+    Archive and the Energy Dept. Internet Archive search and Wikimedia are left out on purpose: their
+    "top secret" matches are mostly books, bands and movie posters.
     A document qualifies only if 'TOP SECRET' (or TS//, TS/SCI) is in its own title or description."""
     jobs = {
-        "CIA": lambda: search_cia('"top secret"', limit=20),
+        "CIA": lambda: search_cia('"top secret"', limit=40),
         "GWU": lambda: search_gwu("top secret", limit=25),
-        "Wikimedia": _wikimedia_top_secret,
         "Dept of Energy": lambda: search_doe('"top secret"', limit=20),
     }
     pool, seen = [], set()
@@ -761,6 +722,9 @@ def top_secret_pool():
                     if r["url"] in seen or not _TS.search(r["title"] + " " + r["snippet"]):
                         continue
                     seen.add(r["url"])
+                    if r["source"] == "CIA" and "archive.org/details/" in r["url"]:
+                        # picture of the document's first page, made by the Internet Archive
+                        r["thumb"] = "https://archive.org/services/img/" + r["url"].rsplit("/", 1)[1]
                     r.setdefault("thumb", None)
                     pool.append(r)
             except Exception:
