@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 16
+CODE_VERSION = 17
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -54,7 +54,11 @@ def _res(source, title, url, date="", kind="", snippet="", doc_url=None, file_ur
 # plain-HTML results page, which needs no JavaScript.
 # ════════════════════════════════════════════════════════════════════════════
 
-def site_search(site, q, source, kind, limit=10):
+# Search engines tack the site name onto titles, e.g. "… | CIA FOIA (foia.cia.gov)"
+_SITE_SUFFIX = re.compile(r"\s*[|\-–]\s*(CIA FOIA \(foia\.cia\.gov\)|CIA FOIA|FBI|The Black Vault|MuckRock)\s*$", re.I)
+
+
+def site_search(site, q, source, kind, limit=10, url_must_match=None):
     page = _get("https://html.duckduckgo.com/html/", params={"q": f"site:{site} {q}"}).text
     if "result__a" not in page and "anomaly" in page.lower():
         raise RuntimeError("web search asked for a captcha; try again in a minute")
@@ -71,6 +75,9 @@ def site_search(site, q, source, kind, limit=10):
             href = "https:" + href
         if domain not in href or href in seen:
             continue
+        if url_must_match and not re.search(url_must_match, href):
+            continue
+        title = _SITE_SUFFIX.sub("", clean(title))
         seen.add(href)
         snip = re.search(r'class="result__snippet"[^>]*>(.*?)</a>', rest, re.S)
         is_pdf = href.lower().split("?")[0].endswith(".pdf")
@@ -134,6 +141,8 @@ def browser_html(url, wait_for=None, timeout_s=30):
 # ════════════════════════════════════════════════════════════════════════════
 
 CIA_SEARCH = "https://www.cia.gov/readingroom/search/site/"
+# Actual CIA documents live here; collection and landing pages don't count as results.
+CIA_DOC_URL = r"/readingroom/(document|docs)/"
 
 
 def search_cia(q, limit=12):
@@ -150,7 +159,8 @@ def search_cia(q, limit=12):
                 return got
         except Exception:
             pass
-    return site_search("cia.gov/readingroom", q, "CIA", "CIA record (via web search)", limit)
+    return site_search("cia.gov/readingroom", q, "CIA", "CIA record (via web search)", limit,
+                       url_must_match=CIA_DOC_URL)
 
 
 def parse_cia(page, limit=12, how="Declassified CIA record"):
@@ -628,7 +638,10 @@ def top_secret_pool():
                     pool.append(r)
             except Exception:
                 pass
-    return pool
+    # Drop cards whose link is dead or bounces to a front page
+    with ThreadPoolExecutor(max_workers=16) as ex:
+        dead = list(ex.map(lambda r: _is_gone(r["url"]), pool))
+    return [r for r, d in zip(pool, dead) if not d]
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -684,6 +697,9 @@ def _is_gone(url):
             final_path = urllib.parse.urlparse(r.url).path.strip("/")
             if orig_path and final_path in ("", "index.html", "home"):
                 return True       # quietly redirected to the homepage
+            if (orig_path and final_path != orig_path and orig_path.startswith(final_path)
+                    and final_path.count("/") < orig_path.count("/")):
+                return True       # bounced up to a section front page
             return bool(_NOT_FOUND.search(head))
     except Exception:
         return False
