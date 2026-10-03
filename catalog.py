@@ -8,7 +8,7 @@ documents live from the CIA reading room mirror, so those titles are the CIA's o
 
 import requests
 
-CATALOG_VERSION = 39   # keep in step with APP_CODE_VERSION in app.py
+CATALOG_VERSION = 40   # keep in step with APP_CODE_VERSION in app.py
 
 from sources import HEADERS, _res
 
@@ -56,6 +56,7 @@ PICKS = {
 
 # Explore categories: (name, icon, live CIA-mirror query, main-search query, hand-picked ids)
 CATEGORIES = [
+    ("Presidential Daily Briefs", "📜", 'title:"president\'s daily brief"', "President's Daily Brief", []),
     ("Assassination Plots", "🎯", "assassination", "assassination plot", ["assassination_plots"]),
     ("Coups & Covert Action", "🕴", "covert action", "covert action coup", ["kugown", "chile"]),
     ("Cuba", "🇨🇺", "Cuba", "Cuba", ["northwoods"]),
@@ -72,6 +73,7 @@ CATEGORIES = [
 
 # One-line teasers for the deep-dive tiles
 TEASERS = {
+    "Presidential Daily Briefs": "What JFK, LBJ, Nixon and Ford read each morning",
     "Assassination Plots": "Plots against foreign leaders, in the government's own files",
     "Coups & Covert Action": "Secret operations to topple governments",
     "Cuba": "Operation Northwoods, Castro and the missile crisis",

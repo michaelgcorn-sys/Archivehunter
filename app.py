@@ -13,7 +13,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 39
+APP_CODE_VERSION = 40
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -22,7 +22,7 @@ if getattr(catalog, "CATALOG_VERSION", None) != APP_CODE_VERSION:
     catalog = importlib.reload(catalog)   # same stale-module problem for catalog.py
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url,
-                     search_all, search_cia, search_ucsf, top_secret_pool)
+                     search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
 from catalog import ANCIENT, CATEGORIES, CORPORATE, PICKS, TEASERS, met_gallery, met_image
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
@@ -109,7 +109,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 39 · updated Oct 3, 2026</div>
+<div class="ver">Version 40 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -167,6 +167,11 @@ with st.spinner("Pulling Top Secret documents from the archives…"):
 @st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=40)
 def cached_cia(q, v=APP_CODE_VERSION):
     return search_cia(q, limit=6)
+
+
+@st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=80)
+def cached_pdb(day, v=APP_CODE_VERSION):
+    return search_pdb(day)
 
 
 @st.cache_data(ttl=3600, show_spinner=False, max_entries=40)
@@ -290,6 +295,44 @@ def topic_tiles(prefix, with_ancient=False):
                       on_click=_open_corp, width=164, wrap=True)
 
 
+def _pdb_random():
+    from datetime import date, timedelta
+    a, b = date.fromisoformat(sources.PDB_FIRST), date.fromisoformat(sources.PDB_LAST)
+    ss.pdb_day = a + timedelta(days=random.randint(0, (b - a).days))
+
+
+def pdb_block():
+    """Pick a date, read the President's Daily Brief from that morning."""
+    from datetime import date
+    st.markdown('<div class="intro">The CIA’s top-secret morning briefing for the president. About 4,000 '
+                'have been declassified, from <b>June 1961 to January 1977</b> (Kennedy, Johnson, Nixon, '
+                'Ford). Pick a date — your birthday, the day Nixon resigned (Aug 9, 1974), the fall of Saigon '
+                '(Apr 30, 1975) — and read what the president was told. Kennedy’s were called the '
+                '“President’s Intelligence Checklist” and are fewer.</div>',
+                unsafe_allow_html=True)
+    ss.setdefault("pdb_day", date(1965, 5, 15))
+    c1, c2 = st.columns([3, 2], vertical_alignment="bottom")
+    c1.date_input("Date", key="pdb_day", min_value=date.fromisoformat(sources.PDB_FIRST),
+                  max_value=date.fromisoformat(sources.PDB_LAST), format="MM/DD/YYYY")
+    c2.button("🎲 Random day", on_click=_pdb_random, use_container_width=True)
+    day = ss.pdb_day.isoformat()
+    with st.spinner("Pulling the briefs…"):
+        try:
+            briefs = cached_pdb(day, APP_CODE_VERSION)
+        except Exception:
+            briefs = None
+    if briefs is None:
+        st.caption("The CIA files didn't answer just now. Try again in a minute.")
+        return
+    if not briefs:
+        st.info("No brief was released for the days around that date. Try another date, or 🎲 Random day.")
+        return
+    st.markdown(f'<div class="sect">BRIEFS CLOSEST TO {ss.pdb_day.strftime("%B %-d, %Y").upper()} · {len(briefs)}</div>',
+                unsafe_allow_html=True)
+    for i, r in enumerate(briefs):
+        render_result(r, f"pdb{i}", query=None)
+
+
 tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
 
 with tab_search:
@@ -388,29 +431,32 @@ with tab_explore:
         name, icon, cia_q, main_q, pick_ids = CATEGORIES[TOPIC_LABELS.index(topic)]
         st.markdown(f'<div class="topic-head">{html.escape(icon)} {html.escape(name)}</div>'
                     f'<div class="intro">{html.escape(TEASERS[name])}</div>', unsafe_allow_html=True)
-        picks = [PICKS[p] for p in pick_ids]
-        if picks:
-            st.markdown('<div class="sect">★ EDITOR\'S PICKS</div>', unsafe_allow_html=True)
-            for i, r in enumerate(picks):
-                render_result(r, f"ep{i}", query=main_q)
-        st.markdown(f'<div class="sect">FROM THE CIA FILES · “{html.escape(cia_q)}”</div>', unsafe_allow_html=True)
-        try:
-            live = cached_cia(cia_q, APP_CODE_VERSION)
-        except Exception:
-            live = []
-            st.caption("The CIA files didn't answer just now. Try again in a minute.")
-        for i, r in enumerate(live):
-            render_result(r, f"ec{i}", query=main_q)
-        if st.button(f"Search all {len(ALL)} archives for “{main_q}”", key=f"exall{name}", use_container_width=True):
-            ss.explore_all = main_q
-        if ss.get("explore_all") == main_q:
-            with st.spinner("Searching every archive…"):
-                more, _ = cached_search(main_q, tuple(ALL), APP_CODE_VERSION)
-            seen = {r["url"] for r in picks + live}
-            more = [r for r in more if r["url"] not in seen]
-            st.markdown(f'<div class="sect">MORE FROM ALL ARCHIVES · {len(more)}</div>', unsafe_allow_html=True)
-            for i, r in enumerate(more[:40]):
-                render_result(r, f"ea{i}", query=main_q)
+        if name == "Presidential Daily Briefs":
+            pdb_block()
+        else:
+            picks = [PICKS[p] for p in pick_ids]
+            if picks:
+                st.markdown('<div class="sect">★ EDITOR\'S PICKS</div>', unsafe_allow_html=True)
+                for i, r in enumerate(picks):
+                    render_result(r, f"ep{i}", query=main_q)
+            st.markdown(f'<div class="sect">FROM THE CIA FILES · “{html.escape(cia_q)}”</div>', unsafe_allow_html=True)
+            try:
+                live = cached_cia(cia_q, APP_CODE_VERSION)
+            except Exception:
+                live = []
+                st.caption("The CIA files didn't answer just now. Try again in a minute.")
+            for i, r in enumerate(live):
+                render_result(r, f"ec{i}", query=main_q)
+            if st.button(f"Search all {len(ALL)} archives for “{main_q}”", key=f"exall{name}", use_container_width=True):
+                ss.explore_all = main_q
+            if ss.get("explore_all") == main_q:
+                with st.spinner("Searching every archive…"):
+                    more, _ = cached_search(main_q, tuple(ALL), APP_CODE_VERSION)
+                seen = {r["url"] for r in picks + live}
+                more = [r for r in more if r["url"] not in seen]
+                st.markdown(f'<div class="sect">MORE FROM ALL ARCHIVES · {len(more)}</div>', unsafe_allow_html=True)
+                for i, r in enumerate(more[:40]):
+                    render_result(r, f"ea{i}", query=main_q)
 
 # ── Ancient Intelligence: spies and secret reports from the ancient world ─────
 with tab_ancient:

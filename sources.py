@@ -22,7 +22,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 39
+CODE_VERSION = 40
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -215,13 +215,15 @@ CIA_SEARCH = "https://www.cia.gov/readingroom/search/site/"
 CIA_DOC_URL = r"/readingroom/(document|docs)/"
 
 
-def search_cia(q, limit=15, page=1):
+def search_cia(q, limit=15, page=1, sort=None):
     """CIA CREST reading room, searched through the Internet Archive's mirror of it
     (collection "ciareadingroom"). As of Oct 2026, cia.gov reading room addresses (search
     AND individual document pages) redirect to the reading room front page, so the mirror is
     the only reliable way to reach the documents. Each item has the original PDF plus full text."""
     params = {"q": f"({q}) AND collection:ciareadingroom",
               "fl[]": ["identifier", "title", "date", "description"], "rows": limit, "page": page, "output": "json"}
+    if sort:
+        params["sort[]"] = sort
     docs = _get("https://archive.org/advancedsearch.php", params=params).json()["response"]["docs"]
     out = []
     for d in docs:
@@ -241,6 +243,25 @@ def search_cia(q, limit=15, page=1):
                         kind=f"CIA document {doc_id.upper()}", snippet=desc,
                         doc_url=files + "_djvu.txt", file_url=files + ".pdf"))
     return out
+
+
+# Under Kennedy the brief was the "President's Intelligence Checklist"; it became the PDB in Dec 1964.
+PDB_QUERY = 'title:("president\'s daily brief" OR "intelligence checklist")'
+PDB_FIRST, PDB_LAST = "1961-06-01", "1977-01-20"   # the released run: Kennedy through Ford (CIA, 2015-16)
+
+
+def search_pdb(day, window=4, limit=12, widen=(30, 120)):
+    """President's Daily Briefs from the CIA mirror (~3,965 of them, Oct 2026) dated within a few
+    days of `day` (YYYY-MM-DD), earliest first. Briefs weren't issued every day, so a window is used."""
+    from datetime import date, timedelta
+    d = date.fromisoformat(day)
+    for w in (window, *widen):      # if nothing near that date, look further out
+        lo, hi = (d - timedelta(days=w)).isoformat(), (d + timedelta(days=w)).isoformat()
+        res = search_cia(f"{PDB_QUERY} AND date:[{lo} TO {hi}]", limit=limit if w == window else 40,
+                         sort="date asc")
+        if res:
+            break
+    return sorted(res, key=lambda r: abs((date.fromisoformat((r["date"] or day)[:10]) - d).days))[:limit]
 
 
 def diagnose_cia(q="MKUltra"):
