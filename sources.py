@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 14
+CODE_VERSION = 15
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -596,11 +596,11 @@ def _wikimedia_top_secret(limit=40):
 
 def top_secret_pool():
     """Pool of documents marked TOP SECRET, drawn from several archives at once.
+    Internet Archive is left out on purpose: its matches are mostly books, not documents.
     A document qualifies only if 'TOP SECRET' (or TS//, TS/SCI) is in its own title or description."""
     jobs = {
         "CIA": lambda: search_cia('"top secret"', limit=20),
         "GWU": lambda: search_gwu("top secret", limit=25),
-        "Internet Archive": _ia_top_secret,
         "Wikimedia": _wikimedia_top_secret,
         "Dept of Energy": lambda: search_doe('"top secret"', limit=20),
     }
