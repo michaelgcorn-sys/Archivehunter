@@ -13,7 +13,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 33
+APP_CODE_VERSION = 34
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -31,6 +31,7 @@ st.markdown("""
 <style>
 .block-container{padding-top:5rem;max-width:760px}
 .eyebrow{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#c4544a;text-transform:uppercase}
+.brand-link,.brand-link:hover{text-decoration:none!important}
 .brand{font:700 2rem/1.1 'Courier New',monospace;color:#c8a96e;margin:.1rem 0 .2rem}
 .src{font:700 .7rem 'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase;color:#c8a96e}
 .meta{font-size:.8rem;opacity:.65}
@@ -96,8 +97,8 @@ st.markdown("""
 .met-tile span{font-size:.72rem;padding:.4rem .5rem;line-height:1.3}
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
-<div class="brand">Archive Hunter</div>
-<div class="ver">Version 33 · updated Oct 3, 2026</div>
+<a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
+<div class="ver">Version 34 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -293,6 +294,13 @@ with tab_search:
         ss.quick = None
 
 
+    def _go_home():
+        """Clear the search and bring back the front page (tiles and all)."""
+        for k in ("results", "status"):
+            ss[k] = [] if k == "results" else {}
+        ss.query, ss.qbox, ss.open_doc, ss.ocr_doc = "", "", None, None
+        ss.main_tabs = TAB_SEARCH
+
     ss.setdefault("qbox", "")
     with st.form("search", border=False):
         st.text_input("Search", key="qbox", placeholder='Name, program or event. Use "quotes" for exact phrases',
@@ -328,6 +336,7 @@ with tab_search:
     # ── Results ──────────────────────────────────────────────────────────────────
     results, status = ss.results, ss.status
     if status:
+        st.button("🏠  Back to home", key="home-top", on_click=_go_home, use_container_width=True)
         ok = [f"{n} {c}" for n, c in status.items() if isinstance(c, int)]
         bad = [n for n, c in status.items() if not isinstance(c, int)]
         st.caption(f"**{len(results)} results** for “{ss.query}” · " + " · ".join(ok)
@@ -342,6 +351,7 @@ with tab_search:
 
         for i, r in enumerate(shown[:80]):
             render_result(r, f"r{i}")
+        st.button("🏠  Back to home", key="home-bottom", on_click=_go_home, use_container_width=True)
 
     # ── Sites that only work in the browser ──────────────────────────────────────
     st.divider()
