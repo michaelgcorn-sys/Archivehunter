@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 19
+CODE_VERSION = 20
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -214,42 +214,51 @@ CIA_SEARCH = "https://www.cia.gov/readingroom/search/site/"
 CIA_DOC_URL = r"/readingroom/(document|docs)/"
 
 
-def search_cia(q, limit=12):
-    """CIA CREST reading room, three ways, fastest first:
-       1. plain request to the CIA's own full-text search
-       2. the same page in a hidden browser (its results are built by JavaScript)
-       3. a web search limited to the CIA reading room"""
-    url = CIA_SEARCH + urllib.parse.quote(q)
-    for how, fetch in (("CIA full-text search", lambda: _get(url).text),
-                       ("CIA full-text search", lambda: browser_html(url, wait_for="a[href*='/readingroom/document/']"))):
-        try:
-            got = parse_cia(fetch(), limit, how)
-            if got:
-                return got
-        except Exception:
-            pass
-    return site_search("cia.gov/readingroom", q, "CIA", "CIA record (via web search)", limit,
-                       url_must_match=CIA_DOC_URL, hint="CIA FOIA")
+def search_cia(q, limit=15):
+    """CIA CREST reading room, searched through the Internet Archive's mirror of it
+    (collection "ciareadingroom"). As of Oct 2026, cia.gov reading room addresses (search
+    AND individual document pages) redirect to the reading room front page, so the mirror is
+    the only reliable way to reach the documents. Each item has the original PDF plus full text."""
+    params = {"q": f"({q}) AND collection:ciareadingroom",
+              "fl[]": ["identifier", "title", "date", "description"], "rows": limit, "output": "json"}
+    docs = _get("https://archive.org/advancedsearch.php", params=params).json()["response"]["docs"]
+    out = []
+    for d in docs:
+        ident = d["identifier"]
+        doc_id = ident.replace("cia-readingroom-document-", "")
+        title = d.get("title", "")
+        title = title[0] if isinstance(title, list) else title
+        title = re.sub(r"^CIA Reading Room \S+:\s*", "", title).strip()
+        desc = d.get("description", "")
+        desc = desc[0] if isinstance(desc, list) else desc
+        desc = re.sub(r"^\s*Approved For Release[^0-9]*[\d/ :-]+\s*", "", clean(desc), flags=re.I)
+        if not title or title.upper() == "(UNTITLED)":
+            body = re.sub(r"^\s*0*" + re.escape(doc_id) + r"\s*", "", desc, flags=re.I)   # drop the ID stamp
+            title = (body[:90] + ("…" if len(body) > 90 else "")) if body else f"Untitled CIA document {doc_id.upper()}"
+        files = f"https://archive.org/download/{ident}/{doc_id}"
+        out.append(_res("CIA", title, f"https://archive.org/details/{ident}", date=d.get("date"),
+                        kind=f"CIA document {doc_id.upper()}", snippet=desc,
+                        doc_url=files + "_djvu.txt", file_url=files + ".pdf"))
+    return out
 
 
 def diagnose_cia(q="MKUltra"):
-    """For the archive check: what happens at each CIA step."""
-    url = CIA_SEARCH + urllib.parse.quote(q)
+    """For the archive check: the mirror, and what cia.gov itself does now."""
     lines = []
     try:
-        r = requests.get(url, headers=HEADERS, timeout=20)
-        lines.append(f"Plain request: HTTP {r.status_code}, {len(r.text):,} characters, "
-                     f"{len(parse_cia(r.text))} documents found")
+        n = _get("https://archive.org/advancedsearch.php",
+                 params={"q": f"({q}) AND collection:ciareadingroom", "rows": 0, "output": "json"}
+                 ).json()["response"]["numFound"]
+        lines.append(f"Internet Archive mirror of the CIA reading room: {n:,} documents match “{q}”")
     except Exception as e:
-        lines.append(f"Plain request: {type(e).__name__}: {str(e)[:80]}")
-    lines.append(f"Browser program on server: {_chromium_path() or 'not found (using Playwright default)'}")
+        lines.append(f"Internet Archive mirror: {type(e).__name__}: {str(e)[:80]}")
     try:
-        page = browser_html(url, wait_for="a[href*='/readingroom/document/']", timeout_s=25)
-        title = re.search(r"<title>(.*?)</title>", page, re.S)
-        lines.append(f"Hidden browser: {len(page):,} characters, page title "
-                     f"\"{clean(title.group(1))[:60] if title else '?'}\", {len(parse_cia(page))} documents found")
+        r = requests.get("https://www.cia.gov/readingroom/document/06835030", headers=HEADERS, timeout=20)
+        title = re.search(r"<title>(.*?)</title>", r.text, re.S)
+        lines.append(f"cia.gov document page test: HTTP {r.status_code}, title "
+                     f"“{clean(title.group(1))[:70] if title else '?'}” (the front page title means cia.gov links redirect)")
     except Exception as e:
-        lines.append(f"Hidden browser: {type(e).__name__}: {str(e)[:120]}")
+        lines.append(f"cia.gov document page test: {type(e).__name__}")
     return lines
 
 

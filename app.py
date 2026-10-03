@@ -13,7 +13,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 19
+APP_CODE_VERSION = 20
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -58,7 +58,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 19 · updated Oct 3, 2026</div>
+<div class="ver">Version 20 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -283,5 +283,5 @@ with st.expander("Check which archives are working"):
         with st.spinner("Testing each archive…"), ThreadPoolExecutor(10) as ex:
             for n, msg in ex.map(one, ALL):
                 st.write(f"**{n}** — {msg}")
-        with st.spinner("Checking the CIA step by step…"):
+        with st.spinner("Checking the CIA…"):
             st.caption("**CIA details:**  \n" + "  \n".join(diagnose_cia()))
