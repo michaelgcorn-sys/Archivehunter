@@ -68,6 +68,22 @@ CATEGORIES = [
 ]
 
 
+# One-line teasers for the deep-dive tiles
+TEASERS = {
+    "Assassination Plots": "Plots against foreign leaders, in the government's own files",
+    "Coups & Covert Action": "Secret operations to topple governments",
+    "Cuba": "Operation Northwoods, Castro and the missile crisis",
+    "Secret Experiments": "MKULTRA and the CIA's mind-control research",
+    "Psychic Spies": "GRILL FLAME, STARGATE and remote viewing",
+    "UFO Files": "Saucers and sightings in the CIA's files",
+    "Spy Satellites": "CORONA and the first spy cameras in orbit",
+    "Secret Aircraft": "OXCART, the U-2 and Area 51",
+    "Soviet Espionage": "The KGB, defectors and double agents",
+    "Nuclear Close Calls": "When the Cold War nearly went hot",
+    "Vietnam": "Intelligence files from the war",
+}
+
+
 # Ancient Intelligence: verified items with translations quoted from the source
 ANCIENT = [
     {

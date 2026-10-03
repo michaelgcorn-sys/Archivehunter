@@ -13,14 +13,14 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 29
+APP_CODE_VERSION = 30
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url,
                      search_all, search_cia, top_secret_pool)
-from catalog import ANCIENT, CATEGORIES, PICKS, met_gallery, met_image
+from catalog import ANCIENT, CATEGORIES, PICKS, TEASERS, met_gallery, met_image
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
 
@@ -60,6 +60,15 @@ st.markdown("""
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
 .links a:hover{border-color:#c8a96e}
 .intro{font-size:.88rem;opacity:.75;margin:.2rem 0 .6rem}
+[class*="-tile"] button{height:118px;align-items:flex-start;justify-content:flex-start;text-align:left;
+  padding:.7rem .75rem;background:linear-gradient(160deg,#1f1c15,#14130f);border:1px solid #3a3528;border-radius:8px}
+[class*="-tile"] button:hover{border-color:#c8a96e;background:linear-gradient(160deg,#29241a,#16140f)}
+[class*="-tile"] button *{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+[class*="-tile"] button p{font-size:.76rem;line-height:1.3;opacity:.82;margin:0;text-align:left}
+[class*="-tile"] button p strong{display:block;font-size:.92rem;line-height:1.2;color:#e8d3a0;opacity:1;margin:.3rem 0 .25rem}
+[class*="-tilesel-"] button{border-color:#c8a96e;box-shadow:0 0 0 1px #c8a96e inset;background:linear-gradient(160deg,#3a3020,#1c1810)}
+[class*="-tile-anc"] button{background:linear-gradient(160deg,#2a2013,#17120b);border-color:#6b5230}
+.topic-head{font:700 1.35rem 'Courier New',monospace;color:#c8a96e;margin:1rem 0 .1rem}
 .sect{font:700 .7rem 'Courier New',monospace;letter-spacing:.16em;color:#c8a96e;margin:1rem 0 .3rem}
 .anc-intro{font-family:Georgia,'Times New Roman',serif;font-size:1rem;line-height:1.55;color:#e6d6b8;
            border-left:3px solid #b98a4e;padding:.2rem .9rem;margin:.3rem 0 1rem}
@@ -79,7 +88,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 29 · updated Oct 3, 2026</div>
+<div class="ver">Version 30 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -222,7 +231,34 @@ def render_result(r, uid, saved_copy=True, query=None):
 
 
 
-tab_search, tab_explore, tab_ancient = st.tabs(["🔎  Search", "🗂  Explore", "🏺  Ancient Intelligence"])
+TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT = "🔎  Search", "🗂  Explore", "🏺  Ancient Intelligence"
+TOPIC_LABELS = [f"{icon} {name}" for name, icon, *_ in CATEGORIES]
+ss.setdefault("topic", TOPIC_LABELS[0])
+
+
+def _open_topic(label):
+    ss.topic = label
+    ss.main_tabs = TAB_EXPLORE
+
+
+def _open_ancient():
+    ss.main_tabs = TAB_ANCIENT
+
+
+def topic_tiles(prefix, with_ancient=False):
+    """Deep-dive tiles. Tapping one opens that topic in the Explore tab."""
+    with st.container(horizontal=True, wrap=True, gap="small", key=f"{prefix}-tiles"):
+        for i, (name, icon, *_rest) in enumerate(CATEGORIES):
+            label = f"{icon} {name}"
+            sel = "sel" if (prefix == "ex" and ss.topic == label) else ""
+            st.button(f"{icon}  **{name}**\n\n{TEASERS[name]}", key=f"{prefix}-tile{sel}-{i}",
+                      on_click=_open_topic, args=(label,), width=164, wrap=True)
+        if with_ancient:
+            st.button("🏺  **Ancient Intelligence**\n\nSpy reports on clay, 2,700 years old", key=f"{prefix}-tile-anc",
+                      on_click=_open_ancient, width=164, wrap=True)
+
+
+tab_search, tab_explore, tab_ancient = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT], key="main_tabs", on_change="rerun")
 
 with tab_search:
     # ── Search box ───────────────────────────────────────────────────────────────
@@ -264,6 +300,11 @@ with tab_search:
         with st.spinner(f"Searching {len(chosen)} archives at once…"):
             ss.results, ss.status = cached_search(ss.query, tuple(chosen), APP_CODE_VERSION)
 
+    # ── Deep dives: tiles on the empty front page ──────────────────────────────
+    if not ss.status:
+        st.markdown('<div class="sect">DEEP DIVES · tap a topic</div>', unsafe_allow_html=True)
+        topic_tiles("home", with_ancient=True)
+
     # ── Results ──────────────────────────────────────────────────────────────────
     results, status = ss.results, ss.status
     if status:
@@ -297,10 +338,12 @@ with tab_explore:
     st.markdown('<div class="intro">Not sure what to search for? Pick a topic. You get hand-picked '
                 'documents (checked against the source) plus fresh finds from the CIA files.</div>',
                 unsafe_allow_html=True)
-    labels = [f"{icon} {name}" for name, icon, *_ in CATEGORIES]
-    topic = st.pills("Topics", labels, key="topic", default=labels[0], label_visibility="collapsed")
+    topic_tiles("ex")
+    topic = ss.topic if ss.topic in TOPIC_LABELS else TOPIC_LABELS[0]
     if topic:
-        name, icon, cia_q, main_q, pick_ids = CATEGORIES[labels.index(topic)]
+        name, icon, cia_q, main_q, pick_ids = CATEGORIES[TOPIC_LABELS.index(topic)]
+        st.markdown(f'<div class="topic-head">{html.escape(icon)} {html.escape(name)}</div>'
+                    f'<div class="intro">{html.escape(TEASERS[name])}</div>', unsafe_allow_html=True)
         picks = [PICKS[p] for p in pick_ids]
         if picks:
             st.markdown('<div class="sect">★ EDITOR\'S PICKS</div>', unsafe_allow_html=True)
