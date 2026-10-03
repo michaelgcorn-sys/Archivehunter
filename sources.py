@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 35
+CODE_VERSION = 36
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -781,6 +781,14 @@ TEST_QUERIES = {"CIA": "MKUltra", "FBI Vault": "Roswell", "GWU Natl Security Arc
 _TS = re.compile(r"\btop[\s-]*secret\b|\bTS//|\bTS/SCI\b", re.I)
 
 
+def _real_doe_doc(r):
+    """Energy Dept records qualify for the Top Secret panel only if they are old enough to be a
+    declassified original (before 2000) and have the document itself to read. That screens out
+    modern history articles that merely mention a "top-secret laboratory" (e.g. OSTI 1484619)."""
+    year = re.match(r"\d{4}", r.get("date") or "")
+    return bool(r.get("file_url")) and bool(year) and int(year.group()) < 2000
+
+
 def top_secret_pool():
     """Pool of documents marked TOP SECRET, drawn from several archives at once.
     Only government document collections: CIA (via its Internet Archive mirror), GWU National Security
@@ -798,6 +806,8 @@ def top_secret_pool():
             try:
                 for r in f.result():
                     if r["url"] in seen or not _TS.search(r["title"] + " " + r["snippet"]):
+                        continue
+                    if r["source"] == "Dept of Energy" and not _real_doe_doc(r):
                         continue
                     seen.add(r["url"])
                     if r["source"] == "CIA" and "archive.org/details/" in r["url"]:
