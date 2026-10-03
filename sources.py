@@ -541,3 +541,68 @@ TEST_QUERIES = {"CIA": "MKUltra", "FBI Vault": "Roswell", "GWU Natl Security Arc
                 "Black Vault": "UFO", "DOJ Epstein Library": "Maxwell", "MuckRock": "CIA", "Internet Archive": "Warren Commission",
                 "Library of Congress": "Kennedy", "NASA": "Apollo 11", "Dept of Energy": "Manhattan Project",
                 "Wikimedia Commons": "Apollo 11"}
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# Top Secret feed — documents whose own archive listing calls them TOP SECRET
+# ════════════════════════════════════════════════════════════════════════════
+
+_TS = re.compile(r"\btop[\s-]*secret\b|\bTS//|\bTS/SCI\b", re.I)
+
+
+def _ia_top_secret(limit=60):
+    params = {"q": 'title:("top secret") AND mediatype:texts',
+              "fl[]": ["identifier", "title", "date", "description"], "rows": limit,
+              "output": "json", "sort[]": "downloads desc"}
+    docs = _get("https://archive.org/advancedsearch.php", params=params).json()["response"]["docs"]
+    out = []
+    for d in docs:
+        ident = d["identifier"]
+        title = d.get("title", ident)
+        title = title[0] if isinstance(title, list) else title
+        r = _res("Internet Archive", title, f"https://archive.org/details/{ident}", date=d.get("date"),
+                 kind="Document", doc_url=f"https://archive.org/download/{ident}/{ident}_djvu.txt")
+        r["thumb"] = f"https://archive.org/services/img/{ident}"
+        out.append(r)
+    return out
+
+
+def _wikimedia_top_secret(limit=40):
+    data = _get("https://commons.wikimedia.org/w/api.php", params={
+        "action": "query", "list": "search", "srsearch": 'intitle:"top secret"', "srnamespace": 6,
+        "srlimit": limit, "format": "json"}).json()
+    out = []
+    for it in data.get("query", {}).get("search", []):
+        name = it["title"].replace("File:", "")
+        r = _res("Wikimedia Commons", re.sub(r"\.(jpe?g|png|tiff?|pdf|gif)$", "", name, flags=re.I),
+                 "https://commons.wikimedia.org/wiki/" + urllib.parse.quote(it["title"]),
+                 kind="Scanned document", snippet=it.get("snippet", ""))
+        r["thumb"] = ("https://commons.wikimedia.org/wiki/Special:FilePath/"
+                      + urllib.parse.quote(name) + "?width=320")
+        out.append(r)
+    return out
+
+
+def top_secret_pool():
+    """Pool of documents marked TOP SECRET, drawn from several archives at once.
+    A document qualifies only if 'TOP SECRET' (or TS//, TS/SCI) is in its own title or description."""
+    jobs = {
+        "CIA": lambda: search_cia('"top secret"', limit=20),
+        "GWU": lambda: search_gwu("top secret", limit=25),
+        "Internet Archive": _ia_top_secret,
+        "Wikimedia": _wikimedia_top_secret,
+        "Dept of Energy": lambda: search_doe('"top secret"', limit=20),
+    }
+    pool, seen = [], set()
+    with ThreadPoolExecutor(max_workers=len(jobs)) as ex:
+        for f in as_completed([ex.submit(fn) for fn in jobs.values()]):
+            try:
+                for r in f.result():
+                    if r["url"] in seen or not _TS.search(r["title"] + " " + r["snippet"]):
+                        continue
+                    seen.add(r["url"])
+                    r.setdefault("thumb", None)
+                    pool.append(r)
+            except Exception:
+                pass
+    return pool

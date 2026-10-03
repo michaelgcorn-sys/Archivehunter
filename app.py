@@ -4,17 +4,19 @@ Run locally:  streamlit run app.py
 """
 
 import html
+import random
 import urllib.parse
 
 import streamlit as st
 
-from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, find_passages, search_all)
+from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, find_passages, search_all,
+                     top_secret_pool)
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
 
 st.markdown("""
 <style>
-.block-container{padding-top:1.4rem;max-width:760px}
+.block-container{padding-top:3.2rem;max-width:760px}
 .eyebrow{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#c4544a;text-transform:uppercase}
 .brand{font:700 2rem/1.1 'Courier New',monospace;color:#c8a96e;margin:.1rem 0 .2rem}
 .src{font:700 .7rem 'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase;color:#c8a96e}
@@ -26,10 +28,28 @@ st.markdown("""
 .passage mark{background:#c8a96e;color:#111;padding:0 2px;border-radius:2px}
 .pg{font:700 .7rem 'Courier New',monospace;opacity:.6}
 .ver{font:.72rem 'Courier New',monospace;opacity:.5;margin-bottom:.6rem}
+.ts-head{display:flex;align-items:center;gap:.6rem;margin:.2rem 0 .4rem}
+.ts-head b{font:700 .72rem 'Courier New',monospace;letter-spacing:.2em;color:#c4544a;white-space:nowrap}
+.ts-head span{font-size:.75rem;opacity:.55}
+.ts-strip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 10px;
+          -webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.ts-card{flex:0 0 190px;scroll-snap-align:start;position:relative;display:flex;flex-direction:column;
+         background:#1b1a15;border:1px solid #3a3528;border-radius:6px;overflow:hidden;
+         text-decoration:none!important;color:#ebe8de!important}
+.ts-card:hover{border-color:#c8a96e}
+.ts-img{height:120px;background:#2a2720 center/cover no-repeat;position:relative}
+.ts-img.folder{background:linear-gradient(135deg,#3b3324,#5a4b2e);display:flex;align-items:center;
+               justify-content:center;font:700 .65rem 'Courier New',monospace;letter-spacing:.2em;color:#d9c79c}
+.ts-stamp{position:absolute;top:10px;right:-6px;transform:rotate(8deg);border:2px solid #d0473b;color:#e2564a;
+          background:rgba(20,10,8,.75);font:700 .62rem 'Courier New',monospace;letter-spacing:.14em;padding:2px 7px}
+.ts-body{padding:.5rem .6rem .6rem;display:flex;flex-direction:column;gap:.2rem}
+.ts-src{font:700 .6rem 'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;color:#c8a96e}
+.ts-title{font-size:.8rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.which{font-size:.78rem;opacity:.65;margin:.3rem 0 .1rem}
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 11 · updated Oct 3, 2026</div>
+<div class="ver">Version 12 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -41,6 +61,35 @@ ss.setdefault("ocr_doc", None)
 ss.setdefault("query", "")
 
 
+@st.cache_data(ttl=6 * 3600, show_spinner=False)
+def cached_pool():
+    return top_secret_pool()
+
+
+@st.fragment(run_every="30s")
+def top_secret_strip():
+    pool = cached_pool()
+    if not pool:
+        return
+    picks = random.sample(pool, min(10, len(pool)))
+    cards = []
+    for r in picks:
+        if r.get("thumb"):
+            img = f'<div class="ts-img" style="background-image:url(\'{html.escape(r["thumb"])}\')">'
+        else:
+            img = f'<div class="ts-img folder">{html.escape(r["source"].upper())}'
+        year = f" · {r['date']}" if r["date"] else ""
+        cards.append(
+            f'<a class="ts-card" href="{html.escape(r["url"])}" target="_blank">{img}'
+            f'<span class="ts-stamp">TOP SECRET</span></div><div class="ts-body">'
+            f'<span class="ts-src">{html.escape(r["source"])}{year}</span>'
+            f'<span class="ts-title">{html.escape(r["title"])}</span></div></a>')
+    st.markdown(
+        f'<div class="ts-head"><b>● TOP SECRET</b><span>{len(pool)} documents marked Top Secret · '
+        f'new picks every 30 seconds · swipe and tap to open</span></div>'
+        f'<div class="ts-strip">{"".join(cards)}</div>', unsafe_allow_html=True)
+
+
 @st.cache_data(ttl=3600, show_spinner=False)
 def cached_search(q, names):
     return search_all(q, list(names))
@@ -50,6 +99,9 @@ def cached_search(q, names):
 def cached_passages(url, q, ocr=False):
     return find_passages(url, q, ocr=ocr)
 
+
+with st.spinner("Pulling Top Secret documents from the archives…"):
+    top_secret_strip()
 
 # ── Search box ───────────────────────────────────────────────────────────────
 QUICK = ["MKUltra", "JFK Oswald Mexico City", "Roswell", "Epstein", "Area 51", "Stargate",
@@ -65,8 +117,15 @@ if pick and pick != ss.get("last_pick"):
     ss.last_pick = pick
     q, go = pick, True
 
-with st.expander("Archives to search"):
-    chosen = st.pills("Archives", ALL, selection_mode="multi", default=ALL, label_visibility="collapsed")
+ss.setdefault("chosen", ALL)
+st.markdown(f'<div class="which"><b>Searching {len(ss.chosen)} archives:</b> {html.escape(" · ".join(ss.chosen))}</div>',
+            unsafe_allow_html=True)
+with st.expander("Turn archives on or off"):
+    chosen = st.pills("Archives", ALL, selection_mode="multi", default=ss.chosen, label_visibility="collapsed")
+    if chosen is not None and list(chosen) != list(ss.chosen):
+        ss.chosen = list(chosen)
+        st.rerun()
+chosen = ss.chosen
 
 if go and q.strip():
     ss.query = q.strip()
@@ -149,7 +208,8 @@ if status:
 
 # ── Sites that only work in the browser ──────────────────────────────────────
 st.divider()
-st.markdown("**More archives** · these open in your browser with your search filled in")
+st.markdown("**Not in the main search** · these archives only work on their own websites. "
+            "Tap one to open it with your search filled in.")
 term = urllib.parse.quote(ss.query or "")
 c = st.columns(2)
 for j, (name, tpl) in enumerate(BROWSER_ONLY):
