@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import html as htmllib
 import io
+import random
 import re
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -21,7 +22,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 36
+CODE_VERSION = 37
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -214,13 +215,13 @@ CIA_SEARCH = "https://www.cia.gov/readingroom/search/site/"
 CIA_DOC_URL = r"/readingroom/(document|docs)/"
 
 
-def search_cia(q, limit=15):
+def search_cia(q, limit=15, page=1):
     """CIA CREST reading room, searched through the Internet Archive's mirror of it
     (collection "ciareadingroom"). As of Oct 2026, cia.gov reading room addresses (search
     AND individual document pages) redirect to the reading room front page, so the mirror is
     the only reliable way to reach the documents. Each item has the original PDF plus full text."""
     params = {"q": f"({q}) AND collection:ciareadingroom",
-              "fl[]": ["identifier", "title", "date", "description"], "rows": limit, "output": "json"}
+              "fl[]": ["identifier", "title", "date", "description"], "rows": limit, "page": page, "output": "json"}
     docs = _get("https://archive.org/advancedsearch.php", params=params).json()["response"]["docs"]
     out = []
     for d in docs:
@@ -795,8 +796,11 @@ def top_secret_pool():
     Archive and the Energy Dept. Internet Archive search and Wikimedia are left out on purpose: their
     "top secret" matches are mostly books, bands and movie posters.
     A document qualifies only if 'TOP SECRET' (or TS//, TS/SCI) is in its own title or description."""
+    # The CIA mirror holds ~33,500 documents containing "top secret" (597 with it in the title, Oct 2026).
+    # Each refresh draws a random page from both sets, so the panel rotates through the whole collection.
     jobs = {
-        "CIA": lambda: search_cia('"top secret"', limit=40),
+        "CIA titles": lambda: search_cia('title:"top secret"', limit=40, page=random.randint(1, 14)),
+        "CIA": lambda: search_cia('"top secret"', limit=50, page=random.randint(1, 600)),
         "GWU": lambda: search_gwu("top secret", limit=25),
         "Dept of Energy": lambda: search_doe('"top secret"', limit=20),
     }

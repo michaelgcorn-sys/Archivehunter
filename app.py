@@ -13,7 +13,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 36
+APP_CODE_VERSION = 37
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -102,7 +102,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 36 · updated Oct 3, 2026</div>
+<div class="ver">Version 37 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -114,7 +114,7 @@ ss.setdefault("ocr_doc", None)
 ss.setdefault("query", "")
 
 
-@st.cache_data(ttl=6 * 3600, show_spinner=False)
+@st.cache_data(ttl=3600, show_spinner=False)    # new random batch every hour
 def cached_pool(v=APP_CODE_VERSION):    # version in the key: an update throws out old answers
     return top_secret_pool()
 
