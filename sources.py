@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 24
+CODE_VERSION = 25
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -386,7 +386,13 @@ def search_internet_archive(q, limit=12):
 
 
 def search_loc(q, limit=8):
-    data = _get("https://www.loc.gov/search/", params={"q": q, "fo": "json", "c": limit}).json()
+    for attempt in range(2):          # loc.gov is slow now and then; one retry before giving up
+        try:
+            data = _get("https://www.loc.gov/search/", params={"q": q, "fo": "json", "c": limit}, timeout=15).json()
+            break
+        except (requests.Timeout, requests.ConnectionError):
+            if attempt:
+                raise
     out = []
     for it in data.get("results", []):
         url = it.get("url") or it.get("id", "")
@@ -492,7 +498,10 @@ def score(r, q):
     return pts + SOURCE_WEIGHT.get(r["source"], 0) + (1 if r["doc_url"] else 0)
 
 
-LOOSE_SOURCES = {"Library of Congress", "Internet Archive", "Wikimedia Commons"}
+# Sources whose own search matches loosely (any word, or deep in full text). Their results must
+# show the search in the title or description: one word for a one-word search, two otherwise.
+LOOSE_SOURCES = {"Library of Congress", "Internet Archive", "Wikimedia Commons", "Dept of Energy",
+                 "DOJ Epstein Library", "NASA"}
 
 
 def search_all(q: str, names: list[str]):
@@ -515,7 +524,8 @@ def search_all(q: str, names: list[str]):
         if r["source"] not in LOOSE_SOURCES or not terms:
             return True
         text = (r["title"] + " " + r["snippet"]).lower()
-        return any(t in text for t in terms)
+        need = 1 if len(terms) == 1 else 2
+        return sum(t in text for t in terms) >= need
     hidden = [r for r in results if not relevant(r)]
     results = [r for r in results if relevant(r)]
     for r in hidden:
