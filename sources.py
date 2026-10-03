@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 18
+CODE_VERSION = 19
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -133,13 +133,18 @@ def web_search(query):
     raise RuntimeError("every search engine refused (" + "; ".join(problems) + ")")
 
 
-def site_search(site, q, source, kind, limit=10, url_must_match=None):
-    domain = site.split("/")[0]
+def site_search(site, q, source, kind, limit=10, url_must_match=None, hint=""):
+    """site can include a section, e.g. "justice.gov/epstein". Bing and Mojeek ignore sections in
+    site:, so the query uses the bare domain (plus an optional hint word) and the section is
+    checked here instead."""
+    domain, _, section = site.partition("/")
     with _WEB_SEARCH_SLOTS:
-        engine, hits = web_search(f"site:{site} {q}")
+        engine, hits = web_search(f"site:{domain} {hint} {q}".replace("  ", " "))
     out, seen = [], set()
     for href, title, snip in hits:
         if domain not in href or href in seen:
+            continue
+        if section and f"/{section}" not in href:
             continue
         if url_must_match and not re.search(url_must_match, href):
             continue
@@ -224,7 +229,7 @@ def search_cia(q, limit=12):
         except Exception:
             pass
     return site_search("cia.gov/readingroom", q, "CIA", "CIA record (via web search)", limit,
-                       url_must_match=CIA_DOC_URL)
+                       url_must_match=CIA_DOC_URL, hint="CIA FOIA")
 
 
 def diagnose_cia(q="MKUltra"):
@@ -320,7 +325,8 @@ def search_gwu(q, limit=12):
 
 def search_blackvault(q, limit=10):
     """The Black Vault. Its built-in search API skips the document pages, so use a site web search."""
-    return site_search("theblackvault.com/documentarchive", q, "Black Vault", "FOIA document archive", limit)
+    return site_search("theblackvault.com/documentarchive", q, "Black Vault", "FOIA document archive", limit,
+                       hint="documentarchive")
 
 
 def search_muckrock(q, limit=10):
@@ -338,12 +344,12 @@ def search_muckrock(q, limit=10):
             return out
     except Exception:
         pass
-    return site_search("muckrock.com/foi", q, "MuckRock", "FOIA request", limit)
+    return site_search("muckrock.com/foi", q, "MuckRock", "FOIA request", limit, hint="FOIA")
 
 
 def search_doj_epstein(q, limit=10):
     """DOJ Epstein Library (justice.gov/epstein) via site web search."""
-    return site_search("justice.gov/epstein", q, "DOJ Epstein Library", "DOJ release", limit)
+    return site_search("justice.gov/epstein", q, "DOJ Epstein Library", "DOJ release", limit, hint="Epstein")
 
 
 # ════════════════════════════════════════════════════════════════════════════
