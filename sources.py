@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 22
+CODE_VERSION = 23
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -492,6 +492,9 @@ def score(r, q):
     return pts + SOURCE_WEIGHT.get(r["source"], 0) + (1 if r["doc_url"] else 0)
 
 
+LOOSE_SOURCES = {"Library of Congress", "Internet Archive", "Wikimedia Commons"}
+
+
 def search_all(q: str, names: list[str]):
     """Returns (ranked results, {source: count or error string})."""
     results, status = [], {}
@@ -505,6 +508,19 @@ def search_all(q: str, names: list[str]):
                 status[n] = len(got)
             except Exception as e:
                 status[n] = f"{type(e).__name__}"
+    # These catalogs match words buried deep in a book's full text. Hide those unless
+    # the search actually appears in the title or description.
+    terms = [t.lower() for t in terms_of(q)]
+    def relevant(r):
+        if r["source"] not in LOOSE_SOURCES or not terms:
+            return True
+        text = (r["title"] + " " + r["snippet"]).lower()
+        return any(t in text for t in terms)
+    hidden = [r for r in results if not relevant(r)]
+    results = [r for r in results if relevant(r)]
+    for r in hidden:
+        if isinstance(status.get(r["source"]), int):
+            status[r["source"]] -= 1
     results.sort(key=lambda r: score(r, q), reverse=True)
     return results, status
 
@@ -768,21 +784,39 @@ def wayback_snapshot(url):
 
 _NOT_FOUND = re.compile(rb"<title>[^<]{0,80}(not found|404|page cannot be found|no longer available)", re.I)
 
-# Government sites the Vanished Files search digs through
-VANISHED_DOMAINS = ["cia.gov", "fbi.gov", "nsa.gov", "defense.gov", "war.gov", "aaro.mil",
-                    "state.gov", "archives.gov", "justice.gov", "dni.gov"]
+# Where deleted government documents actually live. Scanning a whole domain is too big a job
+# for the Wayback Machine to answer quickly, so the dig targets these sections.
+VANISHED_SECTIONS = [
+    ("cia.gov", "www.cia.gov/library/"),                    # old CIA library, torn down in the 2020 redesign
+    ("cia.gov", "www.cia.gov/news-information/"),
+    ("nsa.gov", "www.nsa.gov/news-features/"),               # old NSA declassified-documents pages
+    ("nsa.gov", "www.nsa.gov/portals/75/documents/"),
+    ("fbi.gov", "vault.fbi.gov/"),
+    ("dni.gov", "www.dni.gov/files/"),
+    ("archives.gov", "www.archives.gov/research/"),
+    ("state.gov", "foia.state.gov/"),
+    ("defense.gov", "media.defense.gov/"),
+    ("aaro.mil", "www.aaro.mil/"),
+]
+VANISHED_DOMAINS = sorted({d for d, _ in VANISHED_SECTIONS})
 
 
-def _cdx(domain, pattern):
-    """Wayback Machine index: saved pages on a domain whose web address matches pattern."""
-    params = [("url", domain), ("matchType", "domain"), ("output", "json"),
+def _cdx(section, pattern):
+    """Wayback Machine index: saved pages under a site section whose web address matches pattern.
+    Retries once if the Wayback Machine says it's busy."""
+    params = [("url", section), ("matchType", "prefix"), ("output", "json"),
               ("fl", "original,timestamp,mimetype"), ("filter", "statuscode:200"),
               ("filter", "mimetype:(text/html|application/pdf)"), ("filter", "original:" + pattern),
-              ("collapse", "urlkey"), ("limit", "150")]
-    r = requests.get("https://web.archive.org/cdx/search/cdx", params=params, headers=HEADERS, timeout=35)
-    r.raise_for_status()
-    rows = r.json() if r.text.strip() else []
-    return rows[1:] if rows else []
+              ("collapse", "urlkey"), ("limit", "120")]
+    for attempt in range(2):
+        r = requests.get("https://web.archive.org/cdx/search/cdx", params=params, headers=HEADERS, timeout=30)
+        if r.status_code in (429, 503) and attempt == 0:
+            _time.sleep(3)
+            continue
+        r.raise_for_status()
+        rows = r.json() if r.text.strip() else []
+        return rows[1:] if rows else []
+    return []
 
 
 def _is_gone(url):
@@ -801,6 +835,10 @@ def _is_gone(url):
             if (orig_path and final_path != orig_path and orig_path.startswith(final_path)
                     and final_path.count("/") < orig_path.count("/")):
                 return True       # bounced up to a section front page
+            if orig_path.lower().endswith(".pdf") and "html" in r.headers.get("Content-Type", "").lower():
+                return True       # a document that now opens as a web page
+            if final_path != orig_path and final_path.count("/") <= orig_path.count("/") - 2:
+                return True       # redirected far up the site, e.g. an old document to a front page
             return bool(_NOT_FOUND.search(head))
     except Exception:
         return False
@@ -821,19 +859,20 @@ def vanished_pages(q, limit=15):
     if not words:
         return [], 0
     pattern = "(?i).*" + "[^/]*".join(re.escape(w) for w in words) + ".*"
-    cands, ok = {}, 0
-    with ThreadPoolExecutor(max_workers=len(VANISHED_DOMAINS)) as ex:
-        futs = {ex.submit(_cdx, d, pattern): d for d in VANISHED_DOMAINS}
+    cands, answered = {}, set()
+    with ThreadPoolExecutor(max_workers=3) as ex:          # a few at a time: the Wayback Machine rate-limits
+        futs = {ex.submit(_cdx, sec, pattern): dom for dom, sec in VANISHED_SECTIONS}
         for f in as_completed(futs):
             try:
                 rows = f.result()
-                ok += 1
+                answered.add(futs[f])
             except Exception:
                 continue
             for original, ts, mime in rows:
                 key = re.sub(r"^https?://(www\.)?|:80(?=/)", "", original).rstrip("/").lower()
                 if key not in cands or ts > cands[key][1]:
                     cands[key] = (original.replace(":80/", "/"), ts, mime, futs[f])
+    ok = len(answered)
     # PDFs first (more likely to be actual documents), newest first, then check which are gone
     order = sorted(cands.values(), key=lambda c: (c[2] != "application/pdf", -int(c[1][:8])))[:60]
     with ThreadPoolExecutor(max_workers=16) as ex:

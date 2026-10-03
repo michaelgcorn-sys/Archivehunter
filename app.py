@@ -13,13 +13,13 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 22
+APP_CODE_VERSION = 23
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url,
-                     search_all, top_secret_pool, vanished_pages)
+                     search_all, top_secret_pool, vanished_pages, VANISHED_DOMAINS)
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
 
@@ -61,7 +61,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 22 · updated Oct 3, 2026</div>
+<div class="ver">Version 23 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -266,12 +266,13 @@ if ss.query:
                 gone, searched = [], 0
                 st.warning(f"The Wayback Machine didn't answer ({type(e).__name__}). Try again in a minute.")
         if gone:
-            st.success(f"{len(gone)} deleted page(s) found · searched {searched} government sites")
+            st.success(f"{len(gone)} deleted page(s) found · searched {searched} of {len(VANISHED_DOMAINS)} government sites")
             for i, r in enumerate(gone):
                 render_result(r, f"v{i}", saved_copy=False)
         elif searched:
             st.info(f"No deleted pages found with those words in their web address "
-                    f"(searched {searched} government sites). Try a shorter word, like one name or program.")
+                    f"(searched {searched} of {len(VANISHED_DOMAINS)} government sites). Try another word, "
+                    "like a program, a person's last name or a place.")
 
 # ── Sites that only work in the browser ──────────────────────────────────────
 st.divider()
