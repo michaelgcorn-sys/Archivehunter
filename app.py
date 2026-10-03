@@ -13,7 +13,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 20
+APP_CODE_VERSION = 21
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -58,7 +58,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <div class="brand">Archive Hunter</div>
-<div class="ver">Version 20 · updated Oct 3, 2026</div>
+<div class="ver">Version 21 · updated Oct 3, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -190,7 +190,8 @@ def render_result(r, uid, saved_copy=True):
                     except Exception as e:
                         st.warning(f"Character recognition failed ({type(e).__name__}).")
         if p and not p.get("scanned"):
-            where = f"{p['pages']} pages" if p["pages"] else "the page"
+            where = f"{p['pages']} pages" if p["pages"] else (
+                "the full document" if r["doc_url"].endswith(".txt") else "the page")
             if p["hits"]:
                 st.success(f"{len(p['hits'])} passage(s) mention your search · read {where}")
                 if p["note"]:
@@ -208,7 +209,7 @@ def render_result(r, uid, saved_copy=True):
                 out.append(html.escape(text[last:]))
                 tag = f'<div class="pg">PAGE {pno}</div>' if pno else ""
                 st.markdown(f'<div class="passage">{tag}…{"".join(out)}…</div>', unsafe_allow_html=True)
-            if p["read_url"] not in (r["doc_url"], (p.get("wayback") or {}).get("raw")):
+            if p.get("followed"):
                 st.link_button("Open the PDF these came from", p["read_url"])
 
 

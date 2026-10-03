@@ -21,7 +21,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 20
+CODE_VERSION = 21
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -600,7 +600,7 @@ def find_passages(url: str, query: str, width: int = 240, max_hits: int = 30, oc
         if not wayback:
             raise
         data, ctype, final = _fetch_bytes(wayback["raw"])
-    pages, note, scanned = [], "", False
+    pages, note, scanned, followed = [], "", False, False
     is_pdf = data[:5] == b"%PDF-" or "pdf" in ctype
 
     if not is_pdf:
@@ -612,6 +612,7 @@ def find_passages(url: str, query: str, width: int = 240, max_hits: int = 30, oc
             if pdf and wayback:
                 pdf = f"https://web.archive.org/web/{wayback['timestamp']}id_/{pdf}"
             if pdf:
+                followed = True
                 data, ctype, final = _fetch_bytes(pdf)
                 is_pdf = data[:5] == b"%PDF-"
     if is_pdf:
@@ -646,7 +647,7 @@ def find_passages(url: str, query: str, width: int = 240, max_hits: int = 30, oc
             hits.append((pno, text[a:b], marks))
     return {"read_url": final, "pages": len(pages) if is_pdf else 0,
             "chars": sum(len(t) for _, t in pages), "hits": hits, "note": note,
-            "scanned": scanned and not ocr, "wayback": wayback}
+            "scanned": scanned and not ocr, "wayback": wayback, "followed": followed}
 
 
 def _hits_in(text, terms):
