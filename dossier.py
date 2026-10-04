@@ -10,10 +10,10 @@ Works on the Internet Archive's mirror of the CIA reading room (collection "ciar
 
 import re
 
-MODULE_VERSION = 44   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 45   # keep in step with APP_CODE_VERSION in app.py
 from collections import Counter
 
-from sources import _get, clean, search_cia
+from sources import _get, clean, search_cia, strip_release_stamp, text_quality
 
 IDENT_RE = re.compile(r"^cia-readingroom-document-[a-z0-9-]{4,60}$")
 
@@ -61,7 +61,10 @@ SECRET TOP CONFIDENTIAL UNCLASSIFIED CLASSIFIED RESTRICTED SENSITIVE NOFORN ORCO
 APPROVED RELEASE RELEASED SANITIZED COPY DECLASSIFIED PART CENTRAL INTELLIGENCE AGENCY MEMORANDUM SUBJECT
 REFERENCE REFERENCES DATE FROM THRU ATTENTION ATTN DISTRIBUTION ORIG INFO CABLE MESSAGE CITE PAGE PAGES
 OFFICE DIRECTOR DEPUTY ASSISTANT CHIEF STAFF DIVISION BRANCH SECTION ANNEX ENCLOSURE ATTACHMENT FORM
-REPORT REPORTS SUMMARY DRAFT FILE COPIES NUMBER UNITED STATES GOVERNMENT AMERICAN SOVIET COMMUNIST
+REPORT REPORTS SUMMARY DRAFT FILE FILES COPIES NUMBER UNITED STATES GOVERNMENT AMERICAN SOVIET COMMUNIST
+DOCUMENT DOCUMENTS RECORD RECORDS INFORMATION ADMINISTRATIVE OFFICER OFFICERS OPERATIONAL OPERATIONS
+REQUIREMENTS REQUEST LETTER LIST STATUS GENERAL SPECIAL SERVICE SERVICES PERSONNEL SUPPORT COMMITTEE
+MEETING MINUTES PLAN PLANS POLICY STUDY ANALYSIS ESTIMATE INTELLIGENCE INFORMATION AIRGRAM DISPATCH TELEGRAM
 THE AND FOR WITH THAT THIS WHICH WILL HAVE BEEN FROM WERE THEY THEIR THERE ALSO OTHER INTO UPON SUCH
 THAN THEN THESE THOSE WOULD SHOULD COULD ABOUT AFTER BEFORE BEING UNDER OVER SOME MORE MOST MUST
 ONLY VERY WHEN WHERE WHAT WHO WHOM WHOSE ANY ALL EACH BOTH SAID SAME HAS HAD NOT ARE WAS ITS
@@ -133,8 +136,9 @@ def extract_terms(text, title="", limit=10):
     # 4. Other ALL-CAPS names in mixed-case text (codewords, acronyms, operation names)
     if upper_ratio < 0.6:
         caps = [w for w in re.findall(r"\b[A-Z][A-Z-]{3,14}\b", body) if w not in _STOP and _plausible_word(w)]
+        title_words = set(re.findall(r"\b[A-Z][A-Z-]{3,14}\b", title or ""))
         for w, n in Counter(caps).most_common(8):
-            if n >= 2 or w in title:
+            if n - (1 if w in title_words else 0) >= 2:      # must recur in the body, not just the title
                 add(w, "name")
 
     order = {"codeword": 0, "person": 1, "place": 2, "name": 3}
@@ -167,11 +171,9 @@ def load_dossier(ident):
     def one(v):
         return (v[0] if isinstance(v, list) and v else v) or ""
     title = re.sub(r"^CIA Reading Room \S+:\s*", "", clean(str(one(meta.get("title"))))).strip()
-    desc = clean(str(one(meta.get("description"))))
-    desc = re.sub(r"^\s*(Declassified in Part - )?(Sanitized Copy )?Approved For Release[^0-9]*[\d/ :.-]+\s*(CIA-RDP\S+)?\s*",
-                  "", desc, flags=re.I)
+    desc = strip_release_stamp(clean(str(one(meta.get("description")))))
     if not title or title.upper() == "(UNTITLED)":
-        title = (desc[:90] + "…") if desc else f"Untitled CIA document {doc_id.upper()}"
+        title = (desc[:90] + "…") if desc and text_quality(desc[:200]) >= 0.85 else f"Untitled CIA document {doc_id.upper()}"
     files = f"https://archive.org/download/{ident}/{doc_id}"
     try:
         text = _get(files + "_djvu.txt", timeout=25).text[:300_000]
@@ -181,6 +183,8 @@ def load_dossier(ident):
         "ident": ident, "doc_id": doc_id.upper(), "title": title, "date": str(one(meta.get("date")))[:10],
         "thumb": f"https://archive.org/services/img/{ident}",
         "view": f"https://archive.org/details/{ident}", "pdf": files + ".pdf", "txt": files + "_djvu.txt",
-        "excerpt": desc[:600], "text": text,
+        "excerpt": desc[:600] if text_quality(desc[:600]) >= 0.85 else "",   # hide garbled scan text
+        "readable": text_quality(strip_release_stamp(text[:3000])) >= 0.85,
+        "text": text,
         "terms": extract_terms(text, title),
     }

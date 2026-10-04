@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 44
+APP_CODE_VERSION = 45
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -133,7 +133,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 44 · updated Oct 4, 2026</div>
+<div class="ver">Version 45 · updated Oct 4, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -302,13 +302,15 @@ def render_dossier(ident):
             st.markdown(f'<div class="dos-title">{html.escape(d["title"])}</div>'
                         f'<div class="meta">CIA · {html.escape(d["date"] or "date unknown")}</div>'
                         + (f'<div class="dos-ex">“{html.escape(d["excerpt"][:320])}…”'
-                           f'<span> · from the first page</span></div>' if d["excerpt"] else ""),
+                           f'<span> · from the first page</span></div>' if d["excerpt"] else
+                           '<div class="dos-ex"><span>This is an old scan and its text is too faded for the computer '
+                           'to read cleanly, so there\'s no quote here. Tap the page picture to read the original.</span></div>'),
                         unsafe_allow_html=True)
             st.markdown(f'<div class="links"><a href="{html.escape(d["view"])}" target="_blank">📄 Read the full document ↗</a> '
                         f'<a href="{html.escape(d["pdf"])}" target="_blank">⬇ PDF</a></div>', unsafe_allow_html=True)
 
         sample = (d["text"] or "")[:3000]
-        if tr.looks_foreign(sample):
+        if d.get("readable", True) and tr.looks_foreign(sample):
             label = tr.provider_label()
             if label:
                 if st.button(f"🌐 Translate the first page to English ({label})", key="dos-tr", use_container_width=True):
@@ -332,7 +334,7 @@ def render_dossier(ident):
                 for i, (term, kind) in enumerate(d["terms"]):
                     st.button(f"{KIND_ICON[kind]} {term}", key=f"dos-term-{i}", on_click=follow_term, args=(term,))
         else:
-            st.caption("No clear names or codewords could be read from this scan.")
+            st.caption("No clear names or codewords could be read from this scan. Try the documents filed nearby.")
 
         try:
             near = cached_neighbors(ident, APP_CODE_VERSION)

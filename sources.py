@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 44
+CODE_VERSION = 45
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -42,6 +42,37 @@ def _get(url, **kw):
 def clean(s: str) -> str:
     s = re.sub(r"<script.*?</script>|<style.*?</style>", " ", s or "", flags=re.S | re.I)
     return re.sub(r"\s+", " ", htmllib.unescape(re.sub(r"<[^>]+>", " ", s))).strip()
+
+
+_COMMON = set("""the of and to in a is that for it as was with be by on not this are from or have an which at but
+were has been their they will would all its his he she her we our you your there than other into such may can
+any these those also more most some only very upon about after before over under per who what when where
+office officer report information request time number date during state government agency operations""".split())
+
+
+def text_quality(text):
+    """0-1 score of how readable scanned (OCR) text is: share of tokens that look like real words.
+    Clean typed text scores ~0.95; faded scans that come out as 'illrmaf1ofl R# t!' score well under 0.85."""
+    toks = [t.strip(".,;:()[]\"'“”‘’-") for t in (text or "").split()]
+    toks = [t for t in toks if t and not t.isdigit() and not re.fullmatch(r"\d+X\d+[A-Z]?", t)]   # 25X1 = redaction code
+    if len(toks) < 6:
+        return 0.0
+    good = 0
+    for t in toks:
+        low = t.lower()
+        if low in _COMMON or low in ("a", "i"):
+            good += 1
+        elif (len(t) >= 2 and re.sub(r"['’]S?$", "", t, flags=re.I).isalpha() and re.search(r"[aeiouy]", low)
+              and not re.search(r"(.)\1\1", low) and not re.search(r"[a-z][A-Z]", t[1:])):
+            good += 1
+    return good / len(toks)
+
+
+def strip_release_stamp(text):
+    """Remove the 'Approved For Release 2002/05/14 : CIA-RDP80-01065A000100030062-6' stamps CIA scans carry."""
+    t = re.sub(r"(Declassified in Part - )?(Sanitized Copy )?Approved For Release\s*[\d/ :.-]*\s*:?\s*(CIA-RDP\S+)?",
+               " ", text or "", flags=re.I)
+    return re.sub(r"\s+", " ", t).strip()
 
 
 def _res(source, title, url, date="", kind="", snippet="", doc_url=None, file_url=None):
@@ -118,20 +149,27 @@ _ENGINES = [   # (name, url, query parameter name, parser)
 ]
 
 
-def web_search(query):
-    """Returns (engine name, [(url, title, snippet), ...]). Tries each engine until one answers."""
+def web_search(query, want=None):
+    """Returns (engine name, [(url, title, snippet), ...]). Tries each engine until one answers.
+    With `want` (a test on the url), an engine only counts if at least one hit passes it; otherwise
+    the next engine is tried (some engines ignore site: and return unrelated pages)."""
     problems = []
+    fallback = None
     for name, url, param, parse in _ENGINES:
         try:
             page = _get(url, params={param: query}, timeout=15).text
             hits = [(_unwrap(h), t, s) for h, t, s in parse(page)]
-            if hits:
+            if hits and (want is None or any(want(h) for h, _t, _s in hits)):
                 return name, hits
+            if hits and fallback is None:
+                fallback = (name, hits)
             problems.append(f"{name}: " + ("captcha" if re.search(r"captcha|anomaly|unusual traffic", page, re.I)
-                                            else "no results"))
+                                            else "no matching results" if hits else "no results"))
         except Exception as e:
             problems.append(f"{name}: {type(e).__name__}")
         _time.sleep(0.3)
+    if fallback:
+        return fallback
     raise RuntimeError("every search engine refused (" + "; ".join(problems) + ")")
 
 
@@ -140,8 +178,11 @@ def site_search(site, q, source, kind, limit=10, url_must_match=None, hint=""):
     site:, so the query uses the bare domain (plus an optional hint word) and the section is
     checked here instead."""
     domain, _, section = site.partition("/")
+    def on_site(href):
+        return domain in href and (not section or f"/{section}" in href) and \
+            (not url_must_match or re.search(url_must_match, href))
     with _WEB_SEARCH_SLOTS:
-        engine, hits = web_search(f"site:{domain} {hint} {q}".replace("  ", " "))
+        engine, hits = web_search(f"site:{domain} {hint} {q}".replace("  ", " "), want=on_site)
     out, seen = [], set()
     for href, title, snip in hits:
         if domain not in href or href in seen:
@@ -235,9 +276,14 @@ def search_cia(q, limit=15, page=1, sort=None):
         title = re.sub(r"^CIA Reading Room \S+:\s*", "", title).strip()
         desc = d.get("description", "")
         desc = desc[0] if isinstance(desc, list) else desc
-        desc = re.sub(r"^\s*Approved For Release[^0-9]*[\d/ :-]+\s*", "", clean(desc), flags=re.I)
+        desc = strip_release_stamp(clean(desc))
+        raw_desc = desc
+        if text_quality(desc[:400]) < 0.85:          # faded scan: don't show garbled text as a snippet
+            desc = ""
         if not title or title.upper() == "(UNTITLED)":
-            body = re.sub(r"^\s*0*" + re.escape(doc_id) + r"\s*", "", desc, flags=re.I)   # drop the ID stamp
+            body = re.sub(r"^\s*0*" + re.escape(doc_id) + r"\s*", "", raw_desc, flags=re.I)   # drop the ID stamp
+            if text_quality(body[:200]) < 0.85:
+                body = ""
             title = (body[:90] + ("…" if len(body) > 90 else "")) if body else f"Untitled CIA document {doc_id.upper()}"
         files = f"https://archive.org/download/{ident}/{doc_id}"
         out.append(_res("CIA", title, f"https://archive.org/details/{ident}", date=d.get("date"),
@@ -355,7 +401,10 @@ def parse_cia(page, limit=12, how="Declassified CIA record"):
 
 def search_fbi(q, limit=12):
     """FBI Vault (Plone CMS) search."""
-    page = _get("https://vault.fbi.gov/search", params={"SearchableText": q}).text
+    try:
+        page = _get("https://vault.fbi.gov/search", params={"SearchableText": q}, timeout=30).text
+    except requests.exceptions.Timeout:      # the Vault is often slow; one more try
+        page = _get("https://vault.fbi.gov/search", params={"SearchableText": q}, timeout=40).text
     section = page
     m = re.search(r'<dl[^>]*class="[^"]*searchResults[^"]*"[^>]*>(.*?)</dl>', page, re.S)
     if m:
@@ -586,7 +635,7 @@ def search_uk_archives(q, limit=10):
     including MI5 (KV), GCHQ (HW), Foreign Office and War Office files. Catalogue entries:
     many link to free digitized copies on the Discovery page."""
     r = _get("https://discovery.nationalarchives.gov.uk/API/search/records",
-             params={"sps.searchQuery": q, "sps.recordRepositories": "TNA", "sps.resultsPageSize": limit},
+             params={"sps.searchQuery": q, "sps.heldByCode": "TNA", "sps.resultsPageSize": limit},
              headers={"Accept": "application/json"}, timeout=20)
     data = r.json()
     records = data.get("records") or data.get("Records") or []
