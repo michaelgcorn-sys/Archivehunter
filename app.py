@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 42
+APP_CODE_VERSION = 43
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -110,7 +110,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 42 · updated Oct 4, 2026</div>
+<div class="ver">Version 43 · updated Oct 4, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -465,7 +465,8 @@ with tab_search:
         st.markdown("**Not in the main search** · these archives only work on their own websites. "
                     "Tap one to visit it (opens in a new tab). Search first and they open with your words filled in.")
     c = st.columns(2)
-    for j, (name, tpl, home) in enumerate(BROWSER_ONLY):
+    links = [b for b in BROWSER_ONLY if not (b[0].startswith("National Archives") and "National Archives" in SOURCES)]
+    for j, (name, tpl, home) in enumerate(links):
         c[j % 2].link_button(name, tpl.replace("{q}", term) if term else home, use_container_width=True)
 
 

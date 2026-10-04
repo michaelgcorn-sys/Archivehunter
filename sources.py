@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import html as htmllib
 import io
+import os
 import random
 import re
 import urllib.parse
@@ -22,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 42
+CODE_VERSION = 43
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -447,6 +448,41 @@ def search_wilson(q, limit=8):
                        url_must_match=r"/document/")
 
 
+def _nara_key():
+    """National Archives Catalog API key, kept in Streamlit's private Secrets (never in the code)."""
+    try:
+        import streamlit as st
+        k = st.secrets.get("NARA_API_KEY")
+        if k:
+            return str(k).strip()
+    except Exception:
+        pass
+    return os.environ.get("NARA_API_KEY", "").strip()
+
+
+def search_nara(q, limit=12):
+    """U.S. National Archives Catalog, official API v2 (JFK, RFK, MLK, UAP and millions more records)."""
+    data = _get("https://catalog.archives.gov/api/v2/records/search", params={"q": q, "limit": limit},
+                headers={"x-api-key": _nara_key(), "Content-Type": "application/json"}, timeout=25).json()
+    out = []
+    for h in data.get("body", {}).get("hits", {}).get("hits", []):
+        rec = (h.get("_source") or {}).get("record") or {}
+        na = rec.get("naId")
+        if not na:
+            continue
+        dates = rec.get("productionDates") or rec.get("inclusiveDates") or []
+        year = ""
+        if isinstance(dates, list) and dates and isinstance(dates[0], dict):
+            year = str(dates[0].get("year") or "")
+        files = [d.get("objectUrl") for d in rec.get("digitalObjects") or [] if d.get("objectUrl")]
+        pdf = next((u for u in files if u.lower().split("?")[0].endswith(".pdf")), None)
+        kind = "National Archives record" + (f" · {len(files)} file{'s' if len(files) != 1 else ''} online" if files else "")
+        out.append(_res("National Archives", clean(str(rec.get("title", ""))) or f"Record {na}",
+                        f"https://catalog.archives.gov/id/{na}", date=year, kind=kind,
+                        snippet=clean(str(rec.get("scopeAndContentNote", "")))[:300], doc_url=pdf, file_url=pdf))
+    return out
+
+
 # ════════════════════════════════════════════════════════════════════════════
 # Libraries, science, media
 # ════════════════════════════════════════════════════════════════════════════
@@ -634,10 +670,12 @@ SOURCES = {
     "Wikimedia Commons": search_wikimedia,
     "UK National Archives": search_uk_archives,
 }
+if _nara_key():                       # switches on by itself once the key is saved in Secrets
+    SOURCES["National Archives"] = search_nara
 # Declassified sources rank a little higher when relevance is otherwise equal.
 SOURCE_WEIGHT = {"CIA": 3, "FBI Vault": 3, "GWU Natl Security Archive": 3, "Black Vault": 2,
                  "DOJ Epstein Library": 2, "MuckRock": 2,
-                 "NSA": 2, "NRO": 2, "State Dept FOIA": 2, "War Dept (war.gov)": 1, "Wilson Center": 2, "NASA": 1, "Dept of Energy": 1}
+                 "National Archives": 3, "NSA": 2, "NRO": 2, "State Dept FOIA": 2, "War Dept (war.gov)": 1, "Wilson Center": 2, "NASA": 1, "Dept of Energy": 1}
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -665,7 +703,7 @@ def score(r, q):
 # show the search in the title or description: every word, or all but one for 4+ word searches.
 LOOSE_SOURCES = {"Library of Congress", "Internet Archive", "Wikimedia Commons", "Dept of Energy",
                  "DOJ Epstein Library", "NASA", "UK National Archives",
-                 "NSA", "NRO", "State Dept FOIA", "War Dept (war.gov)", "Wilson Center"}
+                 "National Archives", "NSA", "NRO", "State Dept FOIA", "War Dept (war.gov)", "Wilson Center"}
 
 
 def search_all(q: str, names: list[str]):
@@ -866,7 +904,7 @@ TEST_QUERIES = {"CIA": "MKUltra", "FBI Vault": "Roswell", "GWU Natl Security Arc
                 "Black Vault": "UFO", "DOJ Epstein Library": "Maxwell", "MuckRock": "CIA", "Internet Archive": "Warren Commission",
                 "Library of Congress": "Kennedy", "NASA": "Apollo 11", "Dept of Energy": "Manhattan Project",
                 "Wikimedia Commons": "Apollo 11",
-                "UK National Archives": "Philby", "NSA": "VENONA", "NRO": "CORONA",
+                "UK National Archives": "Philby", "National Archives": "Oswald", "NSA": "VENONA", "NRO": "CORONA",
                 "State Dept FOIA": "Castro", "War Dept (war.gov)": "UAP", "Wilson Center": "Khrushchev"}
 
 
