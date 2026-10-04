@@ -14,17 +14,24 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 43
+APP_CODE_VERSION = 44
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
 import catalog
 if getattr(catalog, "CATALOG_VERSION", None) != APP_CODE_VERSION:
     catalog = importlib.reload(catalog)   # same stale-module problem for catalog.py
+import dossier as dossier_mod
+import translate as tr
+for _m in (dossier_mod, tr):
+    if getattr(_m, "MODULE_VERSION", None) != APP_CODE_VERSION:
+        importlib.reload(_m)
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url,
                      pdb_on_this_day, search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
 from catalog import ANCIENT, CATEGORIES, CORPORATE, PICKS, TEASERS, met_gallery, met_image
+from dossier import folder_neighbors, ident_from_url, is_cia_ident, load_dossier
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
 
@@ -71,6 +78,21 @@ st.markdown("""
  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%23c8a96e' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E") no-repeat .8rem center!important}
 .st-key-qbox input::placeholder{color:#b9ab8c!important;opacity:1}
 .qtip{font-size:.82rem;color:#b9ab8c;margin:-.35rem 0 .1rem .2rem}
+.st-key-dossier{border-color:#c8a96e!important;background:linear-gradient(180deg,#1d1a13,#141310)}
+.dos-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.16em;color:#c4544a}
+.dos-title{font-family:Georgia,'Times New Roman',serif;font-size:1.25rem;line-height:1.3;color:#ecd9b0;margin:.1rem 0 .25rem}
+.dos-img{width:100%;max-height:300px;object-fit:contain;background:#f1ece0;border-radius:4px;border:1px solid #3a3528}
+.dos-ex{font-family:Georgia,serif;font-size:.86rem;line-height:1.45;opacity:.85;margin:.45rem 0}
+.dos-ex span{font-family:inherit;font-style:italic;opacity:.6;font-size:.76rem}
+.trail-head{font:700 .66rem 'Courier New',monospace;letter-spacing:.14em;color:#b98a4e;margin:.3rem 0 0}
+[class*="-trail"] button p{font-size:.8rem;color:#c8a96e}
+.st-key-dos-terms button{border-color:#6b5a38;background:#1f1b13}
+.st-key-dos-terms button p{font-weight:600;color:#ecd9b0}
+.st-key-scroller{height:0;overflow:hidden;margin:0!important}
+[class*="st-key-dos-near"] button,[class*="st-key-dos-near"] button *{justify-content:flex-start!important;text-align:left!important}
+[class*="st-key-dos-near"] button p{font-size:.88rem}
+.st-key-dos-top{justify-content:space-between}
+.st-key-dos-top button p{color:#c8a96e}
 .which{font-size:1.17rem;line-height:1.4;opacity:.9;margin:.5rem 0 .4rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
@@ -101,6 +123,7 @@ st.markdown("""
 .anc-what{font-size:.9rem;opacity:.85}
 .anc-quote{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:1rem;line-height:1.55;
            color:#e6d6b8;background:rgba(185,138,78,.08);border-left:3px solid #b98a4e;padding:.5rem .8rem;margin:.6rem 0}
+.anc-lang{font-size:.76rem;opacity:.65;font-style:italic;margin:.1rem 0 .45rem}
 .anc-src{font-size:.8rem;font-weight:600;color:#b98a4e!important;text-decoration:none}
 .met-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:.6rem}
 .met-tile{display:flex;flex-direction:column;background:#1c1710;border:1px solid #4a3a22;border-radius:6px;
@@ -110,7 +133,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 43 · updated Oct 4, 2026</div>
+<div class="ver">Version 44 · updated Oct 4, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -127,6 +150,15 @@ def cached_pool(v=APP_CODE_VERSION):    # version in the key: an update throws o
     return top_secret_pool()
 
 
+def _tile_href(r):
+    ident = ident_from_url(r["url"])
+    return f"?doc={ident}" if ident else r["url"]      # CIA files open as a dossier inside the app
+
+
+def _tile_target(r):
+    return "_self" if ident_from_url(r["url"]) else "_blank"
+
+
 @st.fragment(run_every="30s")
 def top_secret_strip():
     pool = cached_pool(APP_CODE_VERSION)
@@ -141,7 +173,7 @@ def top_secret_strip():
             img = f'<div class="ts-img folder">{html.escape(r["source"].upper())}'
         year = f" · {r['date']}" if r["date"] else ""
         cards.append(
-            f'<a class="ts-card" href="{html.escape(r["url"])}" target="_blank">{img}'
+            f'<a class="ts-card" href="{html.escape(_tile_href(r))}" target="{_tile_target(r)}">{img}'
             f'<span class="ts-stamp">TOP SECRET</span></div><div class="ts-body">'
             f'<span class="ts-src">{html.escape(r["source"])}{year}</span>'
             f'<span class="ts-title">{html.escape(r["title"])}</span></div></a>')
@@ -160,6 +192,171 @@ def cached_search(q, names, v=APP_CODE_VERSION):
 def cached_passages(url, q, ocr=False, v=APP_CODE_VERSION):
     return find_passages(url, q, ocr=ocr)
 
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# Dossier: one CIA document opened inside the app, with a trail to follow
+# ════════════════════════════════════════════════════════════════════════════
+ss.setdefault("trail", [])
+KIND_ICON = {"codeword": "🔐", "person": "👤", "place": "🌍", "name": "🏷"}
+
+
+@st.cache_data(ttl=24 * 3600, show_spinner=False, max_entries=200)
+def cached_dossier(ident, v=APP_CODE_VERSION):
+    return load_dossier(ident)
+
+
+@st.cache_data(ttl=24 * 3600, show_spinner=False, max_entries=200)
+def cached_neighbors(ident, v=APP_CODE_VERSION):
+    return folder_neighbors(ident)
+
+
+@st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=500)
+def cached_translation(text, provider, v=APP_CODE_VERSION):
+    return tr.translate(text)
+
+
+def _scroll(selector=None):
+    """Bring the top of the page (or an element) into view after a tap lower down."""
+    target = (f"var el=d.querySelector('{selector}'); if(el) el.scrollIntoView({{behavior:'smooth'}});"
+              if selector else "var m=d.querySelector('[data-testid=\"stMain\"]'); if(m) m.scrollTo(0,0); window.parent.scrollTo(0,0);")
+    code = f"<script>var d=window.parent.document; setTimeout(function(){{{target}}}, 120);/*{random.random()}*/</script>"
+    with st.container(key="scroller"):           # our own fixed script, never user input
+        if hasattr(st, "iframe"):
+            st.iframe(code, height=1)
+        else:
+            components.html(code, height=0)
+
+
+def open_dossier(ident):
+    st.query_params["doc"] = ident
+    ss.scroll_top = True
+
+
+def close_dossier():
+    st.query_params.pop("doc", None)
+
+
+def follow_term(term):
+    """Run a main search for a term from the dossier, and record it on the trail."""
+    ss.trail.append({"kind": "search", "q": term, "label": term})
+    ss.qbox = term
+    ss.run_quick = True
+    ss.main_tabs = TAB_SEARCH
+    st.query_params.pop("doc", None)
+    ss.scroll_results = True
+
+
+def goto_trail(i):
+    step = ss.trail[i]
+    ss.trail = ss.trail[:i]          # the step re-adds itself when opened
+    if step["kind"] == "doc":
+        open_dossier(step["ident"])
+    else:
+        follow_term(step["q"])
+
+
+def show_trail(prefix):
+    if len(ss.trail) < 2:
+        return
+    st.markdown('<div class="trail-head">🧵 YOUR TRAIL · tap a step to go back</div>', unsafe_allow_html=True)
+    with st.container(horizontal=True, wrap=True, gap="small", key=f"{prefix}-trail"):
+        steps = ss.trail[-8:]
+        offset = len(ss.trail) - len(steps)
+        for j, step in enumerate(steps):
+            icon = "📄" if step["kind"] == "doc" else "🔎"
+            last = j == len(steps) - 1
+            st.button(f"{icon} {step['label'][:32]}{' ←' if last else ''}", key=f"{prefix}-step-{offset + j}",
+                      on_click=goto_trail, args=(offset + j,), disabled=last, type="tertiary")
+
+
+def share_url(ident):
+    try:
+        base = str(st.context.url or "").split("?")[0].replace("/~/+", "").rstrip("/") + "/"
+    except Exception:
+        base = ""
+    if not base.startswith("http"):
+        base = ""
+    return f"{base}?doc={ident}"
+
+
+def render_dossier(ident):
+    with st.container(border=True, key="dossier"):
+        try:
+            with st.spinner("Opening the file…"):
+                d = cached_dossier(ident, APP_CODE_VERSION)
+        except Exception:
+            st.warning("Couldn't open this file just now. Try again in a minute.")
+            st.button("✕ Close", key="dos-close-err", on_click=close_dossier)
+            return
+        if not ss.trail or ss.trail[-1].get("ident") != ident:
+            ss.trail.append({"kind": "doc", "ident": ident, "label": d["title"]})
+        with st.container(horizontal=True, vertical_alignment="center", key="dos-top"):
+            st.markdown(f'<div class="dos-kicker">🕵 DOSSIER · {html.escape(d["doc_id"])}</div>', unsafe_allow_html=True)
+            st.button("✕ Close", key="dos-close", on_click=close_dossier, type="tertiary")
+        show_trail("dos")
+        c1, c2 = st.columns([2, 3])
+        c1.markdown(f'<a href="{html.escape(d["view"])}" target="_blank"><img class="dos-img" '
+                    f'src="{html.escape(d["thumb"])}" alt="First page"></a>', unsafe_allow_html=True)
+        with c2:
+            st.markdown(f'<div class="dos-title">{html.escape(d["title"])}</div>'
+                        f'<div class="meta">CIA · {html.escape(d["date"] or "date unknown")}</div>'
+                        + (f'<div class="dos-ex">“{html.escape(d["excerpt"][:320])}…”'
+                           f'<span> · from the first page</span></div>' if d["excerpt"] else ""),
+                        unsafe_allow_html=True)
+            st.markdown(f'<div class="links"><a href="{html.escape(d["view"])}" target="_blank">📄 Read the full document ↗</a> '
+                        f'<a href="{html.escape(d["pdf"])}" target="_blank">⬇ PDF</a></div>', unsafe_allow_html=True)
+
+        sample = (d["text"] or "")[:3000]
+        if tr.looks_foreign(sample):
+            label = tr.provider_label()
+            if label:
+                if st.button(f"🌐 Translate the first page to English ({label})", key="dos-tr", use_container_width=True):
+                    ss.dos_tr = ident
+                if ss.get("dos_tr") == ident:
+                    try:
+                        text, lang = cached_translation(sample, tr.active_provider(), APP_CODE_VERSION)
+                        st.markdown(f'<div class="passage"><div class="pg">MACHINE TRANSLATION'
+                                    f'{" FROM " + html.escape(lang.upper()) if lang else ""}</div>{html.escape(text)}</div>',
+                                    unsafe_allow_html=True)
+                    except Exception as e:
+                        st.caption(f"Translation didn't work just now ({type(e).__name__}).")
+            else:
+                st.caption("🌐 This document isn't in English. In-app translation isn't switched on yet.")
+
+        if d["terms"]:
+            st.markdown('<div class="sect">🧵 FOLLOW THE TRAIL</div>'
+                        '<div class="intro">Names and codewords from this document. Tap one to search every archive.</div>',
+                        unsafe_allow_html=True)
+            with st.container(horizontal=True, wrap=True, gap="small", key="dos-terms"):
+                for i, (term, kind) in enumerate(d["terms"]):
+                    st.button(f"{KIND_ICON[kind]} {term}", key=f"dos-term-{i}", on_click=follow_term, args=(term,))
+        else:
+            st.caption("No clear names or codewords could be read from this scan.")
+
+        try:
+            near = cached_neighbors(ident, APP_CODE_VERSION)
+        except Exception:
+            near = []
+        if near:
+            st.markdown('<div class="sect">🗄 FILED NEARBY</div>'
+                        '<div class="intro">Documents numbered next to this one in the same CIA collection.</div>',
+                        unsafe_allow_html=True)
+            for i, r in enumerate(near[:8]):
+                st.button(f"📄 {r['title'][:90]}" + (f"  ·  {r['date'][:4]}" if r["date"] else ""), key=f"dos-near-{i}",
+                          on_click=open_dossier, args=(ident_from_url(r["url"]),), use_container_width=True,
+                          type="tertiary")
+
+        st.markdown('<div class="sect">🔗 SHARE THIS DOCUMENT</div>', unsafe_allow_html=True)
+        st.code(share_url(ident), language=None, wrap_lines=True)
+        st.caption("Copy this link. It opens straight to this dossier (for people you've invited to the app).")
+    if ss.pop("scroll_top", False):
+        _scroll()
+
+
+_doc = st.query_params.get("doc")
+if is_cia_ident(_doc):
+    render_dossier(_doc)
 
 with st.spinner("Pulling Top Secret documents from the archives…"):
     top_secret_strip()
@@ -213,6 +410,10 @@ def render_result(r, uid, saved_copy=True, query=None):
             links.append(f'<a href="{html.escape(saved_copy_url(r["url"]))}" target="_blank" '
                          f'title="The Wayback Machine\'s most recent saved copy of this page">🕰 Saved copy</a>')
         st.markdown(f'<div class="links">{" ".join(links)}</div>', unsafe_allow_html=True)
+        ident = ident_from_url(r["url"])
+        if ident:
+            st.button("🕵 Open the dossier · follow the trail", key=f"d{uid}{key}", on_click=open_dossier,
+                      args=(ident,), use_container_width=True)
         if r["doc_url"]:
             if st.button("🔎 Find my words inside", key=f"f{uid}{key}", use_container_width=True):
                 ss.open_doc = None if ss.open_doc == key else key
@@ -263,6 +464,19 @@ def render_result(r, uid, saved_copy=True, query=None):
                 out.append(html.escape(text[last:]))
                 tag = f'<div class="pg">PAGE {pno}</div>' if pno else ""
                 st.markdown(f'<div class="passage">{tag}…{"".join(out)}…</div>', unsafe_allow_html=True)
+            if p["hits"] and tr.looks_foreign(" ".join(t for _pg, t, _m in p["hits"][:6])) and tr.provider_label():
+                if st.button(f"🌐 Translate these passages to English ({tr.provider_label()})", key=f"t{uid}{key}",
+                             use_container_width=True):
+                    ss.tr_doc = key
+                if ss.get("tr_doc") == key:
+                    joined = "\n\n".join(t for _pg, t, _m in p["hits"][:12])
+                    try:
+                        text, lang = cached_translation(joined, tr.active_provider(), APP_CODE_VERSION)
+                        st.markdown(f'<div class="passage"><div class="pg">MACHINE TRANSLATION'
+                                    f'{" FROM " + html.escape(lang.upper()) if lang else ""}</div>'
+                                    f'{html.escape(text).replace(chr(10), "<br>")}</div>', unsafe_allow_html=True)
+                    except Exception as e:
+                        st.caption(f"Translation didn't work just now ({type(e).__name__}).")
             if p.get("followed"):
                 st.link_button("Open the PDF these came from", p["read_url"])
 
@@ -437,7 +651,11 @@ with tab_search:
 
     # ── Results ──────────────────────────────────────────────────────────────────
     results, status = ss.results, ss.status
+    st.markdown('<div id="results-anchor"></div>', unsafe_allow_html=True)
     if status:
+        show_trail("res")
+        if ss.pop("scroll_results", False):
+            _scroll("#results-anchor")
         st.button("🏠  Back to home", key="home-top", on_click=_go_home, use_container_width=True)
         ok = [f"{n} {c}" for n, c in status.items() if isinstance(c, int)]
         bad = [n for n, c in status.items() if not isinstance(c, int)]
@@ -468,6 +686,8 @@ with tab_search:
     links = [b for b in BROWSER_ONLY if not (b[0].startswith("National Archives") and "National Archives" in SOURCES)]
     for j, (name, tpl, home) in enumerate(links):
         c[j % 2].link_button(name, tpl.replace("{q}", term) if term else home, use_container_width=True)
+    st.caption("🌐 **Site not in English?** iPhone Safari: tap **aA** in the address bar, then **Translate to English**. "
+               "Chrome: tap the translate icon in the address bar.")
 
 
 # ── Explore: browse by topic ──────────────────────────────────────────────────
@@ -512,7 +732,9 @@ with tab_explore:
 with tab_ancient:
     st.markdown('<div class="anc-intro"><b>Long before the CIA</b>, kings ran spies, read intelligence '
                 'reports, put plotters on trial and investigated corruption, on clay, papyrus, wood and lead. '
-                'These are real ones, and every quote comes from the scholars who published them.</div>', unsafe_allow_html=True)
+                'These are real ones, and every quote comes from the scholars who published them. The originals are '
+                'in ancient scripts (cuneiform, hieratic, Latin cursive) that no translation app can read, so the '
+                'source pages often show only the original or catalog details.</div>', unsafe_allow_html=True)
     for i, item in enumerate(ANCIENT):
         img = None
         if item["met_id"]:
@@ -526,6 +748,9 @@ with tab_ancient:
             f'<div class="anc-card">{pic}<div class="anc-where">{html.escape(item["where"])}</div>'
             f'<div class="anc-title">{html.escape(item["title"])}</div>'
             f'<div class="anc-what">{html.escape(item["what"])}</div>{quote}'
+            + (f'<div class="anc-lang">Original: {html.escape(item["lang"])}'
+               f'{" · English translation by the scholars who published it" if item["quote"] else ""}</div>'
+               if item.get("lang") else "") +
             f'<a class="anc-src" href="{html.escape(item["url"])}" target="_blank">{html.escape(item["source"])} ↗</a></div>',
             unsafe_allow_html=True)
     if st.button("🏺 Show more ancient tablets from the Met Museum", key="metmore", use_container_width=True):

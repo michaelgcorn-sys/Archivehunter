@@ -8,7 +8,7 @@ documents live from the CIA reading room mirror, so those titles are the CIA's o
 
 import requests
 
-CATALOG_VERSION = 43   # keep in step with APP_CODE_VERSION in app.py
+CATALOG_VERSION = 44   # keep in step with APP_CODE_VERSION in app.py
 
 from sources import HEADERS, _res
 
@@ -92,6 +92,7 @@ TEASERS = {
 ANCIENT = [
     {
         "title": "The Harem Conspiracy: a plot to kill Pharaoh",
+        "lang": "Ancient Egyptian, in hieratic script on papyrus",
         "where": "Egypt · reign of Ramesses III, about 1155 BC · papyrus court record",
         "what": "Trial record of the conspirators who plotted to murder Ramesses III. A queen, Tiye, worked "
                 "with harem women and palace officials to put her son Pentaweret on the throne. Scans of the "
@@ -104,6 +105,7 @@ ANCIENT = [
     },
     {
         "title": "The tomb-robbery investigation",
+        "lang": "Ancient Egyptian, in hieratic script on papyrus",
         "where": "Thebes, Egypt · 20th Dynasty, about 1110 BC · papyrus",
         "what": "Official inquiry into the looting of royal tombs, in which two rival officials of Thebes "
                 "traded accusations over who was protecting the robbers. A 3,000-year-old corruption probe.",
@@ -114,6 +116,7 @@ ANCIENT = [
     },
     {
         "title": "A Roman curse on a cloak thief",
+        "lang": "Latin, scratched into lead",
         "where": "Bath, Roman Britain · AD 100s–300s · lead tablet thrown into the sacred spring",
         "what": "A victim of theft asks the goddess to punish whoever stole a hooded cloak. More than 100 of "
                 "these curse tablets were found in the spring at Bath.",
@@ -125,6 +128,7 @@ ANCIENT = [
     },
     {
         "title": "A Coup d’État in Urartu",
+        "lang": "Neo-Assyrian Akkadian, in cuneiform on clay",
         "where": "Assyria · reign of Sargon II, 8th century BC · clay tablet",
         "what": "An intelligence report to the Assyrian king on a palace coup in the rival kingdom of Urartu.",
         "quote": "His magnates surrounded him… and killed him. The right-hand commander-in-chief, of the family "
@@ -135,6 +139,7 @@ ANCIENT = [
     },
     {
         "title": "A Roman officer sizes up the Britons",
+        "lang": "Latin, handwritten in ink on wood",
         "where": "Vindolanda fort, Roman Britain · about AD 92 · ink on a wooden tablet",
         "what": "A Roman military memo on how the local Britons fight, using the mocking word “Brittunculi,” "
                 "“little Brits.”",
@@ -146,6 +151,7 @@ ANCIENT = [
     },
     {
         "title": "Gezer begs Pharaoh for help",
+        "lang": "Akkadian (the diplomatic language of the day), in cuneiform on clay",
         "where": "Canaan · Amarna period, 14th century BC · clay tablet",
         "what": "Yapahu, ruler of Gezer, asks the Egyptian king for military help against raiders called the "
                 "Habiru.",
@@ -156,6 +162,7 @@ ANCIENT = [
     },
     {
         "title": "Assyria writes to Egypt",
+        "lang": "Akkadian, in cuneiform on clay",
         "where": "Assyria to Egypt · about 1347–1330 BC · clay tablet",
         "what": "Royal letter from Ashur-uballit, King of Assyria, to the King of Egypt, written in the "
                 "diplomatic language of the age.",
@@ -166,6 +173,7 @@ ANCIENT = [
     },
     {
         "title": "A report from Tyre",
+        "lang": "Akkadian, in cuneiform on clay",
         "where": "Tyre to Egypt · about 1347–1330 BC · unfired clay tablet",
         "what": "Royal letter from Abi-milku, ruler of the port city of Tyre, to the King of Egypt.",
         "quote": None,

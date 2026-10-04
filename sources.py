@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 43
+CODE_VERSION = 44
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -790,6 +790,22 @@ def _fetch_page(url):
     return html_text.encode("utf-8"), "text/html", url
 
 
+_OCR_LANGS = None
+
+
+def _ocr_langs():
+    """English, plus German when its language pack is installed (Stasi and other German files)."""
+    global _OCR_LANGS
+    if _OCR_LANGS is None:
+        try:
+            import pytesseract
+            have = set(pytesseract.get_languages(config=""))
+            _OCR_LANGS = "+".join(l for l in ("eng", "deu") if l in have) or "eng"
+        except Exception:
+            _OCR_LANGS = "eng"
+    return _OCR_LANGS
+
+
 def _ocr_pages(data):
     """Render each PDF page to an image and read it with Tesseract."""
     import time
@@ -801,7 +817,7 @@ def _ocr_pages(data):
         if time.time() - start > OCR_TIME_BUDGET:
             break
         img = pdf[i].render(scale=2.2).to_pil().convert("L")
-        yield i + 1, pytesseract.image_to_string(img)
+        yield i + 1, pytesseract.image_to_string(img, lang=_ocr_langs())
 
 
 def find_passages(url: str, query: str, width: int = 240, max_hits: int = 30, ocr: bool = False):
