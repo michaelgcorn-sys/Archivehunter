@@ -10,7 +10,7 @@ Works on the Internet Archive's mirror of the CIA reading room (collection "ciar
 
 import re
 
-MODULE_VERSION = 45   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 46   # keep in step with APP_CODE_VERSION in app.py
 from collections import Counter
 
 from sources import _get, clean, search_cia, strip_release_stamp, text_quality
@@ -37,6 +37,7 @@ KNOWN_CODEWORDS = [
     "MONGOOSE", "ZAPATA", "PBSUCCESS", "PBFORTUNE", "TPAJAX", "HTLINGUAL", "KUBARK", "PHOENIX",
     "AMLASH", "ZRRIFLE", "VENONA", "NORTHWOODS", "ABLE ARCHER", "BLACKSHIELD", "SKYLARK", "TALENT",
     "RAINBOW", "TACKSMAN", "JENNIFER", "MOCKINGBIRD", "PAPERCLIP", "BLUE BOOK", "GRUDGE", "SIGN",
+    "REMOTE VIEWING", "COINTELPRO", "INSCOM",
 ]
 _KNOWN_WEAK = {"TALENT", "RAINBOW", "SIGN", "CHAOS", "PHOENIX", "JENNIFER", "GRUDGE", "SKYLARK"}  # common words too
 
@@ -49,7 +50,7 @@ PLACES = [
     "Angola", "Libya", "Algeria", "Poland", "Warsaw", "Hungary", "Budapest", "Czechoslovakia", "Prague",
     "Yugoslavia", "Albania", "Romania", "Bulgaria", "Greece", "Italy", "Rome", "France", "Paris", "London",
     "Vienna", "Geneva", "Tibet", "Mongolia", "Area 51", "Groom Lake", "Nevada", "Los Alamos", "Langley",
-    "Pentagon", "Dallas", "Roswell", "Guantanamo",
+    "Pentagon", "Dallas", "Roswell", "Guantanamo", "Fort Meade", "Fort Detrick",
 ]
 
 _TITLES = r"(?:Mr|Mrs|Miss|Dr|Gen|General|Col|Colonel|Maj|Major|Capt|Captain|Adm|Admiral|Ambassador|President|" \
@@ -65,6 +66,9 @@ REPORT REPORTS SUMMARY DRAFT FILE FILES COPIES NUMBER UNITED STATES GOVERNMENT A
 DOCUMENT DOCUMENTS RECORD RECORDS INFORMATION ADMINISTRATIVE OFFICER OFFICERS OPERATIONAL OPERATIONS
 REQUIREMENTS REQUEST LETTER LIST STATUS GENERAL SPECIAL SERVICE SERVICES PERSONNEL SUPPORT COMMITTEE
 MEETING MINUTES PLAN PLANS POLICY STUDY ANALYSIS ESTIMATE INTELLIGENCE INFORMATION AIRGRAM DISPATCH TELEGRAM
+SESSION SESSIONS NATIONAL NATIONALS REMOTE VIEWING VIEWER VIEWERS TARGET TARGETS AREA AREAS RESULT RESULTS
+SOURCE SOURCES SUBJECTS TRANSCRIPT INTERVIEW QUESTION ANSWER COMMENTS DESCRIPTION IMPRESSIONS PERCEPTIONS
+CIA FBI NSA DIA DOD USA USAF ARMY
 THE AND FOR WITH THAT THIS WHICH WILL HAVE BEEN FROM WERE THEY THEIR THERE ALSO OTHER INTO UPON SUCH
 THAN THEN THESE THOSE WOULD SHOULD COULD ABOUT AFTER BEFORE BEING UNDER OVER SOME MORE MOST MUST
 ONLY VERY WHEN WHERE WHAT WHO WHOM WHOSE ANY ALL EACH BOTH SAID SAME HAS HAD NOT ARE WAS ITS
@@ -135,12 +139,17 @@ def extract_terms(text, title="", limit=10):
 
     # 4. Other ALL-CAPS names in mixed-case text (codewords, acronyms, operation names)
     if upper_ratio < 0.6:
-        caps = [w for w in re.findall(r"\b[A-Z][A-Z-]{3,14}\b", body) if w not in _STOP and _plausible_word(w)]
+        caps = [w for w in re.findall(r"\b[A-Z][A-Z]{3,14}\b(?!-)", body)          # whole words, not "CIA-" fragments
+                if w not in _STOP and _plausible_word(w)]
         title_words = set(re.findall(r"\b[A-Z][A-Z-]{3,14}\b", title or ""))
         for w, n in Counter(caps).most_common(8):
             if n - (1 if w in title_words else 0) >= 2:      # must recur in the body, not just the title
                 add(w, "name")
 
+    # drop single words that are part of a longer codeword already found (GRILL, FLAME of GRILL FLAME)
+    multi = {w for t, k in found if k == "codeword" and " " in t for w in t.split()}
+    found = [(t, k) for t, k in found if not (k != "codeword" and t.upper() in multi)
+             and not (k == "codeword" and " " not in t and t in multi)]
     order = {"codeword": 0, "person": 1, "place": 2, "name": 3}
     return sorted(found, key=lambda t: order[t[1]])[:limit]
 

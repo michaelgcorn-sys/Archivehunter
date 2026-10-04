@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 45
+APP_CODE_VERSION = 46
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -22,12 +22,13 @@ import catalog
 if getattr(catalog, "CATALOG_VERSION", None) != APP_CODE_VERSION:
     catalog = importlib.reload(catalog)   # same stale-module problem for catalog.py
 import dossier as dossier_mod
+import explainers
 import translate as tr
-for _m in (dossier_mod, tr):
+for _m in (dossier_mod, explainers, tr):
     if getattr(_m, "MODULE_VERSION", None) != APP_CODE_VERSION:
         importlib.reload(_m)
 
-from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url,
+from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url, search_gwu,
                      pdb_on_this_day, search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
 from catalog import ANCIENT, CATEGORIES, CORPORATE, PICKS, TEASERS, met_gallery, met_image
 from dossier import folder_neighbors, ident_from_url, is_cia_ident, load_dossier
@@ -93,6 +94,14 @@ st.markdown("""
 [class*="st-key-dos-near"] button p{font-size:.88rem}
 .st-key-dos-top{justify-content:space-between}
 .st-key-dos-top button p{color:#c8a96e}
+[class*="-explainer"]{border-color:#5a6b7d!important;background:#15191e}
+.exp-head{font:700 .74rem 'Courier New',monospace;letter-spacing:.14em;color:#9fb3c8;margin-bottom:.35rem}
+.exp-text{font-family:Georgia,'Times New Roman',serif;font-size:.95rem;line-height:1.55;color:#e3e8ee}
+.exp-src{font-size:.76rem;opacity:.7;margin:.35rem 0 .2rem}
+.exp-src a{color:#9fb3c8!important}
+.exp-sub{font:700 .64rem 'Courier New',monospace;letter-spacing:.12em;color:#9fb3c8;margin:.6rem 0 .2rem}
+.exp-links{display:flex;flex-direction:column;gap:.3rem}
+.exp-link{font-size:.86rem;color:#dfe6ee!important;text-decoration:none;border-left:2px solid #5a6b7d;padding-left:.5rem}
 .which{font-size:1.17rem;line-height:1.4;opacity:.9;margin:.5rem 0 .4rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
@@ -133,7 +142,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 45 · updated Oct 4, 2026</div>
+<div class="ver">Version 46 · updated Oct 4, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -214,6 +223,47 @@ def cached_neighbors(ident, v=APP_CODE_VERSION):
 @st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=500)
 def cached_translation(text, provider, v=APP_CODE_VERSION):
     return tr.translate(text)
+
+
+@st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=200)
+def cached_wiki(article, v=APP_CODE_VERSION):
+    return explainers.wiki_summary(article)
+
+
+@st.cache_data(ttl=24 * 3600, show_spinner=False, max_entries=200)
+def cached_briefings(term, v=APP_CODE_VERSION):
+    return search_gwu(term, limit=3)
+
+
+def explainer_card(prog, prefix):
+    """Plain-English background on a program, before the raw documents."""
+    if not prog:
+        return
+    try:
+        w = cached_wiki(prog["article"], APP_CODE_VERSION)
+    except Exception:
+        w = None
+    try:
+        briefs = cached_briefings(prog["term"].title() if len(prog["term"]) > 4 else prog["term"], APP_CODE_VERSION)
+    except Exception:
+        briefs = []
+    if not w and not briefs:
+        return
+    with st.container(border=True, key=f"{prefix}-explainer"):
+        st.markdown(f'<div class="exp-head">📖 WHAT WAS {html.escape(prog["name"].upper())}?</div>', unsafe_allow_html=True)
+        if w:
+            text = w["extract"]
+            if len(text) > 700:
+                text = text[:700].rsplit(". ", 1)[0] + "."
+            st.markdown(f'<div class="exp-text">{html.escape(text)}</div>'
+                        f'<div class="exp-src">Background from Wikipedia · <a href="{html.escape(w["url"])}" '
+                        f'target="_blank">Read the full article ↗</a></div>', unsafe_allow_html=True)
+        if briefs:
+            st.markdown('<div class="exp-sub">EXPERT BRIEFINGS · National Security Archive (historians at GWU)</div>',
+                        unsafe_allow_html=True)
+            rows = "".join(f'<a class="exp-link" href="{html.escape(b["url"])}" target="_blank">'
+                           f'{html.escape(b["title"][:110])} ↗</a>' for b in briefs[:3])
+            st.markdown(f'<div class="exp-links">{rows}</div>', unsafe_allow_html=True)
 
 
 def _scroll(selector=None):
@@ -309,6 +359,9 @@ def render_dossier(ident):
             st.markdown(f'<div class="links"><a href="{html.escape(d["view"])}" target="_blank">📄 Read the full document ↗</a> '
                         f'<a href="{html.escape(d["pdf"])}" target="_blank">⬇ PDF</a></div>', unsafe_allow_html=True)
 
+        codewords = " ".join(t for t, k in d["terms"] if k == "codeword")
+        explainer_card(explainers.find_program(d["title"]) or explainers.find_program(codewords), "dos")
+
         sample = (d["text"] or "")[:3000]
         if d.get("readable", True) and tr.looks_foreign(sample):
             label = tr.provider_label()
@@ -349,9 +402,10 @@ def render_dossier(ident):
                           on_click=open_dossier, args=(ident_from_url(r["url"]),), use_container_width=True,
                           type="tertiary")
 
-        st.markdown('<div class="sect">🔗 SHARE THIS DOCUMENT</div>', unsafe_allow_html=True)
-        st.code(share_url(ident), language=None, wrap_lines=True)
-        st.caption("Copy this link. It opens straight to this dossier (for people you've invited to the app).")
+        with st.expander("🔗 Send this document to someone"):
+            st.code(share_url(ident), language=None, wrap_lines=True)
+            st.caption("Copy this link and text or email it. It opens straight to this document in Archive Hunter "
+                       "(they need to be invited to the app).")
     if ss.pop("scroll_top", False):
         _scroll()
 
@@ -664,6 +718,7 @@ with tab_search:
         st.caption(f"**{len(results)} results** for “{ss.query}” · " + " · ".join(ok)
                    + (f"  \n⚠️ No answer from: {', '.join(bad)}" if bad else ""))
 
+        explainer_card(explainers.find_program(ss.query), "res")
         have = sorted({r["source"] for r in results})
         only = st.pills("Show", ["All"] + have, default="All", label_visibility="collapsed") or "All"
         shown = [r for r in results if only == "All" or r["source"] == only]
