@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 49
+APP_CODE_VERSION = 50
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -162,7 +162,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 49 · updated Oct 4, 2026</div>
+<div class="ver">Version 50 · updated Oct 4, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -716,7 +716,7 @@ with tab_search:
     chosen = ss.chosen
 
     if go and q.strip():
-        ss.query = q.strip()
+        ss.query = sources.normalize_query(q)
         ss.open_doc = None
         with st.spinner(f"Searching {len(chosen)} archives at once…"):
             ss.results, ss.status = cached_search(ss.query, tuple(chosen), APP_CODE_VERSION)
@@ -865,7 +865,7 @@ with tab_corp:
         cq = st.text_input("Search company documents", value=ss.get("corp_q", ""), label_visibility="collapsed",
                            placeholder="Company, product or chemical, e.g. Marlboro, OxyContin, PFOA")
         if st.form_submit_button("Search company documents", type="primary", use_container_width=True):
-            ss.corp_q = cq.strip()
+            ss.corp_q = sources.normalize_query(cq)
     if ss.get("corp_q"):
         q = ss.corp_q
         with st.spinner("Searching the industry documents archive…"):

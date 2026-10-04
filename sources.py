@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 49
+CODE_VERSION = 50
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -775,7 +775,17 @@ SOURCE_WEIGHT = {"CIA": 3, "FBI Vault": 3, "GWU Natl Security Archive": 3, "Blac
 # Search everything + rank
 # ════════════════════════════════════════════════════════════════════════════
 
+_QUOTES = str.maketrans({"\u201c": '"', "\u201d": '"', "\u201e": '"', "\u201f": '"', "\u2033": '"',
+                         "\u00ab": '"', "\u00bb": '"', "\u2018": "'", "\u2019": "'"})
+
+
+def normalize_query(q: str) -> str:
+    """Phones type curly “smart quotes”; treat them as plain quotes so exact phrases work everywhere."""
+    return (q or "").translate(_QUOTES).strip()
+
+
 def terms_of(q: str) -> list[str]:
+    q = normalize_query(q)
     phrases = re.findall(r'"([^"]+)"', q)
     rest = re.sub(r'"[^"]+"', " ", q)
     words = [w for w in re.findall(r"[\w'-]+", rest) if len(w) > 2 or w.isdigit()]
@@ -805,6 +815,7 @@ SINK = {"Internet Archive": 1, "Library of Congress": 2}
 
 def search_all(q: str, names: list[str]):
     """Returns (ranked results, {source: count or error string})."""
+    q = normalize_query(q)
     results, status = [], {}
     with ThreadPoolExecutor(max_workers=len(names) or 1) as ex:
         futs = {ex.submit(SOURCES[n], q): n for n in names}
