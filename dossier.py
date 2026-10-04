@@ -10,10 +10,10 @@ Works on the Internet Archive's mirror of the CIA reading room (collection "ciar
 
 import re
 
-MODULE_VERSION = 48   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 49   # keep in step with APP_CODE_VERSION in app.py
 from collections import Counter
 
-from sources import _get, clean, search_cia, strip_release_stamp, text_quality
+from sources import _BRIEF_TITLE, _get, brief_topics, clean, search_cia, strip_release_stamp, text_quality
 
 IDENT_RE = re.compile(r"^cia-readingroom-document-[a-z0-9-]{4,60}$")
 
@@ -188,11 +188,13 @@ def load_dossier(ident):
         text = _get(files + "_djvu.txt", timeout=25).text[:300_000]
     except Exception:
         text = desc
+    is_brief = bool(_BRIEF_TITLE.search(title))
     return {
+        "brief_topics": brief_topics(text, 8) if is_brief else [],
         "ident": ident, "doc_id": doc_id.upper(), "title": title, "date": str(one(meta.get("date")))[:10],
         "thumb": f"https://archive.org/services/img/{ident}",
         "view": f"https://archive.org/details/{ident}", "pdf": files + ".pdf", "txt": files + "_djvu.txt",
-        "excerpt": desc[:600] if text_quality(desc[:600]) >= 0.85 else "",   # hide garbled scan text
+        "excerpt": "" if is_brief else (desc[:600] if text_quality(desc[:600]) >= 0.85 else ""),  # hide garbled text
         "readable": text_quality(strip_release_stamp(text[:3000])) >= 0.85,
         "text": text,
         "terms": extract_terms(text, title),

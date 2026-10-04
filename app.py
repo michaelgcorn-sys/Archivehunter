@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 48
+APP_CODE_VERSION = 49
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -162,7 +162,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 48 · updated Oct 4, 2026</div>
+<div class="ver">Version 49 · updated Oct 4, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -371,7 +371,9 @@ def render_dossier(ident):
         with c2:
             st.markdown(f'<div class="dos-title">{html.escape(d["title"])}</div>'
                         f'<div class="meta">CIA · {html.escape(d["date"] or "date unknown")}</div>'
-                        + (f'<div class="dos-ex">“{html.escape(d["excerpt"][:320])}…”'
+                        + (f'<div class="dos-ex"><b>In this brief:</b> {html.escape(" · ".join(d["brief_topics"]))}</div>'
+                           if d.get("brief_topics") else
+                           f'<div class="dos-ex">“{html.escape(d["excerpt"][:320])}…”'
                            f'<span> · from the first page</span></div>' if d["excerpt"] else
                            '<div class="dos-ex"><span>This is an old scan and its text is too faded for the computer '
                            'to read cleanly, so there\'s no quote here. Tap the page picture to read the original.</span></div>'),

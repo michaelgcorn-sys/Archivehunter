@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 48
+CODE_VERSION = 49
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -73,6 +73,45 @@ def strip_release_stamp(text):
     t = re.sub(r"(Declassified in Part - )?(Sanitized Copy )?Approved For Release\s*[\d/ :.-]*\s*:?\s*(CIA-RDP\S+)?",
                " ", text or "", flags=re.I)
     return re.sub(r"\s+", " ", t).strip()
+
+
+# Countries and regions that show up in intelligence briefs (used to summarize what a brief covers)
+BRIEF_PLACES = [
+    "Soviet Union", "USSR", "China", "Vietnam", "North Vietnam", "South Vietnam", "Laos", "Cambodia", "Thailand",
+    "Burma", "Korea", "North Korea", "South Korea", "Japan", "Taiwan", "Philippines", "Indonesia", "Malaysia",
+    "India", "Pakistan", "Bangladesh", "Sri Lanka", "Afghanistan", "Iran", "Iraq", "Syria", "Lebanon", "Israel",
+    "Jordan", "Egypt", "Saudi Arabia", "Yemen", "Kuwait", "Libya", "Algeria", "Morocco", "Tunisia", "Sudan",
+    "Ethiopia", "Somalia", "Kenya", "Uganda", "Tanzania", "Congo", "Zaire", "Angola", "Mozambique", "Rhodesia",
+    "South Africa", "Nigeria", "Ghana", "Cuba", "Dominican Republic", "Haiti", "Panama", "Nicaragua", "Guatemala",
+    "Honduras", "El Salvador", "Mexico", "Chile", "Peru", "Bolivia", "Argentina", "Brazil", "Uruguay", "Venezuela",
+    "Colombia", "Ecuador", "Canada", "United Kingdom", "Britain", "Northern Ireland", "Ireland", "France",
+    "West Germany", "East Germany", "Berlin", "Italy", "Spain", "Portugal", "Greece", "Turkey", "Cyprus",
+    "Yugoslavia", "Albania", "Romania", "Bulgaria", "Hungary", "Czechoslovakia", "Poland", "Austria",
+    "Switzerland", "Netherlands", "Belgium", "Denmark", "Norway", "Sweden", "Finland", "Iceland", "NATO",
+    "Middle East", "Western Europe", "Eastern Europe", "Latin America", "Persian Gulf", "Suez",
+]
+
+
+def brief_topics(text, limit=4):
+    """Countries a daily brief covers, in the order its table of contents lists them."""
+    t = text or ""
+    m = re.search(r"table of contents", t, re.I)
+    if m:
+        t = t[m.end():]
+    found = []
+    for pl in BRIEF_PLACES:
+        mm = re.search(r"\b" + re.escape(pl) + r"\b", t)
+        if mm:
+            found.append((mm.start(), pl))
+    names = []
+    for _pos, pl in sorted(found):
+        if any(pl in n or n in pl for n in names):      # skip "Vietnam" after "North Vietnam", etc.
+            continue
+        names.append(pl)
+    return names[:limit]
+
+
+_BRIEF_TITLE = re.compile(r"president'?s (daily brief|intelligence checklist)", re.I)
 
 
 def _res(source, title, url, date="", kind="", snippet="", doc_url=None, file_url=None):
@@ -286,8 +325,13 @@ def search_cia(q, limit=15, page=1, sort=None):
                 body = ""
             title = (body[:90] + ("…" if len(body) > 90 else "")) if body else f"Untitled CIA document {doc_id.upper()}"
         files = f"https://archive.org/download/{ident}/{doc_id}"
+        kind = f"CIA document {doc_id.upper()}"
+        if _BRIEF_TITLE.search(title):          # daily briefs: a clean list of countries, not the cover page
+            kind = "President's Daily Brief" if "brief" in title.lower() else "President's Intelligence Checklist"
+            topics = brief_topics(raw_desc)
+            desc = ("In this brief: " + " · ".join(topics)) if topics else ""
         out.append(_res("CIA", title, f"https://archive.org/details/{ident}", date=d.get("date"),
-                        kind=f"CIA document {doc_id.upper()}", snippet=desc,
+                        kind=kind, snippet=desc,
                         doc_url=files + "_djvu.txt", file_url=files + ".pdf"))
     return out
 
