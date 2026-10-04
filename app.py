@@ -5,6 +5,7 @@ Run locally:  streamlit run app.py
 
 import html
 import random
+import re
 import urllib.parse
 
 import streamlit as st
@@ -13,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 40
+APP_CODE_VERSION = 41
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -22,7 +23,7 @@ if getattr(catalog, "CATALOG_VERSION", None) != APP_CODE_VERSION:
     catalog = importlib.reload(catalog)   # same stale-module problem for catalog.py
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url,
-                     search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
+                     pdb_on_this_day, search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
 from catalog import ANCIENT, CATEGORIES, CORPORATE, PICKS, TEASERS, met_gallery, met_image
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
@@ -109,7 +110,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 40 · updated Oct 3, 2026</div>
+<div class="ver">Version 41 · updated Oct 4, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -172,6 +173,11 @@ def cached_cia(q, v=APP_CODE_VERSION):
 @st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=80)
 def cached_pdb(day, v=APP_CODE_VERSION):
     return search_pdb(day)
+
+
+@st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=10)
+def cached_this_day(month, day, v=APP_CODE_VERSION):
+    return pdb_on_this_day(month, day)
 
 
 @st.cache_data(ttl=3600, show_spinner=False, max_entries=40)
@@ -333,6 +339,44 @@ def pdb_block():
         render_result(r, f"pdb{i}", query=None)
 
 
+def _brief_date(r):
+    """Full date from a brief's title ("... DAILY BRIEF 4 OCTOBER 1966"), or None."""
+    from datetime import datetime
+    m = re.search(r"(\d{1,2})\s+([A-Z]{3})[A-Z]*\.?,?\s+(\d{4})", r["title"].upper())
+    try:
+        return datetime.strptime(f"{m[1]} {m[2]} {m[3]}", "%d %b %Y").date() if m else None
+    except ValueError:
+        return None
+
+
+def _open_pdb_at(d):
+    ss.topic = TOPIC_LABELS[[c[0] for c in CATEGORIES].index("Presidential Daily Briefs")]
+    if d:
+        ss.pdb_day = d
+    ss.main_tabs = TAB_EXPLORE
+
+
+def on_this_day_card():
+    """Home-page card: the President's Daily Brief from today's date in a past year."""
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    today = datetime.now(ZoneInfo("America/New_York")).date()
+    try:
+        briefs = cached_this_day(today.month, today.day, APP_CODE_VERSION)
+    except Exception:
+        return
+    if not briefs:
+        return
+    r = random.Random(today.isoformat()).choice(briefs)     # same pick all day, new one tomorrow
+    d = _brief_date(r)
+    yr = d.year if d else (r["date"] or "")
+    st.markdown(f'<div class="sect">📜 ON THIS DAY · {today.strftime("%B %-d").upper()}, {yr}</div>'
+                f'<div class="intro">What the CIA told the president that morning.</div>', unsafe_allow_html=True)
+    render_result(r, "otd", query=None)
+    st.button("📜 Read briefs from other dates", key="otd-more", on_click=_open_pdb_at, args=(d,),
+              use_container_width=True)
+
+
 tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
 
 with tab_search:
@@ -387,6 +431,7 @@ with tab_search:
 
     # ── Deep dives: tiles on the empty front page ──────────────────────────────
     if not ss.status:
+        on_this_day_card()
         st.markdown('<div class="sect">DEEP DIVES · tap a topic</div>', unsafe_allow_html=True)
         topic_tiles("home", with_ancient=True)
 
@@ -412,12 +457,16 @@ with tab_search:
 
     # ── Sites that only work in the browser ──────────────────────────────────────
     st.divider()
-    st.markdown("**Not in the main search** · these archives only work on their own websites. "
-                "Tap one to open it with your search filled in.")
     term = urllib.parse.quote(ss.query or "")
+    if term:
+        st.markdown(f"**Not in the main search** · these archives only work on their own websites. "
+                    f"Tap one to open it with “{html.escape(ss.query)}” filled in (opens in a new tab).")
+    else:
+        st.markdown("**Not in the main search** · these archives only work on their own websites. "
+                    "Tap one to visit it (opens in a new tab). Search first and they open with your words filled in.")
     c = st.columns(2)
-    for j, (name, tpl) in enumerate(BROWSER_ONLY):
-        c[j % 2].link_button(name, tpl.replace("{q}", term), use_container_width=True)
+    for j, (name, tpl, home) in enumerate(BROWSER_ONLY):
+        c[j % 2].link_button(name, tpl.replace("{q}", term) if term else home, use_container_width=True)
 
 
 # ── Explore: browse by topic ──────────────────────────────────────────────────

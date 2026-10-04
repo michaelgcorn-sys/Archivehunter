@@ -22,7 +22,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 40
+CODE_VERSION = 41
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -271,6 +271,38 @@ def search_pdb(day, window=4, limit=12, widen=(30, 120)):
                 pass
         return 10 ** 6
     return sorted(res, key=gap)[:limit]
+
+
+def pdb_on_this_day(month, day, limit=60):
+    """Briefs issued on this calendar date in any year of the released run (1961-1977)."""
+    from datetime import date, timedelta
+    days = []
+    for y in range(int(PDB_FIRST[:4]), int(PDB_LAST[:4]) + 1):
+        try:
+            d = date(y, month, day)
+        except ValueError:          # Feb 29 in a non-leap year
+            continue
+        if PDB_FIRST <= d.isoformat() <= PDB_LAST:
+            # a one-day-wide range, in case the archive stores a time of day with the date
+            days.append(f"date:[{(d - timedelta(days=1)).isoformat()} TO {(d + timedelta(days=1)).isoformat()}]")
+    if not days:
+        return []
+    res = search_cia(f"{PDB_QUERY} AND ({' OR '.join(days)})", limit=limit, sort="date asc")
+    keep = []
+    for r in res:                   # confirm the exact day from the brief's own title when it has one
+        m = re.search(r"(\d{1,2})\s+([A-Z]{3})[A-Z]*\.?,?\s+(\d{4})", r["title"].upper())
+        if not m:
+            keep.append(r)
+            continue
+        try:
+            from datetime import datetime
+            t = datetime.strptime(f"{m[1]} {m[2]} {m[3]}", "%d %b %Y").date()
+        except ValueError:
+            keep.append(r)
+            continue
+        if (t.month, t.day) == (month, day):
+            keep.append(r)
+    return keep
 
 
 def diagnose_cia(q="MKUltra"):
@@ -784,18 +816,29 @@ def _hits_in(text, terms):
 
 
 # Sites with no usable search from a server — opened in the browser instead.
+# (name, search address with {q}, front page used when nothing has been searched yet)
 BROWSER_ONLY = [
-    ("The Black Vault", "https://www.google.com/search?q=site%3Atheblackvault.com+{q}"),
-    ("MuckRock FOIA requests", "https://www.google.com/search?q=site%3Amuckrock.com+{q}"),
-    ("NSA declassified releases", "https://www.google.com/search?q=site%3Ansa.gov+declassified+{q}"),
-    ("NRO spy satellite files", "https://www.google.com/search?q=site%3Anro.gov+declassified+{q}"),
-    ("Wilson Center (Soviet & Cold War files)", "https://www.google.com/search?q=site%3Adigitalarchive.wilsoncenter.org+{q}"),
-    ("National Archives (JFK, RFK, MLK)", "https://catalog.archives.gov/search?q={q}"),
-    ("Mary Ferrell Foundation", "https://www.google.com/search?q=site%3Amaryferrell.org+{q}"),
-    ("WAR.GOV UFO files", "https://www.war.gov/ufo/"),
-    ("State Dept FOIA", "https://www.google.com/search?q=site%3Afoia.state.gov+{q}"),
-    ("Stasi files (East Germany, mostly in German)", "https://www.google.com/search?q=site%3Astasi-mediathek.de+{q}"),
-    ("FilesDropped", "https://www.google.com/search?q=site%3Afilesdropped.com+{q}"),
+    ("The Black Vault", "https://www.google.com/search?q=site%3Atheblackvault.com+{q}",
+     "https://www.theblackvault.com/documentarchive/"),
+    ("MuckRock FOIA requests", "https://www.google.com/search?q=site%3Amuckrock.com+{q}",
+     "https://www.muckrock.com/"),
+    ("NSA declassified releases", "https://www.google.com/search?q=site%3Ansa.gov+declassified+{q}",
+     "https://www.nsa.gov/Helpful-Links/NSA-FOIA/Declassification-Transparency-Initiatives/Historical-Releases/"),
+    ("NRO spy satellite files", "https://www.google.com/search?q=site%3Anro.gov+declassified+{q}",
+     "https://www.nro.gov/foia-home/foia-declassified-nro-programs-and-projects/"),
+    ("Wilson Center (Soviet & Cold War files)", "https://www.google.com/search?q=site%3Adigitalarchive.wilsoncenter.org+{q}",
+     "https://digitalarchive.wilsoncenter.org/"),
+    ("National Archives (JFK, RFK, MLK)", "https://catalog.archives.gov/search?q={q}",
+     "https://catalog.archives.gov/"),
+    ("Mary Ferrell Foundation", "https://www.google.com/search?q=site%3Amaryferrell.org+{q}",
+     "https://www.maryferrell.org/"),
+    ("WAR.GOV UFO files", "https://www.war.gov/ufo/", "https://www.war.gov/ufo/"),
+    ("State Dept FOIA", "https://www.google.com/search?q=site%3Afoia.state.gov+{q}",
+     "https://foia.state.gov/"),
+    ("Stasi files (East Germany, mostly in German)", "https://www.google.com/search?q=site%3Astasi-mediathek.de+{q}",
+     "https://www.stasi-mediathek.de/"),
+    ("FilesDropped", "https://www.google.com/search?q=site%3Afilesdropped.com+{q}",
+     "https://filesdropped.com/"),
 ]
 
 TEST_QUERIES = {"CIA": "MKUltra", "FBI Vault": "Roswell", "GWU Natl Security Archive": "MKUltra",
