@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 46
+CODE_VERSION = 47
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -755,7 +755,8 @@ LOOSE_SOURCES = {"Library of Congress", "Internet Archive", "Wikimedia Commons",
                  "National Archives", "NSA", "NRO", "State Dept FOIA", "War Dept (war.gov)", "Wilson Center"}
 
 
-LAST_SOURCES = {"Library of Congress"}
+# Mostly published books: useful leads, not primary sources. Higher number = further down.
+SINK = {"Internet Archive": 1, "Library of Congress": 2}
 
 
 def search_all(q: str, names: list[str]):
@@ -785,9 +786,8 @@ def search_all(q: str, names: list[str]):
     for r in hidden:
         if isinstance(status.get(r["source"]), int):
             status[r["source"]] -= 1
-    # Library of Congress hits are mostly published books: useful leads, not primary sources.
-    # They always go last, after every government record, however well they match.
-    results.sort(key=lambda r: (r["source"] in LAST_SOURCES, -score(r, q)))
+    # Government records first; then Internet Archive; Library of Congress always last.
+    results.sort(key=lambda r: (SINK.get(r["source"], 0), -score(r, q)))
     return results, status
 
 
