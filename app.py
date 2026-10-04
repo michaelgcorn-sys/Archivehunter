@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 50
+APP_CODE_VERSION = 51
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -31,7 +31,7 @@ for _m in (dossier_mod, explainers, tr):
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url, search_gwu,
                      pdb_on_this_day, search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
 from catalog import ANCIENT, CATEGORIES, CORPORATE, PICKS, TEASERS, met_gallery, met_image
-from dossier import folder_neighbors, ident_from_url, is_cia_ident, load_dossier
+from dossier import folder_files, ident_from_url, is_cia_ident, load_dossier
 import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
@@ -122,6 +122,8 @@ st.markdown("""
 @keyframes ah-sweep{to{transform:rotate(360deg)}}
 @keyframes ah-blink{0%{opacity:1}50%{opacity:.25}100%{opacity:1}}
 
+.dos-part{font-size:.82rem;color:#c8a96e;margin:.5rem 0 .3rem}
+.st-key-dos-pn button{min-width:9rem}
 .which{font-size:1.17rem;line-height:1.4;opacity:.9;margin:.5rem 0 .4rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
@@ -162,7 +164,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 50 · updated Oct 4, 2026</div>
+<div class="ver">Version 51 · updated Oct 4, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -236,8 +238,8 @@ def cached_dossier(ident, v=APP_CODE_VERSION):
 
 
 @st.cache_data(ttl=24 * 3600, show_spinner=False, max_entries=200)
-def cached_neighbors(ident, v=APP_CODE_VERSION):
-    return folder_neighbors(ident)
+def cached_folder(ident, v=APP_CODE_VERSION):
+    return folder_files(ident)
 
 
 @st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=500)
@@ -378,8 +380,23 @@ def render_dossier(ident):
                            '<div class="dos-ex"><span>This is an old scan and its text is too faded for the computer '
                            'to read cleanly, so there\'s no quote here. Tap the page picture to read the original.</span></div>'),
                         unsafe_allow_html=True)
-            st.markdown(f'<div class="links"><a href="{html.escape(d["view"])}" target="_blank">📄 Read the full document ↗</a> '
+            st.markdown(f'<div class="links"><a href="{html.escape(d["view"])}" target="_blank">📄 Read this document ↗</a> '
                         f'<a href="{html.escape(d["pdf"])}" target="_blank">⬇ PDF</a></div>', unsafe_allow_html=True)
+
+        try:
+            folder = cached_folder(ident, APP_CODE_VERSION)
+        except Exception:
+            folder = []
+        ids = [ident_from_url(r["url"]) for r in folder]
+        pos = ids.index(ident) if ident in ids else -1
+        if pos >= 0 and len(folder) > 1:
+            st.markdown(f'<div class="dos-part">📑 Part {pos + 1} of {len(folder)} in this CIA file. Long reports were often '
+                        f'scanned as separate documents; page through the rest here.</div>', unsafe_allow_html=True)
+            with st.container(horizontal=True, gap="small", key="dos-pn"):
+                st.button("◀ Previous part", key="dos-prev", disabled=pos == 0,
+                          on_click=open_dossier, args=(ids[pos - 1] if pos > 0 else ident,))
+                st.button("Next part ▶", key="dos-next", type="primary", disabled=pos >= len(folder) - 1,
+                          on_click=open_dossier, args=(ids[pos + 1] if pos < len(folder) - 1 else ident,))
 
         codewords = " ".join(t for t, k in d["terms"] if k == "codeword")
         explainer_card(explainers.find_program(d["title"]) or explainers.find_program(codewords), "dos")
@@ -411,17 +428,12 @@ def render_dossier(ident):
         else:
             st.caption("No clear names or codewords could be read from this scan. Try the documents filed nearby.")
 
-        try:
-            near = cached_neighbors(ident, APP_CODE_VERSION)
-        except Exception:
-            near = []
-        if near:
-            st.markdown('<div class="sect">🗄 FILED NEARBY</div>'
-                        '<div class="intro">Documents numbered next to this one in the same CIA collection.</div>',
-                        unsafe_allow_html=True)
-            for i, r in enumerate(near[:8]):
-                st.button(f"📄 {r['title'][:90]}" + (f"  ·  {r['date'][:4]}" if r["date"] else ""), key=f"dos-near-{i}",
-                          on_click=open_dossier, args=(ident_from_url(r["url"]),), use_container_width=True,
+        others = [(i, r) for i, r in enumerate(folder) if ids[i] != ident]
+        if others:
+            st.markdown(f'<div class="sect">📑 THE REST OF THIS FILE · {len(folder)} documents</div>', unsafe_allow_html=True)
+            for i, r in others[:12]:
+                st.button(f"Part {i + 1} · {r['title'][:85]}" + (f"  ·  {r['date'][:4]}" if r["date"] else ""),
+                          key=f"dos-near-{i}", on_click=open_dossier, args=(ids[i],), use_container_width=True,
                           type="tertiary")
 
         with st.expander("🔗 Send this document to someone"):

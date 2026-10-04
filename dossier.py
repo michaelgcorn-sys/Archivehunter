@@ -10,7 +10,7 @@ Works on the Internet Archive's mirror of the CIA reading room (collection "ciar
 
 import re
 
-MODULE_VERSION = 50   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 51   # keep in step with APP_CODE_VERSION in app.py
 from collections import Counter
 
 from sources import _BRIEF_TITLE, _get, brief_topics, clean, search_cia, strip_release_stamp, text_quality
@@ -155,18 +155,25 @@ def extract_terms(text, title="", limit=10):
 
 
 # ── Folder neighbors ─────────────────────────────────────────────────────────
-# CIA-RDP78B03824A000500020028-0  =  job 78B03824A, then box / folder / document digits.
-_RDP = re.compile(r"^cia-readingroom-document-(cia-rdp\d{2}[a-z]\d{5}[a-z])(\d{12})-\d$")
+# CIA-RDP78B03824A000500020028-0 or CIA-RDP96-00787R000200070001-4:
+#   job number (78B03824A / 96-00787R), then 12 digits for box / folder / document, then a check digit.
+# Long reports were often scanned as several documents with consecutive numbers in the same folder.
+_RDP = re.compile(r"^cia-readingroom-document-(cia-rdp[0-9a-z-]*?[a-z])(\d{12})-\d$")
 
 
-def folder_neighbors(ident, limit=10):
-    """Documents with the same job, box and folder digits: filed next to this one."""
+def folder_files(ident, limit=40):
+    """Every document in the same CIA folder, in filing order (this one included)."""
     m = _RDP.match(ident or "")
     if not m:
         return []
     prefix = f"cia-readingroom-document-{m.group(1)}{m.group(2)[:8]}"
-    res = search_cia(f"identifier:{prefix}*", limit=limit + 1, sort="identifier asc")
-    return [r for r in res if ident_from_url(r["url"]) != ident][:limit]
+    res = search_cia(f"identifier:{prefix}*", limit=limit, sort="identifier asc")
+    return sorted(res, key=lambda r: ident_from_url(r["url"]) or "")
+
+
+def folder_neighbors(ident, limit=10):
+    """Documents filed next to this one (kept for older callers)."""
+    return [r for r in folder_files(ident) if ident_from_url(r["url"]) != ident][:limit]
 
 
 # ── Load everything for one document ─────────────────────────────────────────
