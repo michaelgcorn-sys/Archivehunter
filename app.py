@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 41
+APP_CODE_VERSION = 42
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -110,7 +110,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 41 · updated Oct 4, 2026</div>
+<div class="ver">Version 42 · updated Oct 4, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)

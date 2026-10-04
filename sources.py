@@ -22,7 +22,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 41
+CODE_VERSION = 42
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -424,6 +424,29 @@ def search_doj_epstein(q, limit=10):
     return site_search("justice.gov/epstein", q, "DOJ Epstein Library", "DOJ release", limit, hint="Epstein")
 
 
+# Intelligence and government sites that block direct automated searches (robots.txt or
+# "403 forbidden"), reached the same way as the DOJ library: a search engine's index of that site.
+def search_nsa(q, limit=8):
+    return site_search("nsa.gov", q, "NSA", "NSA release", limit, hint="declassified")
+
+
+def search_nro(q, limit=8):
+    return site_search("nro.gov", q, "NRO", "NRO release", limit, hint="declassified")
+
+
+def search_state_foia(q, limit=8):
+    return site_search("foia.state.gov", q, "State Dept FOIA", "State Dept FOIA release", limit)
+
+
+def search_war_gov(q, limit=8):
+    return site_search("war.gov", q, "War Dept (war.gov)", "Defense Dept page", limit)
+
+
+def search_wilson(q, limit=8):
+    return site_search("digitalarchive.wilsoncenter.org", q, "Wilson Center", "Cold War document", limit,
+                       url_must_match=r"/document/")
+
+
 # ════════════════════════════════════════════════════════════════════════════
 # Libraries, science, media
 # ════════════════════════════════════════════════════════════════════════════
@@ -599,6 +622,11 @@ SOURCES = {
     "FBI Vault": search_fbi,
     "GWU Natl Security Archive": search_gwu,
     "DOJ Epstein Library": search_doj_epstein,
+    "NSA": search_nsa,
+    "NRO": search_nro,
+    "State Dept FOIA": search_state_foia,
+    "War Dept (war.gov)": search_war_gov,
+    "Wilson Center": search_wilson,
     "Internet Archive": search_internet_archive,
     "Library of Congress": search_loc,
     "NASA": search_nasa,
@@ -608,7 +636,8 @@ SOURCES = {
 }
 # Declassified sources rank a little higher when relevance is otherwise equal.
 SOURCE_WEIGHT = {"CIA": 3, "FBI Vault": 3, "GWU Natl Security Archive": 3, "Black Vault": 2,
-                 "DOJ Epstein Library": 2, "MuckRock": 2, "NASA": 1, "Dept of Energy": 1}
+                 "DOJ Epstein Library": 2, "MuckRock": 2,
+                 "NSA": 2, "NRO": 2, "State Dept FOIA": 2, "War Dept (war.gov)": 1, "Wilson Center": 2, "NASA": 1, "Dept of Energy": 1}
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -635,7 +664,8 @@ def score(r, q):
 # Sources whose own search matches loosely (any word, or deep in full text). Their results must
 # show the search in the title or description: every word, or all but one for 4+ word searches.
 LOOSE_SOURCES = {"Library of Congress", "Internet Archive", "Wikimedia Commons", "Dept of Energy",
-                 "DOJ Epstein Library", "NASA", "UK National Archives"}
+                 "DOJ Epstein Library", "NASA", "UK National Archives",
+                 "NSA", "NRO", "State Dept FOIA", "War Dept (war.gov)", "Wilson Center"}
 
 
 def search_all(q: str, names: list[str]):
@@ -822,19 +852,10 @@ BROWSER_ONLY = [
      "https://www.theblackvault.com/documentarchive/"),
     ("MuckRock FOIA requests", "https://www.google.com/search?q=site%3Amuckrock.com+{q}",
      "https://www.muckrock.com/"),
-    ("NSA declassified releases", "https://www.google.com/search?q=site%3Ansa.gov+declassified+{q}",
-     "https://www.nsa.gov/Helpful-Links/NSA-FOIA/Declassification-Transparency-Initiatives/Historical-Releases/"),
-    ("NRO spy satellite files", "https://www.google.com/search?q=site%3Anro.gov+declassified+{q}",
-     "https://www.nro.gov/foia-home/foia-declassified-nro-programs-and-projects/"),
-    ("Wilson Center (Soviet & Cold War files)", "https://www.google.com/search?q=site%3Adigitalarchive.wilsoncenter.org+{q}",
-     "https://digitalarchive.wilsoncenter.org/"),
     ("National Archives (JFK, RFK, MLK)", "https://catalog.archives.gov/search?q={q}",
      "https://catalog.archives.gov/"),
     ("Mary Ferrell Foundation", "https://www.google.com/search?q=site%3Amaryferrell.org+{q}",
      "https://www.maryferrell.org/"),
-    ("WAR.GOV UFO files", "https://www.war.gov/ufo/", "https://www.war.gov/ufo/"),
-    ("State Dept FOIA", "https://www.google.com/search?q=site%3Afoia.state.gov+{q}",
-     "https://foia.state.gov/"),
     ("Stasi files (East Germany, mostly in German)", "https://www.google.com/search?q=site%3Astasi-mediathek.de+{q}",
      "https://www.stasi-mediathek.de/"),
     ("FilesDropped", "https://www.google.com/search?q=site%3Afilesdropped.com+{q}",
@@ -845,7 +866,8 @@ TEST_QUERIES = {"CIA": "MKUltra", "FBI Vault": "Roswell", "GWU Natl Security Arc
                 "Black Vault": "UFO", "DOJ Epstein Library": "Maxwell", "MuckRock": "CIA", "Internet Archive": "Warren Commission",
                 "Library of Congress": "Kennedy", "NASA": "Apollo 11", "Dept of Energy": "Manhattan Project",
                 "Wikimedia Commons": "Apollo 11",
-                "UK National Archives": "Philby"}
+                "UK National Archives": "Philby", "NSA": "VENONA", "NRO": "CORONA",
+                "State Dept FOIA": "Castro", "War Dept (war.gov)": "UAP", "Wilson Center": "Khrushchev"}
 
 
 # ════════════════════════════════════════════════════════════════════════════
