@@ -683,7 +683,7 @@ def topic_tiles(prefix, with_ancient=False):
                       on_click=_open_ancient, width=164, wrap=True)
             st.button("🏢  **Corporate Secrets**\n\nTobacco, opioids, Enron: the memos they hid", key=f"{prefix}-tile-corp",
                       on_click=_open_corp, width=164, wrap=True)
-            st.button("🕵  **Weekly Mystery**\n\nGuess the blacked-out codeword", key=f"{prefix}-tile-mys",
+            st.button("🕵  **Daily Mystery**\n\nGuess the blacked-out codeword", key=f"{prefix}-tile-mys",
                       on_click=_open_mystery, width=164, wrap=True)
 
 
@@ -885,18 +885,18 @@ def cached_fresh(v=APP_CODE_VERSION):
     return out
 
 
-@st.cache_data(ttl=24 * 3600, show_spinner=False)
-def cached_mystery(week, v=APP_CODE_VERSION):
-    return extras.weekly_mystery(week)
+@st.cache_data(ttl=24 * 3600, show_spinner=False, max_entries=10)
+def cached_mystery(day, v=APP_CODE_VERSION):
+    return extras.daily_mystery(day)
 
 
-def weekly_mystery_card():
+def daily_mystery_card():
     from datetime import datetime
     from zoneinfo import ZoneInfo
-    y, w, _ = datetime.now(ZoneInfo("America/New_York")).isocalendar()
-    week = f"{y}-W{w:02d}"
+    today = datetime.now(ZoneInfo("America/New_York")).date()
+    week = today.isoformat()            # key for today's guess
     try:
-        m = cached_mystery(week, APP_CODE_VERSION)
+        m = cached_mystery(today, APP_CODE_VERSION)
     except Exception:
         m = None
     if not m:
@@ -904,7 +904,7 @@ def weekly_mystery_card():
     with st.container(border=True, key="mystery"):
         bar = '<span class="redbar">' + "&nbsp;" * 14 + "</span>"
         title_html = bar.join(html.escape(p) for p in m["title_parts"])
-        st.markdown(f'<div class="exp-head" style="color:#c4544a">🕵 WEEKLY MYSTERY · WEEK {w}</div>'
+        st.markdown(f'<div class="exp-head" style="color:#c4544a">🕵 DAILY MYSTERY · {today.strftime("%b %-d").upper()}</div>'
                     f'<div class="intro">A real CIA document from <b>{html.escape(m["year"])}</b>. A program codeword '
                     f'has been blacked out of its title. Use the year and the clues to work out which one.</div>'
                     f'<div class="dos-title">{title_html}</div>'
@@ -924,7 +924,7 @@ def weekly_mystery_card():
             if ident:
                 st.button("🕵 Open the file", key="mystery-open", on_click=open_dossier, args=(ident,))
             explainer_card(explainers.find_program(m["answer"]), "mys")
-        st.caption("A new mystery every Monday.")
+        st.caption("A new mystery every day.")
 
 
 def fresh_releases():
@@ -1046,7 +1046,7 @@ with tab_explore:
     st.markdown('<div class="intro">Not sure what to search for? Pick a topic. You get hand-picked '
                 'documents (checked against the source) plus fresh finds from the CIA files.</div>',
                 unsafe_allow_html=True)
-    weekly_mystery_card()
+    daily_mystery_card()
     fresh_releases()
     topic_tiles("ex")
     topic = ss.topic if ss.topic in TOPIC_LABELS else TOPIC_LABELS[0]

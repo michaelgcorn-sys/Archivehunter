@@ -2,7 +2,7 @@
 Extras for Archive Hunter 2.0:
   fbi_recent()      - newest files on the FBI Vault ("Recently Added")
   gwu_recent()      - newest National Security Archive postings (their RSS feed)
-  weekly_mystery()  - guess-the-codeword puzzle, a new one every week
+  daily_mystery()   - guess-the-codeword puzzle, a new one every day
   share_card()      - a "DECLASSIFIED" image of a document to post or text
 """
 
@@ -52,7 +52,7 @@ def gwu_recent(limit=6):
     return out
 
 
-# ── Weekly mystery: which codeword was blacked out? ──────────────────────────
+# ── Daily mystery: which codeword was blacked out? ──────────────────────────
 # codeword -> (family, one-line description with era). Wrong answers come mostly from the same family,
 # so the year and the descriptions are what solve it.
 MYSTERY = {
@@ -104,11 +104,14 @@ def jargon_in(text):
     return [(k, v) for k, v in JARGON.items() if re.search(r"(?<![A-Z])" + re.escape(k) + r"(?![A-Z])", text or "")]
 
 
-def weekly_mystery(week_key):
-    """This week's puzzle (same all week): masked title, year, 4 options with descriptions, jargon notes."""
-    rnd = random.Random(f"mystery-{week_key}")
-    pool = MYSTERY_POOL[:]
-    rnd.shuffle(pool)
+def daily_mystery(day):
+    """Today's puzzle (same all day): masked title, year, 4 options with descriptions, jargon notes.
+    Code names rotate so none repeats until all have been used; each comeback picks a different document."""
+    order = MYSTERY_POOL[:]
+    random.Random("archive-hunter-rotation").shuffle(order)   # one fixed rotation: every code name, then repeat
+    slot = day.toordinal() % len(order)
+    rnd = random.Random(f"mystery-{day.isoformat()}")
+    pool = order[slot:] + order[:slot]
     for answer in pool[:6]:                                   # first codeword that has a usable titled document
         docs = [r for r in search_cia(f'title:"{answer}"', limit=25)
                 if re.search(r"\b" + re.escape(answer) + r"\b", r["title"], re.I)
