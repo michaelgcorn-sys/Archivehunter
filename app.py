@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 54
+APP_CODE_VERSION = 55
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -155,6 +155,12 @@ st.markdown("""
 .otd-dim{opacity:.6;font-size:.78rem}
 .otd-quiet{opacity:.75;font-style:italic}
 @media (max-width:640px){.otd-pair{grid-template-columns:1fr;gap:.45rem}}
+.stApp:has([data-testid="stStatusWidgetRunningIcon"])::before{content:"● DECRYPTING";position:fixed;top:14px;left:50%;
+ transform:translateX(-50%);z-index:999999;font:700 .72rem 'Courier New',monospace;letter-spacing:.2em;color:#e0574c;
+ background:rgba(12,12,10,.92);border:1px solid #6b2a24;border-radius:3px;padding:.35rem .8rem;
+ box-shadow:0 0 18px rgba(224,87,76,.25);animation:ah-blink 1.1s steps(2,start) infinite;pointer-events:none}
+.st-key-otd-places button{border-color:#5a4a2e;background:#1c1810}
+.st-key-otd-places button p{font-weight:600;color:#ecd9b0}
 .which{font-size:1.17rem;line-height:1.4;opacity:.9;margin:.5rem 0 .4rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
@@ -195,7 +201,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 54 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 55 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -339,7 +345,12 @@ def explainer_card(prog, prefix):
     with st.container(border=True, key=f"{prefix}-explainer"):
         term, name = prog["term"], prog["name"]
         codename = term.replace("-", "").replace(" ", "").upper() not in name.replace("-", "").replace(" ", "").upper()
-        if codename:      # e.g. AQUATONE -> "the U-2 spy plane program": say how they're connected
+        if re.search(r"\b19\d\d$", term):      # a place + year deep dive
+            st.markdown(f'<div class="exp-head">📖 WHAT WAS HAPPENING · {html.escape(term.upper())}</div>'
+                        f'<div class="exp-link-line">In {html.escape(term.rsplit(" ", 1)[1])}, '
+                        f'{html.escape(term.rsplit(" ", 1)[0])} meant {html.escape(name)}. Here’s the background:</div>',
+                        unsafe_allow_html=True)
+        elif codename:      # e.g. AQUATONE -> "the U-2 spy plane program": say how they're connected
             st.markdown(f'<div class="exp-head">📖 WHAT WAS {html.escape(term)}?</div>'
                         f'<div class="exp-link-line"><b>{html.escape(term)}</b> was the code name for '
                         f'{html.escape(name)}. Here’s the background:</div>', unsafe_allow_html=True)
@@ -762,63 +773,57 @@ def on_this_day_card():
     if not briefs:
         return
     r = random.Random(today.isoformat()).choice(briefs)     # same pick all day, new one tomorrow
+    rolled = ss.get("otd_roll")
+    if rolled:                                               # 🎲 a brief from a random day instead
+        r = rolled
     d = _brief_date(r)
     yr = d.year if d else (r["date"] or "")
-    st.markdown(f'<div class="sect">📜 ON THIS DAY · {today.strftime("%B %-d").upper()}, {yr}</div>', unsafe_allow_html=True)
+    if rolled:
+        head = f"🎲 A RANDOM DAY · {d.strftime('%B %-d, %Y').upper() if d else yr}"
+    else:
+        head = f"📜 ON THIS DAY · {today.strftime('%B %-d').upper()}, {yr}"
+    st.markdown(f'<div class="sect">{head}</div>', unsafe_allow_html=True)
     ident = ident_from_url(r["url"])
-    full = None
-    if ident:
+    topics = (r["snippet"].replace("In this brief: ", "").split(" · ") if r["snippet"].startswith("In this brief") else [])
+    if ident and len(topics) < 2:
         try:
-            full = cached_dossier(ident, APP_CODE_VERSION)
+            topics = cached_dossier(ident, APP_CODE_VERSION).get("brief_topics") or topics
         except Exception:
-            full = None
-    topics = (full or {}).get("brief_topics") or (r["snippet"].replace("In this brief: ", "").split(" · ")
-                                                   if r["snippet"].startswith("In this brief") else [])
-    topics = [t for t in topics if t][:4]
+            pass
+    topics = [t for t in topics if t][:6]
     with st.container(border=True, key="otd-box"):
         nice_title = re.sub(r"'S\b", "’s", r["title"].title())
-        st.markdown(f'<div class="otd-t">{html.escape(nice_title)}</div>'
-                    '<div class="otd-src">What the CIA told the president, beside what the public was told that week</div>',
-                    unsafe_allow_html=True)
-        if topics and d:
-            heads = sources.brief_headlines((full or {}).get("text", ""), topics)
-            try:
-                public = cached_public(d, tuple(topics), APP_CODE_VERSION)
-            except Exception:
-                public = {}
-            nyt = {}
-            if newsday.nyt_available():
-                for t in topics:
-                    try:
-                        nyt[t] = cached_nyt_topic(d, t, APP_CODE_VERSION)
-                    except Exception:
-                        nyt[t] = []
-            rows = []
-            for t in topics:
-                brief = heads.get(t)
-                pub = public.get(t) or []
-                news = nyt.get(t) or []
-                b_html = (f'“{html.escape(brief)}”' if brief else '<span class="otd-dim">On the agenda (the summary line '
-                          'is too faded to read)</span>')
-                if news:
-                    p_html = "<br>".join(f'<a href="{html.escape(u)}" target="_blank">“{html.escape(h)}”</a> '
-                                         f'<span class="otd-dim">NYT {html.escape(dt)}</span>' for h, u, dt in news)
-                elif pub:
-                    p_html = "<br>".join(f'{html.escape(e)} <span class="otd-dim">({day.strftime("%b %-d")})</span>'
-                                         for day, e in pub)
-                else:
-                    p_html = '<span class="otd-quiet">Nothing in the public record we checked that week.</span>'
-                rows.append(f'<div class="otd-row"><div class="otd-topic">{html.escape(t)}</div>'
-                            f'<div class="otd-pair"><div><span class="otd-h">🔒 The president</span>{b_html}</div>'
-                            f'<div><span class="otd-h">📰 The public</span>{p_html}</div></div></div>')
-            st.markdown("".join(rows), unsafe_allow_html=True)
-            src = "New York Times archive" if nyt and any(nyt.values()) else "Wikipedia’s day-by-day record of the news"
-            st.caption(f"Side by side for you to compare. Public record: {src}, within a week of the brief. "
-                       "“Nothing found” means nothing in that record, not proof it was secret.")
-        if ident:
-            st.button("🕵 Open the full brief", key="otd-open", on_click=open_dossier, args=(ident,), width="stretch")
-    st.button("📜 Read briefs from other dates", key="otd-more", on_click=_open_pdb_at, args=(d,),
-              width="stretch")
+        st.markdown(f'<div class="otd-h">🔒 WHAT THE CIA TOLD THE PRESIDENT THAT MORNING</div>'
+                    f'<div class="otd-t">{html.escape(nice_title)}</div>', unsafe_allow_html=True)
+        if topics:
+            st.markdown('<div class="otd-x">In this brief · tap a place to dig into what was happening there</div>',
+                        unsafe_allow_html=True)
+            with st.container(horizontal=True, wrap=True, gap="small", key="otd-places"):
+                for i, t in enumerate(topics):
+                    q = f"{t} {yr}" if yr else t
+                    st.button(f"🌍 {t}", key=f"otd-place-{i}", on_click=follow_term, args=(q,))
+        with st.container(horizontal=True, gap="small", key="otd-actions"):
+            if ident:
+                st.button("🕵 Open the brief", key="otd-open", on_click=open_dossier, args=(ident,))
+            st.button("🎲 Roll another date", key="otd-roll", on_click=_roll_brief)
+            if rolled:
+                st.button("↩ Back to today", key="otd-today", on_click=lambda: ss.pop("otd_roll", None), type="tertiary")
+    st.button("📜 Pick any date", key="otd-more", on_click=_open_pdb_at, args=(d,), width="stretch")
+
+
+def _roll_brief():
+    """Swap in the brief from a random day of the released run."""
+    from datetime import date, timedelta
+    a, b = date.fromisoformat(sources.PDB_FIRST), date.fromisoformat(sources.PDB_LAST)
+    for _ in range(4):                       # a few tries in case a date has no brief nearby
+        day = a + timedelta(days=random.randint(0, (b - a).days))
+        try:
+            got = cached_pdb(day.isoformat(), APP_CODE_VERSION)
+        except Exception:
+            got = []
+        if got:
+            ss.otd_roll = got[0]
+            return
 
 
 @st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=60)
@@ -1066,7 +1071,7 @@ with tab_search:
         st.caption(f"**{len(results)} results** for “{ss.query}” · " + " · ".join(ok)
                    + (f"  \n⚠️ No answer from: {', '.join(bad)}" if bad else ""))
 
-        explainer_card(explainers.find_program(ss.query), "res")
+        explainer_card(explainers.find_program(ss.query) or explainers.find_event(ss.query), "res")
         have = sorted({r["source"] for r in results})
         only = st.pills("Show", ["All"] + have, default="All", label_visibility="collapsed") or "All"
         shown = [r for r in results if only == "All" or r["source"] == only]

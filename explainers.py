@@ -12,7 +12,7 @@ import urllib.parse
 
 import requests
 
-MODULE_VERSION = 54   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 55   # keep in step with APP_CODE_VERSION in app.py
 
 _UA = {"User-Agent": "ArchiveHunter/1.0 (personal research app for declassified records)"}
 
@@ -89,3 +89,64 @@ def wiki_summary(article):
             "url": d.get("content_urls", {}).get("desktop", {}).get("page",
                    "https://en.wikipedia.org/wiki/" + urllib.parse.quote(article.replace(" ", "_"))),
             "thumb": (d.get("thumbnail") or {}).get("source")}
+
+
+# What was happening in a place in a given year: used for "deep dive" searches like "Czechoslovakia 1968".
+# (place names as they appear in briefs, first year, last year, display name, Wikipedia article)
+EVENTS = [
+    ("Czechoslovakia", 1968, 1969, "the Prague Spring and the Soviet invasion", "Warsaw Pact invasion of Czechoslovakia"),
+    ("Nigeria", 1967, 1970, "the Nigerian Civil War (Biafra)", "Nigerian Civil War"),
+    ("Vietnam", 1961, 1975, "the Vietnam War", "Vietnam War"),
+    ("North Vietnam", 1961, 1975, "the Vietnam War", "Vietnam War"),
+    ("South Vietnam", 1961, 1975, "the Vietnam War", "Vietnam War"),
+    ("Laos", 1961, 1975, "the Laotian Civil War", "Laotian Civil War"),
+    ("Cambodia", 1970, 1975, "the Cambodian Civil War", "Cambodian Civil War"),
+    ("Cuba", 1962, 1962, "the Cuban Missile Crisis", "Cuban Missile Crisis"),
+    ("Dominican Republic", 1965, 1966, "the Dominican Civil War and U.S. intervention", "Dominican Civil War"),
+    ("Indonesia", 1965, 1966, "the 1965 coup attempt and mass killings", "Indonesian mass killings of 1965–66"),
+    ("Israel", 1967, 1967, "the Six-Day War", "Six-Day War"), ("Egypt", 1967, 1967, "the Six-Day War", "Six-Day War"),
+    ("Syria", 1967, 1967, "the Six-Day War", "Six-Day War"), ("Jordan", 1967, 1967, "the Six-Day War", "Six-Day War"),
+    ("Israel", 1973, 1973, "the Yom Kippur War", "Yom Kippur War"), ("Egypt", 1973, 1973, "the Yom Kippur War", "Yom Kippur War"),
+    ("Syria", 1973, 1973, "the Yom Kippur War", "Yom Kippur War"), ("Middle East", 1973, 1973, "the Yom Kippur War", "Yom Kippur War"),
+    ("Middle East", 1967, 1967, "the Six-Day War", "Six-Day War"),
+    ("Jordan", 1970, 1971, "Black September", "Black September"),
+    ("Chile", 1970, 1973, "Allende's presidency and the 1973 coup", "1973 Chilean coup d'état"),
+    ("Portugal", 1974, 1975, "the Carnation Revolution", "Carnation Revolution"),
+    ("Cyprus", 1974, 1974, "the Turkish invasion of Cyprus", "Turkish invasion of Cyprus"),
+    ("Greece", 1967, 1974, "the Greek military junta", "Greek junta"),
+    ("India", 1971, 1971, "the Indo-Pakistani War of 1971", "Indo-Pakistani war of 1971"),
+    ("Pakistan", 1971, 1971, "the Indo-Pakistani War of 1971", "Indo-Pakistani war of 1971"),
+    ("Pakistan", 1965, 1965, "the Indo-Pakistani War of 1965", "Indo-Pakistani war of 1965"),
+    ("India", 1965, 1965, "the Indo-Pakistani War of 1965", "Indo-Pakistani war of 1965"),
+    ("China", 1966, 1976, "the Cultural Revolution", "Cultural Revolution"),
+    ("China", 1969, 1969, "the Sino-Soviet border clashes", "Sino-Soviet border conflict"),
+    ("Soviet Union", 1968, 1968, "the Soviet invasion of Czechoslovakia", "Warsaw Pact invasion of Czechoslovakia"),
+    ("USSR", 1968, 1968, "the Soviet invasion of Czechoslovakia", "Warsaw Pact invasion of Czechoslovakia"),
+    ("Soviet Union", 1972, 1972, "détente and the SALT I treaty", "Strategic Arms Limitation Talks"),
+    ("USSR", 1972, 1972, "détente and the SALT I treaty", "Strategic Arms Limitation Talks"),
+    ("Congo", 1960, 1965, "the Congo Crisis", "Congo Crisis"), ("Zaire", 1960, 1965, "the Congo Crisis", "Congo Crisis"),
+    ("Rhodesia", 1965, 1977, "Rhodesia's break from Britain and the Bush War", "Rhodesian Bush War"),
+    ("Angola", 1975, 1976, "the Angolan Civil War", "Angolan Civil War"),
+    ("Panama", 1964, 1964, "the 1964 Flag Riots", "Martyrs' Day (Panama)"),
+    ("Berlin", 1961, 1961, "the Berlin Crisis and the Wall", "Berlin Crisis of 1961"),
+    ("East Germany", 1961, 1961, "the Berlin Crisis and the Wall", "Berlin Crisis of 1961"),
+    ("Northern Ireland", 1968, 1977, "the Troubles", "The Troubles"),
+    ("United Kingdom", 1968, 1977, "the Troubles in Northern Ireland", "The Troubles"),
+    ("Ethiopia", 1974, 1975, "the overthrow of Haile Selassie", "Ethiopian Revolution"),
+    ("Iraq", 1968, 1968, "the Ba'athist coup", "17 July Revolution"),
+    ("Libya", 1969, 1969, "Qaddafi's coup", "1969 Libyan coup d'état"),
+    ("Bangladesh", 1971, 1971, "the Bangladesh Liberation War", "Bangladesh Liberation War"),
+]
+
+
+def find_event(text):
+    """'Czechoslovakia 1968' -> {'term','name','article'} for what was happening there then, or None."""
+    m = re.search(r"\b(19[4-9]\d)\b", text or "")
+    if not m:
+        return None
+    year = int(m.group(1))
+    low = (text or "").lower()
+    for place, y0, y1, name, article in EVENTS:
+        if y0 <= year <= y1 and re.search(r"\b" + re.escape(place.lower()) + r"\b", low):
+            return {"term": f"{place} {year}", "name": name, "article": article}
+    return None
