@@ -10,7 +10,7 @@ Works on the Internet Archive's mirror of the CIA reading room (collection "ciar
 
 import re
 
-MODULE_VERSION = 56   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 57   # keep in step with APP_CODE_VERSION in app.py
 from collections import Counter
 
 from sources import _BRIEF_TITLE, _get, brief_topics, clean, search_cia, strip_release_stamp, text_quality

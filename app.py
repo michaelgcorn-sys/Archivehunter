@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 56
+APP_CODE_VERSION = 57
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -155,12 +155,12 @@ st.markdown("""
 .otd-dim{opacity:.6;font-size:.78rem}
 .otd-quiet{opacity:.75;font-style:italic}
 @media (max-width:640px){.otd-pair{grid-template-columns:1fr;gap:.45rem}}
-.stApp[data-test-script-state="running"]::before{content:"DECRYPTING";position:fixed;top:12px;left:50%;
+.stApp[data-test-script-state="running"]::before,.stApp:has([data-testid="stStatusWidgetRunningIcon"])::before,.stApp:has([data-testid="stStatusWidget"])::before{content:"DECRYPTING";position:fixed;top:12px;left:50%;
  transform:translateX(-50%);z-index:999999;font:700 .72rem 'Courier New',monospace;letter-spacing:.2em;color:#e0574c;
  background:rgba(12,12,10,.94);border:1px solid #6b2a24;border-radius:3px;padding:.38rem .85rem .38rem 2.1rem;
  width:11.5rem;box-sizing:border-box;text-align:center;
  box-shadow:0 0 18px rgba(224,87,76,.25);animation:ah-blink 1.1s steps(2,start) infinite;pointer-events:none}
-.stApp[data-test-script-state="running"]::after{content:"";position:fixed;top:19px;left:50%;margin-left:-5.15rem;
+.stApp[data-test-script-state="running"]::after,.stApp:has([data-testid="stStatusWidgetRunningIcon"])::after,.stApp:has([data-testid="stStatusWidget"])::after{content:"";position:fixed;top:19px;left:50%;margin-left:-5.15rem;
  width:14px;height:14px;border-radius:50%;z-index:1000000;border:1px solid rgba(90,220,130,.6);pointer-events:none;
  background:conic-gradient(from 0deg,rgba(90,220,130,0) 0deg,rgba(90,220,130,.8) 70deg,rgba(90,220,130,0) 71deg);
  animation:ah-sweep 1.4s linear infinite}
@@ -206,7 +206,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 56 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 57 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
