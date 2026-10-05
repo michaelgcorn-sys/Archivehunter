@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 51
+APP_CODE_VERSION = 52
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -23,15 +23,18 @@ if getattr(catalog, "CATALOG_VERSION", None) != APP_CODE_VERSION:
     catalog = importlib.reload(catalog)   # same stale-module problem for catalog.py
 import dossier as dossier_mod
 import explainers
+import extras
+import geo
+import newsday
 import translate as tr
-for _m in (dossier_mod, explainers, tr):
+for _m in (dossier_mod, explainers, extras, geo, newsday, tr):
     if getattr(_m, "MODULE_VERSION", None) != APP_CODE_VERSION:
         importlib.reload(_m)
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url, search_gwu,
                      pdb_on_this_day, search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
 from catalog import ANCIENT, CATEGORIES, CORPORATE, PICKS, TEASERS, met_gallery, met_image
-from dossier import folder_files, ident_from_url, is_cia_ident, load_dossier
+from dossier import folder_files, ident_from_url, is_cia_ident, load_dossier, redaction_estimate
 import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
@@ -124,6 +127,22 @@ st.markdown("""
 
 .dos-part{font-size:.82rem;color:#c8a96e;margin:.5rem 0 .3rem}
 .st-key-dos-pn button{min-width:9rem}
+.ww-head{font:700 .66rem 'Courier New',monospace;letter-spacing:.14em;color:#b98a4e;margin:.6rem 0 .1rem}
+.redact{margin:.5rem 0}
+.redact-label{font:700 .7rem 'Courier New',monospace;letter-spacing:.12em;color:#e6dccb}
+.redact-bar{height:10px;background:#2a2620;border:1px solid #4a4030;border-radius:2px;margin:.3rem 0;overflow:hidden}
+.redact-bar span{display:block;height:100%;background:repeating-linear-gradient(90deg,#000 0 14px,#111 14px 16px)}
+.redact-note{font-size:.72rem;opacity:.6}
+.st-key-otd-box{border-color:#5a4a2e!important;background:#15130f}
+.otd-h{font:700 .66rem 'Courier New',monospace;letter-spacing:.13em;color:#c4544a;margin-bottom:.35rem}
+.otd-t{font-family:Georgia,serif;font-size:1.02rem;color:#ecd9b0;line-height:1.3}
+.otd-x{font-size:.86rem;margin:.3rem 0;color:#e6dccb}
+.otd-src{font-size:.72rem;opacity:.6;margin:.3rem 0 .4rem}
+.otd-src a{color:inherit!important}
+.otd-list{display:flex;flex-direction:column;gap:.35rem}
+.otd-n{font-family:Georgia,serif;font-size:.88rem;line-height:1.4;color:#e3e3e3!important;text-decoration:none}
+.st-key-mystery{border-color:#7a3a33!important;background:#191210}
+[class*="-tile-mys"] button{background:linear-gradient(160deg,#25140f,#140c0a);border-color:#6b3a30}
 .which{font-size:1.17rem;line-height:1.4;opacity:.9;margin:.5rem 0 .4rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
@@ -164,7 +183,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 51 · updated Oct 4, 2026</div>
+<div class="ver">Version 52 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -235,6 +254,40 @@ KIND_ICON = {"codeword": "🔐", "person": "👤", "place": "🌍", "name": "�
 @st.cache_data(ttl=24 * 3600, show_spinner=False, max_entries=200)
 def cached_dossier(ident, v=APP_CODE_VERSION):
     return load_dossier(ident)
+
+
+@st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=300)
+def cached_redaction(pdf_url, v=APP_CODE_VERSION):
+    return redaction_estimate(pdf_url)
+
+
+def redaction_meter(d):
+    if ss.get("measure") != d["ident"]:
+        st.button("⬛ How much was blacked out?", key="dos-redact", on_click=lambda: ss.update(measure=d["ident"]))
+        return
+    with st.spinner("Measuring the black boxes on each page…"):
+        try:
+            m = cached_redaction(d["pdf"], APP_CODE_VERSION)
+        except Exception:
+            st.caption("Couldn't measure this one (the PDF didn't load).")
+            return
+    pct, pages = m["pct"], m["pages"]
+    of = f"first {pages} of {m['total_pages']} pages" if m["total_pages"] > pages else f"all {pages} page{'s' if pages != 1 else ''}"
+    if pct == 0:
+        msg, fill = "No blacked-out passages found", 0
+    elif pct < 1:
+        msg, fill = "Under 1% blacked out: a few names or words", 2
+    else:
+        msg, fill = f"About {pct:.0f}% blacked out", min(100, pct)
+    st.markdown(f'<div class="redact"><div class="redact-label">⬛ CENSOR METER · {html.escape(msg)}</div>'
+                f'<div class="redact-bar"><span style="width:{fill}%"></span></div>'
+                f'<div class="redact-note">Approximate: measured from the scans ({of}). Dark photos or stamps can '
+                f'throw it off.</div></div>', unsafe_allow_html=True)
+
+
+@st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=100)
+def cached_card(ident, title, year, v=APP_CODE_VERSION):
+    return extras.share_card(title, year, "CIA", extras.first_page_image(ident))
 
 
 @st.cache_data(ttl=24 * 3600, show_spinner=False, max_entries=200)
@@ -398,6 +451,7 @@ def render_dossier(ident):
                 st.button("Next part ▶", key="dos-next", type="primary", disabled=pos >= len(folder) - 1,
                           on_click=open_dossier, args=(ids[pos + 1] if pos < len(folder) - 1 else ident,))
 
+        redaction_meter(d)
         codewords = " ".join(t for t, k in d["terms"] if k == "codeword")
         explainer_card(explainers.find_program(d["title"]) or explainers.find_program(codewords), "dos")
 
@@ -405,7 +459,7 @@ def render_dossier(ident):
         if d.get("readable", True) and tr.looks_foreign(sample):
             label = tr.provider_label()
             if label:
-                if st.button(f"🌐 Translate the first page to English ({label})", key="dos-tr", use_container_width=True):
+                if st.button(f"🌐 Translate the first page to English ({label})", key="dos-tr", width="stretch"):
                     ss.dos_tr = ident
                 if ss.get("dos_tr") == ident:
                     try:
@@ -433,13 +487,24 @@ def render_dossier(ident):
             st.markdown(f'<div class="sect">📑 THE REST OF THIS FILE · {len(folder)} documents</div>', unsafe_allow_html=True)
             for i, r in others[:12]:
                 st.button(f"Part {i + 1} · {r['title'][:85]}" + (f"  ·  {r['date'][:4]}" if r["date"] else ""),
-                          key=f"dos-near-{i}", on_click=open_dossier, args=(ids[i],), use_container_width=True,
+                          key=f"dos-near-{i}", on_click=open_dossier, args=(ids[i],), width="stretch",
                           type="tertiary")
 
-        with st.expander("🔗 Send this document to someone"):
+        with st.expander("🔗 Share this find"):
             st.code(share_url(ident), language=None, wrap_lines=True)
             st.caption("Copy this link and text or email it. It opens straight to this document in Archive Hunter "
                        "(they need to be invited to the app).")
+            if st.button("🖼 Make a DECLASSIFIED image to post", key="dos-card"):
+                ss.card_for = ident
+            if ss.get("card_for") == ident:
+                with st.spinner("Making the image…"):
+                    try:
+                        png = cached_card(ident, d["title"], (d["date"] or "")[:4], APP_CODE_VERSION)
+                        st.image(png, width="stretch")
+                        st.download_button("⬇ Save the image", png, file_name=f"declassified-{d['doc_id']}.png",
+                                           mime="image/png", key="dos-card-dl", width="stretch")
+                    except Exception as e:
+                        st.caption(f"Couldn't make the image just now ({type(e).__name__}).")
     if ss.pop("scroll_top", False):
         _scroll()
 
@@ -503,9 +568,9 @@ def render_result(r, uid, saved_copy=True, query=None):
         ident = ident_from_url(r["url"])
         if ident:
             st.button("🕵 Open the dossier · follow the trail", key=f"d{uid}{key}", on_click=open_dossier,
-                      args=(ident,), use_container_width=True)
+                      args=(ident,), width="stretch")
         if r["doc_url"]:
-            if st.button("🔎 Find my words inside", key=f"f{uid}{key}", use_container_width=True):
+            if st.button("🔎 Find my words inside", key=f"f{uid}{key}", width="stretch"):
                 ss.open_doc = None if ss.open_doc == key else key
                 ss.ocr_doc = None
 
@@ -526,7 +591,7 @@ def render_result(r, uid, saved_copy=True, query=None):
         if p and p.get("scanned"):
             st.warning(p["note"])
             if st.button("📷 Read the scanned pages (takes 1–2 minutes)", key=f"o{uid}{key}",
-                         use_container_width=True):
+                         width="stretch"):
                 ss.ocr_doc = key
             if ss.ocr_doc == key:
                 with st.spinner("Reading scanned pages with character recognition…"):
@@ -556,7 +621,7 @@ def render_result(r, uid, saved_copy=True, query=None):
                 st.markdown(f'<div class="passage">{tag}…{"".join(out)}…</div>', unsafe_allow_html=True)
             if p["hits"] and tr.looks_foreign(" ".join(t for _pg, t, _m in p["hits"][:6])) and tr.provider_label():
                 if st.button(f"🌐 Translate these passages to English ({tr.provider_label()})", key=f"t{uid}{key}",
-                             use_container_width=True):
+                             width="stretch"):
                     ss.tr_doc = key
                 if ss.get("tr_doc") == key:
                     joined = "\n\n".join(t for _pg, t, _m in p["hits"][:12])
@@ -590,6 +655,10 @@ def _open_corp():
     ss.main_tabs = TAB_CORP
 
 
+def _open_mystery():
+    ss.main_tabs = TAB_EXPLORE
+
+
 def topic_tiles(prefix, with_ancient=False):
     """Deep-dive tiles. Tapping one opens that topic in the Explore tab."""
     with st.container(horizontal=True, wrap=True, gap="small", key=f"{prefix}-tiles"):
@@ -603,6 +672,8 @@ def topic_tiles(prefix, with_ancient=False):
                       on_click=_open_ancient, width=164, wrap=True)
             st.button("🏢  **Corporate Secrets**\n\nTobacco, opioids, Enron: the memos they hid", key=f"{prefix}-tile-corp",
                       on_click=_open_corp, width=164, wrap=True)
+            st.button("🕵  **Weekly Mystery**\n\nGuess the blacked-out codeword", key=f"{prefix}-tile-mys",
+                      on_click=_open_mystery, width=164, wrap=True)
 
 
 def _pdb_random():
@@ -624,7 +695,7 @@ def pdb_block():
     c1, c2 = st.columns([3, 2], vertical_alignment="bottom")
     c1.date_input("Date", key="pdb_day", min_value=date.fromisoformat(sources.PDB_FIRST),
                   max_value=date.fromisoformat(sources.PDB_LAST), format="MM/DD/YYYY")
-    c2.button("🎲 Random day", on_click=_pdb_random, use_container_width=True)
+    c2.button("🎲 Random day", on_click=_pdb_random, width="stretch")
     day = ss.pdb_day.isoformat()
     with st.spinner("Pulling the briefs…"):
         try:
@@ -674,12 +745,181 @@ def on_this_day_card():
     r = random.Random(today.isoformat()).choice(briefs)     # same pick all day, new one tomorrow
     d = _brief_date(r)
     yr = d.year if d else (r["date"] or "")
-    st.markdown(f'<div class="sect">📜 ON THIS DAY · {today.strftime("%B %-d").upper()}, {yr}</div>'
-                f'<div class="intro">What the CIA told the president that morning.</div>', unsafe_allow_html=True)
-    render_result(r, "otd", query=None)
+    st.markdown(f'<div class="sect">📜 ON THIS DAY · {today.strftime("%B %-d").upper()}, {yr}</div>', unsafe_allow_html=True)
+    with st.container(border=True, key="otd-box"):
+        c1, c2 = st.columns(2, gap="medium")
+        with c1:
+            topics = r["snippet"].replace("In this brief: ", "") if r["snippet"].startswith("In this brief") else ""
+            st.markdown('<div class="otd-h">🔒 WHAT THE PRESIDENT WAS TOLD</div>'
+                        f'<div class="otd-t">{html.escape(re.sub(r"'S\b", "’s", r["title"].title()))}</div>'
+                        + (f'<div class="otd-x">Covers: {html.escape(topics)}</div>' if topics else "")
+                        + '<div class="otd-src">The CIA’s top-secret morning brief, declassified</div>',
+                        unsafe_allow_html=True)
+            ident = ident_from_url(r["url"])
+            if ident:
+                st.button("🕵 Open the brief", key="otd-open", on_click=open_dossier, args=(ident,), width="stretch")
+        with c2:
+            st.markdown('<div class="otd-h">📰 WHAT THE PUBLIC WAS TOLD</div>', unsafe_allow_html=True)
+            news_day(d)
     st.button("📜 Read briefs from other dates", key="otd-more", on_click=_open_pdb_at, args=(d,),
-              use_container_width=True)
+              width="stretch")
 
+
+@st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=60)
+def cached_wiki_day(d, v=APP_CODE_VERSION):
+    return newsday.wiki_day(d)
+
+
+@st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=60)
+def cached_nyt(d, v=APP_CODE_VERSION):
+    return newsday.nyt_front(d)
+
+
+def news_day(d):
+    """Front-page headlines (New York Times, when a key is set) or Wikipedia's record of the day."""
+    if not d:
+        st.caption("No date to match.")
+        return
+    heads = []
+    if newsday.nyt_available():
+        try:
+            heads = cached_nyt(d, APP_CODE_VERSION)
+        except Exception:
+            heads = []
+    if heads:
+        rows = "".join(f'<a class="otd-n" href="{html.escape(u)}" target="_blank">“{html.escape(h)}”</a>' for h, u in heads)
+        st.markdown(f'<div class="otd-list">{rows}</div><div class="otd-src">Front page, The New York Times, '
+                    f'{d.strftime("%B %-d, %Y")}</div>', unsafe_allow_html=True)
+        return
+    try:
+        events = cached_wiki_day(d, APP_CODE_VERSION)
+    except Exception:
+        events = []
+    if events:
+        rows = "".join(f'<div class="otd-n">• {html.escape(e)}</div>' for e in events)
+        url = "https://en.wikipedia.org/wiki/" + d.strftime("%B_%Y") + "#" + d.strftime("%B_") + str(d.day) + "," + d.strftime("_%Y")
+        st.markdown(f'<div class="otd-list">{rows}</div><div class="otd-src">The day’s news, from '
+                    f'<a href="{html.escape(url)}" target="_blank">Wikipedia’s day-by-day record</a></div>',
+                    unsafe_allow_html=True)
+    else:
+        st.caption("No news record found for that day.")
+
+
+def when_where(rows, query):
+    """Timeline (decades) and map (countries named) for a set of results; both filter the list."""
+    fkey = str(__import__("zlib").crc32(query.encode()))
+    decades = [geo.decade_of(r["date"]) for r in rows]
+    counts = {}
+    for d in decades:
+        if d:
+            counts[d] = counts.get(d, 0) + 1
+    places = [geo.countries_in(r["title"] + " " + r["snippet"]) for r in rows]
+    ctry = {}
+    for p in places:
+        for iso, name in p.items():
+            c = ctry.setdefault(iso, [name, 0])
+            c[1] += 1
+    if len(counts) >= 2:
+        st.markdown('<div class="ww-head">🕰 WHEN · tap a decade</div>', unsafe_allow_html=True)
+        import altair as alt
+        import pandas as pd
+        df = pd.DataFrame(sorted(counts.items()), columns=["Decade", "Documents"])
+        chart = (alt.Chart(df).mark_bar(color="#c8a96e", cornerRadiusTopLeft=2, cornerRadiusTopRight=2)
+                 .encode(x=alt.X("Decade:N", sort=None, title=None, axis=alt.Axis(labelAngle=0, labelColor="#b9ab8c")),
+                         y=alt.Y("Documents:Q", title=None, axis=None), tooltip=["Decade", "Documents"])
+                 .properties(height=60).configure_view(strokeWidth=0).configure(background="transparent"))
+        st.altair_chart(chart, width="stretch")
+        pick = st.pills("Decade", [f"{d} ({n})" for d, n in sorted(counts.items())], key=f"dec-{fkey}",
+                        label_visibility="collapsed")
+        if pick:
+            want = pick.split(" ")[0]
+            rows = [r for r, d in zip(rows, decades) if d == want]
+            places = [p for p, d in zip(places, decades) if d == want]
+    if ctry:
+        top = sorted(ctry.items(), key=lambda kv: -kv[1][1])
+        st.markdown(f'<div class="ww-head">🌍 WHERE · {len(ctry)} countr{"y" if len(ctry) == 1 else "ies"} named · tap one</div>',
+                    unsafe_allow_html=True)
+        pickc = st.pills("Country", [f"{v[0]} ({v[1]})" for _iso, v in top[:10]], key=f"cty-{fkey}",
+                         label_visibility="collapsed")
+        with st.expander("Show the map"):
+            try:
+                import plotly.graph_objects as go
+                fig = go.Figure(go.Choropleth(
+                    locations=[iso for iso, _v in top], z=[v[1] for _iso, v in top], text=[v[0] for _iso, v in top],
+                    colorscale=[[0, "#4a3d22"], [1, "#e8c77a"]], showscale=False, marker_line_color="#0d0d0d",
+                    marker_line_width=0.5, hovertemplate="%{text}: %{z} document(s)<extra></extra>"))
+                fig.update_geos(showframe=False, showcoastlines=False, showcountries=True, countrycolor="#2a2a2a",
+                                landcolor="#1c1c1c", bgcolor="rgba(0,0,0,0)", projection_type="natural earth")
+                fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=260, paper_bgcolor="rgba(0,0,0,0)",
+                                  dragmode=False)
+                st.plotly_chart(fig, width="stretch", config={"displayModeBar": False, "scrollZoom": False})
+            except Exception:
+                st.caption("The map couldn't be drawn just now.")
+            st.caption("Based on country and city names in each result's title and summary.")
+        if pickc:
+            name = pickc.rsplit(" (", 1)[0]
+            rows = [r for r, p in zip(rows, places) if name in p.values()]
+    return rows
+
+
+@st.cache_data(ttl=6 * 3600, show_spinner=False)
+def cached_fresh(v=APP_CODE_VERSION):
+    out = {}
+    for name, fn in (("FBI Vault · recently added", extras.fbi_recent),
+                     ("National Security Archive · newest postings", extras.gwu_recent)):
+        try:
+            out[name] = fn()
+        except Exception:
+            out[name] = []
+    return out
+
+
+@st.cache_data(ttl=24 * 3600, show_spinner=False)
+def cached_mystery(week, v=APP_CODE_VERSION):
+    return extras.weekly_mystery(week)
+
+
+def weekly_mystery_card():
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    y, w, _ = datetime.now(ZoneInfo("America/New_York")).isocalendar()
+    week = f"{y}-W{w:02d}"
+    try:
+        m = cached_mystery(week, APP_CODE_VERSION)
+    except Exception:
+        m = None
+    if not m:
+        return
+    with st.container(border=True, key="mystery"):
+        st.markdown(f'<div class="exp-head" style="color:#c4544a">🕵 WEEKLY MYSTERY · WEEK {w}</div>'
+                    f'<div class="intro">A real CIA document from {html.escape(m["year"] or "the Cold War")}. '
+                    f'One codeword has been blacked out of its title. Which one?</div>'
+                    f'<div class="dos-title">{html.escape(m["masked_title"])}</div>', unsafe_allow_html=True)
+        guess = st.pills("Your guess", m["options"], key=f"guess-{week}", label_visibility="collapsed")
+        if guess:
+            if guess == m["answer"]:
+                st.success(f"✅ Correct: {m['answer']}.")
+            else:
+                st.error(f"❌ Not quite. It was {m['answer']}.")
+            ident = ident_from_url(m["url"])
+            if ident:
+                st.button("🕵 Open the file", key="mystery-open", on_click=open_dossier, args=(ident,))
+            explainer_card(explainers.find_program(m["answer"]), "mys")
+        st.caption("A new mystery every Monday.")
+
+
+def fresh_releases():
+    fresh = cached_fresh(APP_CODE_VERSION)
+    if not any(fresh.values()):
+        return
+    with st.expander("🆕 Newly released files"):
+        for name, items in fresh.items():
+            if not items:
+                continue
+            st.markdown(f'<div class="exp-sub">{html.escape(name.upper())}</div>', unsafe_allow_html=True)
+            rows = "".join(f'<a class="exp-link" href="{html.escape(i["url"])}" target="_blank">{html.escape(i["title"][:110])}'
+                           + (f' · {html.escape(i["date"])}' if i.get("date") else "") + " ↗</a>" for i in items)
+            st.markdown(f'<div class="exp-links">{rows}</div>', unsafe_allow_html=True)
 
 tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
 
@@ -708,7 +948,7 @@ with tab_search:
         st.text_input("Search", key="qbox", placeholder='Search: name, program or event…',
                       label_visibility="collapsed")
         st.markdown('<div class="qtip">💡 Tip: use "quotes" for an exact phrase</div>', unsafe_allow_html=True)
-        go = st.form_submit_button("Search all archives", type="primary", use_container_width=True)
+        go = st.form_submit_button("Search all archives", type="primary", width="stretch")
 
     with st.container(key="popular"):
         st.markdown('<div class="pop-label">Popular searches</div>', unsafe_allow_html=True)
@@ -746,7 +986,7 @@ with tab_search:
         show_trail("res")
         if ss.pop("scroll_results", False):
             _scroll("#results-anchor")
-        st.button("🏠  Back to home", key="home-top", on_click=_go_home, use_container_width=True)
+        st.button("🏠  Back to home", key="home-top", on_click=_go_home, width="stretch")
         ok = [f"{n} {c}" for n, c in status.items() if isinstance(c, int)]
         bad = [n for n, c in status.items() if not isinstance(c, int)]
         st.caption(f"**{len(results)} results** for “{ss.query}” · " + " · ".join(ok)
@@ -756,13 +996,14 @@ with tab_search:
         have = sorted({r["source"] for r in results})
         only = st.pills("Show", ["All"] + have, default="All", label_visibility="collapsed") or "All"
         shown = [r for r in results if only == "All" or r["source"] == only]
+        shown = when_where(shown, ss.query)
 
         if not shown:
             st.info("Nothing came back. Try fewer or different words, or one of the browser links below.")
 
         for i, r in enumerate(shown[:80]):
             render_result(r, f"r{i}")
-        st.button("🏠  Back to home", key="home-bottom", on_click=_go_home, use_container_width=True)
+        st.button("🏠  Back to home", key="home-bottom", on_click=_go_home, width="stretch")
 
     # ── Sites that only work in the browser ──────────────────────────────────────
     st.divider()
@@ -776,7 +1017,7 @@ with tab_search:
     c = st.columns(2)
     links = [b for b in BROWSER_ONLY if not (b[0].startswith("National Archives") and "National Archives" in SOURCES)]
     for j, (name, tpl, home) in enumerate(links):
-        c[j % 2].link_button(name, tpl.replace("{q}", term) if term else home, use_container_width=True)
+        c[j % 2].link_button(name, tpl.replace("{q}", term) if term else home, width="stretch")
     st.caption("🌐 **Site not in English?** iPhone Safari: tap **aA** in the address bar, then **Translate to English**. "
                "Chrome: tap the translate icon in the address bar.")
 
@@ -786,6 +1027,8 @@ with tab_explore:
     st.markdown('<div class="intro">Not sure what to search for? Pick a topic. You get hand-picked '
                 'documents (checked against the source) plus fresh finds from the CIA files.</div>',
                 unsafe_allow_html=True)
+    weekly_mystery_card()
+    fresh_releases()
     topic_tiles("ex")
     topic = ss.topic if ss.topic in TOPIC_LABELS else TOPIC_LABELS[0]
     if topic:
@@ -808,7 +1051,7 @@ with tab_explore:
                 st.caption("The CIA files didn't answer just now. Try again in a minute.")
             for i, r in enumerate(live):
                 render_result(r, f"ec{i}", query=main_q)
-            if st.button(f"Search all {len(ALL)} archives for “{main_q}”", key=f"exall{name}", use_container_width=True):
+            if st.button(f"Search all {len(ALL)} archives for “{main_q}”", key=f"exall{name}", width="stretch"):
                 ss.explore_all = main_q
             if ss.get("explore_all") == main_q:
                 with st.spinner("Searching every archive…"):
@@ -844,7 +1087,7 @@ with tab_ancient:
                if item.get("lang") else "") +
             f'<a class="anc-src" href="{html.escape(item["url"])}" target="_blank">{html.escape(item["source"])} ↗</a></div>',
             unsafe_allow_html=True)
-    if st.button("🏺 Show more ancient tablets from the Met Museum", key="metmore", use_container_width=True):
+    if st.button("🏺 Show more ancient tablets from the Met Museum", key="metmore", width="stretch"):
         ss.met_more = True
     if ss.get("met_more"):
         with st.spinner("Pulling tablets from the Metropolitan Museum…"):
@@ -876,7 +1119,7 @@ with tab_corp:
     with st.form("corpform", border=False):
         cq = st.text_input("Search company documents", value=ss.get("corp_q", ""), label_visibility="collapsed",
                            placeholder="Company, product or chemical, e.g. Marlboro, OxyContin, PFOA")
-        if st.form_submit_button("Search company documents", type="primary", use_container_width=True):
+        if st.form_submit_button("Search company documents", type="primary", width="stretch"):
             ss.corp_q = sources.normalize_query(cq)
     if ss.get("corp_q"):
         q = ss.corp_q
@@ -896,7 +1139,7 @@ with tab_corp:
                 render_result(r, f"co{i}", query=q)
         st.link_button(f"More from the UCSF archive on Google: “{q}”",
                        "https://www.google.com/search?q=" + urllib.parse.quote(f"site:industrydocuments.ucsf.edu {q}"),
-                       use_container_width=True)
+                       width="stretch")
     st.markdown('<div class="sect">THE BIG CORPORATE FILES</div>', unsafe_allow_html=True)
     for i, c in enumerate(CORPORATE):
         st.markdown(
@@ -910,7 +1153,7 @@ with tab_corp:
 
 # ── Self-test ────────────────────────────────────────────────────────────────
 with st.expander("Check which archives are working"):
-    if st.button("Run check", use_container_width=True):
+    if st.button("Run check", width="stretch"):
         from concurrent.futures import ThreadPoolExecutor
         def one(n):
             try:
@@ -949,6 +1192,6 @@ TRIPS = [
 ]
 tm = st.columns(2)
 for j, (label, url) in enumerate(TRIPS):
-    tm[j % 2].link_button(label, url, use_container_width=True)
+    tm[j % 2].link_button(label, url, width="stretch")
 st.caption("Tip: every result above also has a 🕰 Saved copy link, and Find my words inside uses a saved "
            "copy automatically when a document has been taken down.")

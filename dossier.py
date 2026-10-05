@@ -10,7 +10,7 @@ Works on the Internet Archive's mirror of the CIA reading room (collection "ciar
 
 import re
 
-MODULE_VERSION = 51   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 52   # keep in step with APP_CODE_VERSION in app.py
 from collections import Counter
 
 from sources import _BRIEF_TITLE, _get, brief_topics, clean, search_cia, strip_release_stamp, text_quality
@@ -206,3 +206,64 @@ def load_dossier(ident):
         "text": text,
         "terms": extract_terms(text, title),
     }
+
+
+# ── Redaction meter ──────────────────────────────────────────────────────────
+# Censors blacked out text with solid rectangles. We render each page small, mark cells that are
+# almost entirely black, join neighboring black cells into blocks, and keep only solid, box-shaped
+# blocks that don't touch the page edge (scan borders) and are bigger than a word of bold text.
+
+def redaction_fraction(gray):
+    """gray: 2-D numpy array (0 = black, 255 = white) of one page. Returns (blacked-out cells, content cells)."""
+    import numpy as np
+    h, w = gray.shape
+    cell = max(4, int(min(h, w) / 110))
+    gh, gw = h // cell, w // cell
+    if gh < 10 or gw < 10:
+        return 0, 0
+    g = gray[:gh * cell, :gw * cell].reshape(gh, cell, gw, cell)
+    dark = ((g < 80).mean(axis=(1, 3)) > 0.9)                 # cells that are ~solid black
+    inked = ((g < 200).mean(axis=(1, 3)) > 0.02)              # cells with any marks at all
+    ys, xs = np.nonzero(inked[2:-2, 2:-2])
+    if len(ys) == 0:
+        return 0, 0
+    content = (ys.max() - ys.min() + 1) * (xs.max() - xs.min() + 1)
+    # keep only dark cells inside horizontal runs of 3+ solid cells (redaction bars); letters never make those
+    run = np.zeros_like(dark)
+    for y in range(gh):
+        x = 0
+        while x < gw:
+            if dark[y, x]:
+                e = x
+                while e < gw and dark[y, e]:
+                    e += 1
+                if e - x >= 3 and x > 1 and e < gw - 1:          # not touching the left/right page edge
+                    run[y, x:e] = True
+                x = e
+            else:
+                x += 1
+    run[:2, :] = False
+    run[-2:, :] = False                                         # top/bottom scan edges
+    full_rows = run.sum(axis=1) > 0.85 * gw                     # page-wide black bands are scanner artifacts
+    run[full_rows, :] = False
+    black = int(run.sum())
+    return black, content
+
+
+def redaction_estimate(pdf_url, max_pages=8):
+    """{'pct': approx % of the written area blacked out, 'pages': pages checked} for a scanned PDF."""
+    import numpy as np
+    import pypdfium2 as pdfium
+    from sources import _fetch_bytes
+    data, _ctype, _final = _fetch_bytes(pdf_url)
+    if data[:5] != b"%PDF-":
+        raise ValueError("not a PDF")
+    pdf = pdfium.PdfDocument(data)
+    n = min(len(pdf), max_pages)
+    black = content = 0
+    for i in range(n):
+        img = pdf[i].render(scale=0.6).to_pil().convert("L")
+        b, c = redaction_fraction(np.asarray(img))
+        black += b
+        content += c
+    return {"pct": round(100 * black / content, 1) if content else 0.0, "pages": n, "total_pages": len(pdf)}

@@ -42,3 +42,13 @@ DEEPL_API_KEY = "..."           # DeepL (free plan keys end in ":fx")
 `?doc=cia-readingroom-document-<id>` opens a CIA document as a dossier inside the app
 (first page, key terms to follow, documents filed nearby, share link). Top Secret tiles and
 CIA search results open dossiers.
+
+## 2.0 features (Oct 2026)
+
+- On this day: the President's Daily Brief beside "what the public was told" (Wikipedia's day-by-day record;
+  New York Times front-page headlines when `NYT_API_KEY` is set in Secrets, free at developer.nytimes.com)
+- Censor meter: approximate share of each document blacked out, measured from the scans
+- Timeline and map filters on search results
+- Weekly mystery (guess the blacked-out codeword), newly released files, shareable DECLASSIFIED image cards
+
+The pre-2.0 app is saved on the `classic` branch.
