@@ -14,7 +14,7 @@ import urllib.parse
 
 from sources import _get, clean, search_cia
 
-MODULE_VERSION = 52   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 53   # keep in step with APP_CODE_VERSION in app.py
 
 
 # ── Fresh releases ───────────────────────────────────────────────────────────
@@ -53,26 +53,79 @@ def gwu_recent(limit=6):
 
 
 # ── Weekly mystery: which codeword was blacked out? ──────────────────────────
-MYSTERY_POOL = ["MKULTRA", "CORONA", "OXCART", "AQUATONE", "VENONA", "MONGOOSE", "AZORIAN", "GRILL FLAME",
-                "PHOENIX", "IDEALIST", "HEXAGON", "GAMBIT", "ARTICHOKE", "STARGATE", "CHAOS", "ZAPATA"]
+# codeword -> (family, one-line description with era). Wrong answers come mostly from the same family,
+# so the year and the descriptions are what solve it.
+MYSTERY = {
+    "AQUATONE": ("aircraft", "the U-2 spy plane program, mid-1950s"),
+    "IDEALIST": ("aircraft", "later U-2 operations, late 1950s–1970s"),
+    "OXCART": ("aircraft", "the Mach-3 A-12 spy plane, 1960s"),
+    "TAGBOARD": ("aircraft", "the D-21 spy drone, late 1960s"),
+    "CORONA": ("satellite", "the first photo spy satellites, 1960–1972"),
+    "GAMBIT": ("satellite", "high-resolution spy satellites, 1963–1984"),
+    "HEXAGON": ("satellite", "the 'Big Bird' spy satellites, 1971–1986"),
+    "MKULTRA": ("mind", "CIA mind-control and drug experiments, 1953–1973"),
+    "ARTICHOKE": ("mind", "CIA interrogation experiments, early 1950s"),
+    "GRILL FLAME": ("mind", "Army psychic spying (remote viewing), 1978–1983"),
+    "STARGATE": ("mind", "the remote-viewing program's last name, 1991–1995"),
+    "MONGOOSE": ("covert", "the secret war against Castro, 1961–1962"),
+    "ZAPATA": ("covert", "the Bay of Pigs invasion plan, 1961"),
+    "PHOENIX": ("covert", "the Vietnam counterinsurgency program, 1965–1972"),
+    "CHAOS": ("covert", "CIA spying on U.S. antiwar groups, 1967–1974"),
+    "VENONA": ("codes", "cracking Soviet spy cables, 1943–1980"),
+    "AZORIAN": ("codes", "raising a sunken Soviet submarine, 1974"),
+}
+MYSTERY_POOL = list(MYSTERY)
+
+# Jargon that turns up in CIA titles
+JARGON = {
+    "ELINT": "electronic intelligence: intercepting enemy radar and other signals",
+    "SIGINT": "signals intelligence: intercepted communications and electronic signals",
+    "COMINT": "communications intelligence: intercepted messages",
+    "PHOTINT": "photo intelligence: analysis of reconnaissance photos",
+    "HUMINT": "human intelligence: information from spies and sources",
+    "NPIC": "National Photographic Interpretation Center, which analyzed spy photos",
+    "DCI": "Director of Central Intelligence, the head of the CIA",
+    "DDCI": "Deputy Director of Central Intelligence",
+    "DDP": "the CIA's Directorate of Plans, its covert-operations arm",
+    "DDS&T": "the CIA's science and technology directorate",
+    "OSA": "Office of Special Activities, which ran the CIA's spy planes",
+    "PFIAB": "President's Foreign Intelligence Advisory Board",
+    "USIB": "U.S. Intelligence Board, which coordinated the spy agencies",
+    "NRO": "National Reconnaissance Office, which runs spy satellites",
+    "NSC": "National Security Council",
+    "SNIE": "Special National Intelligence Estimate",
+    "NIE": "National Intelligence Estimate: the agencies' joint forecast",
+    "KGB": "the Soviet Union's security and spy service",
+    "GRU": "Soviet military intelligence",
+}
+
+
+def jargon_in(text):
+    return [(k, v) for k, v in JARGON.items() if re.search(r"(?<![A-Z])" + re.escape(k) + r"(?![A-Z])", text or "")]
 
 
 def weekly_mystery(week_key):
-    """{'answer', 'options', 'masked_title', 'year', 'url'} for this week (same puzzle all week)."""
+    """This week's puzzle (same all week): masked title, year, 4 options with descriptions, jargon notes."""
     rnd = random.Random(f"mystery-{week_key}")
     pool = MYSTERY_POOL[:]
     rnd.shuffle(pool)
     for answer in pool[:6]:                                   # first codeword that has a usable titled document
         docs = [r for r in search_cia(f'title:"{answer}"', limit=25)
-                if re.search(r"\b" + re.escape(answer) + r"\b", r["title"], re.I) and len(r["title"]) > len(answer) + 12]
+                if re.search(r"\b" + re.escape(answer) + r"\b", r["title"], re.I)
+                and len(r["title"]) > len(answer) + 12 and r["date"][:4].isdigit()]
         if not docs:
             continue
         doc = rnd.choice(docs)
-        masked = re.sub(r"\b" + re.escape(answer) + r"\b", "█" * max(5, len(answer)), doc["title"], flags=re.I)
-        options = [answer] + rnd.sample([c for c in MYSTERY_POOL if c != answer], 3)
+        family = MYSTERY[answer][0]
+        same = [c for c in MYSTERY_POOL if c != answer and MYSTERY[c][0] == family]
+        other = [c for c in MYSTERY_POOL if MYSTERY[c][0] != family]
+        wrong = rnd.sample(same, min(2, len(same)))
+        wrong += rnd.sample(other, 3 - len(wrong))
+        options = [answer] + wrong
         rnd.shuffle(options)
-        return {"answer": answer, "options": options, "masked_title": masked, "year": (doc["date"] or "")[:4],
-                "url": doc["url"]}
+        parts = re.split(r"\b" + re.escape(answer) + r"\b", doc["title"], flags=re.I)
+        return {"answer": answer, "options": [(o, MYSTERY[o][1]) for o in options], "title_parts": parts,
+                "year": doc["date"][:4], "url": doc["url"], "jargon": jargon_in(doc["title"])}
     return None
 
 

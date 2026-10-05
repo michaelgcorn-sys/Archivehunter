@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 52
+APP_CODE_VERSION = 53
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -143,6 +143,10 @@ st.markdown("""
 .otd-n{font-family:Georgia,serif;font-size:.88rem;line-height:1.4;color:#e3e3e3!important;text-decoration:none}
 .st-key-mystery{border-color:#7a3a33!important;background:#191210}
 [class*="-tile-mys"] button{background:linear-gradient(160deg,#25140f,#140c0a);border-color:#6b3a30}
+.redbar{background:#000;border-radius:2px;padding:0 .2rem;box-shadow:0 0 0 1px #333}
+.myst-jargon{font-size:.8rem;color:#b9ab8c;margin:.25rem 0}
+.st-key-mystery [data-testid="stRadio"] label p{font-size:.92rem}
+.exp-link-line{font-size:.92rem;color:#e3e8ee;margin:.1rem 0 .45rem}
 .which{font-size:1.17rem;line-height:1.4;opacity:.9;margin:.5rem 0 .4rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
@@ -183,7 +187,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 52 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 53 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -325,7 +329,14 @@ def explainer_card(prog, prefix):
     if not w and not briefs:
         return
     with st.container(border=True, key=f"{prefix}-explainer"):
-        st.markdown(f'<div class="exp-head">📖 WHAT WAS {html.escape(prog["name"].upper())}?</div>', unsafe_allow_html=True)
+        term, name = prog["term"], prog["name"]
+        codename = term.replace("-", "").replace(" ", "").upper() not in name.replace("-", "").replace(" ", "").upper()
+        if codename:      # e.g. AQUATONE -> "the U-2 spy plane program": say how they're connected
+            st.markdown(f'<div class="exp-head">📖 WHAT WAS {html.escape(term)}?</div>'
+                        f'<div class="exp-link-line"><b>{html.escape(term)}</b> was the code name for '
+                        f'{html.escape(name)}. Here’s the background:</div>', unsafe_allow_html=True)
+        else:
+            st.markdown(f'<div class="exp-head">📖 WHAT WAS {html.escape(name.upper())}?</div>', unsafe_allow_html=True)
         if w:
             text = w["extract"]
             if len(text) > 700:
@@ -891,16 +902,24 @@ def weekly_mystery_card():
     if not m:
         return
     with st.container(border=True, key="mystery"):
+        bar = '<span class="redbar">' + "&nbsp;" * 14 + "</span>"
+        title_html = bar.join(html.escape(p) for p in m["title_parts"])
         st.markdown(f'<div class="exp-head" style="color:#c4544a">🕵 WEEKLY MYSTERY · WEEK {w}</div>'
-                    f'<div class="intro">A real CIA document from {html.escape(m["year"] or "the Cold War")}. '
-                    f'One codeword has been blacked out of its title. Which one?</div>'
-                    f'<div class="dos-title">{html.escape(m["masked_title"])}</div>', unsafe_allow_html=True)
-        guess = st.pills("Your guess", m["options"], key=f"guess-{week}", label_visibility="collapsed")
+                    f'<div class="intro">A real CIA document from <b>{html.escape(m["year"])}</b>. A program codeword '
+                    f'has been blacked out of its title. Use the year and the clues to work out which one.</div>'
+                    f'<div class="dos-title">{title_html}</div>'
+                    + "".join(f'<div class="myst-jargon"><b>{html.escape(k)}</b> = {html.escape(v)}</div>'
+                              for k, v in m.get("jargon", [])),
+                    unsafe_allow_html=True)
+        labels = {f"{o} · {desc}": o for o, desc in m["options"]}
+        guess = st.radio("Which codeword?", list(labels), index=None, key=f"guess2-{week}")
         if guess:
-            if guess == m["answer"]:
-                st.success(f"✅ Correct: {m['answer']}.")
+            g = labels[guess]
+            what = dict(m["options"])[m["answer"]]
+            if g == m["answer"]:
+                st.success(f"✅ Correct: {m['answer']}, the CIA's code name for {what}.")
             else:
-                st.error(f"❌ Not quite. It was {m['answer']}.")
+                st.error(f"❌ Not quite. It was {m['answer']}, the CIA's code name for {what}.")
             ident = ident_from_url(m["url"])
             if ident:
                 st.button("🕵 Open the file", key="mystery-open", on_click=open_dossier, args=(ident,))
