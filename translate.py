@@ -16,7 +16,7 @@ so moving to a bigger plan or a different company for the public launch is a set
 import os
 import re
 
-MODULE_VERSION = 58   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 59   # keep in step with APP_CODE_VERSION in app.py
 
 import requests
 

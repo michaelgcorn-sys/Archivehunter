@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 58
+APP_CODE_VERSION = 59
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -106,15 +106,20 @@ st.markdown("""
 .exp-links{display:flex;flex-direction:column;gap:.3rem}
 .exp-link{font-size:.86rem;color:#dfe6ee!important;text-decoration:none;border-left:2px solid #5a6b7d;padding-left:.5rem}
 /* ── "Thinking" signals: spy-style instead of Streamlit's runner and gray circle ── */
-[data-testid="stStatusWidgetRunningManIcon"]{display:none!important}
-[data-testid="stStatusWidgetRunningIcon"]{display:flex!important;align-items:center;gap:.4rem;width:auto!important;min-width:max-content;margin-right:1rem!important;overflow:visible!important}
-[data-testid="stStatusWidgetRunningIcon"]::before{content:"";width:16px;height:16px;border-radius:50%;flex:none;
- border:1px solid rgba(90,220,130,.55);
- background:conic-gradient(from 0deg,rgba(90,220,130,0) 0deg,rgba(90,220,130,.75) 70deg,rgba(90,220,130,0) 71deg),
-            radial-gradient(circle,rgba(90,220,130,.9) 0 1.5px,transparent 2px);
+/* ── Always-on status light, top-left: STANDING BY when idle, DECRYPTING + sweeping radar while loading ── */
+[data-testid="stStatusWidgetRunningIcon"]{display:none!important}
+.stApp::before{content:"STANDING BY";position:fixed;top:16px;left:16px;z-index:1000001;pointer-events:none;
+ font:700 .66rem 'Courier New',monospace;letter-spacing:.16em;color:rgba(200,169,110,.45);padding-left:24px;line-height:16px}
+.stApp::after{content:"";position:fixed;top:16px;left:16px;width:16px;height:16px;border-radius:50%;z-index:1000002;
+ pointer-events:none;box-sizing:border-box;border:1px solid rgba(90,220,130,.3);
+ background:radial-gradient(circle,rgba(90,220,130,.45) 0 1.5px,transparent 2px)}
+.stApp[data-test-script-state="running"]::before,.stApp:has([data-testid="stStatusWidget"])::before{
+ content:"DECRYPTING";color:#e0574c;animation:ah-blink 1.1s steps(2,start) infinite}
+.stApp[data-test-script-state="running"]::after,.stApp:has([data-testid="stStatusWidget"])::after{
+ border-color:rgba(90,220,130,.65);
+ background:conic-gradient(from 0deg,rgba(90,220,130,0) 0deg,rgba(90,220,130,.8) 70deg,rgba(90,220,130,0) 71deg),
+            radial-gradient(circle,rgba(90,220,130,.95) 0 1.5px,transparent 2px);
  animation:ah-sweep 1.4s linear infinite}
-[data-testid="stStatusWidgetRunningIcon"]::after{content:"DECRYPTING";font:700 .68rem 'Courier New',monospace;
- letter-spacing:.16em;color:#c4544a;animation:ah-blink 1.1s steps(2,start) infinite}
 [data-testid="stSpinnerIcon"]{border:1px solid rgba(90,220,130,.55)!important;border-radius:50%!important;
  width:1.35rem!important;height:1.35rem!important;
  background:conic-gradient(from 0deg,rgba(90,220,130,0) 0deg,rgba(90,220,130,.7) 70deg,rgba(90,220,130,0) 71deg),
@@ -198,7 +203,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 58 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 59 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
