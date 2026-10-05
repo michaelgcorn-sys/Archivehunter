@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 53
+CODE_VERSION = 54
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -109,6 +109,25 @@ def brief_topics(text, limit=4):
             continue
         names.append(pl)
     return names[:limit]
+
+
+def brief_headlines(text, topics):
+    """{topic: the brief's own one-line heading for it}, from the table of contents (e.g. 'Prime Minister Rumor
+    has resigned'). Only clean, readable lines are kept."""
+    t = text or ""
+    m = re.search(r"table of contents", t, re.I)
+    if m:
+        t = t[m.end(): m.end() + 4000]
+    out = {}
+    for top in topics:
+        mm = re.search(r"\b" + re.escape(top) + r"\s*[:\-–]\s*([^\n]{12,160}?)(?=\s*(?:\.{3,}|\d{1,2}\s*$|\n|\s{3,}|[A-Z][a-z]+\s*:)|$)", t, re.M)
+        if mm:
+            line = re.sub(r"[\s.]+\d{1,2}$", "", mm.group(1))
+            line = re.sub(r"\(\s*page\s*\d+\s*\)", "", line, flags=re.I)
+            line = re.sub(r"^[A-Z][A-Za-z ]{2,20}:\s*", "", line).strip(" .-–")      # "USSR-Egypt: ..." -> drop "Egypt:"
+            if text_quality(line) >= 0.85 and len(line) >= 12:
+                out[top] = line
+    return out
 
 
 _BRIEF_TITLE = re.compile(r"president'?s (daily brief|intelligence checklist)", re.I)

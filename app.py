@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 53
+APP_CODE_VERSION = 54
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -147,6 +147,14 @@ st.markdown("""
 .myst-jargon{font-size:.8rem;color:#b9ab8c;margin:.25rem 0}
 .st-key-mystery [data-testid="stRadio"] label p{font-size:.92rem}
 .exp-link-line{font-size:.92rem;color:#e3e8ee;margin:.1rem 0 .45rem}
+.otd-row{border-top:1px solid #3a3226;padding:.55rem 0 .4rem}
+.otd-topic{font:700 .78rem 'Courier New',monospace;letter-spacing:.12em;color:#e8d3a0;text-transform:uppercase;margin-bottom:.3rem}
+.otd-pair{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;font-family:Georgia,serif;font-size:.88rem;line-height:1.4;color:#e6dccb}
+.otd-pair .otd-h{display:block;font:700 .62rem 'Courier New',monospace;letter-spacing:.12em;color:#c4544a;margin-bottom:.15rem}
+.otd-pair a{color:#e6dccb!important}
+.otd-dim{opacity:.6;font-size:.78rem}
+.otd-quiet{opacity:.75;font-style:italic}
+@media (max-width:640px){.otd-pair{grid-template-columns:1fr;gap:.45rem}}
 .which{font-size:1.17rem;line-height:1.4;opacity:.9;margin:.5rem 0 .4rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
@@ -187,7 +195,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 53 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 54 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -757,21 +765,58 @@ def on_this_day_card():
     d = _brief_date(r)
     yr = d.year if d else (r["date"] or "")
     st.markdown(f'<div class="sect">📜 ON THIS DAY · {today.strftime("%B %-d").upper()}, {yr}</div>', unsafe_allow_html=True)
+    ident = ident_from_url(r["url"])
+    full = None
+    if ident:
+        try:
+            full = cached_dossier(ident, APP_CODE_VERSION)
+        except Exception:
+            full = None
+    topics = (full or {}).get("brief_topics") or (r["snippet"].replace("In this brief: ", "").split(" · ")
+                                                   if r["snippet"].startswith("In this brief") else [])
+    topics = [t for t in topics if t][:4]
     with st.container(border=True, key="otd-box"):
-        c1, c2 = st.columns(2, gap="medium")
-        with c1:
-            topics = r["snippet"].replace("In this brief: ", "") if r["snippet"].startswith("In this brief") else ""
-            st.markdown('<div class="otd-h">🔒 WHAT THE PRESIDENT WAS TOLD</div>'
-                        f'<div class="otd-t">{html.escape(re.sub(r"'S\b", "’s", r["title"].title()))}</div>'
-                        + (f'<div class="otd-x">Covers: {html.escape(topics)}</div>' if topics else "")
-                        + '<div class="otd-src">The CIA’s top-secret morning brief, declassified</div>',
-                        unsafe_allow_html=True)
-            ident = ident_from_url(r["url"])
-            if ident:
-                st.button("🕵 Open the brief", key="otd-open", on_click=open_dossier, args=(ident,), width="stretch")
-        with c2:
-            st.markdown('<div class="otd-h">📰 WHAT THE PUBLIC WAS TOLD</div>', unsafe_allow_html=True)
-            news_day(d)
+        nice_title = re.sub(r"'S\b", "’s", r["title"].title())
+        st.markdown(f'<div class="otd-t">{html.escape(nice_title)}</div>'
+                    '<div class="otd-src">What the CIA told the president, beside what the public was told that week</div>',
+                    unsafe_allow_html=True)
+        if topics and d:
+            heads = sources.brief_headlines((full or {}).get("text", ""), topics)
+            try:
+                public = cached_public(d, tuple(topics), APP_CODE_VERSION)
+            except Exception:
+                public = {}
+            nyt = {}
+            if newsday.nyt_available():
+                for t in topics:
+                    try:
+                        nyt[t] = cached_nyt_topic(d, t, APP_CODE_VERSION)
+                    except Exception:
+                        nyt[t] = []
+            rows = []
+            for t in topics:
+                brief = heads.get(t)
+                pub = public.get(t) or []
+                news = nyt.get(t) or []
+                b_html = (f'“{html.escape(brief)}”' if brief else '<span class="otd-dim">On the agenda (the summary line '
+                          'is too faded to read)</span>')
+                if news:
+                    p_html = "<br>".join(f'<a href="{html.escape(u)}" target="_blank">“{html.escape(h)}”</a> '
+                                         f'<span class="otd-dim">NYT {html.escape(dt)}</span>' for h, u, dt in news)
+                elif pub:
+                    p_html = "<br>".join(f'{html.escape(e)} <span class="otd-dim">({day.strftime("%b %-d")})</span>'
+                                         for day, e in pub)
+                else:
+                    p_html = '<span class="otd-quiet">Nothing in the public record we checked that week.</span>'
+                rows.append(f'<div class="otd-row"><div class="otd-topic">{html.escape(t)}</div>'
+                            f'<div class="otd-pair"><div><span class="otd-h">🔒 The president</span>{b_html}</div>'
+                            f'<div><span class="otd-h">📰 The public</span>{p_html}</div></div></div>')
+            st.markdown("".join(rows), unsafe_allow_html=True)
+            src = "New York Times archive" if nyt and any(nyt.values()) else "Wikipedia’s day-by-day record of the news"
+            st.caption(f"Side by side for you to compare. Public record: {src}, within a week of the brief. "
+                       "“Nothing found” means nothing in that record, not proof it was secret.")
+        if ident:
+            st.button("🕵 Open the full brief", key="otd-open", on_click=open_dossier, args=(ident,), width="stretch")
     st.button("📜 Read briefs from other dates", key="otd-more", on_click=_open_pdb_at, args=(d,),
               width="stretch")
 
@@ -784,6 +829,16 @@ def cached_wiki_day(d, v=APP_CODE_VERSION):
 @st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=60)
 def cached_nyt(d, v=APP_CODE_VERSION):
     return newsday.nyt_front(d)
+
+
+@st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=60)
+def cached_public(d, topics, v=APP_CODE_VERSION):
+    return newsday.public_on_topics(d, list(topics))
+
+
+@st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=200)
+def cached_nyt_topic(d, topic, v=APP_CODE_VERSION):
+    return newsday.nyt_on_topic(d, topic)
 
 
 def news_day(d):
