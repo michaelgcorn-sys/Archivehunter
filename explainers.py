@@ -12,7 +12,7 @@ import urllib.parse
 
 import requests
 
-MODULE_VERSION = 55   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 56   # keep in step with APP_CODE_VERSION in app.py
 
 _UA = {"User-Agent": "ArchiveHunter/1.0 (personal research app for declassified records)"}
 
