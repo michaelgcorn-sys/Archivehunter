@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 60
+APP_CODE_VERSION = 61
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -25,9 +25,10 @@ import dossier as dossier_mod
 import explainers
 import extras
 import geo
+import redactions
 import newsday
 import translate as tr
-for _m in (dossier_mod, explainers, extras, geo, newsday, tr):
+for _m in (dossier_mod, explainers, extras, geo, newsday, redactions, tr):
     if getattr(_m, "MODULE_VERSION", None) != APP_CODE_VERSION:
         importlib.reload(_m)
 
@@ -163,6 +164,12 @@ st.markdown("""
 
 .st-key-otd-places button{border-color:#5a4a2e;background:#1c1810}
 .st-key-otd-places button p{font-weight:600;color:#ecd9b0}
+.ba-head{font:700 .9rem 'Courier New',monospace;letter-spacing:.18em;color:#e8e2d4;margin-top:.4rem}
+.ba-tag{font:700 .68rem 'Courier New',monospace;letter-spacing:.14em;padding:.3rem .55rem;border-radius:3px;display:inline-block;margin:.4rem 0}
+.ba-tag.shut{background:#000;color:#c4544a;border:1px solid #4a1f1b}
+.ba-tag.open{background:#13261a;color:#7fd99a;border:1px solid #2c5a3a}
+.ba-sub{font:700 .64rem 'Courier New',monospace;letter-spacing:.14em;color:#b98a4e;margin:.7rem 0 .15rem}
+.ba-text{font-size:.9rem;line-height:1.45;opacity:.9}
 .which{font-size:1.17rem;line-height:1.4;opacity:.9;margin:.5rem 0 .4rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
@@ -203,7 +210,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 60 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 61 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1262,6 +1269,49 @@ with st.expander("Check which archives are working"):
                              f"web-search backup: {len(search_ucsf('nicotine', 5))} results")
                 except Exception as e2:
                     st.write(f"**Corporate Secrets (UCSF)** — ❌ {type(e2).__name__}")
+
+# ── Before / After: redactions removed (trial section) ─────────────────────────
+@st.cache_data(ttl=30 * 24 * 3600, show_spinner=False, max_entries=10)
+def cached_reveal(key, v=APP_CODE_VERSION):
+    case = next(c for c in redactions.CASES if c["key"] == key)
+    return redactions.find_reveal(case)
+
+
+st.divider()
+st.markdown('<div class="ba-head">⬛ BEFORE / AFTER</div>'
+            '<div class="intro">The same secret document, released twice: first with black boxes, then again in '
+            'March 2025 with them lifted. Tap the page to declassify it.</div>', unsafe_allow_html=True)
+labels = {c["short"]: c for c in redactions.CASES}
+pick = st.pills("Document", list(labels), default=list(labels)[0], key="ba-pick", label_visibility="collapsed")
+case = labels.get(pick) or redactions.CASES[0]
+st.markdown(f'<div class="dos-title">{html.escape(case["title"])}</div>'
+            f'<div class="meta">{html.escape(case["when"])} · JFK record {html.escape(case["record"])}</div>',
+            unsafe_allow_html=True)
+with st.spinner("Pulling both versions from the National Archives…"):
+    try:
+        rv = cached_reveal(case["key"], APP_CODE_VERSION)
+    except Exception:
+        rv = None
+if not rv:
+    st.caption("Couldn't load both versions from the National Archives just now. Try again in a minute.")
+else:
+    revealed = st.session_state.get(f"ba-show-{case['key']}", False)
+    label = "🔒 Tap to declassify" if not revealed else "↩ Show the censored version"
+    if st.button(label, key=f"ba-btn-{case['key']}", type="primary" if not revealed else "secondary", width="stretch"):
+        st.session_state[f"ba-show-{case['key']}"] = not revealed
+        st.rerun()
+    tag = ("DECLASSIFIED · March 2025 release" if revealed else "CENSORED · earlier release")
+    st.markdown(f'<div class="ba-tag {"open" if revealed else "shut"}">{tag} · page {rv["page"]} of {rv["pages"]}</div>',
+                unsafe_allow_html=True)
+    st.image(rv["after"] if revealed else rv["before"], width="stretch")
+    if rv["drop"] < 0.002:
+        st.caption("The two versions of this page look nearly identical; the changes may be small, like a few names.")
+    st.markdown(f'<div class="ba-sub">WHAT IT IS</div><div class="ba-text">{html.escape(case["what"])}</div>'
+                f'<div class="ba-sub">WHY IT WAS SECRET</div><div class="ba-text">{html.escape(case["why"])}</div>'
+                f'<div class="links"><a href="{html.escape(rv["old"])}" target="_blank">📄 Censored version ↗</a> '
+                f'<a href="{html.escape(rv["new"])}" target="_blank">📄 2025 version ↗</a> '
+                f'<a href="{redactions.NSA_POST}" target="_blank">National Security Archive analysis ↗</a></div>',
+                unsafe_allow_html=True)
 
 # ── Time Machine: the Wayback Machine as a fun link ───────────────────────────
 st.divider()
