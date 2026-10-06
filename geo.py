@@ -2,7 +2,7 @@
 
 import re
 
-MODULE_VERSION = 59   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 60   # keep in step with APP_CODE_VERSION in app.py
 
 # name as it appears in documents -> (ISO-3 country code, display name). Cold War names map to today's country.
 PLACE_ISO = {

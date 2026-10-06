@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 59
+CODE_VERSION = 60
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -1067,18 +1067,47 @@ def _real_doe_doc(r):
     return bool(r.get("file_url")) and bool(year) and int(year.group()) < 2000
 
 
+_HOT = re.compile(r"\b(CASTRO|CUBA|CUBAN|KENNEDY|KHRUSHCHEV|BREZHNEV|STALIN|MAO|KGB|GRU|NUCLEAR|ATOMIC|H-BOMB|MISSILE|ICBM|"
+                  r"ASSASSINAT\w*|COUP|DEFECT\w*|SPY|SPIES|ESPIONAGE|MOLE|UFO|UNIDENTIFIED FLYING|SAUCER|U-2|OVERFLIGHT|"
+                  r"MKULTRA|OXCART|CORONA|AQUATONE|IDEALIST|GAMBIT|HEXAGON|MONGOOSE|ZAPATA|VENONA|BAY OF PIGS|BERLIN|"
+                  r"VIETNAM|LAOS|HANOI|SAIGON|SUBMARINE|SATELLITE|PSYCHIC|REMOTE VIEWING|GRILL FLAME|STARGATE|"
+                  r"OSWALD|NIXON|WATERGATE|LUMUMBA|TRUJILLO|ALLENDE|CHILE|IRAN|SHAH|NORTH KOREA|CHINA|SINO|"
+                  r"BIOLOGICAL|CHEMICAL|LSD|INTERROGATION|COVERT|PARAMILITARY|SABOTAGE|INVASION|MOSCOW|KREMLIN)\b", re.I)
+_BORING = re.compile(r"\b(ROUTING|TRANSMITTAL|COVER SHEET|RECEIPT|LOG\b|CONTROL (SLIP|RECORD|SHEET|NUMBER)|DISTRIBUTION LIST|"
+                     r"INDEX|DOCUMENT TRANSFER|CROSS REFERENCE|ACCOUNTABILITY|REGISTRY|DESTRUCTION|INVENTORY|"
+                     r"UNTITLED|CHARGE[- ]OUT|DISPATCH SHEET|ACTION SLIP|TRANSMITTAL SLIP|CERTIFICATE|TOP SECRET CONTROL|"
+                     r"CONTROL OFFICER|SECURITY OFFICER|RECORDS MANAGEMENT|BILLET|CLEARANCES?|ACCESS LIST|"
+                     r"SECURITY (PROCEDURES|REGULATIONS)|HANDLING OF|DOCUMENT CONTROL|PERSONNEL|ADMINISTRATIVE)\b", re.I)
+
+
+def ts_interest(title):
+    """How exciting a Top Secret title is: famous people, places, programs, weapons, spies."""
+    t = title or ""
+    if _BORING.search(t) or len(re.sub(r"[^A-Za-z]", "", t)) < 12:
+        return -1
+    if re.fullmatch(r"\W*(CABLE|MEMO|MEMORANDUM|LETTER|NOTE)\b.{0,30}\(?SANITIZED\)?\W*", t, re.I):
+        return -1
+    return len(set(m.group(0).upper() for m in _HOT.finditer(t)))
+
+
 def top_secret_pool():
-    """Pool of documents marked TOP SECRET, drawn from several archives at once.
+    """Pool of documents marked TOP SECRET, drawn from several archives at once, favoring exciting ones.
     Only government document collections: CIA (via its Internet Archive mirror), GWU National Security
-    Archive and the Energy Dept. Internet Archive search and Wikimedia are left out on purpose: their
-    "top secret" matches are mostly books, bands and movie posters.
-    A document qualifies only if 'TOP SECRET' (or TS//, TS/SCI) is in its own title or description."""
-    # The CIA mirror holds ~33,500 documents containing "top secret" (597 with it in the title, Oct 2026).
-    # Each refresh draws a random page from both sets, so the panel rotates through the whole collection.
+    Archive and the Energy Dept. A document qualifies only if 'TOP SECRET' (or TS//, TS/SCI) is in its own
+    title or description. Each rebuild draws random pages, so the panel keeps changing.
+    The CIA mirror holds ~33,500 documents containing "top secret" (597 with it in the title, Oct 2026)."""
+    hot = ('title:(Castro OR Cuba OR Kennedy OR Khrushchev OR KGB OR nuclear OR assassination OR coup OR defector '
+           'OR UFO OR "U-2" OR overflight OR MKULTRA OR OXCART OR CORONA OR Vietnam OR Laos OR Berlin OR missile '
+           'OR Soviet OR submarine OR satellite OR Oswald OR Chile OR Iran OR China OR covert OR sabotage)')
+    gwu_terms = ["top secret nuclear", "top secret coup", "top secret assassination", "top secret Cuba",
+                 "top secret Soviet", "top secret covert", "top secret Vietnam", "top secret China"]
     jobs = {
-        "CIA titles": lambda: search_cia('title:"top secret"', limit=40, page=random.randint(1, 14)),
-        "CIA": lambda: search_cia('"top secret"', limit=50, page=random.randint(1, 600)),
-        "GWU": lambda: search_gwu("top secret", limit=25),
+        "CIA titles": lambda: search_cia('title:"top secret"', limit=50, page=random.randint(1, 12)),
+        "CIA hot 1": lambda: search_cia(f'"top secret" AND {hot}', limit=50, page=random.randint(1, 30)),
+        "CIA hot 2": lambda: search_cia(f'"top secret" AND {hot}', limit=50, page=random.randint(31, 120)),
+        "CIA any": lambda: search_cia('"top secret"', limit=30, page=random.randint(1, 600)),
+        "GWU 1": lambda: search_gwu(random.choice(gwu_terms), limit=15),
+        "GWU 2": lambda: search_gwu(random.choice(gwu_terms), limit=15),
         "Dept of Energy": lambda: search_doe('"top secret"', limit=20),
     }
     pool, seen = [], set()
@@ -1090,15 +1119,16 @@ def top_secret_pool():
                         continue
                     if r["source"] == "Dept of Energy" and not _real_doe_doc(r):
                         continue
+                    r["interest"] = ts_interest(r["title"])
+                    if r["interest"] < 0:                     # routing slips, cover sheets, untitled scraps
+                        continue
                     seen.add(r["url"])
                     if r["source"] == "CIA" and "archive.org/details/" in r["url"]:
-                        # picture of the document's first page, made by the Internet Archive
                         r["thumb"] = "https://archive.org/services/img/" + r["url"].rsplit("/", 1)[1]
                     r.setdefault("thumb", None)
                     pool.append(r)
             except Exception:
                 pass
-    # Drop cards whose link is dead or bounces to a front page
     with ThreadPoolExecutor(max_workers=16) as ex:
         dead = list(ex.map(lambda r: _is_gone(r["url"]), pool))
     return [r for r, d in zip(pool, dead) if not d]

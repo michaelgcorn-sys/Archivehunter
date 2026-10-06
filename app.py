@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 59
+APP_CODE_VERSION = 60
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -203,7 +203,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 59 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 60 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -215,7 +215,7 @@ ss.setdefault("ocr_doc", None)
 ss.setdefault("query", "")
 
 
-@st.cache_data(ttl=3600, show_spinner=False)    # new random batch every hour
+@st.cache_data(ttl=1800, show_spinner=False)    # new random batch every 30 minutes
 def cached_pool(v=APP_CODE_VERSION):    # version in the key: an update throws out old answers
     return top_secret_pool()
 
@@ -234,7 +234,11 @@ def top_secret_strip():
     pool = cached_pool(APP_CODE_VERSION)
     if not pool:
         return
-    picks = random.sample(pool, min(10, len(pool)))
+    hot = [r for r in pool if r.get("interest", 0) > 0]
+    rest = [r for r in pool if r.get("interest", 0) <= 0]
+    picks = random.sample(hot, min(8, len(hot)))                    # mostly exciting ones
+    picks += random.sample(rest, min(10 - len(picks), len(rest)))
+    random.shuffle(picks)
     cards = []
     for r in picks:
         if r.get("thumb"):
