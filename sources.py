@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 61
+CODE_VERSION = 62
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -572,7 +572,7 @@ def _nara_key():
     return os.environ.get("NARA_API_KEY", "").strip()
 
 
-def search_nara(q, limit=12):
+def search_nara(q, limit=12, online_first=True):
     """U.S. National Archives Catalog, official API v2 (JFK, RFK, MLK, UAP and millions more records)."""
     data = _get("https://catalog.archives.gov/api/v2/records/search", params={"q": q, "limit": limit},
                 headers={"x-api-key": _nara_key(), "Content-Type": "application/json"}, timeout=25).json()
@@ -592,6 +592,9 @@ def search_nara(q, limit=12):
         out.append(_res("National Archives", clean(str(rec.get("title", ""))) or f"Record {na}",
                         f"https://catalog.archives.gov/id/{na}", date=year, kind=kind,
                         snippet=clean(str(rec.get("scopeAndContentNote", "")))[:300], doc_url=pdf, file_url=pdf))
+        out[-1]["online"] = bool(files)
+    if online_first:
+        out.sort(key=lambda r: not r.get("online"))
     return out
 
 
@@ -782,8 +785,7 @@ SOURCES = {
     "Wikimedia Commons": search_wikimedia,
     "UK National Archives": search_uk_archives,
 }
-if _nara_key():                       # switches on by itself once the key is saved in Secrets
-    SOURCES["National Archives"] = search_nara
+NARA_ON = bool(_nara_key())          # the National Archives gets its own box in the app, not the main search
 # Declassified sources rank a little higher when relevance is otherwise equal.
 SOURCE_WEIGHT = {"CIA": 3, "FBI Vault": 3, "GWU Natl Security Archive": 3, "Black Vault": 2,
                  "DOJ Epstein Library": 2, "MuckRock": 2,

@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 61
+APP_CODE_VERSION = 62
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -170,6 +170,14 @@ st.markdown("""
 .ba-tag.open{background:#13261a;color:#7fd99a;border:1px solid #2c5a3a}
 .ba-sub{font:700 .64rem 'Courier New',monospace;letter-spacing:.14em;color:#b98a4e;margin:.7rem 0 .15rem}
 .ba-text{font-size:.9rem;line-height:1.45;opacity:.9}
+.st-key-nara-box{border-color:#3d5a80!important;background:linear-gradient(180deg,#121a26,#0f1218)}
+.nara-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#8fb3de}
+.nara-title{font-family:Georgia,serif;font-size:1.25rem;color:#e6eef8;margin:.15rem 0 .2rem}
+[class*="nara-tile-"] button{height:auto!important;min-height:132px;align-items:flex-start;justify-content:flex-start;text-align:left;padding:.7rem .75rem;
+ background:linear-gradient(160deg,#17202d,#10151d);border:1px solid #2e4260;border-radius:8px}
+[class*="nara-tile-"] button *{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+[class*="nara-tile-"] button p{font-size:.74rem;line-height:1.3;opacity:.85;margin:0;text-align:left}
+[class*="nara-tile-"] button p strong{display:block;font-size:.9rem;color:#cfe0f5;opacity:1;margin:.3rem 0 .25rem}
 .which{font-size:1.17rem;line-height:1.4;opacity:.9;margin:.5rem 0 .4rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
@@ -210,7 +218,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 61 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 62 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1013,6 +1021,71 @@ def fresh_releases():
                            + (f' · {html.escape(i["date"])}' if i.get("date") else "") + " ↗</a>" for i in items)
             st.markdown(f'<div class="exp-links">{rows}</div>', unsafe_allow_html=True)
 
+
+NARA_HIGHLIGHTS = [
+    ("🎯", "The JFK files", "CIA, FBI and Warren Commission files, released as recently as 2025.", "Lee Harvey Oswald"),
+    ("📼", "Nixon's tapes", "Thousands of hours Nixon secretly taped in the White House.", "Nixon White House tapes"),
+    ("📄", "Pentagon Papers", "The secret Vietnam War history, fully declassified in 2011.", "Pentagon Papers"),
+    ("🕊", "RFK & MLK files", "Assassination records opened in 2025.", "Robert F. Kennedy assassination"),
+    ("🛸", "UFO records", "The government UFO records Congress ordered gathered.", "unidentified anomalous phenomena"),
+    ("🎖", "World War II", "Military files and captured German records.", "captured German records"),
+]
+
+
+@st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=60)
+def cached_nara(q, v=APP_CODE_VERSION):
+    return sources.search_nara(q, limit=15)
+
+
+def _nara_go(q):
+    ss.nara_q = q
+
+
+def nara_box():
+    """The National Archives in its own spotlight box, with its own search."""
+    if not sources.NARA_ON:
+        return
+    with st.container(border=True, key="nara-box"):
+        st.markdown('<div class="nara-kicker">🏛 THE NATIONAL ARCHIVES</div>'
+                    '<div class="nara-title">The nation’s attic: 13 billion pages and counting</div>'
+                    '<div class="intro">Washington’s official keeper of government records, from the Constitution '
+                    'to the JFK files. Search it on its own here.</div>', unsafe_allow_html=True)
+        with st.form("nara-form", border=False):
+            nq = st.text_input("Search the National Archives", value=ss.get("nara_q", ""), label_visibility="collapsed",
+                               placeholder="Search the National Archives…")
+            if st.form_submit_button("🏛 Search the National Archives", width="stretch"):
+                ss.nara_q = sources.normalize_query(nq)
+        if not ss.get("nara_q"):
+            st.markdown('<div class="exp-sub">WHAT’S INSIDE · tap one</div>', unsafe_allow_html=True)
+            with st.container(horizontal=True, wrap=True, gap="small", key="nara-tiles"):
+                for i, (icon, name, blurb, q) in enumerate(NARA_HIGHLIGHTS):
+                    st.button(f"{icon}  **{name}**\n\n{blurb}", key=f"nara-tile-{i}", on_click=_nara_go, args=(q,),
+                              width=140, wrap=True)
+            return
+        q = ss.nara_q
+        with st.spinner("Searching the National Archives…"):
+            try:
+                rows = cached_nara(q, APP_CODE_VERSION)
+            except Exception:
+                rows = None
+        top = st.columns([4, 1], vertical_alignment="center")
+        top[0].markdown(f'<div class="sect">NATIONAL ARCHIVES · “{html.escape(q)}”'
+                        f'{" · " + str(len(rows)) if rows is not None else ""}</div>', unsafe_allow_html=True)
+        top[1].button("✕ Clear", key="nara-clear", on_click=lambda: ss.pop("nara_q", None), type="tertiary")
+        if rows is None:
+            st.caption("The National Archives didn't answer just now. Try again in a minute.")
+            return
+        if not rows:
+            st.caption("Nothing came back. Try fewer or different words.")
+        online = sum(1 for r in rows if r.get("online"))
+        if rows:
+            st.caption(f"{online} of {len(rows)} have the document itself online; the rest are catalog entries "
+                       "(the record exists, but you'd request it from the Archives).")
+        for i, r in enumerate(rows):
+            render_result(r, f"na{i}", query=q)
+        st.link_button(f"See everything on the National Archives site for “{q}”",
+                       "https://catalog.archives.gov/search?q=" + urllib.parse.quote(q), width="stretch")
+
 tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
 
 with tab_search:
@@ -1070,6 +1143,7 @@ with tab_search:
         on_this_day_card()
         st.markdown('<div class="sect">DEEP DIVES · tap a topic</div>', unsafe_allow_html=True)
         topic_tiles("home", with_ancient=True)
+        nara_box()
 
     # ── Results ──────────────────────────────────────────────────────────────────
     results, status = ss.results, ss.status
@@ -1107,7 +1181,7 @@ with tab_search:
         st.markdown("**Not in the main search** · these archives only work on their own websites. "
                     "Tap one to visit it (opens in a new tab). Search first and they open with your words filled in.")
     c = st.columns(2)
-    links = [b for b in BROWSER_ONLY if not (b[0].startswith("National Archives") and "National Archives" in SOURCES)]
+    links = [b for b in BROWSER_ONLY if not (b[0].startswith("National Archives") and sources.NARA_ON)]
     for j, (name, tpl, home) in enumerate(links):
         c[j % 2].link_button(name, tpl.replace("{q}", term) if term else home, width="stretch")
     st.caption("🌐 **Site not in English?** iPhone Safari: tap **aA** in the address bar, then **Translate to English**. "
@@ -1259,6 +1333,14 @@ with st.expander("Check which archives are working"):
                 st.write(f"**{n}** — {msg}")
         with st.spinner("Checking the CIA…"):
             st.caption("**CIA details:**  \n" + "  \n".join(diagnose_cia()))
+        with st.spinner("Checking the National Archives…"):
+            if not sources.NARA_ON:
+                st.write("**National Archives (own box)** — ⚠️ no key found in Secrets")
+            else:
+                try:
+                    st.write(f"**National Archives (own box)** — ✅ {len(sources.search_nara('Oswald', 5))} results")
+                except Exception as e:
+                    st.write(f"**National Archives (own box)** — ❌ {type(e).__name__}: {str(e)[:80]}")
         with st.spinner("Checking Corporate Secrets…"):
             try:
                 direct = len(sources._ucsf_api("nicotine", 5))
