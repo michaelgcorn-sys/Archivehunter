@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 69
+APP_CODE_VERSION = 70
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -228,7 +228,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 69 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 70 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1034,11 +1034,11 @@ def fresh_releases():
 
 NARA_HIGHLIGHTS = [
     ("🎯", "The JFK files", "CIA, FBI and Warren Commission files, released as recently as 2025.", "Lee Harvey Oswald",
-     ["Lee Harvey Oswald photograph", "Kennedy Dallas motorcade photograph", "Lee Harvey Oswald"]),
+     ["Kennedy motorcade Dallas photograph", "Lee Harvey Oswald photograph", "John F. Kennedy photograph"]),
     ("📼", "Nixon's tapes", "Thousands of hours Nixon secretly taped in the White House.", "Nixon White House tapes",
      ["Nixon Oval Office photograph", "President Nixon photograph", "Nixon White House tapes"]),
     ("📄", "Pentagon Papers", "The secret Vietnam War history, fully declassified in 2011.", "Pentagon Papers",
-     ["Pentagon Papers", "Vietnam War photograph", "Vietnam soldiers photograph"]),
+     ["Vietnam War photograph", "Vietnam soldiers helicopter photograph", "Pentagon Papers"]),
     ("🕊", "RFK & MLK files", "Assassination records opened in 2025.", "Robert F. Kennedy assassination",
      ["Robert F. Kennedy photograph", "Martin Luther King photograph", "Robert F. Kennedy assassination"]),
     ("🛸", "UFO records", "The government UFO records Congress ordered gathered.", "unidentified anomalous phenomena",
@@ -1054,13 +1054,22 @@ def cached_nara_samples(v=APP_CODE_VERSION):
     from concurrent.futures import ThreadPoolExecutor
 
     def one(queries):
+        fallback = None
         for qq in queries:
             try:
-                for r in sources.search_nara(qq, limit=20, online_first=False):
-                    if r.get("image"):
-                        return {"img": r["image"], "title": r["title"], "url": r["url"], "date": r.get("date", "")}
+                rows = [r for r in sources.search_nara(qq, limit=25, online_first=False) if r.get("image")]
             except Exception:
-                return None
+                continue
+            rows.sort(key=lambda r: not r.get("photo"))          # real photographs before scanned paperwork
+            for r in rows[:6]:
+                ok = sources.image_is_interesting(r["image"])    # skip blank folder covers and empty pages
+                if ok is None and fallback is None:
+                    fallback = r                                 # couldn't check it: keep as a backup
+                if ok:
+                    return {"img": r["image"], "title": r["title"], "url": r["url"], "date": r.get("date", "")}
+        if fallback:
+            r = fallback
+            return {"img": r["image"], "title": r["title"], "url": r["url"], "date": r.get("date", "")}
         return None
     with ThreadPoolExecutor(6) as ex:
         return list(ex.map(one, [h[4] for h in NARA_HIGHLIGHTS]))

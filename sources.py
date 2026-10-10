@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 69
+CODE_VERSION = 70
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -608,6 +608,28 @@ def _nara_image(objs):
     return None
 
 
+def image_is_interesting(url, max_bytes=3_000_000):
+    """False for blank folder covers and empty pages; None if the picture couldn't be fetched to check."""
+    try:
+        from PIL import Image, ImageStat
+        import io as _io
+        r = requests.get(url, headers=HEADERS, timeout=15, stream=True)
+        data = r.raw.read(max_bytes + 1, decode_content=True)
+        if r.status_code != 200:
+            return None                                     # couldn't check (not the same as "boring")
+        if len(data) > max_bytes:
+            return False
+        im = Image.open(_io.BytesIO(data)).convert("L")
+        im.thumbnail((200, 200))
+        st_ = ImageStat.Stat(im)
+        dark = sum(im.histogram()[:90]) / (im.width * im.height)
+        return st_.stddev[0] > 38 and dark > 0.08      # enough contrast and some real dark detail
+    except requests.RequestException:
+        return None
+    except Exception:
+        return False
+
+
 def search_nara(q, limit=12, online_first=True):
     """U.S. National Archives Catalog, official API v2 (JFK, RFK, MLK, UAP and millions more records)."""
     key = _nara_key()
@@ -663,6 +685,7 @@ def search_nara(q, limit=12, online_first=True):
                         snippet=clean(str(rec.get("scopeAndContentNote", "")))[:300], doc_url=pdf, file_url=pdf))
         out[-1]["online"] = bool(files)
         out[-1]["image"] = _nara_image(rec.get("digitalObjects") or [])
+        out[-1]["photo"] = "photo" in str(rec.get("generalRecordsTypes") or rec.get("generalRecordsType") or "").lower()
     if raw and not out:
         raise RuntimeError(f"results came back in an unfamiliar shape: {str(raw[0])[:120]}")
     if online_first:
