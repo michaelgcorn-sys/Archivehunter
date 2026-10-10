@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 62
+APP_CODE_VERSION = 63
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -218,7 +218,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 62 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 63 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1063,17 +1063,20 @@ def nara_box():
                               width=140, wrap=True)
             return
         q = ss.nara_q
+        nara_err = ""
         with st.spinner("Searching the National Archives…"):
             try:
                 rows = cached_nara(q, APP_CODE_VERSION)
-            except Exception:
-                rows = None
+            except Exception as e:
+                rows, nara_err = None, f"{type(e).__name__}: {str(e)[:200]}"
         top = st.columns([4, 1], vertical_alignment="center")
         top[0].markdown(f'<div class="sect">NATIONAL ARCHIVES · “{html.escape(q)}”'
                         f'{" · " + str(len(rows)) if rows is not None else ""}</div>', unsafe_allow_html=True)
         top[1].button("✕ Clear", key="nara-clear", on_click=lambda: ss.pop("nara_q", None), type="tertiary")
         if rows is None:
             st.caption("The National Archives didn't answer just now. Try again in a minute.")
+            if nara_err:
+                st.caption(f"Details for troubleshooting: {nara_err}")
             return
         if not rows:
             st.caption("Nothing came back. Try fewer or different words.")

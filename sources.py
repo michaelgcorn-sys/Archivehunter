@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 62
+CODE_VERSION = 63
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -574,8 +574,21 @@ def _nara_key():
 
 def search_nara(q, limit=12, online_first=True):
     """U.S. National Archives Catalog, official API v2 (JFK, RFK, MLK, UAP and millions more records)."""
-    data = _get("https://catalog.archives.gov/api/v2/records/search", params={"q": q, "limit": limit},
-                headers={"x-api-key": _nara_key(), "Content-Type": "application/json"}, timeout=25).json()
+    url = "https://catalog.archives.gov/api/v2/records/search"
+    hdrs = {**HEADERS, "x-api-key": _nara_key(), "Accept": "application/json"}
+    last = None
+    for params in ({"q": q, "limit": limit}, {"q": q, "rows": limit}, {"q": q}):    # fall back if a setting is rejected
+        r = requests.get(url, params=params, headers=hdrs, timeout=30)
+        if r.status_code == 200:
+            break
+        last = f"HTTP {r.status_code}: {r.text[:160]}"
+        if r.status_code in (401, 403, 429):           # bad key or over the limit: retrying won't help
+            break
+    else:
+        r = None
+    if r is None or r.status_code != 200:
+        raise RuntimeError(last or "no answer")
+    data = r.json()
     out = []
     for h in data.get("body", {}).get("hits", {}).get("hits", []):
         rec = (h.get("_source") or {}).get("record") or {}
