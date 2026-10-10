@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 64
+CODE_VERSION = 65
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -586,27 +586,26 @@ def search_nara(q, limit=12, online_first=True):
         ({"x-api-key": key, "Content-Type": "application/json"}, {"q": q, "limit": limit}),
         ({**HEADERS, "x-api-key": key, "Accept": "application/json"}, {"q": q, "limit": limit}),
     ]
-    data, last = None, None
-    for hdrs, params in variants:
+    data, notes = None, []
+    for n, (hdrs, params) in enumerate(variants, 1):
         try:
             r = requests.get(url, params=params, headers=hdrs, timeout=30)
         except Exception as e:
-            last = f"{type(e).__name__}"
+            notes.append(f"#{n} {type(e).__name__}")
             continue
+        hop = f" via {r.history[0].status_code}->{r.url[:60]}" if r.history else ""
         if r.status_code in (401, 403, 429):           # bad key or over the limit: retrying won't help
-            raise RuntimeError(f"HTTP {r.status_code}: {r.text[:160]}")
+            raise RuntimeError(f"HTTP {r.status_code}{hop}: {r.text[:160]}")
         if r.status_code != 200:
-            last = f"HTTP {r.status_code}: {r.text[:160]}"
+            notes.append(f"#{n} HTTP {r.status_code}{hop}: {r.text[:80]}")
             continue
         try:
             data = r.json()
             break
         except ValueError:
-            snippet = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", r.text))[:140].strip()
-            last = (f"got {r.headers.get('content-type', '?')} instead of data, {len(r.text)} chars"
-                    + (f': "{snippet}"' if snippet else " (empty)"))
+            notes.append(f"#{n} {r.headers.get('content-type', '?').split(';')[0]} page{hop}")
     if data is None:
-        raise RuntimeError(last or "no answer")
+        raise RuntimeError("; ".join(notes) or "no answer")
     out = []
     for h in data.get("body", {}).get("hits", {}).get("hits", []):
         rec = (h.get("_source") or {}).get("record") or {}

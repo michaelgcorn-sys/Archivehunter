@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 64
+APP_CODE_VERSION = 65
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -218,7 +218,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 64 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 65 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1068,7 +1068,7 @@ def nara_box():
             try:
                 rows = cached_nara(q, APP_CODE_VERSION)
             except Exception as e:
-                rows, nara_err = None, f"{type(e).__name__}: {str(e)[:200]}"
+                rows, nara_err = None, f"{type(e).__name__}: {str(e)[:400]}"
         top = st.columns([4, 1], vertical_alignment="center")
         top[0].markdown(f'<div class="sect">NATIONAL ARCHIVES · “{html.escape(q)}”'
                         f'{" · " + str(len(rows)) if rows is not None else ""}</div>', unsafe_allow_html=True)
