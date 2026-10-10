@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 68
+APP_CODE_VERSION = 69
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -172,6 +172,14 @@ st.markdown("""
 .ba-tag.open{background:#13261a;color:#7fd99a;border:1px solid #2c5a3a}
 .ba-sub{font:700 .64rem 'Courier New',monospace;letter-spacing:.14em;color:#b98a4e;margin:.7rem 0 .15rem}
 .ba-text{font-size:.9rem;line-height:1.45;opacity:.9}
+.nara-photo{display:block;text-decoration:none!important;border:1px solid #3d5a80;border-bottom:none;border-radius:8px 8px 0 0;overflow:hidden;background:#0b0f15}
+.nara-photo img{display:block;width:100%;height:104px;object-fit:cover;filter:sepia(.25) contrast(1.05)}
+.nara-photo span{display:block;font-size:.68rem;line-height:1.25;color:#9fb3cc;padding:.25rem .4rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+[class*="st-key-nara-cell-"]{gap:0!important}
+[class*="st-key-nara-cell-"] [data-testid="stMarkdownContainer"]{margin-bottom:0!important}
+[class*="st-key-nara-cell-"] [data-testid="stElementContainer"]{margin:0!important}
+[class*="st-key-nara-cell-"] .stMarkdown{margin-bottom:-1rem}
+[class*="st-key-nara-cell-"]:has(.nara-photo) button{border-top-left-radius:0!important;border-top-right-radius:0!important}
 .st-key-nara-box{border-color:#3d5a80!important;background:linear-gradient(180deg,#121a26,#0f1218)}
 .nara-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#8fb3de}
 .nara-title{font-family:Georgia,serif;font-size:1.25rem;color:#e6eef8;margin:.15rem 0 .2rem}
@@ -220,7 +228,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 68 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 69 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1025,13 +1033,37 @@ def fresh_releases():
 
 
 NARA_HIGHLIGHTS = [
-    ("🎯", "The JFK files", "CIA, FBI and Warren Commission files, released as recently as 2025.", "Lee Harvey Oswald"),
-    ("📼", "Nixon's tapes", "Thousands of hours Nixon secretly taped in the White House.", "Nixon White House tapes"),
-    ("📄", "Pentagon Papers", "The secret Vietnam War history, fully declassified in 2011.", "Pentagon Papers"),
-    ("🕊", "RFK & MLK files", "Assassination records opened in 2025.", "Robert F. Kennedy assassination"),
-    ("🛸", "UFO records", "The government UFO records Congress ordered gathered.", "unidentified anomalous phenomena"),
-    ("🎖", "World War II", "Military files and captured German records.", "captured German records"),
+    ("🎯", "The JFK files", "CIA, FBI and Warren Commission files, released as recently as 2025.", "Lee Harvey Oswald",
+     ["Lee Harvey Oswald photograph", "Kennedy Dallas motorcade photograph", "Lee Harvey Oswald"]),
+    ("📼", "Nixon's tapes", "Thousands of hours Nixon secretly taped in the White House.", "Nixon White House tapes",
+     ["Nixon Oval Office photograph", "President Nixon photograph", "Nixon White House tapes"]),
+    ("📄", "Pentagon Papers", "The secret Vietnam War history, fully declassified in 2011.", "Pentagon Papers",
+     ["Pentagon Papers", "Vietnam War photograph", "Vietnam soldiers photograph"]),
+    ("🕊", "RFK & MLK files", "Assassination records opened in 2025.", "Robert F. Kennedy assassination",
+     ["Robert F. Kennedy photograph", "Martin Luther King photograph", "Robert F. Kennedy assassination"]),
+    ("🛸", "UFO records", "The government UFO records Congress ordered gathered.", "unidentified anomalous phenomena",
+     ["unidentified flying object photograph", "Project Blue Book", "unidentified anomalous phenomena"]),
+    ("🎖", "World War II", "Military files and captured German records.", "captured German records",
+     ["World War II photograph", "D-Day Normandy photograph", "captured German records"]),
 ]
+
+
+@st.cache_data(ttl=24 * 3600, show_spinner=False, max_entries=10)
+def cached_nara_samples(v=APP_CODE_VERSION):
+    """One live photo per highlight tile, straight from the National Archives. Missing ones are just left out."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    def one(queries):
+        for qq in queries:
+            try:
+                for r in sources.search_nara(qq, limit=20, online_first=False):
+                    if r.get("image"):
+                        return {"img": r["image"], "title": r["title"], "url": r["url"], "date": r.get("date", "")}
+            except Exception:
+                return None
+        return None
+    with ThreadPoolExecutor(6) as ex:
+        return list(ex.map(one, [h[4] for h in NARA_HIGHLIGHTS]))
 
 
 @st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=60)
@@ -1059,10 +1091,22 @@ def nara_box():
                 ss.nara_q = sources.normalize_query(nq)
         if not ss.get("nara_q"):
             st.markdown('<div class="exp-sub">WHAT’S INSIDE · tap one</div>', unsafe_allow_html=True)
+            try:
+                samples = cached_nara_samples(APP_CODE_VERSION)
+            except Exception:
+                samples = [None] * len(NARA_HIGHLIGHTS)
             with st.container(horizontal=True, wrap=True, gap="small", key="nara-tiles"):
-                for i, (icon, name, blurb, q) in enumerate(NARA_HIGHLIGHTS):
-                    st.button(f"{icon}  **{name}**\n\n{blurb}", key=f"nara-tile-{i}", on_click=_nara_go, args=(q,),
-                              width=140, wrap=True)
+                for i, (icon, name, blurb, q, _qs) in enumerate(NARA_HIGHLIGHTS):
+                    smp = samples[i] if i < len(samples) else None
+                    with st.container(width=140, gap=None, key=f"nara-cell-{i}"):
+                        if smp:
+                            yr = f" · {smp['date']}" if smp.get("date") else ""
+                            st.markdown(f'<a class="nara-photo" href="{html.escape(smp["url"])}" target="_blank" '
+                                        f'title="{html.escape(smp["title"])}"><img src="{html.escape(smp["img"])}" '
+                                        f'alt="" loading="lazy"><span>📷 {html.escape(smp["title"][:60])}{yr}</span></a>',
+                                        unsafe_allow_html=True)
+                        st.button(f"{icon}  **{name}**\n\n{blurb}", key=f"nara-tile-{i}", on_click=_nara_go,
+                                  args=(q,), width="stretch", wrap=True)
             return
         q = ss.nara_q
         nara_err = ""

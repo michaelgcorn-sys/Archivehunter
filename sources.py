@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 68
+CODE_VERSION = 69
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -583,6 +583,31 @@ def _nara_setting(name):
     return os.environ.get(name, "").strip()
 
 
+_IMG_EXT = (".jpg", ".jpeg", ".png", ".gif", ".webp")
+
+
+def _nara_image(objs):
+    """A picture for a record: a thumbnail if NARA offers one, else an image file itself (not huge TIFFs)."""
+    thumbs, fulls = [], []
+    for d in objs:
+        if not isinstance(d, dict):
+            continue
+        for k, v in d.items():
+            if not (isinstance(v, str) and v.startswith("http")):
+                continue
+            path = v.lower().split("?")[0]
+            if "thumb" in k.lower() and (path.endswith(_IMG_EXT) or "thumb" in path):
+                thumbs.append(v)
+            elif k == "objectUrl" and path.endswith(_IMG_EXT):
+                small = (d.get("objectFileSize") or 0)
+                fulls.append((small if isinstance(small, (int, float)) else 0, v))
+    if thumbs:
+        return thumbs[0]
+    if fulls:
+        return sorted(fulls)[0][1]          # smallest image file loads fastest
+    return None
+
+
 def search_nara(q, limit=12, online_first=True):
     """U.S. National Archives Catalog, official API v2 (JFK, RFK, MLK, UAP and millions more records)."""
     key = _nara_key()
@@ -637,6 +662,7 @@ def search_nara(q, limit=12, online_first=True):
                         f"https://catalog.archives.gov/id/{na}", date=year, kind=kind,
                         snippet=clean(str(rec.get("scopeAndContentNote", "")))[:300], doc_url=pdf, file_url=pdf))
         out[-1]["online"] = bool(files)
+        out[-1]["image"] = _nara_image(rec.get("digitalObjects") or [])
     if raw and not out:
         raise RuntimeError(f"results came back in an unfamiliar shape: {str(raw[0])[:120]}")
     if online_first:
