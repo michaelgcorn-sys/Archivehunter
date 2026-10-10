@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 67
+APP_CODE_VERSION = 68
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -72,8 +72,10 @@ st.markdown("""
 .ts-body{padding:.5rem .6rem .6rem;display:flex;flex-direction:column;gap:.2rem}
 .ts-src{font:700 .6rem 'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;color:#c8a96e}
 .ts-title{font-size:.8rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.st-key-popular{border:1.5px solid #c4544a;border-radius:8px;padding:.6rem .75rem .75rem;margin:.4rem 0 .2rem;gap:.4rem}
-.pop-label{font-size:1.17rem;font-weight:700;color:#c4544a;line-height:1.3;padding:.1rem 0 .5rem;display:block}
+.st-key-popular{border:1px solid #c4544a;border-radius:8px;padding:.35rem .5rem .45rem;margin:.3rem 0 .1rem;gap:.15rem}
+.st-key-popular button{min-height:0!important;padding:.05rem .55rem!important}
+.st-key-popular button p,.st-key-popular button div{font-size:.82rem!important;line-height:1.5!important}
+.pop-label{font-size:.8rem;font-weight:700;color:#c4544a;line-height:1.2;padding:0 0 .15rem;display:block;letter-spacing:.06em;text-transform:uppercase}
 .st-key-popular [data-testid="stMarkdownContainer"]{overflow:visible;margin-bottom:0}
 .st-key-popular [data-testid="stElementContainer"]{height:auto!important}
 .st-key-qbox div:has(> input),.st-key-qbox [data-baseweb="input"]{border:2px solid #c8a96e!important;border-radius:10px!important;background:#1d1a14!important;box-shadow:0 0 0 3px rgba(200,169,110,.12)}
@@ -178,7 +180,7 @@ st.markdown("""
 [class*="nara-tile-"] button *{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
 [class*="nara-tile-"] button p{font-size:.74rem;line-height:1.3;opacity:.85;margin:0;text-align:left}
 [class*="nara-tile-"] button p strong{display:block;font-size:.9rem;color:#cfe0f5;opacity:1;margin:.3rem 0 .25rem}
-.which{font-size:1.17rem;line-height:1.4;opacity:.9;margin:.5rem 0 .4rem}
+.which{font-size:.82rem;line-height:1.35;opacity:.7;margin:.4rem 0 .2rem}
 .links{display:flex;flex-wrap:wrap;gap:.45rem;margin:.35rem 0 .1rem}
 .links a{font-size:.82rem;font-weight:600;text-decoration:none;color:#c8a96e;border:1px solid #3a3528;border-radius:999px;padding:.22rem .7rem;background:#171714}
 .links a:hover{border-color:#c8a96e}
@@ -218,7 +220,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 67 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 68 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -564,8 +566,51 @@ _doc = st.query_params.get("doc")
 if is_cia_ident(_doc):
     render_dossier(_doc)
 
+@st.cache_data(ttl=24 * 3600, show_spinner=False, max_entries=10)
+def cached_mystery(day, v=APP_CODE_VERSION):
+    return extras.daily_mystery(day)
+
+
+def daily_mystery_card():
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    today = datetime.now(ZoneInfo("America/New_York")).date()
+    week = today.isoformat()            # key for today's guess
+    try:
+        m = cached_mystery(today, APP_CODE_VERSION)
+    except Exception:
+        m = None
+    if not m:
+        return
+    with st.container(border=True, key="mystery"):
+        bar = '<span class="redbar">' + "&nbsp;" * 14 + "</span>"
+        title_html = bar.join(html.escape(p) for p in m["title_parts"])
+        st.markdown(f'<div class="exp-head" style="color:#c4544a">🕵 DAILY MYSTERY · {today.strftime("%b %-d").upper()}</div>'
+                    f'<div class="intro">A real CIA document from <b>{html.escape(m["year"])}</b>. A program codeword '
+                    f'has been blacked out of its title. Use the year and the clues to work out which one.</div>'
+                    f'<div class="dos-title">{title_html}</div>'
+                    + "".join(f'<div class="myst-jargon"><b>{html.escape(k)}</b> = {html.escape(v)}</div>'
+                              for k, v in m.get("jargon", [])),
+                    unsafe_allow_html=True)
+        labels = {f"{o} · {desc}": o for o, desc in m["options"]}
+        guess = st.radio("Which codeword?", list(labels), index=None, key=f"guess2-{week}")
+        if guess:
+            g = labels[guess]
+            what = dict(m["options"])[m["answer"]]
+            if g == m["answer"]:
+                st.success(f"✅ Correct: {m['answer']}, the CIA's code name for {what}.")
+            else:
+                st.error(f"❌ Not quite. It was {m['answer']}, the CIA's code name for {what}.")
+            ident = ident_from_url(m["url"])
+            if ident:
+                st.button("🕵 Open the file", key="mystery-open", on_click=open_dossier, args=(ident,))
+            explainer_card(explainers.find_program(m["answer"]), "mys")
+        st.caption("A new mystery every day.")
+
+
 with st.spinner("Pulling Top Secret documents from the archives…"):
     top_secret_strip()
+daily_mystery_card()
 
 
 @st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=40)
@@ -723,8 +768,6 @@ def topic_tiles(prefix, with_ancient=False):
                       on_click=_open_ancient, width=164, wrap=True)
             st.button("🏢  **Corporate Secrets**\n\nTobacco, opioids, Enron: the memos they hid", key=f"{prefix}-tile-corp",
                       on_click=_open_corp, width=164, wrap=True)
-            st.button("🕵  **Daily Mystery**\n\nGuess the blacked-out codeword", key=f"{prefix}-tile-mys",
-                      on_click=_open_mystery, width=164, wrap=True)
 
 
 def _pdb_random():
@@ -816,6 +859,9 @@ def on_this_day_card():
         nice_title = re.sub(r"'S\b", "’s", r["title"].title())
         st.markdown(f'<div class="otd-h">🔒 WHAT THE CIA TOLD THE PRESIDENT THAT MORNING</div>'
                     f'<div class="otd-t">{html.escape(nice_title)}</div>', unsafe_allow_html=True)
+        if ident:
+            st.button("🕵 Open the brief", key="otd-open", on_click=open_dossier, args=(ident,),
+                      type="primary", width="stretch")
         if topics:
             st.markdown('<div class="otd-x">In this brief · tap a place to dig into what was happening there</div>',
                         unsafe_allow_html=True)
@@ -824,9 +870,7 @@ def on_this_day_card():
                     q = f"{t} {yr}" if yr else t
                     st.button(f"🌍 {t}", key=f"otd-place-{i}", on_click=follow_term, args=(q,))
         with st.container(horizontal=True, gap="small", key="otd-actions"):
-            if ident:
-                st.button("🕵 Open the brief", key="otd-open", on_click=open_dossier, args=(ident,))
-            st.button("🎲 Roll another date", key="otd-roll", on_click=_roll_brief)
+            st.button("🎲 Roll another date", key="otd-roll", on_click=_roll_brief, type="tertiary")
             if rolled:
                 st.button("↩ Back to today", key="otd-today", on_click=lambda: ss.pop("otd_roll", None), type="tertiary")
     st.button("📜 Pick any date", key="otd-more", on_click=_open_pdb_at, args=(d,), width="stretch")
@@ -966,48 +1010,6 @@ def cached_fresh(v=APP_CODE_VERSION):
     return out
 
 
-@st.cache_data(ttl=24 * 3600, show_spinner=False, max_entries=10)
-def cached_mystery(day, v=APP_CODE_VERSION):
-    return extras.daily_mystery(day)
-
-
-def daily_mystery_card():
-    from datetime import datetime
-    from zoneinfo import ZoneInfo
-    today = datetime.now(ZoneInfo("America/New_York")).date()
-    week = today.isoformat()            # key for today's guess
-    try:
-        m = cached_mystery(today, APP_CODE_VERSION)
-    except Exception:
-        m = None
-    if not m:
-        return
-    with st.container(border=True, key="mystery"):
-        bar = '<span class="redbar">' + "&nbsp;" * 14 + "</span>"
-        title_html = bar.join(html.escape(p) for p in m["title_parts"])
-        st.markdown(f'<div class="exp-head" style="color:#c4544a">🕵 DAILY MYSTERY · {today.strftime("%b %-d").upper()}</div>'
-                    f'<div class="intro">A real CIA document from <b>{html.escape(m["year"])}</b>. A program codeword '
-                    f'has been blacked out of its title. Use the year and the clues to work out which one.</div>'
-                    f'<div class="dos-title">{title_html}</div>'
-                    + "".join(f'<div class="myst-jargon"><b>{html.escape(k)}</b> = {html.escape(v)}</div>'
-                              for k, v in m.get("jargon", [])),
-                    unsafe_allow_html=True)
-        labels = {f"{o} · {desc}": o for o, desc in m["options"]}
-        guess = st.radio("Which codeword?", list(labels), index=None, key=f"guess2-{week}")
-        if guess:
-            g = labels[guess]
-            what = dict(m["options"])[m["answer"]]
-            if g == m["answer"]:
-                st.success(f"✅ Correct: {m['answer']}, the CIA's code name for {what}.")
-            else:
-                st.error(f"❌ Not quite. It was {m['answer']}, the CIA's code name for {what}.")
-            ident = ident_from_url(m["url"])
-            if ident:
-                st.button("🕵 Open the file", key="mystery-open", on_click=open_dossier, args=(ident,))
-            explainer_card(explainers.find_program(m["answer"]), "mys")
-        st.caption("A new mystery every day.")
-
-
 def fresh_releases():
     fresh = cached_fresh(APP_CODE_VERSION)
     if not any(fresh.values()):
@@ -1131,9 +1133,9 @@ with tab_search:
         go = True
 
     ss.setdefault("chosen", ALL)
-    st.markdown(f'<div class="which"><b>Searching {len(ss.chosen)} archives:</b> {html.escape(" · ".join(ss.chosen))}</div>',
+    st.markdown(f'<div class="which">Searching {len(ss.chosen)} archives at once · CIA, FBI, NSA, State Dept and more</div>',
                 unsafe_allow_html=True)
-    with st.expander("Turn archives on or off"):
+    with st.expander("See or change which archives"):
         chosen = st.pills("Archives", ALL, selection_mode="multi", default=ss.chosen, label_visibility="collapsed")
         if chosen is not None and list(chosen) != list(ss.chosen):
             ss.chosen = list(chosen)
@@ -1201,7 +1203,6 @@ with tab_explore:
     st.markdown('<div class="intro">Not sure what to search for? Pick a topic. You get hand-picked '
                 'documents (checked against the source) plus fresh finds from the CIA files.</div>',
                 unsafe_allow_html=True)
-    daily_mystery_card()
     fresh_releases()
     topic_tiles("ex")
     topic = ss.topic if ss.topic in TOPIC_LABELS else TOPIC_LABELS[0]
