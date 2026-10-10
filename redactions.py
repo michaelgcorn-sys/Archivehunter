@@ -11,7 +11,7 @@ import io
 
 from sources import _fetch_bytes
 
-MODULE_VERSION = 66   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 67   # keep in step with APP_CODE_VERSION in app.py
 
 NARA_2025 = "https://www.archives.gov/files/research/jfk/releases/2025/0318/{rec}.{ext}"
 NSA_POST = "https://nsarchive.gwu.edu/briefing-book/2025-03-19/cia-covert-ops-kennedy-assassination-records-lift-veil-secrecy"

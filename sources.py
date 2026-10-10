@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 66
+CODE_VERSION = 67
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -572,42 +572,56 @@ def _nara_key():
     return os.environ.get("NARA_API_KEY", "").strip()
 
 
+def _nara_setting(name):
+    try:
+        import streamlit as st
+        v = st.secrets.get(name)
+        if v:
+            return str(v).strip()
+    except Exception:
+        pass
+    return os.environ.get(name, "").strip()
+
+
 def search_nara(q, limit=12, online_first=True):
     """U.S. National Archives Catalog, official API v2 (JFK, RFK, MLK, UAP and millions more records)."""
-    url = "https://catalog.archives.gov/api/v2/records/search"
     key = _nara_key()
-    # Ask the way NARA's own docs show (plain request, x-api-key header). Some setups answer browser-style
-    # requests with a web page instead of data, so try a few variations until real data (JSON) comes back.
-    variants = [
-        ({"x-api-key": key, "Content-Type": "application/json", "Accept": "application/json",
-          "User-Agent": "ArchiveHunter/1.0"}, {"q": q, "limit": limit}),
-        ({"x-api-key": key, "Content-Type": "application/json", "Accept": "application/json",
-          "User-Agent": "ArchiveHunter/1.0"}, {"q": q}),
-        ({"x-api-key": key, "Content-Type": "application/json"}, {"q": q, "limit": limit}),
-        ({**HEADERS, "x-api-key": key, "Accept": "application/json"}, {"q": q, "limit": limit}),
+    v2 = "https://catalog.archives.gov/api/v2/records/search"
+    proxy = _nara_setting("NARA_ENDPOINT") or "https://catalog.archives.gov/proxy/v3/records/search"
+    js = {"Accept": "application/json", "User-Agent": "ArchiveHunter/1.0"}
+    # 1st: the address the catalog website itself uses (reported to return data with no key needed).
+    # Then: the officially documented API v2, which lately answers with the website instead of data.
+    attempts = [
+        ("site", proxy, js, {"q": q, "limit": limit, "page": 1}),
+        ("v2", v2, {**js, "x-api-key": key, "Content-Type": "application/json"}, {"q": q, "limit": limit}),
+        ("v2b", v2, {**HEADERS, "x-api-key": key, "Accept": "application/json"}, {"q": q, "limit": limit}),
     ]
     data, notes = None, []
-    for n, (hdrs, params) in enumerate(variants, 1):
+    for tag, url, hdrs, params in attempts:
         try:
             r = requests.get(url, params=params, headers=hdrs, timeout=30)
         except Exception as e:
-            notes.append(f"#{n} {type(e).__name__}")
+            notes.append(f"{tag} {type(e).__name__}")
             continue
         hop = f" via {r.history[0].status_code}->{r.url[:60]}" if r.history else ""
-        if r.status_code in (401, 403, 429):           # bad key or over the limit: retrying won't help
-            raise RuntimeError(f"HTTP {r.status_code}{hop}: {r.text[:160]}")
         if r.status_code != 200:
-            notes.append(f"#{n} HTTP {r.status_code}{hop}: {r.text[:80]}")
+            notes.append(f"{tag} HTTP {r.status_code}{hop}: {r.text[:80]}")
             continue
         try:
-            data = r.json()
-            break
+            got = r.json()
         except ValueError:
-            notes.append(f"#{n} {r.headers.get('content-type', '?').split(';')[0]} page{hop}")
+            notes.append(f"{tag} {r.headers.get('content-type', '?').split(';')[0]} page{hop}")
+            continue
+        # Only trust it if it really is search results; anything else -> fall back to the website button.
+        if isinstance(got, dict) and isinstance((got.get("body") or {}).get("hits"), dict):
+            data = got
+            break
+        notes.append(f"{tag} unexpected data: {str(got)[:80]}")
     if data is None:
         raise RuntimeError("; ".join(notes) or "no answer")
     out = []
-    for h in data.get("body", {}).get("hits", {}).get("hits", []):
+    raw = data["body"]["hits"].get("hits") or []
+    for h in raw:
         rec = (h.get("_source") or {}).get("record") or {}
         na = rec.get("naId")
         if not na:
@@ -623,6 +637,8 @@ def search_nara(q, limit=12, online_first=True):
                         f"https://catalog.archives.gov/id/{na}", date=year, kind=kind,
                         snippet=clean(str(rec.get("scopeAndContentNote", "")))[:300], doc_url=pdf, file_url=pdf))
         out[-1]["online"] = bool(files)
+    if raw and not out:
+        raise RuntimeError(f"results came back in an unfamiliar shape: {str(raw[0])[:120]}")
     if online_first:
         out.sort(key=lambda r: not r.get("online"))
     return out
