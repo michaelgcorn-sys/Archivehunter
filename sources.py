@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 63
+CODE_VERSION = 64
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -575,20 +575,38 @@ def _nara_key():
 def search_nara(q, limit=12, online_first=True):
     """U.S. National Archives Catalog, official API v2 (JFK, RFK, MLK, UAP and millions more records)."""
     url = "https://catalog.archives.gov/api/v2/records/search"
-    hdrs = {**HEADERS, "x-api-key": _nara_key(), "Accept": "application/json"}
-    last = None
-    for params in ({"q": q, "limit": limit}, {"q": q, "rows": limit}, {"q": q}):    # fall back if a setting is rejected
-        r = requests.get(url, params=params, headers=hdrs, timeout=30)
-        if r.status_code == 200:
-            break
-        last = f"HTTP {r.status_code}: {r.text[:160]}"
+    key = _nara_key()
+    # Ask the way NARA's own docs show (plain request, x-api-key header). Some setups answer browser-style
+    # requests with a web page instead of data, so try a few variations until real data (JSON) comes back.
+    variants = [
+        ({"x-api-key": key, "Content-Type": "application/json", "Accept": "application/json",
+          "User-Agent": "ArchiveHunter/1.0"}, {"q": q, "limit": limit}),
+        ({"x-api-key": key, "Content-Type": "application/json", "Accept": "application/json",
+          "User-Agent": "ArchiveHunter/1.0"}, {"q": q}),
+        ({"x-api-key": key, "Content-Type": "application/json"}, {"q": q, "limit": limit}),
+        ({**HEADERS, "x-api-key": key, "Accept": "application/json"}, {"q": q, "limit": limit}),
+    ]
+    data, last = None, None
+    for hdrs, params in variants:
+        try:
+            r = requests.get(url, params=params, headers=hdrs, timeout=30)
+        except Exception as e:
+            last = f"{type(e).__name__}"
+            continue
         if r.status_code in (401, 403, 429):           # bad key or over the limit: retrying won't help
+            raise RuntimeError(f"HTTP {r.status_code}: {r.text[:160]}")
+        if r.status_code != 200:
+            last = f"HTTP {r.status_code}: {r.text[:160]}"
+            continue
+        try:
+            data = r.json()
             break
-    else:
-        r = None
-    if r is None or r.status_code != 200:
+        except ValueError:
+            snippet = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", r.text))[:140].strip()
+            last = (f"got {r.headers.get('content-type', '?')} instead of data, {len(r.text)} chars"
+                    + (f': "{snippet}"' if snippet else " (empty)"))
+    if data is None:
         raise RuntimeError(last or "no answer")
-    data = r.json()
     out = []
     for h in data.get("body", {}).get("hits", {}).get("hits", []):
         rec = (h.get("_source") or {}).get("record") or {}
