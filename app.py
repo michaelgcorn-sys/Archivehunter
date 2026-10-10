@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 70
+APP_CODE_VERSION = 71
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -99,6 +99,13 @@ st.markdown("""
 [class*="st-key-dos-near"] button,[class*="st-key-dos-near"] button *{justify-content:flex-start!important;text-align:left!important}
 [class*="st-key-dos-near"] button p{font-size:.88rem}
 .st-key-dos-top{justify-content:space-between}
+.st-key-favstore{display:none}
+.st-key-favbox{border-color:#c8a96e!important;background:#15130f}
+.fav-head{font-family:'Courier New',monospace;font-size:.8rem;letter-spacing:.14em;color:#c8a96e;font-weight:700}
+.fav-t{font-size:.92rem;line-height:1.3}.fav-t a{color:#ecd9b0;text-decoration:none}
+.fav-t span{display:block;font-size:.72rem;opacity:.6}
+[class*="st-key-fav-row-"]{flex-wrap:nowrap!important;border-top:1px solid #2a251c;padding-top:.3rem}
+[class*="st-key-fav-row-"] > div:first-child{flex:1 1 auto;min-width:0}
 .st-key-dos-top button p{color:#c8a96e}
 [class*="-explainer"]{border-color:#5a6b7d!important;background:#15191e}
 .exp-head{font:700 .74rem 'Courier New',monospace;letter-spacing:.14em;color:#9fb3c8;margin-bottom:.35rem}
@@ -228,7 +235,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 70 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 71 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -297,6 +304,76 @@ def cached_passages(url, q, ocr=False, v=APP_CODE_VERSION):
 # Dossier: one CIA document opened inside the app, with a trail to follow
 # ════════════════════════════════════════════════════════════════════════════
 ss.setdefault("trail", [])
+
+# ── Saved files (⭐): kept in this browser's own storage, so they survive refreshes and app updates ──
+FAV_KEY = "archivehunter_saved_v1"
+FAV_JS = """
+export default function(component) {
+  const { data, setStateValue } = component;
+  const K = "%s";
+  let v;
+  try {
+    if (data && typeof data.save === "string") { localStorage.setItem(K, data.save); }
+    v = localStorage.getItem(K) || "[]";
+  } catch (e) { v = "__nostorage__"; }
+  if (window.__ahFavSent !== v) { window.__ahFavSent = v; setStateValue("favs", v); }
+}
+""" % FAV_KEY
+
+
+@st.cache_resource
+def _fav_component():
+    return st.components.v2.component("ah_favstore", js=FAV_JS)
+
+
+ss.setdefault("favs", [])
+
+
+def fav_sync():
+    """Load the saved list from this browser once, and write it back whenever it changes."""
+    import json
+    save = json.dumps(ss.favs) if ss.pop("fav_dirty", False) else None
+    try:
+        res = _fav_component()(key="favstore", data={"save": save}, default={"favs": None},
+                               on_favs_change=lambda: None)
+        raw = res.get("favs") if isinstance(res, dict) else getattr(res, "favs", None)
+    except Exception:
+        ss.fav_storage = False
+        return
+    if raw == "__nostorage__":
+        ss.fav_storage = False
+    elif raw is not None:
+        ss.fav_storage = True
+        if not ss.get("favs_loaded"):
+            try:
+                got = json.loads(raw)
+                ss.favs = [f for f in got if isinstance(f, dict) and f.get("url")] if isinstance(got, list) else []
+            except ValueError:
+                ss.favs = []
+            ss.favs_loaded = True
+
+
+def is_fav(url):
+    return any(f["url"] == url for f in ss.favs)
+
+
+def toggle_fav(item):
+    """item: dict with url, title, source, date (and ident for CIA files)."""
+    if is_fav(item["url"]):
+        ss.favs = [f for f in ss.favs if f["url"] != item["url"]]
+    else:
+        keep = {k: str(item.get(k) or "")[:300] for k in ("url", "title", "source", "date", "ident")}
+        ss.favs = [keep] + ss.favs[:199]
+    ss.fav_dirty = True
+
+
+def fav_button(item, key, **kw):
+    on = is_fav(item["url"])
+    st.button("★ Saved" if on else "☆ Save", key=key, on_click=toggle_fav, args=(item,), type="tertiary",
+              help="Remove from your saved files" if on else "Keep this in your saved files on this device", **kw)
+
+
+fav_sync()
 KIND_ICON = {"codeword": "🔐", "person": "👤", "place": "🌍", "name": "🏷"}
 
 
@@ -479,6 +556,8 @@ def render_dossier(ident):
             ss.trail.append({"kind": "doc", "ident": ident, "label": d["title"]})
         with st.container(horizontal=True, vertical_alignment="center", key="dos-top"):
             st.markdown(f'<div class="dos-kicker">🕵 DOSSIER · {html.escape(d["doc_id"])}</div>', unsafe_allow_html=True)
+            fav_button({"url": d["view"], "title": d["title"], "source": "CIA", "date": (d["date"] or "")[:4],
+                        "ident": ident}, key="dos-fav")
             st.button("✕ Close", key="dos-close", on_click=close_dossier, type="tertiary")
         show_trail("dos")
         c1, c2 = st.columns([2, 3])
@@ -670,6 +749,8 @@ def render_result(r, uid, saved_copy=True, query=None):
                          f'title="The Wayback Machine\'s most recent saved copy of this page">🕰 Saved copy</a>')
         st.markdown(f'<div class="links">{" ".join(links)}</div>', unsafe_allow_html=True)
         ident = ident_from_url(r["url"])
+        fav_button({"url": r["url"], "title": r["title"], "source": r["source"], "date": (r.get("date") or "")[:4],
+                    "ident": ident or ""}, key=f"s{uid}{key}")
         if ident:
             st.button("🕵 Open the dossier · follow the trail", key=f"d{uid}{key}", on_click=open_dossier,
                       args=(ident,), width="stretch")
@@ -1149,6 +1230,35 @@ def nara_box():
         st.link_button(f"See everything on the National Archives site for “{q}”",
                        "https://catalog.archives.gov/search?q=" + urllib.parse.quote(q), width="stretch")
 
+def _fav_row(f, i):
+    with st.container(horizontal=True, vertical_alignment="center", gap="small", key=f"fav-row-{i}"):
+        meta = " · ".join(x for x in (f.get("source"), f.get("date")) if x)
+        st.markdown(f'<div class="fav-t"><a href="{html.escape(f["url"])}" target="_blank">'
+                    f'{html.escape(f.get("title") or f["url"])}</a><span>{html.escape(meta)}</span></div>',
+                    unsafe_allow_html=True)
+        if f.get("ident"):
+            st.button("🕵", key=f"fav-open-{i}", on_click=open_dossier, args=(f["ident"],), type="tertiary",
+                      help="Open the dossier")
+        st.button("✕", key=f"fav-del-{i}", on_click=toggle_fav, args=(f,), type="tertiary", help="Remove")
+
+
+def saved_files():
+    if not ss.favs:
+        return
+    with st.container(border=True, key="favbox"):
+        st.markdown(f'<div class="fav-head">⭐ MY SAVED FILES · {len(ss.favs)}</div>', unsafe_allow_html=True)
+        for i, f in enumerate(ss.favs[:4]):
+            _fav_row(f, i)
+        if len(ss.favs) > 4:
+            with st.expander(f"Show all {len(ss.favs)}"):
+                for i, f in enumerate(ss.favs[4:], start=4):
+                    _fav_row(f, i)
+        if ss.get("fav_storage") is False:
+            st.caption("This browser won't let the app keep files (private mode?), so this list lasts only until you close the page.")
+        else:
+            st.caption("Saved on this device only.")
+
+
 tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
 
 with tab_search:
@@ -1194,6 +1304,7 @@ with tab_search:
             ss.chosen = list(chosen)
             st.rerun()
     chosen = ss.chosen
+    saved_files()
 
     if go and q.strip():
         ss.query = sources.normalize_query(q)
