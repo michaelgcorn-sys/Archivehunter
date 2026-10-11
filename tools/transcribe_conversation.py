@@ -1,0 +1,66 @@
+"""Machine subtitles for one Nixon tape conversation (runs in GitHub Actions, not in the app).
+
+Usage: python tools/transcribe_conversation.py 840-005 [model]
+Finds the audio on the conversation's Nixon Library page, runs the open-source Whisper speech
+recognizer on it, and writes data/transcripts/<conv>.json (timed segments) for the app to show.
+"""
+import json
+import os
+import re
+import sys
+import time
+
+import requests
+
+BASE = "https://www.nixonlibrary.gov"
+UA = {"User-Agent": "ArchiveHunter-transcriber/1.0 (research app; github.com/michaelgcorn-sys/Archivehunter)"}
+OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "transcripts")
+
+
+def audio_url(conv):
+    tape = conv.split("-")[0]
+    page = f"{BASE}/white-house-tapes/{tape}/conversation-{conv}"
+    r = requests.get(page, headers=UA, timeout=60)
+    r.raise_for_status()
+    found = re.findall(r'(?:src|href)="([^"]+\.(?:mp3|m4a|wav|ogg)(?:\?[^"]*)?)"', r.text, re.I)
+    if not found:
+        raise SystemExit(f"no audio link found on {page}")
+    u = found[0]
+    return page, (u if u.startswith("http") else BASE + u)
+
+
+def main():
+    conv = sys.argv[1]
+    model_name = sys.argv[2] if len(sys.argv) > 2 else "medium.en"
+    page, url = audio_url(conv)
+    print("audio:", url, flush=True)
+    os.makedirs("/tmp/audio", exist_ok=True)
+    path = "/tmp/audio/" + os.path.basename(url.split("?")[0])
+    with requests.get(url, headers=UA, timeout=300, stream=True) as r:
+        r.raise_for_status()
+        with open(path, "wb") as f:
+            for chunk in r.iter_content(1 << 20):
+                f.write(chunk)
+    print("downloaded", os.path.getsize(path) // 1024, "KB", flush=True)
+
+    from faster_whisper import WhisperModel
+    t0 = time.time()
+    model = WhisperModel(model_name, device="cpu", compute_type="int8")
+    segments, info = model.transcribe(path, beam_size=5, vad_filter=True, condition_on_previous_text=False,
+                                      no_speech_threshold=0.5, log_prob_threshold=-1.0)
+    out = []
+    for s in segments:
+        out.append({"start": round(s.start, 1), "end": round(s.end, 1), "text": s.text.strip(),
+                    "conf": round(s.avg_logprob, 2), "no_speech": round(s.no_speech_prob, 2)})
+        if len(out) % 25 == 0:
+            print(f"{len(out)} segments, at {s.end / 60:.1f} min", flush=True)
+    os.makedirs(OUT_DIR, exist_ok=True)
+    meta = {"conv": conv, "page": page, "audio": url, "model": model_name, "seconds": round(info.duration),
+            "made": time.strftime("%Y-%m-%d"), "took_min": round((time.time() - t0) / 60, 1)}
+    with open(os.path.join(OUT_DIR, f"{conv}.json"), "w") as f:
+        json.dump({"meta": meta, "segments": out}, f, ensure_ascii=False, indent=0)
+    print("done", meta, flush=True)
+
+
+if __name__ == "__main__":
+    main()

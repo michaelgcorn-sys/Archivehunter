@@ -1,0 +1,40 @@
+name: Nixon tape subtitles
+
+on:
+  workflow_dispatch:
+    inputs:
+      conv:
+        description: "Conversation number, e.g. 840-005"
+        required: true
+      model:
+        description: "Whisper model (small.en, medium.en, large-v3)"
+        required: false
+        default: "medium.en"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: transcribe-${{ github.event.inputs.conv }}
+
+jobs:
+  transcribe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install -q requests faster-whisper
+      - name: Transcribe
+        run: python tools/transcribe_conversation.py "${{ github.event.inputs.conv }}" "${{ github.event.inputs.model }}"
+      - name: Commit
+        run: |
+          git config user.name "archivehunter-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/transcripts
+          git diff --cached --quiet && exit 0
+          git commit -m "Subtitles for Nixon conversation ${{ github.event.inputs.conv }}"
+          for i in 1 2 3; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 5; done
