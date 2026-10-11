@@ -75,7 +75,7 @@ def main():
     segments, info = model.transcribe(path, beam_size=5, vad_filter=False, condition_on_previous_text=False,
                                       no_speech_threshold=0.6, log_prob_threshold=-1.0, language="en",
                                       temperature=[0.0, 0.2, 0.4], compression_ratio_threshold=2.2,
-                                      initial_prompt="Oval Office conversation, 1973. President Nixon speaking with staff.")
+                                      initial_prompt="Oval Office conversation, 1973.")
     out = []
     for s in segments:
         out.append({"start": round(s.start, 1), "end": round(s.end, 1), "text": s.text.strip(),

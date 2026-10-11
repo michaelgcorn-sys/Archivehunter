@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 83
+APP_CODE_VERSION = 84
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -273,7 +273,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 83 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 84 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1359,7 +1359,8 @@ def nixon_subtitles(conv, v=APP_CODE_VERSION):
     lines, last = [], ""
     for sg in d.get("segments", []):
         t = (sg.get("text") or "").strip()
-        if not re.search(r"[A-Za-z]{2}", t) or t == last:      # drop "..." filler and stutter repeats
+        if not re.search(r"[A-Za-z]{2}", t) or t == last or re.search(r"(?i)president nixon speaking with staff|oval office conversation, 1973", t):
+            # drop "..." filler, stutter repeats, and echoes of the hint given to the speech software
             continue
         last = t
         lines.append((sg["start"], t, sg.get("conf", 0)))
@@ -1435,23 +1436,47 @@ def subtitle_panel(conv, q, around_min, key):
     words = [w for w in re.findall(r"[A-Za-z']{3,}", q)]
     stem = [re.sub(r"(ish|ies|es|s)$", "", w, flags=re.I) for w in words]
     pat = re.compile(r"\b(" + "|".join(re.escape(w) for w in stem) + r")\w{0,4}", re.I) if stem else None
-    with st.expander("📝 Machine subtitles · unverified", expanded=False):
-        st.caption("Made by speech-recognition software from the tape audio. Expect mistakes and misheard words, "
-                   "and never quote a line without listening to the tape yourself. Faded lines are the least certain.")
-        lo = (around_min - 2) * 60 if around_min else None
-        hi = (around_min + 3) * 60 if around_min else None
-        show_all = st.toggle("Show the whole conversation", key=f"{key}-all", value=not around_min)
-        out = []
-        for start, t, conf in sub["lines"]:
-            if not show_all and lo is not None and not (lo <= start <= hi):
-                continue
+    with st.expander("🎧 Listen with subtitles · machine-made, unverified", expanded=False):
+        st.caption("Subtitles are made by speech-recognition software from the tape audio. Expect mistakes; "
+                   "never quote a line without listening yourself. Tap any line to jump there. Faded lines are least certain.")
+        audio = (sub.get("meta") or {}).get("audio", "")
+        start_at = max(0, (around_min - 1) * 60) if around_min else 0
+        rows = []
+        for i, (start, t, conf) in enumerate(sub["lines"]):
             txt = html.escape(t)
             if pat:
                 txt = pat.sub(lambda m: f"<mark>{m.group(0)}</mark>", txt)
-            fade = ' class="sub-low"' if conf < -0.6 else ""
-            out.append(f'<div class="sub-line"><span>{int(start // 60)}:{int(start % 60):02d}</span><p{fade}>{txt}</p></div>')
-        st.markdown('<div class="subs">' + ("".join(out) or "<p>No lines in this stretch.</p>") + "</div>",
-                    unsafe_allow_html=True)
+            rows.append(f'<div class="l{" low" if conf < -0.6 else ""}" data-t="{start}"><span>{int(start // 60)}:'
+                        f'{int(start % 60):02d}</span><p>{txt}</p></div>')
+        player = f"""<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>
+body{{margin:0;background:#120f0b;color:#e8dcc2;font:15px/1.4 -apple-system,Segoe UI,Roboto,sans-serif}}
+audio{{width:100%;margin:0 0 6px;filter:sepia(.2)}}
+#s{{height:300px;overflow-y:auto;border-left:3px solid #7a5a3a;padding:0 6px 0 8px}}
+.l{{display:flex;gap:9px;padding:3px 4px;border-radius:4px;cursor:pointer}}
+.l span{{font:600 11px 'Courier New',monospace;color:#d9a066;min-width:38px;padding-top:2px}}
+.l p{{margin:0}}.l.low p{{opacity:.45}}
+.l.on{{background:#3a2c18}}.l.on p{{color:#fff3d6;opacity:1}}
+mark{{background:#c8a96e;color:#120f0b;border-radius:2px;padding:0 2px}}
+#g{{font:12px sans-serif;color:#b9a77f;margin:2px 0 6px}}
+</style></head><body>
+{f'<audio id="a" controls preload="metadata" src="{html.escape(audio)}"></audio>' if audio else ""}
+<div id="g">{"Starts about a minute before the moment you searched for. " if around_min else ""}{"" if audio else "Audio link not available for this tape. "}</div>
+<div id="s">{"".join(rows)}</div>
+<script>
+var a=document.getElementById('a'), L=[].slice.call(document.querySelectorAll('.l')), cur=-1, S=document.getElementById('s');
+function go(t){{ if(!a) return; a.currentTime=t; a.play(); }}
+L.forEach(function(el){{ el.onclick=function(){{ var t=parseFloat(el.dataset.t); mark(t); go(t); }}; }});
+function show(){{ if(cur>=0 && S.clientHeight>0) S.scrollTop = L[cur].offsetTop - S.offsetTop - 110; }}
+function mark(t){{ var i=-1; for(var k=0;k<L.length;k++){{ if(parseFloat(L[k].dataset.t)<=t) i=k; else break; }}
+  if(i!==cur){{ if(cur>=0) L[cur].classList.remove('on'); cur=i; if(i>=0) L[i].classList.add('on'); show(); }} }}
+if(window.ResizeObserver) new ResizeObserver(show).observe(S);
+window.addEventListener('resize', show);
+if(a){{ a.addEventListener('loadedmetadata', function(){{ if({start_at}>0) a.currentTime={start_at}; mark(a.currentTime); }});
+        a.addEventListener('timeupdate', function(){{ mark(a.currentTime); }}); }}
+else {{ mark({start_at}); }}
+setTimeout(function(){{ mark({start_at}); }}, 50);
+</script></body></html>"""
+        st.iframe(player, height=420)
 
 
 def nixon_box():
