@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 73
+CODE_VERSION = 74
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -602,9 +602,14 @@ def search_nixon_logs(index, q, limit=40, per_tape=3):
         if not text or not all(p.search(text) for p in pats):
             continue
         hits = [m for m in pats[0].finditer(text)]
-        snips = []
-        for m in hits[:per_tape]:
+        snips, last_end = [], -1
+        for m in hits:
+            if len(snips) >= per_tape:
+                break
+            if m.start() < last_end:                     # already shown inside the previous passage
+                continue
             a, b = max(0, m.start() - 160), min(len(text), m.end() + 160)
+            last_end = b
             before = text[:m.start()]
             conv = None
             # real headings only: "(cont'd)" lines are running page headers and would mislabel hits
