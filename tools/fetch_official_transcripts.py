@@ -1,4 +1,7 @@
-"""Collect the Nixon Library's official (public-domain) tape transcripts for the app.
+"""NOTE (Oct 2026): the Nixon Library listing pages embed each transcript as a Drupal media item that
+currently renders empty, even in a real browser, so this finds nothing usable yet. Kept for when they fix it.
+
+Collect the Nixon Library's official (public-domain) tape transcripts for the app.
 
 Runs in GitHub Actions. Reads the two Nixon Library transcript listings, finds each conversation and
 any transcript file linked from the listing or from the conversation's own page, extracts the text and
@@ -70,7 +73,7 @@ def main():
             links = [absu(h) for h in re.findall(r'href="([^"#]+)"', row)]
             for c in convs:
                 e = found.setdefault(c, {"set": set_name, "links": set()})
-                e["links"].update(l for l in links if re.search(r"\.(pdf|txt)$|transcript", l, re.I))
+                e["links"].update(l for l in links if re.search(r"\.(pdf|txt)$", l, re.I))
         print(set_name, "conversations so far:", len(found), flush=True)
 
     out = {}
