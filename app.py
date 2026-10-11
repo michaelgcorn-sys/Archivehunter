@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 71
+APP_CODE_VERSION = 72
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -188,6 +188,9 @@ st.markdown("""
 [class*="st-key-nara-cell-"] .stMarkdown{margin-bottom:-1rem}
 [class*="st-key-nara-cell-"]:has(.nara-photo) button{border-top-left-radius:0!important;border-top-right-radius:0!important}
 .st-key-nara-box{border-color:#3d5a80!important;background:linear-gradient(180deg,#121a26,#0f1218)}
+.st-key-nixon-box{border-color:#7a5a3a!important;background:linear-gradient(180deg,#1a140e,#120f0b)}
+.nixon-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#d9a066}
+.st-key-nixon-try button{min-height:0!important;padding:.1rem .7rem!important}
 .nara-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#8fb3de}
 .nara-title{font-family:Georgia,serif;font-size:1.25rem;color:#e6eef8;margin:.15rem 0 .2rem}
 [class*="nara-tile-"] button{height:auto!important;min-height:132px;align-items:flex-start;justify-content:flex-start;text-align:left;padding:.7rem .75rem;
@@ -235,7 +238,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 71 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 72 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1259,6 +1262,89 @@ def saved_files():
             st.caption("Saved on this device only.")
 
 
+@st.cache_resource(show_spinner=False)
+def nixon_index(v=APP_CODE_VERSION):
+    return sources.load_nixon_index()
+
+
+NIXON_TRY = ["Jewish", "Kissinger", "\"Pentagon Papers\"", "Hoover", "Elvis", "Mao"]
+
+
+def _nixon_go(q):
+    ss.nixon_q = q
+
+
+def _hl(text, marks):
+    out, last = [], 0
+    for a, b in marks:
+        if a < last:
+            continue
+        out += [html.escape(text[last:a]), "<mark>", html.escape(text[a:b]), "</mark>"]
+        last = b
+    out.append(html.escape(text[last:]))
+    return "".join(out)
+
+
+def nixon_box():
+    """Search inside the Nixon White House Tape Subject Logs (index built monthly by GitHub Actions)."""
+    idx = nixon_index(APP_CODE_VERSION)
+    with st.container(border=True, key="nixon-box"):
+        n = (idx or {}).get("meta", {}).get("with_text", 0)
+        st.markdown('<div class="nixon-kicker">📼 THE NIXON TAPES</div>'
+                    '<div class="nara-title">What was said in Nixon’s Oval Office</div>'
+                    '<div class="intro">Nixon secretly recorded about 3,700 hours of conversations. Search the '
+                    'official logs that outline every conversation: who was there, when, and what they discussed.'
+                    + (f' <b>{n:,} tapes indexed.</b>' if n else "") + '</div>', unsafe_allow_html=True)
+        if not idx or not n:
+            st.caption("The tape index is being built. Check back shortly.")
+            return
+        with st.form("nixon-form", border=False):
+            nq = st.text_input("Search the Nixon tapes", value=ss.get("nixon_q", ""), label_visibility="collapsed",
+                               placeholder="A name, place or topic…")
+            if st.form_submit_button("📼 Search the tapes", width="stretch"):
+                ss.nixon_q = nq.strip()
+        q = ss.get("nixon_q", "")
+        if not q:
+            with st.container(horizontal=True, wrap=True, gap="small", key="nixon-try"):
+                for i, t in enumerate(NIXON_TRY):
+                    st.button(t.strip('"'), key=f"nixon-try-{i}", on_click=_nixon_go, args=(t,))
+            return
+        rows = sources.search_nixon_logs(idx, q, limit=40)
+        top = st.columns([4, 1], vertical_alignment="center")
+        total = sum(r["count"] for r in rows)
+        top[0].markdown(f'<div class="sect">NIXON TAPES · “{html.escape(q)}” · {len(rows)} tape'
+                        f'{"" if len(rows) == 1 else "s"}{" (top 40)" if len(rows) == 40 else ""}</div>',
+                        unsafe_allow_html=True)
+        top[1].button("✕ Clear", key="nixon-clear", on_click=lambda: ss.pop("nixon_q", None), type="tertiary")
+        if not rows:
+            st.caption("Not in the logs. They summarize each conversation in a few words, so try a name or a "
+                       "broader topic.")
+            return
+        st.caption(f"{total} mention{'s' if total != 1 else ''} in the logs. The logs outline each conversation; "
+                   "they aren't word-for-word transcripts. Open a conversation to listen, where audio is online.")
+        for i, r in enumerate(rows):
+            with st.container(border=True, key=f"nixon-r-{i}"):
+                first = r["snips"][0]
+                st.markdown(f'<div class="src">Tape {r["tape"]} · {html.escape(r["group"])} · '
+                            f'{r["count"]} mention{"s" if r["count"] != 1 else ""}</div>', unsafe_allow_html=True)
+                for sn in r["snips"]:
+                    head = " · ".join(x for x in (f"Conversation {sn['conv']}" if sn["conv"] else "", sn["date"]) if x)
+                    link = (f'<a href="{html.escape(sn["conv_url"])}" target="_blank">{html.escape(head)} ↗</a>'
+                            if sn.get("conv_url") and head else html.escape(head))
+                    st.markdown((f'<div class="res-title" style="font-size:1rem">{link}</div>' if head else "")
+                                + (f'<div class="meta">{html.escape(sn["who"])}</div>' if sn["who"] else "")
+                                + f'<div class="passage">{"…" if sn["lead"] else ""}{_hl(sn["text"], sn["marks"])}'
+                                  f'{"…" if sn["tail"] else ""}</div>', unsafe_allow_html=True)
+                links = [f'<a href="{html.escape(r["page"])}" target="_blank">Tape {r["tape"]} page ↗</a>']
+                if r.get("pdf"):
+                    links.append(f'<a href="{html.escape(r["pdf"])}" target="_blank">Full log (PDF) ⬇</a>')
+                st.markdown(f'<div class="links">{" ".join(links)}</div>', unsafe_allow_html=True)
+                fav_button({"url": (first.get("conv_url") or r["page"]),
+                            "title": f"Nixon tape {first['conv'] or r['tape']}" + (f" · {first['date']}" if first["date"] else ""),
+                            "source": "Nixon Library", "date": (re.findall(r"\d{4}", first["date"] or "") or [""])[0]},
+                           key=f"nixon-fav-{i}")
+
+
 tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
 
 with tab_search:
@@ -1318,6 +1404,7 @@ with tab_search:
         st.markdown('<div class="sect">DEEP DIVES · tap a topic</div>', unsafe_allow_html=True)
         topic_tiles("home", with_ancient=True)
         nara_box()
+        nixon_box()
 
     # ── Results ──────────────────────────────────────────────────────────────────
     results, status = ss.results, ss.status

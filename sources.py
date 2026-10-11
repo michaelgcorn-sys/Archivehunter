@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 71
+CODE_VERSION = 72
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -555,6 +555,84 @@ def search_war_gov(q, limit=8):
     return site_search("war.gov", q, "War Dept (war.gov)", "Defense Dept page", limit)
 
 
+def search_nixon_library(q, limit=8):
+    return site_search("nixonlibrary.gov", q, "Nixon Library", "Nixon Library page or tape log", limit)
+
+
+NIXON_INDEX = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "nixon_logs.json.gz")
+
+
+def load_nixon_index(path=NIXON_INDEX):
+    """The Nixon tape-log index built by tools/build_nixon_index.py (None until the first build lands)."""
+    import gzip
+    import json
+    if not os.path.exists(path):
+        return None
+    with gzip.open(path, "rt", encoding="utf-8") as f:
+        idx = json.load(f)
+    junk = re.compile(r"(?:-\s*\d+\s*-\s*)?NIXON PRESIDENTIAL (?:LIBRARY AND MUSEUM|MATERIALS STAFF)\s*Tape Subject Log\s*"
+                      r"(?:\(rev\.[^)]*\))?|Conversation\s+No\.?\s*\d{3}\s*-\s*\d+\s*\(cont[’']d\)", re.I)
+    for t in idx.get("tapes", []):                      # drop running page headers so snippets read cleanly
+        t["text"] = re.sub(r"[ \t]*\n[ \t\n]*\n", "\n\n", junk.sub(" ", t.get("text") or ""))
+    return idx
+
+
+def search_nixon_logs(index, q, limit=40, per_tape=3):
+    """Find words in the Tape Subject Logs. "quotes" = exact phrase; otherwise every word must appear
+    on the same tape. Returns one entry per tape, best first, with highlighted snippets."""
+    q = normalize_query(q).strip()
+    if not index or not q:
+        return []
+    phrases = re.findall(r'"([^"]+)"', q)
+    words = [w for w in re.sub(r'"[^"]*"', " ", q).split() if len(w) > 1]
+    needles = [p.strip() for p in phrases if p.strip()] + words
+    if not needles:
+        return []
+    def stem(w):                                   # Jewish -> Jew (matches Jews, Jewish, Jewry)
+        if " " in w:
+            return w
+        for suf in ("ish", "ies", "es", "ing", "ed", "s"):
+            if len(w) > len(suf) + 2 and w.lower().endswith(suf):
+                return w[:-len(suf)]
+        return w
+    pats = [re.compile(r"\b" + re.escape(stem(n)).replace(r"\ ", r"\s+") + r"\w{0,4}\b", re.I) for n in needles]
+    out = []
+    for t in index.get("tapes", []):
+        text = t.get("text") or ""
+        if not text or not all(p.search(text) for p in pats):
+            continue
+        hits = [m for m in pats[0].finditer(text)]
+        snips = []
+        for m in hits[:per_tape]:
+            a, b = max(0, m.start() - 160), min(len(text), m.end() + 160)
+            before = text[:m.start()]
+            conv = None
+            # real headings only: "(cont'd)" lines are running page headers and would mislabel hits
+            for c in re.finditer(r"Conversation\s+No\.?\s*(\d{3})\s*-\s*0*(\d{1,3})(?![\dA-Z])(?!\s*\(cont)", before[-20000:]):
+                conv = c
+            if conv is None:                                   # older logs: bare "838-18" style numbers
+                for c in re.finditer(rf"\b({t['tape']})\s*-\s*0*(\d{{1,3}})\b", before[-6000:]):
+                    conv = c
+            cid, when, who = None, "", ""
+            if conv:
+                cid = f"{conv.group(1)}-{int(conv.group(2)):03d}"
+                head = re.search(rf"Conversation\s+No\.?\s*{conv.group(1)}\s*-\s*0*{int(conv.group(2))}\b(?!\s*\(cont)", text)
+                block = text[head.end():][:1500] if head else text[len(before) - len(before[-20000:]) + conv.end():][:1500]
+                dm = re.search(r"Date:\s*([^\n]+)", block)
+                when = dm.group(1).strip() if dm else ""
+                wm = re.search(r"(The President [^\n]*(?:met|talked|spoke|dictated)[^\n]*)", block)
+                who = re.sub(r"\s+", " ", wm.group(1)).strip()[:180] if wm else ""
+            snippet = text[a:b].replace("\n", " ")
+            marks = [(x.start() - a, x.end() - a) for p in pats for x in p.finditer(text[a:b])]
+            snips.append({"text": snippet, "marks": sorted(set(marks)), "conv": cid,
+                          "conv_url": (f"{t['page']}/conversation-{cid}" if cid in t.get("convs", []) else None),
+                          "date": when, "who": who, "lead": a > 0, "tail": b < len(text)})
+        out.append({"tape": t["tape"], "group": t.get("group", ""), "page": t["page"], "pdf": t.get("pdf"),
+                    "count": len(hits), "snips": snips})
+    out.sort(key=lambda r: -r["count"])
+    return out[:limit]
+
+
 def search_wilson(q, limit=8):
     return site_search("digitalarchive.wilsoncenter.org", q, "Wilson Center", "Cold War document", limit,
                        url_must_match=r"/document/")
@@ -873,6 +951,7 @@ SOURCES = {
     "State Dept FOIA": search_state_foia,
     "War Dept (war.gov)": search_war_gov,
     "Wilson Center": search_wilson,
+    "Nixon Library": search_nixon_library,
     "Internet Archive": search_internet_archive,
     "Library of Congress": search_loc,
     "NASA": search_nasa,
@@ -884,7 +963,7 @@ NARA_ON = bool(_nara_key())          # the National Archives gets its own box in
 # Declassified sources rank a little higher when relevance is otherwise equal.
 SOURCE_WEIGHT = {"CIA": 3, "FBI Vault": 3, "GWU Natl Security Archive": 3, "Black Vault": 2,
                  "DOJ Epstein Library": 2, "MuckRock": 2,
-                 "National Archives": 3, "NSA": 2, "NRO": 2, "State Dept FOIA": 2, "War Dept (war.gov)": 1, "Wilson Center": 2, "NASA": 1, "Dept of Energy": 1}
+                 "National Archives": 3, "NSA": 2, "NRO": 2, "State Dept FOIA": 2, "War Dept (war.gov)": 1, "Wilson Center": 2, "Nixon Library": 2, "NASA": 1, "Dept of Energy": 1}
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -922,7 +1001,7 @@ def score(r, q):
 # show the search in the title or description: every word, or all but one for 4+ word searches.
 LOOSE_SOURCES = {"Library of Congress", "Internet Archive", "Wikimedia Commons", "Dept of Energy",
                  "DOJ Epstein Library", "NASA", "UK National Archives",
-                 "National Archives", "NSA", "NRO", "State Dept FOIA", "War Dept (war.gov)", "Wilson Center"}
+                 "National Archives", "NSA", "NRO", "State Dept FOIA", "War Dept (war.gov)", "Wilson Center", "Nixon Library"}
 
 
 # Mostly published books: useful leads, not primary sources. Higher number = further down.
@@ -1146,7 +1225,7 @@ TEST_QUERIES = {"CIA": "MKUltra", "FBI Vault": "Roswell", "GWU Natl Security Arc
                 "Library of Congress": "Kennedy", "NASA": "Apollo 11", "Dept of Energy": "Manhattan Project",
                 "Wikimedia Commons": "Apollo 11",
                 "UK National Archives": "Philby", "National Archives": "Oswald", "NSA": "VENONA", "NRO": "CORONA",
-                "State Dept FOIA": "Castro", "War Dept (war.gov)": "UAP", "Wilson Center": "Khrushchev"}
+                "State Dept FOIA": "Castro", "War Dept (war.gov)": "UAP", "Wilson Center": "Khrushchev", "Nixon Library": "Kissinger"}
 
 
 # ════════════════════════════════════════════════════════════════════════════
