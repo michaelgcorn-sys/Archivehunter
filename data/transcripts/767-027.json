@@ -1,0 +1,189 @@
+{
+"meta": {
+"conv": "767-027",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/767/conversation-767-027",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape767/767-027.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 107,
+"made": "2026-10-11",
+"took_min": 1.2
+},
+"segments": [
+{
+"start": 0.0,
+"end": 30.0,
+"text": "President Nixon speaking with staff.",
+"conf": -0.75,
+"no_speech": 0.21
+},
+{
+"start": 30.0,
+"end": 36.0,
+"text": "I have a couple of letters from the department that are in here.",
+"conf": -0.7,
+"no_speech": 0.69
+},
+{
+"start": 36.0,
+"end": 40.0,
+"text": "This one I just got down on the plane.",
+"conf": -0.7,
+"no_speech": 0.69
+},
+{
+"start": 40.0,
+"end": 44.0,
+"text": "One of them is a book, and it says,",
+"conf": -0.7,
+"no_speech": 0.69
+},
+{
+"start": 44.0,
+"end": 48.0,
+"text": "I think that was Talbot and Cary's book.",
+"conf": -0.7,
+"no_speech": 0.69
+},
+{
+"start": 48.0,
+"end": 52.0,
+"text": "The other one,",
+"conf": -0.7,
+"no_speech": 0.69
+},
+{
+"start": 52.0,
+"end": 55.0,
+"text": "I love the one about the Jewish thing,",
+"conf": -0.7,
+"no_speech": 0.69
+},
+{
+"start": 55.0,
+"end": 57.0,
+"text": "and the one about the Jewish guy.",
+"conf": -0.7,
+"no_speech": 0.69
+},
+{
+"start": 57.0,
+"end": 62.0,
+"text": "I just wanted to mention that this, you know, I think when there's water reactions, it goes",
+"conf": -0.66,
+"no_speech": 0.79
+},
+{
+"start": 62.0,
+"end": 65.0,
+"text": "more easily.",
+"conf": -0.66,
+"no_speech": 0.79
+},
+{
+"start": 65.0,
+"end": 67.0,
+"text": "I don't know whether we're ready to go.",
+"conf": -0.66,
+"no_speech": 0.79
+},
+{
+"start": 67.0,
+"end": 72.0,
+"text": "Show me your, uh, show us your wrap.",
+"conf": -0.66,
+"no_speech": 0.79
+},
+{
+"start": 72.0,
+"end": 74.0,
+"text": "I don't know.",
+"conf": -0.66,
+"no_speech": 0.79
+},
+{
+"start": 74.0,
+"end": 75.0,
+"text": "Show her here.",
+"conf": -0.66,
+"no_speech": 0.79
+},
+{
+"start": 75.0,
+"end": 77.0,
+"text": "It'll be things like that in a while.",
+"conf": -0.66,
+"no_speech": 0.79
+},
+{
+"start": 77.0,
+"end": 79.0,
+"text": "I'll wait until you see it.",
+"conf": -0.66,
+"no_speech": 0.79
+},
+{
+"start": 79.0,
+"end": 83.0,
+"text": "Well, this sentiment could be the one to do in the next several months.",
+"conf": -0.67,
+"no_speech": 0.17
+},
+{
+"start": 83.0,
+"end": 85.0,
+"text": "This sentiment could be both.",
+"conf": -0.67,
+"no_speech": 0.17
+},
+{
+"start": 85.0,
+"end": 89.0,
+"text": "And operations are more than one day together.",
+"conf": -0.67,
+"no_speech": 0.17
+},
+{
+"start": 89.0,
+"end": 91.0,
+"text": "We are.",
+"conf": -0.67,
+"no_speech": 0.17
+},
+{
+"start": 91.0,
+"end": 96.0,
+"text": "We can all see these things in the light together.",
+"conf": -0.67,
+"no_speech": 0.17
+},
+{
+"start": 96.0,
+"end": 101.0,
+"text": "And, you know, we can have it with the members.",
+"conf": -0.67,
+"no_speech": 0.17
+},
+{
+"start": 101.0,
+"end": 102.0,
+"text": "Okay. Thank you.",
+"conf": -0.67,
+"no_speech": 0.17
+},
+{
+"start": 102.0,
+"end": 103.0,
+"text": "Forever.",
+"conf": -0.67,
+"no_speech": 0.17
+},
+{
+"start": 103.0,
+"end": 104.0,
+"text": "Thank you.",
+"conf": -0.67,
+"no_speech": 0.17
+}
+]
+}
