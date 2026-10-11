@@ -1,0 +1,20 @@
+name: Probe (debug helper)
+
+on:
+  workflow_dispatch:
+    inputs:
+      script:
+        description: "Path of a python script in tools/probes/ to run"
+        required: true
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q requests pypdf
+      - run: python "tools/probes/${{ github.event.inputs.script }}"
