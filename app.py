@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 86
+APP_CODE_VERSION = 87
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -276,7 +276,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 86 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 87 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1835,12 +1835,12 @@ with tab_search:
     if not ss.status:
         on_this_day_card()
         ufo_box()
+        with st.spinner("Pulling Top Secret documents from the archives…"):
+            top_secret_strip()
         nixon_box()
         nara_box()
         st.markdown('<div class="sect">DEEP DIVES · tap a topic</div>', unsafe_allow_html=True)
         topic_tiles("home", with_ancient=True)
-        with st.spinner("Pulling Top Secret documents from the archives…"):
-            top_secret_strip()
 
     # ── Results ──────────────────────────────────────────────────────────────────
     results, status = ss.results, ss.status
