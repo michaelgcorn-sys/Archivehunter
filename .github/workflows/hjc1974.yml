@@ -1,0 +1,27 @@
+name: Fetch House Judiciary 1974 transcripts
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q requests pypdf
+      - run: python tools/fetch_hjc_transcripts.py
+      - name: Commit
+        run: |
+          git config user.name "archivehunter-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/hjc1974_pages.json.gz
+          git diff --cached --quiet && exit 0
+          git commit -m "House Judiciary 1974 transcripts: page text"
+          for i in 1 2 3 4 5; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 10; done
