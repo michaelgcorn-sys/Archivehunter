@@ -1,0 +1,427 @@
+{
+"meta": {
+"conv": "866-015",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/866/conversation-866-015",
+"audio": "https://catalog.archives.gov/medialz/presidential-libraries/nixon/rn-wht/17409633/7450007/37-wht-conversation-866-015-pa.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 236,
+"made": "2026-10-11",
+"took_min": 4.6
+},
+"segments": [
+{
+"start": 0.0,
+"end": 2.0,
+"text": "Secretary Rutgers.",
+"conf": -0.6,
+"no_speech": 0.26
+},
+{
+"start": 2.0,
+"end": 4.0,
+"text": "Good morning.",
+"conf": -0.6,
+"no_speech": 0.26
+},
+{
+"start": 4.0,
+"end": 6.0,
+"text": "Good morning.",
+"conf": -0.6,
+"no_speech": 0.26
+},
+{
+"start": 6.0,
+"end": 8.0,
+"text": "Good morning.",
+"conf": -0.6,
+"no_speech": 0.26
+},
+{
+"start": 8.0,
+"end": 10.0,
+"text": "Good morning.",
+"conf": -0.6,
+"no_speech": 0.26
+},
+{
+"start": 10.0,
+"end": 12.0,
+"text": "Good morning.",
+"conf": -0.6,
+"no_speech": 0.26
+},
+{
+"start": 12.0,
+"end": 14.0,
+"text": "Did you get your reaction?",
+"conf": -0.6,
+"no_speech": 0.26
+},
+{
+"start": 14.0,
+"end": 16.0,
+"text": "I don't know.",
+"conf": -0.6,
+"no_speech": 0.26
+},
+{
+"start": 16.0,
+"end": 26.0,
+"text": "Mr. President, this whole procedure was just, you know, what they do, did they realize it?",
+"conf": -0.6,
+"no_speech": 0.26
+},
+{
+"start": 26.0,
+"end": 29.0,
+"text": "Is that very unreal?",
+"conf": -0.6,
+"no_speech": 0.26
+},
+{
+"start": 29.0,
+"end": 35.9,
+"text": "When Airpoint came up and he said, Airpoint is going to live, you know, in a war.",
+"conf": -0.25,
+"no_speech": 0.55
+},
+{
+"start": 36.1,
+"end": 40.0,
+"text": "He said, I want you to know, Ron, that I think that the president has seen this.",
+"conf": -0.25,
+"no_speech": 0.55
+},
+{
+"start": 40.0,
+"end": 41.2,
+"text": "This was yesterday evening.",
+"conf": -0.25,
+"no_speech": 0.55
+},
+{
+"start": 41.6,
+"end": 45.2,
+"text": "He said, first of all, he said, Dan, the CBS is running the story out of Paris.",
+"conf": -0.25,
+"no_speech": 0.55
+},
+{
+"start": 45.4,
+"end": 47.6,
+"text": "They're using your statement, Ron, but they weren't using his statement.",
+"conf": -0.25,
+"no_speech": 0.55
+},
+{
+"start": 47.6,
+"end": 57.8,
+"text": "But he said, I want you to know that I think that the president handled this whole matter just in the right way on this last day.",
+"conf": -0.25,
+"no_speech": 0.55
+},
+{
+"start": 59.0,
+"end": 60.7,
+"text": "But we would make a lot of respect for that.",
+"conf": -0.48,
+"no_speech": 0.38
+},
+{
+"start": 61.7,
+"end": 63.3,
+"text": "Let me ask you, what do you think?",
+"conf": -0.48,
+"no_speech": 0.38
+},
+{
+"start": 64.6,
+"end": 69.7,
+"text": "We should go forward with maybe the first market race.",
+"conf": -0.48,
+"no_speech": 0.38
+},
+{
+"start": 70.0,
+"end": 71.8,
+"text": "I'm just saying we ought to do it.",
+"conf": -0.48,
+"no_speech": 0.38
+},
+{
+"start": 72.7,
+"end": 74.4,
+"text": "I could go to the market, you know.",
+"conf": -0.48,
+"no_speech": 0.38
+},
+{
+"start": 74.9,
+"end": 77.0,
+"text": "I'm also very excited.",
+"conf": -0.48,
+"no_speech": 0.38
+},
+{
+"start": 77.1,
+"end": 81.4,
+"text": "Well, from the foreign policy standpoint, you may have a reason to do it.",
+"conf": -0.48,
+"no_speech": 0.38
+},
+{
+"start": 82.2,
+"end": 83.8,
+"text": "No, no, no, no reason for it.",
+"conf": -0.48,
+"no_speech": 0.38
+},
+{
+"start": 83.8,
+"end": 88.3,
+"text": "Also, the only point that I make is that it should be best for us to be out.",
+"conf": -0.48,
+"no_speech": 0.38
+},
+{
+"start": 88.3,
+"end": 95.9,
+"text": "to be ongoing. Perhaps we've got to remember our story rather than theirs. This story will be lost",
+"conf": -0.26,
+"no_speech": 0.64
+},
+{
+"start": 95.9,
+"end": 103.2,
+"text": "by Monday. Friday, they'll still be talking a bit about it, saying, well, how's the ceasefire going",
+"conf": -0.26,
+"no_speech": 0.64
+},
+{
+"start": 103.2,
+"end": 110.5,
+"text": "and all the rest. I'd probably rather be talking about that than I would about, well, what about",
+"conf": -0.26,
+"no_speech": 0.64
+},
+{
+"start": 110.5,
+"end": 118.1,
+"text": "Watergate? What about Schultz? What about Meany? I might appear to know all the rest, but during",
+"conf": -0.26,
+"no_speech": 0.64
+},
+{
+"start": 118.1,
+"end": 126.3,
+"text": "if you feel that what we're doing in the three o'clock tomorrow three o'clock tomorrow i think",
+"conf": -0.22,
+"no_speech": 0.53
+},
+{
+"start": 126.3,
+"end": 131.5,
+"text": "would be i could do it by 11 tomorrow if you think they're 11 or three either one",
+"conf": -0.22,
+"no_speech": 0.53
+},
+{
+"start": 131.5,
+"end": 139.0,
+"text": "what is your feeling you'd rather say money if you do well you have to let me think about it you",
+"conf": -0.22,
+"no_speech": 0.53
+},
+{
+"start": 139.0,
+"end": 142.5,
+"text": "have a good argument about the fact that this is now hard it's all about today",
+"conf": -0.22,
+"no_speech": 0.53
+},
+{
+"start": 142.5,
+"end": 150.5,
+"text": "Rodgers is going to sign the 923 that would be before 11 o'clock tomorrow, wouldn't it?",
+"conf": -0.28,
+"no_speech": 0.63
+},
+{
+"start": 150.5,
+"end": 153.5,
+"text": "It would be before 11 o'clock.",
+"conf": -0.28,
+"no_speech": 0.63
+},
+{
+"start": 153.5,
+"end": 156.5,
+"text": "Or just at the time.",
+"conf": -0.28,
+"no_speech": 0.63
+},
+{
+"start": 156.5,
+"end": 159.5,
+"text": "We'll be out here in a more positive way.",
+"conf": -0.28,
+"no_speech": 0.63
+},
+{
+"start": 159.5,
+"end": 161.5,
+"text": "You would be within the story.",
+"conf": -0.28,
+"no_speech": 0.63
+},
+{
+"start": 161.5,
+"end": 165.5,
+"text": "You would be commenting on the POV thing and within that story.",
+"conf": -0.28,
+"no_speech": 0.63
+},
+{
+"start": 165.5,
+"end": 168.5,
+"text": "The way things have ironed out now...",
+"conf": -0.28,
+"no_speech": 0.63
+},
+{
+"start": 168.5,
+"end": 175.5,
+"text": "which is basically our story, rather than waiting until Monday when you have the news magazine and everybody else in there.",
+"conf": -0.32,
+"no_speech": 0.3
+},
+{
+"start": 175.5,
+"end": 181.5,
+"text": "You see, one thing you've got to realize, Ronny, is that whenever we have a good story, like I told Henry,",
+"conf": -0.32,
+"no_speech": 0.3
+},
+{
+"start": 181.5,
+"end": 185.5,
+"text": "we actually had to sell the agreement or something like that, and now we have our agreement.",
+"conf": -0.32,
+"no_speech": 0.3
+},
+{
+"start": 185.5,
+"end": 192.5,
+"text": "They write it in 48 hours and drop it. Now it's to their interest, in other words, to kill the story now that it's happened.",
+"conf": -0.32,
+"no_speech": 0.3
+},
+{
+"start": 192.5,
+"end": 197.5,
+"text": "It's to our interest, frankly, to write it, rather than letting them get on another one.",
+"conf": -0.32,
+"no_speech": 0.3
+},
+{
+"start": 197.5,
+"end": 200.9,
+"text": "We have to fight the other ones, too, I believe, in all these economic motions.",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 201.5,
+"end": 203.3,
+"text": "I feel good about it.",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 204.0,
+"end": 208.2,
+"text": "I'll have to see later how I got along today.",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 208.8,
+"end": 211.0,
+"text": "But three o'clock tomorrow is all right, too.",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 211.2,
+"end": 212.4,
+"text": "We have three o'clock right now.",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 213.3,
+"end": 215.1,
+"text": "So I may not be able to get prepared by 11.",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 215.3,
+"end": 217.6,
+"text": "If we do it at 11, 11.30, we are all right.",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 218.0,
+"end": 218.4,
+"text": "Perfect.",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 219.5,
+"end": 220.1,
+"text": "11.30.",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 221.5,
+"end": 223.8,
+"text": "You see, we'll be out until midnight, right?",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 223.9,
+"end": 224.5,
+"text": "We are 11.30.",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 224.5,
+"end": 225.6,
+"text": "Well, you and I did it.",
+"conf": -0.41,
+"no_speech": 0.68
+},
+{
+"start": 225.6,
+"end": 232.6,
+"text": "I'd say he's totally flexible, and if you want to do it at 11.30, we can do it then, if you want to do it at 3, we can do it at 3.",
+"conf": -0.3,
+"no_speech": 0.37
+},
+{
+"start": 232.6,
+"end": 235.6,
+"text": "I think we ought to try to do it tomorrow.",
+"conf": -0.3,
+"no_speech": 0.37
+}
+]
+}

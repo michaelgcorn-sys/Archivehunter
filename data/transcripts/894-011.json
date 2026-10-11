@@ -1,0 +1,406 @@
+{
+"meta": {
+"conv": "894-011",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/894/conversation-894-011",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape894/894-011.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 268,
+"made": "2026-10-11",
+"took_min": 3.8
+},
+"segments": [
+{
+"start": 0.0,
+"end": 4.5,
+"text": "Mr. President, General, we've been just calling you, so you'll be about 10 minutes long.",
+"conf": -0.73,
+"no_speech": 0.24
+},
+{
+"start": 10.5,
+"end": 16.0,
+"text": "With regards to the proposed bipartisan leadership meeting that most every nation has got,",
+"conf": -0.73,
+"no_speech": 0.24
+},
+{
+"start": 16.0,
+"end": 20.0,
+"text": "so that's not going to be money.",
+"conf": -0.73,
+"no_speech": 0.24
+},
+{
+"start": 20.0,
+"end": 26.0,
+"text": "The bill is recommending that unless there's new information or something",
+"conf": -0.73,
+"no_speech": 0.24
+},
+{
+"start": 26.0,
+"end": 31.0,
+"text": "if they incorporate it in with the Supreme Court Submission meeting.",
+"conf": -0.6,
+"no_speech": 0.52
+},
+{
+"start": 31.0,
+"end": 33.0,
+"text": "And then Janet is going to go out.",
+"conf": -0.6,
+"no_speech": 0.52
+},
+{
+"start": 33.0,
+"end": 37.0,
+"text": "And Jackson is going to be in the Wednesday meeting.",
+"conf": -0.6,
+"no_speech": 0.52
+},
+{
+"start": 37.0,
+"end": 39.0,
+"text": "Yes sir, that's the Submission meeting.",
+"conf": -0.6,
+"no_speech": 0.52
+},
+{
+"start": 42.0,
+"end": 47.0,
+"text": "No, no, I said the point is there is something new.",
+"conf": -0.6,
+"no_speech": 0.52
+},
+{
+"start": 47.0,
+"end": 50.0,
+"text": "Of course there is, it has to be good.",
+"conf": -0.6,
+"no_speech": 0.52
+},
+{
+"start": 50.0,
+"end": 55.0,
+"text": "Secondly, and it must not be, I'm not thinking of it, it is not to be a big meeting.",
+"conf": -0.44,
+"no_speech": 0.14
+},
+{
+"start": 58.3,
+"end": 60.6,
+"text": "It's a very, very small meeting.",
+"conf": -0.44,
+"no_speech": 0.14
+},
+{
+"start": 60.8,
+"end": 61.9,
+"text": "I think it's the big four.",
+"conf": -0.44,
+"no_speech": 0.14
+},
+{
+"start": 63.2,
+"end": 65.9,
+"text": "Big four plus, uh, plus Javits.",
+"conf": -0.44,
+"no_speech": 0.14
+},
+{
+"start": 68.4,
+"end": 76.6,
+"text": "Uh, and the, uh, let's see, uh, the, uh,",
+"conf": -0.44,
+"no_speech": 0.14
+},
+{
+"start": 76.6,
+"end": 83.6,
+"text": "They barb us the, uh, barter, I should call it.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 83.6,
+"end": 85.6,
+"text": "There's a good chart there.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 85.6,
+"end": 87.6,
+"text": "Okay.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 91.6,
+"end": 94.6,
+"text": "Do you still want to have a meeting with some of the, uh, jury leaders?",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 94.6,
+"end": 95.6,
+"text": "I said, no.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 95.6,
+"end": 96.6,
+"text": "I said, go.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 96.6,
+"end": 98.6,
+"text": "I said, yes, I do.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 98.6,
+"end": 102.6,
+"text": "After that, he says he's got this leaders' meeting.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 102.6,
+"end": 104.6,
+"text": "So you guys go right on.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 104.6,
+"end": 110.6,
+"text": "I don't know whether this leaders meeting is going to decide to have that as a practice or not.",
+"conf": -0.45,
+"no_speech": 0.64
+},
+{
+"start": 110.6,
+"end": 113.6,
+"text": "Let me explain.",
+"conf": -0.45,
+"no_speech": 0.64
+},
+{
+"start": 113.6,
+"end": 118.6,
+"text": "The thing about the leaders meeting, as you know, they're going to have a great number.",
+"conf": -0.45,
+"no_speech": 0.64
+},
+{
+"start": 118.6,
+"end": 122.6,
+"text": "So there's a lot of people who are going to be able to practice.",
+"conf": -0.45,
+"no_speech": 0.64
+},
+{
+"start": 122.6,
+"end": 125.6,
+"text": "I don't get it, but if they do, you've got to find out.",
+"conf": -0.45,
+"no_speech": 0.64
+},
+{
+"start": 125.6,
+"end": 128.6,
+"text": "And they know, they don't know what you mean.",
+"conf": -0.45,
+"no_speech": 0.64
+},
+{
+"start": 128.6,
+"end": 138.0,
+"text": "I talk to students about this, unless we want to make some points, but I didn't, so maybe you can just ask.",
+"conf": -0.72,
+"no_speech": 0.54
+},
+{
+"start": 138.0,
+"end": 150.5,
+"text": "I'm walking down the street at 8.30, I would go to 10 o'clock, and you have a second meeting with me at 8.30.",
+"conf": -0.74,
+"no_speech": 0.63
+},
+{
+"start": 150.5,
+"end": 154.5,
+"text": "the",
+"conf": -0.59,
+"no_speech": 0.71
+},
+{
+"start": 154.5,
+"end": 158.5,
+"text": "the",
+"conf": -0.59,
+"no_speech": 0.71
+},
+{
+"start": 158.5,
+"end": 162.5,
+"text": "the",
+"conf": -0.59,
+"no_speech": 0.71
+},
+{
+"start": 162.5,
+"end": 166.5,
+"text": "the",
+"conf": -0.59,
+"no_speech": 0.71
+},
+{
+"start": 166.5,
+"end": 170.5,
+"text": "the",
+"conf": -0.59,
+"no_speech": 0.71
+},
+{
+"start": 170.5,
+"end": 174.5,
+"text": "the",
+"conf": -0.59,
+"no_speech": 0.71
+},
+{
+"start": 174.5,
+"end": 178.5,
+"text": "the",
+"conf": -0.59,
+"no_speech": 0.71
+},
+{
+"start": 178.5,
+"end": 188.5,
+"text": "We've got to tap up, as you say, at our meeting, at our brief one.",
+"conf": -0.63,
+"no_speech": 0.72
+},
+{
+"start": 188.5,
+"end": 189.5,
+"text": "Have you said the meeting?",
+"conf": -0.63,
+"no_speech": 0.72
+},
+{
+"start": 189.5,
+"end": 190.5,
+"text": "Yeah, I've said it before.",
+"conf": -0.63,
+"no_speech": 0.72
+},
+{
+"start": 190.5,
+"end": 193.5,
+"text": "You're going to be chairing it, right, because of foreign relations?",
+"conf": -0.63,
+"no_speech": 0.72
+},
+{
+"start": 193.5,
+"end": 194.5,
+"text": "Right.",
+"conf": -0.63,
+"no_speech": 0.72
+},
+{
+"start": 194.5,
+"end": 196.5,
+"text": "Oh, it's just a very short meeting.",
+"conf": -0.63,
+"no_speech": 0.72
+},
+{
+"start": 196.5,
+"end": 202.5,
+"text": "And the jury, the committee, the commissioners, come there for a meeting, and thereafter,",
+"conf": -0.63,
+"no_speech": 0.72
+},
+{
+"start": 202.5,
+"end": 204.5,
+"text": "but just say it's a very brief meeting.",
+"conf": -0.63,
+"no_speech": 0.72
+},
+{
+"start": 204.5,
+"end": 218.5,
+"text": "Okay, I did see you were close to standing, I said that you were recording last night.",
+"conf": -0.69,
+"no_speech": 0.61
+},
+{
+"start": 218.5,
+"end": 221.5,
+"text": "That's all, everybody's going to be impressive.",
+"conf": -0.69,
+"no_speech": 0.61
+},
+{
+"start": 221.5,
+"end": 226.5,
+"text": "The character on that string of words is very gracious, very well received.",
+"conf": -0.69,
+"no_speech": 0.61
+},
+{
+"start": 226.5,
+"end": 229.5,
+"text": "It's very, very good.",
+"conf": -0.69,
+"no_speech": 0.61
+},
+{
+"start": 229.5,
+"end": 231.5,
+"text": "The crowd is very good.",
+"conf": -0.69,
+"no_speech": 0.61
+},
+{
+"start": 231.5,
+"end": 241.5,
+"text": "Why don't you just snap this over to the other side?",
+"conf": -0.81,
+"no_speech": 0.72
+},
+{
+"start": 255.5,
+"end": 258.5,
+"text": "I don't care about those residents.",
+"conf": -0.81,
+"no_speech": 0.72
+},
+{
+"start": 258.5,
+"end": 261.3,
+"text": "Resisting to your command, EOB, this is the EOB.",
+"conf": -1.13,
+"no_speech": 0.48
+},
+{
+"start": 261.3,
+"end": 263.3,
+"text": "Alright, EOB, goodbye.",
+"conf": -1.13,
+"no_speech": 0.48
+}
+]
+}

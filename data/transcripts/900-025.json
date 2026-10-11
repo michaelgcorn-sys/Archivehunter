@@ -1,0 +1,252 @@
+{
+"meta": {
+"conv": "900-025",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/900/conversation-900-025",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape900/900-025.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 141,
+"made": "2026-10-11",
+"took_min": 2.0
+},
+"segments": [
+{
+"start": 0.0,
+"end": 15.8,
+"text": "I want you to call Kessinger to see whether that's still on.",
+"conf": -0.59,
+"no_speech": 0.15
+},
+{
+"start": 30.0,
+"end": 35.3,
+"text": "I knew I was supposed to make a call at 2.13.",
+"conf": -0.61,
+"no_speech": 0.79
+},
+{
+"start": 35.6,
+"end": 37.3,
+"text": "You do a tax check and you can see.",
+"conf": -0.61,
+"no_speech": 0.79
+},
+{
+"start": 38.3,
+"end": 39.6,
+"text": "It's a later thing.",
+"conf": -0.61,
+"no_speech": 0.79
+},
+{
+"start": 41.6,
+"end": 42.6,
+"text": "But 10.30 is all right.",
+"conf": -0.61,
+"no_speech": 0.79
+},
+{
+"start": 42.7,
+"end": 43.5,
+"text": "I can get back to that.",
+"conf": -0.61,
+"no_speech": 0.79
+},
+{
+"start": 46.1,
+"end": 49.5,
+"text": "They just weren't willing to tell Henry.",
+"conf": -0.61,
+"no_speech": 0.79
+},
+{
+"start": 50.5,
+"end": 52.7,
+"text": "The president put him on the spot, so I didn't meet him.",
+"conf": -0.61,
+"no_speech": 0.79
+},
+{
+"start": 52.8,
+"end": 53.4,
+"text": "He's working on it.",
+"conf": -0.61,
+"no_speech": 0.79
+},
+{
+"start": 54.9,
+"end": 56.0,
+"text": "I might well have.",
+"conf": -0.61,
+"no_speech": 0.79
+},
+{
+"start": 56.6,
+"end": 58.8,
+"text": "But if you were the guy who saved you,",
+"conf": -0.61,
+"no_speech": 0.79
+},
+{
+"start": 58.8,
+"end": 63.1,
+"text": "the hassle we had with the leader this morning on this thing. Does he want the president",
+"conf": -0.15,
+"no_speech": 0.55
+},
+{
+"start": 63.1,
+"end": 68.1,
+"text": "in the meeting, or is it better for him to handle the meeting? I prefer that he handle",
+"conf": -0.15,
+"no_speech": 0.55
+},
+{
+"start": 68.1,
+"end": 73.7,
+"text": "the meeting, I think, under these circumstances. Without the president, I think, the president",
+"conf": -0.15,
+"no_speech": 0.55
+},
+{
+"start": 73.7,
+"end": 77.8,
+"text": "can't go in there and strike out and just put it that way again. Tell him if you want",
+"conf": -0.15,
+"no_speech": 0.55
+},
+{
+"start": 77.8,
+"end": 82.6,
+"text": "to get a message back from him. I think the meeting should go forward, but I don't think",
+"conf": -0.15,
+"no_speech": 0.55
+},
+{
+"start": 82.6,
+"end": 85.3,
+"text": "the president should be there. I don't think the president should go there unless we're",
+"conf": -0.15,
+"no_speech": 0.55
+},
+{
+"start": 85.3,
+"end": 87.3,
+"text": "Are you sure?",
+"conf": -0.47,
+"no_speech": 0.57
+},
+{
+"start": 87.3,
+"end": 89.3,
+"text": "I'm very sure.",
+"conf": -0.47,
+"no_speech": 0.57
+},
+{
+"start": 89.3,
+"end": 91.3,
+"text": "I'm very sure.",
+"conf": -0.47,
+"no_speech": 0.57
+},
+{
+"start": 93.3,
+"end": 97.3,
+"text": "No. Well, if you think they invited to see me, yes.",
+"conf": -0.47,
+"no_speech": 0.57
+},
+{
+"start": 97.3,
+"end": 99.3,
+"text": "They haven't invited to see you.",
+"conf": -0.47,
+"no_speech": 0.57
+},
+{
+"start": 99.3,
+"end": 101.3,
+"text": "Ah.",
+"conf": -0.47,
+"no_speech": 0.57
+},
+{
+"start": 101.3,
+"end": 103.3,
+"text": "Oh, shit.",
+"conf": -0.47,
+"no_speech": 0.57
+},
+{
+"start": 103.3,
+"end": 105.3,
+"text": "That's a stupid gun.",
+"conf": -0.47,
+"no_speech": 0.57
+},
+{
+"start": 105.3,
+"end": 107.3,
+"text": "Well, then maybe we can't get out of it.",
+"conf": -0.47,
+"no_speech": 0.57
+},
+{
+"start": 107.3,
+"end": 109.3,
+"text": "Then maybe they...",
+"conf": -0.47,
+"no_speech": 0.57
+},
+{
+"start": 111.3,
+"end": 113.3,
+"text": "We'll check with Carmen.",
+"conf": -0.47,
+"no_speech": 0.57
+},
+{
+"start": 113.3,
+"end": 116.8,
+"text": "No one's going to check it with Carmen, check it with her, because Kissinger, Carmen's",
+"conf": -0.48,
+"no_speech": 0.07
+},
+{
+"start": 116.8,
+"end": 117.9,
+"text": "going to be worth a damn.",
+"conf": -0.48,
+"no_speech": 0.07
+},
+{
+"start": 118.4,
+"end": 119.3,
+"text": "I'm going to secure a settlement.",
+"conf": -0.48,
+"no_speech": 0.07
+},
+{
+"start": 119.9,
+"end": 128.3,
+"text": "I'm going to tell Kissinger to give me some advice on, say, about, if you come in about",
+"conf": -0.48,
+"no_speech": 0.07
+},
+{
+"start": 128.3,
+"end": 130.3,
+"text": "3.30.",
+"conf": -0.48,
+"no_speech": 0.07
+},
+{
+"start": 131.2,
+"end": 133.5,
+"text": "Kissinger, if you come in at 3.30, he's going to come in.",
+"conf": -0.48,
+"no_speech": 0.07
+}
+]
+}

@@ -1,0 +1,546 @@
+{
+"meta": {
+"conv": "874-026",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/874/conversation-874-026",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape874/874-026.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 356,
+"made": "2026-10-11",
+"took_min": 4.1
+},
+"segments": [
+{
+"start": 0.0,
+"end": 30.0,
+"text": "President Nixon speaking with staff.",
+"conf": -0.82,
+"no_speech": 0.21
+},
+{
+"start": 30.0,
+"end": 34.0,
+"text": "I'm going to be out of your way for the rest of the afternoon.",
+"conf": -0.59,
+"no_speech": 0.82
+},
+{
+"start": 34.0,
+"end": 38.0,
+"text": "I'm going to send you a wire to the Congress.",
+"conf": -0.59,
+"no_speech": 0.82
+},
+{
+"start": 38.0,
+"end": 42.0,
+"text": "I'm going to call you this morning before the cabinet meeting.",
+"conf": -0.59,
+"no_speech": 0.82
+},
+{
+"start": 42.0,
+"end": 46.0,
+"text": "I'm not going to reopen it until the end of the night.",
+"conf": -0.59,
+"no_speech": 0.82
+},
+{
+"start": 46.0,
+"end": 50.0,
+"text": "I'm going to cancel the call.",
+"conf": -0.59,
+"no_speech": 0.82
+},
+{
+"start": 50.0,
+"end": 54.0,
+"text": "I'm going to cancel the call.",
+"conf": -0.59,
+"no_speech": 0.82
+},
+{
+"start": 54.0,
+"end": 58.0,
+"text": "I'm going to cancel the call.",
+"conf": -0.59,
+"no_speech": 0.82
+},
+{
+"start": 58.0,
+"end": 60.0,
+"text": "You're a hard-hatted man.",
+"conf": -0.65,
+"no_speech": 0.72
+},
+{
+"start": 60.0,
+"end": 62.0,
+"text": "You get way, way, way.",
+"conf": -0.65,
+"no_speech": 0.72
+},
+{
+"start": 62.0,
+"end": 65.0,
+"text": "You deserve a good night's sleep.",
+"conf": -0.65,
+"no_speech": 0.72
+},
+{
+"start": 73.0,
+"end": 76.0,
+"text": "Look forward to welcoming you.",
+"conf": -0.65,
+"no_speech": 0.72
+},
+{
+"start": 76.0,
+"end": 77.0,
+"text": "Congratulations.",
+"conf": -0.65,
+"no_speech": 0.72
+},
+{
+"start": 77.0,
+"end": 78.0,
+"text": "Congratulations.",
+"conf": -0.65,
+"no_speech": 0.72
+},
+{
+"start": 78.0,
+"end": 79.0,
+"text": "You're a person.",
+"conf": -0.65,
+"no_speech": 0.72
+},
+{
+"start": 79.0,
+"end": 81.0,
+"text": "You arrived in Washington.",
+"conf": -0.65,
+"no_speech": 0.72
+},
+{
+"start": 88.0,
+"end": 112.0,
+"text": "I think the Italian debt, I think it's a nice one to have on a great team.",
+"conf": -0.87,
+"no_speech": 0.79
+},
+{
+"start": 112.0,
+"end": 142.0,
+"text": "Thank you very much.",
+"conf": -0.73,
+"no_speech": 0.67
+},
+{
+"start": 142.0,
+"end": 161.8,
+"text": "I have to wear it.",
+"conf": -0.87,
+"no_speech": 0.76
+},
+{
+"start": 161.8,
+"end": 163.8,
+"text": "When you're going to the kitchen,",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 163.8,
+"end": 165.8,
+"text": "try not to wipe the kitchen.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 165.8,
+"end": 167.8,
+"text": "I want to get pictures in them all the time.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 167.8,
+"end": 169.8,
+"text": "You know?",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 171.8,
+"end": 173.8,
+"text": "What about the daisies?",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 173.8,
+"end": 175.8,
+"text": "They're over here.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 175.8,
+"end": 177.8,
+"text": "So it's a matter of keeping",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 177.8,
+"end": 179.8,
+"text": "our oftentimes walked up",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 179.8,
+"end": 181.8,
+"text": "there.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 181.8,
+"end": 183.8,
+"text": "The crocuses are",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 183.8,
+"end": 185.8,
+"text": "often that English guy",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 185.8,
+"end": 187.8,
+"text": "or whatever, you know, there.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 187.8,
+"end": 189.8,
+"text": "It's kind of like",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 189.8,
+"end": 196.8,
+"text": "This is only March of the 8th.",
+"conf": -0.52,
+"no_speech": 0.56
+},
+{
+"start": 204.8,
+"end": 209.8,
+"text": "I still take care of that one.",
+"conf": -0.52,
+"no_speech": 0.56
+},
+{
+"start": 209.8,
+"end": 214.8,
+"text": "I may think of others as I go along, but don't let me.",
+"conf": -0.52,
+"no_speech": 0.56
+},
+{
+"start": 214.8,
+"end": 217.0,
+"text": "We're just going to have a lot of Italian entertainers.",
+"conf": -0.49,
+"no_speech": 0.29
+},
+{
+"start": 217.7,
+"end": 218.8,
+"text": "Tony Martin's Italian.",
+"conf": -0.49,
+"no_speech": 0.29
+},
+{
+"start": 220.3,
+"end": 222.3,
+"text": "We're going to have him, though, for eating.",
+"conf": -0.49,
+"no_speech": 0.29
+},
+{
+"start": 222.6,
+"end": 224.7,
+"text": "And since you're eating, he's an old friend.",
+"conf": -0.49,
+"no_speech": 0.29
+},
+{
+"start": 225.6,
+"end": 226.2,
+"text": "So why not?",
+"conf": -0.49,
+"no_speech": 0.29
+},
+{
+"start": 226.4,
+"end": 228.2,
+"text": "He's not eating more, at least in the half an hour.",
+"conf": -0.49,
+"no_speech": 0.29
+},
+{
+"start": 229.6,
+"end": 231.0,
+"text": "Half an hour may be great.",
+"conf": -0.49,
+"no_speech": 0.29
+},
+{
+"start": 235.3,
+"end": 237.0,
+"text": "And you can't get them all.",
+"conf": -0.49,
+"no_speech": 0.29
+},
+{
+"start": 237.5,
+"end": 238.2,
+"text": "No, no, no, no.",
+"conf": -0.49,
+"no_speech": 0.29
+},
+{
+"start": 238.2,
+"end": 239.0,
+"text": "It looks good.",
+"conf": -0.49,
+"no_speech": 0.29
+},
+{
+"start": 240.2,
+"end": 243.2,
+"text": "Well, the Jews will get to work, but I think the Italians will get to be good.",
+"conf": -0.49,
+"no_speech": 0.29
+},
+{
+"start": 243.2,
+"end": 252.2,
+"text": "I think you can do quite a few, but you have to have other students that come to the stage.",
+"conf": -0.47,
+"no_speech": 0.52
+},
+{
+"start": 252.2,
+"end": 253.2,
+"text": "Sure.",
+"conf": -0.47,
+"no_speech": 0.52
+},
+{
+"start": 253.2,
+"end": 259.2,
+"text": "I mean, you're really taking care of people.",
+"conf": -0.47,
+"no_speech": 0.52
+},
+{
+"start": 259.2,
+"end": 262.2,
+"text": "You bring in a copy of the schedule.",
+"conf": -0.47,
+"no_speech": 0.52
+},
+{
+"start": 262.2,
+"end": 264.2,
+"text": "That's what I was going to say.",
+"conf": -0.47,
+"no_speech": 0.52
+},
+{
+"start": 264.2,
+"end": 266.2,
+"text": "You do whatever you can.",
+"conf": -0.47,
+"no_speech": 0.52
+},
+{
+"start": 266.2,
+"end": 278.2,
+"text": "The new thing is that spags and everything are really going through this year.",
+"conf": -0.66,
+"no_speech": 0.63
+},
+{
+"start": 278.2,
+"end": 285.2,
+"text": "Well, I'll have that little report ready for you to get that into the know.",
+"conf": -0.66,
+"no_speech": 0.63
+},
+{
+"start": 285.2,
+"end": 288.2,
+"text": "You know, how far down it's going and all that.",
+"conf": -0.66,
+"no_speech": 0.63
+},
+{
+"start": 288.2,
+"end": 291.6,
+"text": "Because we're going to have the, let's see, we're going to have a lot more energy.",
+"conf": -0.62,
+"no_speech": 0.56
+},
+{
+"start": 293.2,
+"end": 297.4,
+"text": "And we're going to have the, probably,",
+"conf": -0.62,
+"no_speech": 0.56
+},
+{
+"start": 297.4,
+"end": 307.0,
+"text": "we're going to have a hacker in the building.",
+"conf": -0.62,
+"no_speech": 0.56
+},
+{
+"start": 308.4,
+"end": 309.3,
+"text": "Even that, sorry.",
+"conf": -0.62,
+"no_speech": 0.56
+},
+{
+"start": 309.6,
+"end": 311.3,
+"text": "Yep, they're going to have to use the energy.",
+"conf": -0.62,
+"no_speech": 0.56
+},
+{
+"start": 312.5,
+"end": 314.9,
+"text": "People, you know, they don't want to see stuff.",
+"conf": -0.62,
+"no_speech": 0.56
+},
+{
+"start": 315.4,
+"end": 316.6,
+"text": "I hear you're going to solve this.",
+"conf": -0.62,
+"no_speech": 0.56
+},
+{
+"start": 316.6,
+"end": 321.5,
+"text": "Oh, the stag.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 322.8,
+"end": 323.4,
+"text": "The stag.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 324.4,
+"end": 325.4,
+"text": "Probably hasn't really gone.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 325.9,
+"end": 326.7,
+"text": "It's an obstacle.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 327.9,
+"end": 328.9,
+"text": "Get another car.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 330.0,
+"end": 331.4,
+"text": "Probably not a computer.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 332.5,
+"end": 334.2,
+"text": "Less computers, more.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 335.2,
+"end": 335.9,
+"text": "Some interest.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 336.3,
+"end": 339.3,
+"text": "And when we got in, it was a really hot, hot.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 340.0,
+"end": 341.0,
+"text": "It was fast.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 341.5,
+"end": 342.7,
+"text": "Yeah, good.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 344.3,
+"end": 345.4,
+"text": "But there are two of us.",
+"conf": -0.84,
+"no_speech": 0.49
+},
+{
+"start": 345.4,
+"end": 347.6,
+"text": "I mean, you know, they'll all be taken care of now.",
+"conf": -0.66,
+"no_speech": 0.13
+},
+{
+"start": 350.5,
+"end": 350.8,
+"text": "Right.",
+"conf": -0.66,
+"no_speech": 0.13
+}
+]
+}

@@ -1,0 +1,581 @@
+{
+"meta": {
+"conv": "897-010",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/897/conversation-897-010",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape897/897-010.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 414,
+"made": "2026-10-11",
+"took_min": 6.4
+},
+"segments": [
+{
+"start": 0.0,
+"end": 30.0,
+"text": "President Nixon speaking with staff.",
+"conf": -0.64,
+"no_speech": 0.18
+},
+{
+"start": 30.0,
+"end": 34.0,
+"text": "...",
+"conf": -0.34,
+"no_speech": 0.91
+},
+{
+"start": 34.0,
+"end": 38.0,
+"text": "...",
+"conf": -0.34,
+"no_speech": 0.91
+},
+{
+"start": 38.0,
+"end": 42.0,
+"text": "...",
+"conf": -0.34,
+"no_speech": 0.91
+},
+{
+"start": 42.0,
+"end": 46.0,
+"text": "...",
+"conf": -0.34,
+"no_speech": 0.91
+},
+{
+"start": 46.0,
+"end": 50.0,
+"text": "...",
+"conf": -0.34,
+"no_speech": 0.91
+},
+{
+"start": 50.0,
+"end": 54.0,
+"text": "...",
+"conf": -0.34,
+"no_speech": 0.91
+},
+{
+"start": 54.0,
+"end": 58.0,
+"text": "...",
+"conf": -0.34,
+"no_speech": 0.91
+},
+{
+"start": 58.0,
+"end": 88.0,
+"text": "Thank you.",
+"conf": -0.68,
+"no_speech": 0.87
+},
+{
+"start": 88.0,
+"end": 90.5,
+"text": "Andrew, how do you run?",
+"conf": -0.97,
+"no_speech": 0.85
+},
+{
+"start": 91.0,
+"end": 92.4,
+"text": "Oh, Andrew, how do you run?",
+"conf": -0.97,
+"no_speech": 0.85
+},
+{
+"start": 92.6,
+"end": 96.0,
+"text": "And then, uh, just go on the side.",
+"conf": -0.97,
+"no_speech": 0.85
+},
+{
+"start": 96.0,
+"end": 96.2,
+"text": "Okay.",
+"conf": -0.97,
+"no_speech": 0.85
+},
+{
+"start": 102.2,
+"end": 116.5,
+"text": "I got it all.",
+"conf": -0.97,
+"no_speech": 0.85
+},
+{
+"start": 118.0,
+"end": 122.0,
+"text": "No, I'm getting him off until later tonight.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 122.0,
+"end": 124.0,
+"text": "Well, you already told him?",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 124.0,
+"end": 125.0,
+"text": "Yes, you have.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 125.0,
+"end": 127.0,
+"text": "Well, we can meet him outside at the...",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 127.0,
+"end": 128.0,
+"text": "Yes, he's been told.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 128.0,
+"end": 129.0,
+"text": "All right, I'll just get him in then.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 129.0,
+"end": 130.0,
+"text": "All right.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 130.0,
+"end": 132.0,
+"text": "I can try to move him back to his room.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 132.0,
+"end": 133.0,
+"text": "All right.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 133.0,
+"end": 138.0,
+"text": "All right, that's fine.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 138.0,
+"end": 139.0,
+"text": "All right, that's fine.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 139.0,
+"end": 141.0,
+"text": "All right, after I agree on it, that's fine.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 141.0,
+"end": 142.0,
+"text": "Well, it's okay.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 142.0,
+"end": 143.0,
+"text": "Okay.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 143.0,
+"end": 146.0,
+"text": "Believe me or say no, I don't understand.",
+"conf": -0.51,
+"no_speech": 0.7
+},
+{
+"start": 146.0,
+"end": 149.0,
+"text": "what we've got in the cabinet.",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 149.0,
+"end": 151.0,
+"text": "On the 19th, we've got a caption.",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 151.0,
+"end": 152.0,
+"text": "Is it interesting?",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 152.0,
+"end": 154.0,
+"text": "I understand that you told us earlier",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 154.0,
+"end": 156.0,
+"text": "that you want the assistant secretary",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 156.0,
+"end": 157.0,
+"text": "or the undersecretary.",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 157.0,
+"end": 158.0,
+"text": "Is that correct?",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 158.0,
+"end": 159.0,
+"text": "All right.",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 162.0,
+"end": 165.0,
+"text": "Bill Timmons is the other recommendation.",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 165.0,
+"end": 168.0,
+"text": "So, I don't know what we have to consolidate.",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 168.0,
+"end": 170.0,
+"text": "On the 3rd, this is just released",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 170.0,
+"end": 173.0,
+"text": "on the Jewish bipartisan website.",
+"conf": -0.54,
+"no_speech": 0.56
+},
+{
+"start": 173.0,
+"end": 177.0,
+"text": "Jackson, Javits, and Rybakov are going to be leading Thursday.",
+"conf": -0.3,
+"no_speech": 0.21
+},
+{
+"start": 177.0,
+"end": 183.0,
+"text": "So what Timothy has recommended is that the conclusion of the bipartisan meeting on Wednesday,",
+"conf": -0.3,
+"no_speech": 0.21
+},
+{
+"start": 183.0,
+"end": 186.0,
+"text": "which is on energy, at 9.30,",
+"conf": -0.3,
+"no_speech": 0.21
+},
+{
+"start": 186.0,
+"end": 192.0,
+"text": "we just come in here with Albert O'Neill, Ford, Mansfield, Scott, and Jackson,",
+"conf": -0.3,
+"no_speech": 0.21
+},
+{
+"start": 192.0,
+"end": 195.0,
+"text": "who are going to be in on the energy meeting anyway.",
+"conf": -0.3,
+"no_speech": 0.21
+},
+{
+"start": 195.0,
+"end": 206.0,
+"text": "It would be brilliant if Javits and Riberkoff could just do the session right here at that point, rather than take another session.",
+"conf": -0.62,
+"no_speech": 0.78
+},
+{
+"start": 206.0,
+"end": 212.0,
+"text": "He also suggested that since the ranking of foreign parishioners at the center here,",
+"conf": -0.62,
+"no_speech": 0.78
+},
+{
+"start": 212.0,
+"end": 218.0,
+"text": "maybe it won't be here that you would really be interested in meeting, just because it might be possible.",
+"conf": -0.62,
+"no_speech": 0.78
+},
+{
+"start": 218.0,
+"end": 220.0,
+"text": "He doesn't feel it would be great.",
+"conf": -0.62,
+"no_speech": 0.78
+},
+{
+"start": 220.0,
+"end": 234.0,
+"text": "The question I asked, he said, well, not really.",
+"conf": -0.54,
+"no_speech": 0.68
+},
+{
+"start": 235.1,
+"end": 237.4,
+"text": "He said, Bill said he handled that problem.",
+"conf": -0.54,
+"no_speech": 0.68
+},
+{
+"start": 237.8,
+"end": 239.7,
+"text": "He just didn't need him around here anymore.",
+"conf": -0.54,
+"no_speech": 0.68
+},
+{
+"start": 239.7,
+"end": 240.3,
+"text": "All right.",
+"conf": -0.54,
+"no_speech": 0.68
+},
+{
+"start": 243.6,
+"end": 247.7,
+"text": "Okay, I just want to alert you to the fact that he's going to the",
+"conf": -0.54,
+"no_speech": 0.68
+},
+{
+"start": 247.7,
+"end": 257.7,
+"text": "she's not going to the reception afterwards, there's a recommendation that you do go and",
+"conf": -0.55,
+"no_speech": 0.49
+},
+{
+"start": 257.7,
+"end": 260.7,
+"text": "I just wanted to see you when I said go do something tonight.",
+"conf": -0.55,
+"no_speech": 0.49
+},
+{
+"start": 260.7,
+"end": 263.7,
+"text": "It's a concert over at the Smithsonian.",
+"conf": -0.55,
+"no_speech": 0.49
+},
+{
+"start": 263.7,
+"end": 265.7,
+"text": "Oh shit, of course, I'm going to do it.",
+"conf": -0.55,
+"no_speech": 0.49
+},
+{
+"start": 265.7,
+"end": 267.7,
+"text": "This is just, I'm just going to go like this.",
+"conf": -0.55,
+"no_speech": 0.49
+},
+{
+"start": 267.7,
+"end": 268.7,
+"text": "I'm not going to chill out.",
+"conf": -0.55,
+"no_speech": 0.49
+},
+{
+"start": 268.7,
+"end": 269.7,
+"text": "I'm definitely not going to do that.",
+"conf": -0.55,
+"no_speech": 0.49
+},
+{
+"start": 269.7,
+"end": 273.7,
+"text": "just to let you know that this is an essential part of the cast of the film.",
+"conf": -0.64,
+"no_speech": 0.68
+},
+{
+"start": 276.7,
+"end": 280.7,
+"text": "Do you have any desire to see romance this weekend?",
+"conf": -0.64,
+"no_speech": 0.68
+},
+{
+"start": 283.7,
+"end": 288.7,
+"text": "It's been recommended that you do a film clip on energy on Wednesday.",
+"conf": -0.64,
+"no_speech": 0.68
+},
+{
+"start": 289.7,
+"end": 298.7,
+"text": "It's also been recommended that we do a so-called energy commitment.",
+"conf": -0.64,
+"no_speech": 0.68
+},
+{
+"start": 299.7,
+"end": 329.7,
+"text": "I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm going to be at the leader's meeting, yes sir I'm",
+"conf": -0.13,
+"no_speech": 0.68
+},
+{
+"start": 329.7,
+"end": 336.7,
+"text": "You were going to give that you wanted to have Troy in the meeting.",
+"conf": -0.58,
+"no_speech": 0.64
+},
+{
+"start": 336.7,
+"end": 340.7,
+"text": "I don't know, that's still what I was going to do this week.",
+"conf": -0.58,
+"no_speech": 0.64
+},
+{
+"start": 340.7,
+"end": 343.7,
+"text": "I don't know, Wednesday afternoon, maybe.",
+"conf": -0.58,
+"no_speech": 0.64
+},
+{
+"start": 343.7,
+"end": 346.7,
+"text": "Or Wednesday night, could I argue Burns?",
+"conf": -0.58,
+"no_speech": 0.64
+},
+{
+"start": 346.7,
+"end": 355.7,
+"text": "Well, the point of the matter is, we do that on day one, and we do Burns tomorrow at 3.",
+"conf": -0.58,
+"no_speech": 0.64
+},
+{
+"start": 355.7,
+"end": 357.7,
+"text": "I'm putting him off.",
+"conf": -0.58,
+"no_speech": 0.64
+},
+{
+"start": 357.7,
+"end": 359.7,
+"text": "put him off and then had to fire it up",
+"conf": -0.74,
+"no_speech": 0.66
+},
+{
+"start": 359.7,
+"end": 361.7,
+"text": "burns and then fire it up",
+"conf": -0.74,
+"no_speech": 0.66
+},
+{
+"start": 363.7,
+"end": 365.7,
+"text": "what's the action?",
+"conf": -0.74,
+"no_speech": 0.66
+},
+{
+"start": 365.7,
+"end": 367.7,
+"text": "closing in and watching",
+"conf": -0.74,
+"no_speech": 0.66
+},
+{
+"start": 367.7,
+"end": 369.7,
+"text": "I think so",
+"conf": -0.74,
+"no_speech": 0.66
+},
+{
+"start": 377.7,
+"end": 379.7,
+"text": "3",
+"conf": -0.74,
+"no_speech": 0.66
+},
+{
+"start": 379.7,
+"end": 381.7,
+"text": "3 and then there's 4",
+"conf": -0.74,
+"no_speech": 0.66
+},
+{
+"start": 383.7,
+"end": 385.7,
+"text": "and then the fire goes in another direction",
+"conf": -0.74,
+"no_speech": 0.66
+}
+]
+}

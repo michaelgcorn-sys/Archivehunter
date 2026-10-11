@@ -1,0 +1,791 @@
+{
+"meta": {
+"conv": "033-058",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/033/conversation-033-058",
+"audio": "https://catalog.archives.gov/medialz/presidential-libraries/nixon/rn-wht/17412458/7449875/37-wht-conversation-033-058-059-pa.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 252,
+"made": "2026-10-11",
+"took_min": 3.4
+},
+"segments": [
+{
+"start": 0.5,
+"end": 1.6,
+"text": "Call him, is that right?",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 4.3,
+"end": 5.4,
+"text": "Senator Humphrey, please.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 5.5,
+"end": 7.0,
+"text": "Okay, sir, I have Governor Rockefeller now.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 7.1,
+"end": 7.4,
+"text": "Okay.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 9.3,
+"end": 9.8,
+"text": "Go ahead.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 10.4,
+"end": 11.3,
+"text": "Mr. President.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 11.5,
+"end": 12.7,
+"text": "Hi, Nelson, how are you?",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 12.8,
+"end": 14.2,
+"text": "You've done the impossible.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 14.5,
+"end": 18.2,
+"text": "I just got back from the Shore Motel, and they told me you'd called.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 18.4,
+"end": 19.2,
+"text": "Aren't you the night?",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 19.2,
+"end": 23.4,
+"text": "You know, it's so hard to get through those shouting crowds, and I just didn't do it.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 23.6,
+"end": 27.3,
+"text": "Well, it was great, the whole thing. I can't tell you how much we owe.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 27.3,
+"end": 30.9,
+"text": "Well, I'll tell you, you know, you did just what you said you'd do in New York.",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 31.0,
+"end": 31.7,
+"text": "I'm your friend.",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 31.8,
+"end": 33.5,
+"text": "When did it come out, finally, in New York?",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 33.6,
+"end": 36.4,
+"text": "Well, the television now is saying 59.",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 37.1,
+"end": 37.5,
+"text": "59?",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 38.0,
+"end": 38.7,
+"text": "Isn't that something?",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 38.8,
+"end": 39.8,
+"text": "Well, listen.",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 40.1,
+"end": 41.1,
+"text": "59 in New York?",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 41.5,
+"end": 41.8,
+"text": "Huh?",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 42.2,
+"end": 43.5,
+"text": "That's going to be well over a million.",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 43.6,
+"end": 45.1,
+"text": "Oh, gosh, yes.",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 45.9,
+"end": 46.7,
+"text": "That's terrific.",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 46.9,
+"end": 49.7,
+"text": "Well, and you've still got a good chance of carrying New York City.",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 50.7,
+"end": 51.6,
+"text": "God, isn't that something?",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 51.6,
+"end": 52.0,
+"text": "It's unbelievable.",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 52.0,
+"end": 54.4,
+"text": "Well, you may end up with 60, then, if you carry the city.",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 54.5,
+"end": 55.2,
+"text": "That's right, see.",
+"conf": -0.27,
+"no_speech": 0.04
+},
+{
+"start": 55.2,
+"end": 58.4,
+"text": "and they say 42% of the Jewish folks.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 58.7,
+"end": 59.3,
+"text": "Oh, my God.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 59.7,
+"end": 60.8,
+"text": "Well, I give you credit for that.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 61.2,
+"end": 61.4,
+"text": "No, I'm serious.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 61.6,
+"end": 63.8,
+"text": "I don't want to say the whole thing.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 63.9,
+"end": 65.2,
+"text": "We're just here with you.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 65.4,
+"end": 67.7,
+"text": "Well, where did I get you at home?",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 68.0,
+"end": 69.2,
+"text": "Yeah, I'm just thrilled.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 69.5,
+"end": 70.1,
+"text": "I'll tell you.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 70.2,
+"end": 70.5,
+"text": "Well, that's good.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 70.5,
+"end": 76.4,
+"text": "I was waiting around for McGovern to make a statement, you know, so late.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 76.5,
+"end": 80.6,
+"text": "I mean, you know, that our network for conceding it at 7 o'clock.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 80.9,
+"end": 81.2,
+"text": "That's right.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 81.2,
+"end": 81.9,
+"text": "I don't believe it.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 81.9,
+"end": 83.2,
+"text": "We've been watching it all the time.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 83.4,
+"end": 83.6,
+"text": "All right.",
+"conf": -0.29,
+"no_speech": 0.04
+},
+{
+"start": 84.3,
+"end": 85.9,
+"text": "Well, but I'll tell you, it's a great day.",
+"conf": -0.22,
+"no_speech": 0.14
+},
+{
+"start": 86.2,
+"end": 89.7,
+"text": "The only state now that we've lost is Massachusetts.",
+"conf": -0.22,
+"no_speech": 0.14
+},
+{
+"start": 90.5,
+"end": 92.6,
+"text": "Really? Did you get Washington, D.C., too?",
+"conf": -0.22,
+"no_speech": 0.14
+},
+{
+"start": 92.8,
+"end": 94.0,
+"text": "Oh, no, no, no, no. We lost that.",
+"conf": -0.22,
+"no_speech": 0.14
+},
+{
+"start": 95.1,
+"end": 97.4,
+"text": "Minnesota, there's some doubt about it. We don't know.",
+"conf": -0.22,
+"no_speech": 0.14
+},
+{
+"start": 97.7,
+"end": 101.1,
+"text": "But I suppose we get it. But that's quite something.",
+"conf": -0.22,
+"no_speech": 0.14
+},
+{
+"start": 101.6,
+"end": 103.2,
+"text": "Oh, it's just unbelievable.",
+"conf": -0.22,
+"no_speech": 0.14
+},
+{
+"start": 103.9,
+"end": 105.3,
+"text": "We couldn't do too well.",
+"conf": -0.22,
+"no_speech": 0.14
+},
+{
+"start": 106.3,
+"end": 110.2,
+"text": "Oh, tell me, did you, by any chance, what did you do in any of those house races, or do you know yet?",
+"conf": -0.22,
+"no_speech": 0.14
+},
+{
+"start": 110.2,
+"end": 116.0,
+"text": "Oh, yes. We won. Pizer won. He knocked out Otter, which was great.",
+"conf": -0.33,
+"no_speech": 0.02
+},
+{
+"start": 116.3,
+"end": 121.3,
+"text": "Brownie Reed, unfortunately, beat out Gary.",
+"conf": -0.33,
+"no_speech": 0.02
+},
+{
+"start": 122.0,
+"end": 126.5,
+"text": "And Joe Boyd was beaten out on the island by Otter's bike.",
+"conf": -0.33,
+"no_speech": 0.02
+},
+{
+"start": 127.9,
+"end": 130.1,
+"text": "Well, we got down. We knocked out Dow.",
+"conf": -0.33,
+"no_speech": 0.02
+},
+{
+"start": 130.3,
+"end": 130.5,
+"text": "Right.",
+"conf": -0.33,
+"no_speech": 0.02
+},
+{
+"start": 131.2,
+"end": 132.4,
+"text": "So, then the rest of us...",
+"conf": -0.33,
+"no_speech": 0.02
+},
+{
+"start": 132.4,
+"end": 133.7,
+"text": "So, it's a wash, huh?",
+"conf": -0.33,
+"no_speech": 0.02
+},
+{
+"start": 133.9,
+"end": 135.9,
+"text": "Yeah. We picked up two.",
+"conf": -0.33,
+"no_speech": 0.02
+},
+{
+"start": 136.2,
+"end": 137.4,
+"text": "We picked up two. Oh, I see.",
+"conf": -0.33,
+"no_speech": 0.02
+},
+{
+"start": 138.3,
+"end": 138.5,
+"text": "Yeah.",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 138.8,
+"end": 139.7,
+"text": "Well, that's great.",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 139.8,
+"end": 140.2,
+"text": "That's great.",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 140.2,
+"end": 143.7,
+"text": "Well, now, I'm going to Florida tomorrow, I think, for a week,",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 143.7,
+"end": 146.8,
+"text": "and then we ought to have a little chat if you have time.",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 147.1,
+"end": 148.0,
+"text": "What are you going to do?",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 148.1,
+"end": 150.9,
+"text": "I'm looking for, we're going to go out to the country and go to the camp.",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 151.4,
+"end": 152.3,
+"text": "Great, great, great.",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 152.3,
+"end": 153.0,
+"text": "We're going to go out in the country.",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 153.6,
+"end": 155.2,
+"text": "Well, you feel good, though, do you?",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 155.3,
+"end": 161.6,
+"text": "You know, incidentally, wasn't that fellow unbelievably irresponsible in the last two days, those charges?",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 162.2,
+"end": 165.3,
+"text": "Did you know, for your information, Henry may have told you,",
+"conf": -0.19,
+"no_speech": 0.13
+},
+{
+"start": 165.3,
+"end": 174.5,
+"text": "When I was on the airfield at North Carolina Saturday, we got a wire from the North Vietnamese.",
+"conf": -0.29,
+"no_speech": 0.09
+},
+{
+"start": 174.7,
+"end": 177.1,
+"text": "They've agreed to negotiate without conditions in one week.",
+"conf": -0.29,
+"no_speech": 0.09
+},
+{
+"start": 177.9,
+"end": 178.8,
+"text": "It's all done.",
+"conf": -0.29,
+"no_speech": 0.09
+},
+{
+"start": 179.9,
+"end": 180.8,
+"text": "We never said it.",
+"conf": -0.29,
+"no_speech": 0.09
+},
+{
+"start": 181.3,
+"end": 182.5,
+"text": "But, you know, that's what you have to do.",
+"conf": -0.29,
+"no_speech": 0.09
+},
+{
+"start": 182.6,
+"end": 186.0,
+"text": "Did you ever see such an irresponsible campaign as this clown put on?",
+"conf": -0.29,
+"no_speech": 0.09
+},
+{
+"start": 186.1,
+"end": 186.9,
+"text": "No, not a Chris.",
+"conf": -0.29,
+"no_speech": 0.09
+},
+{
+"start": 186.9,
+"end": 188.3,
+"text": "He's running me with many roses.",
+"conf": -0.29,
+"no_speech": 0.09
+},
+{
+"start": 189.8,
+"end": 190.9,
+"text": "But what a babbler.",
+"conf": -0.29,
+"no_speech": 0.09
+},
+{
+"start": 192.0,
+"end": 193.3,
+"text": "But, you know, I'll tell you.",
+"conf": -0.29,
+"no_speech": 0.09
+},
+{
+"start": 193.4,
+"end": 194.2,
+"text": "Let me tell you, Mr. President.",
+"conf": -0.29,
+"no_speech": 0.09
+},
+{
+"start": 194.2,
+"end": 199.8,
+"text": "And I saw your daughter, Tricia, in New York on television, and I told her what McGovern had said.",
+"conf": -0.19,
+"no_speech": 0.02
+},
+{
+"start": 200.3,
+"end": 204.3,
+"text": "And the child was so marvelous because it was your reaction.",
+"conf": -0.19,
+"no_speech": 0.02
+},
+{
+"start": 204.6,
+"end": 207.0,
+"text": "And she was so controlled, and she was quiet.",
+"conf": -0.19,
+"no_speech": 0.02
+},
+{
+"start": 207.8,
+"end": 211.9,
+"text": "And he said, well, freedom of speech is a great thing in this country.",
+"conf": -0.19,
+"no_speech": 0.02
+},
+{
+"start": 211.9,
+"end": 216.7,
+"text": "And the pressure of the campaign, she was, I just really, I just thought she was so great.",
+"conf": -0.19,
+"no_speech": 0.02
+},
+{
+"start": 217.2,
+"end": 222.1,
+"text": "As a matter of fact, my family felt a little bit, and they said, no, don't say anything nice about him.",
+"conf": -0.19,
+"no_speech": 0.02
+},
+{
+"start": 222.1,
+"end": 228.2,
+"text": "But as you noticed, I was very careful to say, look, everybody, you opponents and others, you all fought hard.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 228.3,
+"end": 229.2,
+"text": "Now let's get together.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 229.2,
+"end": 230.2,
+"text": "You've got to be generous.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 230.9,
+"end": 231.7,
+"text": "Don't you think so?",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 232.0,
+"end": 232.7,
+"text": "Oh, yes.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 232.7,
+"end": 240.2,
+"text": "I think, Mr. President, this is the greatest thing, and I want to help you in any way I can in trying to do a job now, a domestic thing here.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 240.5,
+"end": 240.7,
+"text": "Right.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 240.8,
+"end": 241.1,
+"text": "Okay.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 241.3,
+"end": 243.5,
+"text": "I got your memo with all your crossovers.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 244.7,
+"end": 245.6,
+"text": "We're with you.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 245.8,
+"end": 246.2,
+"text": "Okay.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 246.3,
+"end": 246.8,
+"text": "We're with you.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 246.8,
+"end": 248.0,
+"text": "You might love to have me.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 248.1,
+"end": 248.7,
+"text": "You bet.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 249.0,
+"end": 249.2,
+"text": "Bye.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 249.3,
+"end": 249.9,
+"text": "Love to pat.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 249.9,
+"end": 250.1,
+"text": "Bye.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 250.3,
+"end": 251.2,
+"text": "Thanks for calling.",
+"conf": -0.25,
+"no_speech": 0.0
+},
+{
+"start": 252.1,
+"end": 282.1,
+"text": "Thank you.",
+"conf": -0.67,
+"no_speech": 0.86
+}
+]
+}

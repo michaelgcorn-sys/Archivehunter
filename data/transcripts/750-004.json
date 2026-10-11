@@ -1,0 +1,546 @@
+{
+"meta": {
+"conv": "750-004",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/750/conversation-750-004",
+"audio": "https://catalog.archives.gov/medialz/presidential-libraries/nixon/rn-wht/17409633/6920319/37-wht-conversation-750-004-pa.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 363,
+"made": "2026-10-11",
+"took_min": 5.0
+},
+"segments": [
+{
+"start": 0.0,
+"end": 19.3,
+"text": "I don't need mine, I just wanted to be sure that you found this as a matter of style.",
+"conf": -0.61,
+"no_speech": 0.11
+},
+{
+"start": 19.3,
+"end": 27.6,
+"text": "I see it says we have an introduction to each other.",
+"conf": -0.61,
+"no_speech": 0.11
+},
+{
+"start": 30.0,
+"end": 35.0,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.79
+},
+{
+"start": 35.0,
+"end": 40.0,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.79
+},
+{
+"start": 40.0,
+"end": 45.0,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.79
+},
+{
+"start": 45.0,
+"end": 50.0,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.79
+},
+{
+"start": 50.0,
+"end": 55.0,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.79
+},
+{
+"start": 55.0,
+"end": 60.0,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.79
+},
+{
+"start": 90.0,
+"end": 94.9,
+"text": "data piece working with somebody else, how to look at it.",
+"conf": -0.86,
+"no_speech": 0.66
+},
+{
+"start": 94.9,
+"end": 98.9,
+"text": "And I'm going to tell Ray how, what's the way he can think about this.",
+"conf": -0.86,
+"no_speech": 0.66
+},
+{
+"start": 102.9,
+"end": 113.9,
+"text": "Well, I mean, it isn't that, it isn't, it's not a collaboration, but it is a, except that it's,",
+"conf": -0.86,
+"no_speech": 0.66
+},
+{
+"start": 113.9,
+"end": 122.9,
+"text": "It's something that adds to the eulogies, and it makes it a story rather than just being another man prose.",
+"conf": -0.38,
+"no_speech": 0.31
+},
+{
+"start": 122.9,
+"end": 126.9,
+"text": "That's it. It makes it live.",
+"conf": -0.38,
+"no_speech": 0.31
+},
+{
+"start": 126.9,
+"end": 135.9,
+"text": "When you're going up to Camp David Island, there's a letter here that I think you would find interesting to read from Sam Pryor.",
+"conf": -0.38,
+"no_speech": 0.31
+},
+{
+"start": 135.9,
+"end": 140.9,
+"text": "He's, you know, back from Vietnam. And I talked with him this morning.",
+"conf": -0.38,
+"no_speech": 0.31
+},
+{
+"start": 140.9,
+"end": 157.3,
+"text": "And Sam Kretzner wrote a letter, I've been, you know, I write to him, and he wrote me another note too long ago saying, you know, he's even further convinced how much the Jews have done in devout faith.",
+"conf": -0.47,
+"no_speech": 0.5
+},
+{
+"start": 157.3,
+"end": 167.3,
+"text": "And then at the end of my letter that I wrote to him from San Clemente, I said, now that you've chosen Eagleton, do you think that will, what do you think it'll do in Missouri?",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 167.3,
+"end": 171.2,
+"text": "You know, just for something to fill the letter. I just need to be interested in reading that.",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 171.3,
+"end": 171.5,
+"text": "Sure.",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 171.6,
+"end": 173.5,
+"text": "Because he's taught at Eagleton what it's like.",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 173.6,
+"end": 173.8,
+"text": "Good.",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 175.2,
+"end": 176.5,
+"text": "I'll repeat that for you.",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 176.8,
+"end": 178.3,
+"text": "Yeah, that's a good thing to do.",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 179.2,
+"end": 181.6,
+"text": "I've got some other people that I don't recognize.",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 181.9,
+"end": 183.2,
+"text": "Why don't you talk to them?",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 183.5,
+"end": 185.0,
+"text": "Because these two are very important.",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 185.0,
+"end": 186.1,
+"text": "I have one on my folder.",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 186.4,
+"end": 186.8,
+"text": "All right.",
+"conf": -0.47,
+"no_speech": 0.35
+},
+{
+"start": 187.3,
+"end": 191.5,
+"text": "he really confirmed that drinking too much",
+"conf": -0.55,
+"no_speech": 0.38
+},
+{
+"start": 191.5,
+"end": 194.4,
+"text": "you can't",
+"conf": -0.55,
+"no_speech": 0.38
+},
+{
+"start": 194.4,
+"end": 194.8,
+"text": "you know",
+"conf": -0.55,
+"no_speech": 0.38
+},
+{
+"start": 194.8,
+"end": 196.5,
+"text": "honestly",
+"conf": -0.55,
+"no_speech": 0.38
+},
+{
+"start": 196.5,
+"end": 197.6,
+"text": "you can't",
+"conf": -0.55,
+"no_speech": 0.38
+},
+{
+"start": 197.6,
+"end": 199.4,
+"text": "because he knows",
+"conf": -0.55,
+"no_speech": 0.38
+},
+{
+"start": 199.4,
+"end": 200.9,
+"text": "I'll send him",
+"conf": -0.55,
+"no_speech": 0.38
+},
+{
+"start": 200.9,
+"end": 202.1,
+"text": "I'll get him",
+"conf": -0.55,
+"no_speech": 0.38
+},
+{
+"start": 202.1,
+"end": 209.6,
+"text": "no I talked to him about three times today",
+"conf": -0.55,
+"no_speech": 0.38
+},
+{
+"start": 209.6,
+"end": 211.1,
+"text": "I thought I'd walk over and tell him",
+"conf": -0.55,
+"no_speech": 0.38
+},
+{
+"start": 211.1,
+"end": 212.4,
+"text": "I would do that",
+"conf": -0.55,
+"no_speech": 0.38
+},
+{
+"start": 217.3,
+"end": 235.3,
+"text": "And I sent her a cute article that was in our magazine, Twin Circles, I guess it's a",
+"conf": -0.33,
+"no_speech": 0.34
+},
+{
+"start": 235.3,
+"end": 237.5,
+"text": "Catholic picture, somebody passed it to me.",
+"conf": -0.33,
+"no_speech": 0.34
+},
+{
+"start": 238.2,
+"end": 244.1,
+"text": "It had a story on Susan Eisenhower and her marriage and a picture of the baby, and she",
+"conf": -0.33,
+"no_speech": 0.34
+},
+{
+"start": 244.1,
+"end": 246.0,
+"text": "said she and David had a big kick out of that.",
+"conf": -0.33,
+"no_speech": 0.34
+},
+{
+"start": 247.3,
+"end": 254.3,
+"text": "I've never gone to a club on a holiday.",
+"conf": -0.41,
+"no_speech": 0.54
+},
+{
+"start": 254.3,
+"end": 256.3,
+"text": "Oh, this is terrible.",
+"conf": -0.41,
+"no_speech": 0.54
+},
+{
+"start": 256.3,
+"end": 258.3,
+"text": "The air conditioning can't work really very well.",
+"conf": -0.41,
+"no_speech": 0.54
+},
+{
+"start": 258.3,
+"end": 260.3,
+"text": "Plus being there in the evening earlier.",
+"conf": -0.41,
+"no_speech": 0.54
+},
+{
+"start": 260.3,
+"end": 263.3,
+"text": "Yeah, and I was going to a party to the Spragas tonight and I...",
+"conf": -0.41,
+"no_speech": 0.54
+},
+{
+"start": 263.3,
+"end": 264.3,
+"text": "Outdoors?",
+"conf": -0.41,
+"no_speech": 0.54
+},
+{
+"start": 264.3,
+"end": 267.3,
+"text": "Well, they had the cocktails indoors and dinner outdoors at 2 p.m.",
+"conf": -0.41,
+"no_speech": 0.54
+},
+{
+"start": 267.3,
+"end": 270.3,
+"text": "I can just see those all melting.",
+"conf": -0.41,
+"no_speech": 0.54
+},
+{
+"start": 270.3,
+"end": 276.3,
+"text": "I only went...I only...I don't take any of those things except when I think, you know, I thought I should show up because...",
+"conf": -0.41,
+"no_speech": 0.54
+},
+{
+"start": 276.3,
+"end": 278.3,
+"text": "I need to be out of the car, I should have washed.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 278.3,
+"end": 280.3,
+"text": "Yeah, but first it's my brain.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 280.3,
+"end": 282.3,
+"text": "That's right.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 282.3,
+"end": 285.3,
+"text": "I still hope it will rain, and I have nothing to try.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 285.3,
+"end": 287.3,
+"text": "Except that one.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 287.3,
+"end": 289.3,
+"text": "Yeah.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 290.3,
+"end": 293.3,
+"text": "Oh, I miss the day I was asleep.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 293.3,
+"end": 295.3,
+"text": "You know, having him in my head.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 295.3,
+"end": 297.3,
+"text": "It makes a big difference.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 297.3,
+"end": 299.3,
+"text": "You know, you don't...",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 299.3,
+"end": 301.3,
+"text": "As you get up there, you can walk.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 301.3,
+"end": 302.3,
+"text": "It is exciting.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 302.3,
+"end": 304.3,
+"text": "Yeah, walking is good.",
+"conf": -0.55,
+"no_speech": 0.57
+},
+{
+"start": 304.3,
+"end": 306.5,
+"text": "get in the pool, go back and forth a few times.",
+"conf": -0.54,
+"no_speech": 0.53
+},
+{
+"start": 306.7,
+"end": 308.6,
+"text": "Get in the pool and walk in.",
+"conf": -0.54,
+"no_speech": 0.53
+},
+{
+"start": 311.1,
+"end": 312.2,
+"text": "It's just so hot there,",
+"conf": -0.54,
+"no_speech": 0.53
+},
+{
+"start": 312.2,
+"end": 314.7,
+"text": "and it'll be at least 10 degrees cooler there, won't it?",
+"conf": -0.54,
+"no_speech": 0.53
+},
+{
+"start": 316.7,
+"end": 317.6,
+"text": "They think so.",
+"conf": -0.54,
+"no_speech": 0.53
+},
+{
+"start": 317.9,
+"end": 319.0,
+"text": "You know, it'll be a little bit hotter,",
+"conf": -0.54,
+"no_speech": 0.53
+},
+{
+"start": 319.1,
+"end": 320.0,
+"text": "but that's where it'll be.",
+"conf": -0.54,
+"no_speech": 0.53
+},
+{
+"start": 320.7,
+"end": 322.2,
+"text": "Maybe we'll have to come back down",
+"conf": -0.54,
+"no_speech": 0.53
+},
+{
+"start": 322.2,
+"end": 323.6,
+"text": "and look a little bit later, but...",
+"conf": -0.54,
+"no_speech": 0.53
+},
+{
+"start": 323.6,
+"end": 328.4,
+"text": "But we can go back up there after the rain.",
+"conf": -0.54,
+"no_speech": 0.53
+},
+{
+"start": 332.5,
+"end": 333.8,
+"text": "Today is July.",
+"conf": -0.54,
+"no_speech": 0.53
+}
+]
+}

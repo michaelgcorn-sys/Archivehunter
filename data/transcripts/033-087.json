@@ -1,0 +1,700 @@
+{
+"meta": {
+"conv": "033-087",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/033/conversation-033-087",
+"audio": "https://catalog.archives.gov/medialz/presidential-libraries/nixon/rn-wht/17412458/7449875/37-wht-conversation-033-087-088-pa.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 275,
+"made": "2026-10-11",
+"took_min": 4.5
+},
+"segments": [
+{
+"start": 0.0,
+"end": 0.6,
+"text": "Hello.",
+"conf": -0.2,
+"no_speech": 0.06
+},
+{
+"start": 0.8,
+"end": 8.8,
+"text": "Mr. President, we have Mr. Garment for you, but in the meantime, Mr. Connolly is on an island off the coast of Texas and be back tomorrow evening.",
+"conf": -0.2,
+"no_speech": 0.06
+},
+{
+"start": 8.8,
+"end": 10.2,
+"text": "I could reach him if you want me to.",
+"conf": -0.2,
+"no_speech": 0.06
+},
+{
+"start": 10.4,
+"end": 16.7,
+"text": "If it's a, provided it's not radio, if it's a regular telephone, I'll talk to him.",
+"conf": -0.2,
+"no_speech": 0.06
+},
+{
+"start": 16.8,
+"end": 17.8,
+"text": "If not, I'll talk to him tomorrow.",
+"conf": -0.2,
+"no_speech": 0.06
+},
+{
+"start": 18.0,
+"end": 19.2,
+"text": "Fine. Thank you, Mr. Garment.",
+"conf": -0.2,
+"no_speech": 0.06
+},
+{
+"start": 20.1,
+"end": 20.9,
+"text": "Go ahead, sir.",
+"conf": -0.2,
+"no_speech": 0.06
+},
+{
+"start": 21.1,
+"end": 21.4,
+"text": "Hello.",
+"conf": -0.2,
+"no_speech": 0.06
+},
+{
+"start": 21.6,
+"end": 22.6,
+"text": "Hello. Good morning, sir.",
+"conf": -0.2,
+"no_speech": 0.06
+},
+{
+"start": 22.7,
+"end": 23.5,
+"text": "Where'd I find you?",
+"conf": -0.2,
+"no_speech": 0.06
+},
+{
+"start": 24.6,
+"end": 29.4,
+"text": "You found me sitting at my desk writing a note on the Bicentennial.",
+"conf": -0.2,
+"no_speech": 0.06
+},
+{
+"start": 29.4,
+"end": 31.5,
+"text": "trying to figure some things out.",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 31.7,
+"end": 32.5,
+"text": "Are you here in Washington?",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 32.9,
+"end": 33.5,
+"text": "I'm in Washington.",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 33.9,
+"end": 35.6,
+"text": "Could you drop over to the Lincoln sitting room?",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 35.8,
+"end": 40.7,
+"text": "I have a few minutes before I have to get us some more dictation.",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 42.2,
+"end": 45.5,
+"text": "I'm sitting at my desk in my house, but I could be there in a minute.",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 45.5,
+"end": 46.2,
+"text": "Where is your house?",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 46.4,
+"end": 47.1,
+"text": "It's in Alexandria.",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 47.1,
+"end": 47.5,
+"text": "New York?",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 47.9,
+"end": 48.7,
+"text": "In Alexandria.",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 49.9,
+"end": 52.2,
+"text": "Oh, well, I'll tell you what you do then.",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 57.4,
+"end": 59.1,
+"text": "I think the better thing is this.",
+"conf": -0.25,
+"no_speech": 0.15
+},
+{
+"start": 59.4,
+"end": 61.9,
+"text": "Why don't you come up tomorrow to Camp David?",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 62.1,
+"end": 64.1,
+"text": "I've got quite a slug of a plan.",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 64.2,
+"end": 66.6,
+"text": "What day are you scheduled to come, aren't you?",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 67.0,
+"end": 68.6,
+"text": "I haven't heard anything from anyone.",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 69.0,
+"end": 72.3,
+"text": "Well, you're on the list for next week sometime.",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 73.1,
+"end": 76.2,
+"text": "But tomorrow at Camp David, or Tuesday or Wednesday, either.",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 76.5,
+"end": 77.2,
+"text": "Tomorrow would be perfect.",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 77.7,
+"end": 78.6,
+"text": "Tomorrow, but come up.",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 78.7,
+"end": 79.5,
+"text": "Whatever is convenient.",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 82.3,
+"end": 84.2,
+"text": "Well, tomorrow's Sunday, for Christ's sake.",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 84.2,
+"end": 84.4,
+"text": "No.",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 85.1,
+"end": 86.3,
+"text": "I'll tell you what you can do.",
+"conf": -0.23,
+"no_speech": 0.03
+},
+{
+"start": 89.4,
+"end": 107.8,
+"text": "Come up Monday, which is really better, because tomorrow I'm going to watch football, if you don't mind.",
+"conf": -0.23,
+"no_speech": 0.2
+},
+{
+"start": 107.8,
+"end": 109.2,
+"text": "I have that planned also for myself.",
+"conf": -0.23,
+"no_speech": 0.2
+},
+{
+"start": 109.2,
+"end": 114.7,
+"text": "Yeah, so come up Monday about 5 o'clock.",
+"conf": -0.23,
+"no_speech": 0.2
+},
+{
+"start": 114.8,
+"end": 119.0,
+"text": "Be up there by about 5 o'clock, okay?",
+"conf": -0.23,
+"no_speech": 0.2
+},
+{
+"start": 119.4,
+"end": 125.6,
+"text": "Fine, because I know I'm seeing, I'm getting through all the cabinet now, which is a hairy experience.",
+"conf": -0.17,
+"no_speech": 0.03
+},
+{
+"start": 125.9,
+"end": 126.5,
+"text": "I imagine so.",
+"conf": -0.17,
+"no_speech": 0.03
+},
+{
+"start": 126.7,
+"end": 132.6,
+"text": "But actually, you know, what we're really doing is shuffling more, which is the right thing,",
+"conf": -0.17,
+"no_speech": 0.03
+},
+{
+"start": 132.7,
+"end": 135.4,
+"text": "because I'm putting a new man in virtually every job.",
+"conf": -0.17,
+"no_speech": 0.03
+},
+{
+"start": 135.5,
+"end": 141.3,
+"text": "I think you'll agree, you know, the major problem with everything, Len, people become prisoners of the bureaucracy.",
+"conf": -0.17,
+"no_speech": 0.03
+},
+{
+"start": 141.9,
+"end": 144.6,
+"text": "And then I am going over with CAP.",
+"conf": -0.17,
+"no_speech": 0.03
+},
+{
+"start": 144.6,
+"end": 145.5,
+"text": "I found this case.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 145.6,
+"end": 150.3,
+"text": "Incidentally, I think you'd be pleased to know I'm giving Kapp a major cabinet appointment.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 150.4,
+"end": 150.7,
+"text": "That's great.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 150.9,
+"end": 151.7,
+"text": "That's terrific.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 151.8,
+"end": 153.1,
+"text": "And I think he deserves it, don't you?",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 153.7,
+"end": 156.3,
+"text": "I'll tell you in greatest confidence what it is.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 156.9,
+"end": 158.2,
+"text": "I'm going to give him HEW.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 158.3,
+"end": 159.1,
+"text": "Oh, that's marvelous.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 159.4,
+"end": 163.1,
+"text": "And I'm going to move Elliott, however, to another very high position.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 164.0,
+"end": 165.4,
+"text": "Because Elliott, I think, is first class.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 165.6,
+"end": 168.8,
+"text": "Well, they're both men of great intelligence and courage.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 170.1,
+"end": 172.8,
+"text": "Anyway, Ranger, is Monday all right?",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 173.0,
+"end": 173.8,
+"text": "Yeah, Monday's perfect.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 174.1,
+"end": 174.5,
+"text": "Fine.",
+"conf": -0.24,
+"no_speech": 0.06
+},
+{
+"start": 174.6,
+"end": 175.7,
+"text": "I'll look forward to that.",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 176.0,
+"end": 177.0,
+"text": "Okay, okay.",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 177.1,
+"end": 177.6,
+"text": "Five o'clock.",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 177.6,
+"end": 178.5,
+"text": "What did you think of the election?",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 178.8,
+"end": 179.7,
+"text": "Did it bother you?",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 181.6,
+"end": 183.1,
+"text": "Well, I thought it was a pretty good election.",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 183.6,
+"end": 183.7,
+"text": "Huh?",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 184.7,
+"end": 186.6,
+"text": "It was really...",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 186.6,
+"end": 189.3,
+"text": "It's come a long way since that time, isn't it?",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 189.6,
+"end": 189.9,
+"text": "Yes.",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 190.0,
+"end": 191.3,
+"text": "Well, you're very...",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 191.3,
+"end": 193.2,
+"text": "I was talking about...",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 193.2,
+"end": 195.0,
+"text": "When you stop to think that 10 years ago,",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 195.0,
+"end": 196.8,
+"text": "I just wrote a letter to Pat Brown, you know,",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 196.9,
+"end": 203.2,
+"text": "and Pat Brown said he was thinking back to 10 years ago",
+"conf": -0.3,
+"no_speech": 0.08
+},
+{
+"start": 203.2,
+"end": 205.2,
+"text": "when I had to make my concession statement,",
+"conf": -0.22,
+"no_speech": 0.05
+},
+{
+"start": 205.8,
+"end": 207.4,
+"text": "which, incidentally, if you go back and read it,",
+"conf": -0.22,
+"no_speech": 0.05
+},
+{
+"start": 207.4,
+"end": 212.2,
+"text": "it looks pretty good because I was very kind to Carl Greenberg",
+"conf": -0.22,
+"no_speech": 0.05
+},
+{
+"start": 212.2,
+"end": 214.4,
+"text": "and the good guys when I kicked a lot of the bad guys.",
+"conf": -0.22,
+"no_speech": 0.05
+},
+{
+"start": 214.6,
+"end": 216.1,
+"text": "But I was gracious to Brown.",
+"conf": -0.22,
+"no_speech": 0.05
+},
+{
+"start": 216.1,
+"end": 217.0,
+"text": "That's the important thing.",
+"conf": -0.22,
+"no_speech": 0.05
+},
+{
+"start": 217.6,
+"end": 220.1,
+"text": "And I, what in the hell is the matter with McGovern?",
+"conf": -0.22,
+"no_speech": 0.05
+},
+{
+"start": 220.7,
+"end": 223.2,
+"text": "That statement of his, I thought, was crazy.",
+"conf": -0.22,
+"no_speech": 0.05
+},
+{
+"start": 224.2,
+"end": 225.7,
+"text": "No sense of history, any of these folks.",
+"conf": -0.22,
+"no_speech": 0.05
+},
+{
+"start": 226.1,
+"end": 228.2,
+"text": "But, you know, when you think of Goldwater,",
+"conf": -0.22,
+"no_speech": 0.05
+},
+{
+"start": 228.4,
+"end": 232.2,
+"text": "how gracious he was after 64, how gracious I was when I lost in 60.",
+"conf": -0.22,
+"no_speech": 0.05
+},
+{
+"start": 232.2,
+"end": 240.7,
+"text": "And when you came in, that's one of the best moments in the past quarter century, announcing the election of Kennedy to the joint session.",
+"conf": -0.17,
+"no_speech": 0.05
+},
+{
+"start": 240.7,
+"end": 242.1,
+"text": "Yeah, remember when I went to the joint session?",
+"conf": -0.17,
+"no_speech": 0.05
+},
+{
+"start": 242.1,
+"end": 242.9,
+"text": "Yeah, very moving.",
+"conf": -0.17,
+"no_speech": 0.05
+},
+{
+"start": 242.9,
+"end": 246.3,
+"text": "But I don't mean, I'm not bragging that, but Goldwater was very good, too, you know.",
+"conf": -0.17,
+"no_speech": 0.05
+},
+{
+"start": 246.5,
+"end": 251.2,
+"text": "He didn't say the country lost, for Christ's sake, you can't say that. I mean, even if you believed it.",
+"conf": -0.17,
+"no_speech": 0.05
+},
+{
+"start": 251.2,
+"end": 255.7,
+"text": "Yeah. Well, you're just such an impermeable part of the history of this century,",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 256.1,
+"end": 259.1,
+"text": "of the last 25 or 30 years, and the last quarter century,",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 259.3,
+"end": 264.8,
+"text": "that it's a unique sensation to be able to talk to you in these terms.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 265.3,
+"end": 267.7,
+"text": "Okay, well, get to work on the bicentennial.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 268.0,
+"end": 268.8,
+"text": "I'll be working on it.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 268.8,
+"end": 269.7,
+"text": "I'll see you on Monday.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 269.9,
+"end": 270.2,
+"text": "Bye.",
+"conf": -0.21,
+"no_speech": 0.0
+},
+{
+"start": 270.3,
+"end": 271.1,
+"text": "Thanks very much for calling.",
+"conf": -0.21,
+"no_speech": 0.0
+}
+]
+}

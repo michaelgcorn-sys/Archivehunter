@@ -1,0 +1,763 @@
+{
+"meta": {
+"conv": "801-016",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/801/conversation-801-016",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape801/801-016a.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 518,
+"made": "2026-10-11",
+"took_min": 6.9
+},
+"segments": [
+{
+"start": 0.0,
+"end": 30.0,
+"text": "President Nixon speaking with staff.",
+"conf": -0.6,
+"no_speech": 0.25
+},
+{
+"start": 30.0,
+"end": 38.1,
+"text": "Well, no. See, they've had the snows.",
+"conf": -0.35,
+"no_speech": 0.36
+},
+{
+"start": 39.4,
+"end": 40.8,
+"text": "Oh, God, of course it's not true.",
+"conf": -0.35,
+"no_speech": 0.36
+},
+{
+"start": 40.9,
+"end": 41.1,
+"text": "Sure.",
+"conf": -0.35,
+"no_speech": 0.36
+},
+{
+"start": 41.9,
+"end": 44.1,
+"text": "So, it could go to spring now.",
+"conf": -0.35,
+"no_speech": 0.36
+},
+{
+"start": 46.3,
+"end": 48.5,
+"text": "If they went into the side of a mountain in the snow.",
+"conf": -0.35,
+"no_speech": 0.36
+},
+{
+"start": 50.1,
+"end": 54.4,
+"text": "Now, we've tried. I don't know how successful we've been.",
+"conf": -0.35,
+"no_speech": 0.36
+},
+{
+"start": 55.6,
+"end": 58.9,
+"text": "We've tried to put a lock on that information so it comes here first.",
+"conf": -0.35,
+"no_speech": 0.36
+},
+{
+"start": 60.0,
+"end": 88.4,
+"text": "All right, well, we've got a game plan, and we'll just see if Mrs. Boggs, the wife of",
+"conf": -0.45,
+"no_speech": 0.49
+},
+{
+"start": 88.4,
+"end": 95.4,
+"text": "we'll see if we can make some things happen.",
+"conf": -0.6,
+"no_speech": 0.55
+},
+{
+"start": 95.4,
+"end": 98.4,
+"text": "The upright is being mastered now.",
+"conf": -0.6,
+"no_speech": 0.55
+},
+{
+"start": 98.4,
+"end": 99.4,
+"text": "It's made.",
+"conf": -0.6,
+"no_speech": 0.55
+},
+{
+"start": 99.4,
+"end": 100.4,
+"text": "It's easy for him.",
+"conf": -0.6,
+"no_speech": 0.55
+},
+{
+"start": 100.4,
+"end": 102.4,
+"text": "Yeah, it comes natural.",
+"conf": -0.6,
+"no_speech": 0.55
+},
+{
+"start": 102.4,
+"end": 104.4,
+"text": "But he's very hard at this yesterday.",
+"conf": -0.6,
+"no_speech": 0.55
+},
+{
+"start": 104.4,
+"end": 107.4,
+"text": "So, thank you for your help.",
+"conf": -0.6,
+"no_speech": 0.55
+},
+{
+"start": 107.4,
+"end": 112.4,
+"text": "He's very, of course, restrained.",
+"conf": -0.6,
+"no_speech": 0.55
+},
+{
+"start": 112.4,
+"end": 122.9,
+"text": "I said, you've really done a great job all the time.",
+"conf": -0.49,
+"no_speech": 0.63
+},
+{
+"start": 125.0,
+"end": 126.3,
+"text": "He said, we have a high context.",
+"conf": -0.49,
+"no_speech": 0.63
+},
+{
+"start": 127.4,
+"end": 130.0,
+"text": "I looked at him and said, once a bastard, always a bastard.",
+"conf": -0.49,
+"no_speech": 0.63
+},
+{
+"start": 131.5,
+"end": 133.0,
+"text": "He said, they're born that way.",
+"conf": -0.49,
+"no_speech": 0.63
+},
+{
+"start": 133.2,
+"end": 134.0,
+"text": "Can't change that.",
+"conf": -0.49,
+"no_speech": 0.63
+},
+{
+"start": 135.5,
+"end": 140.2,
+"text": "Well, it may be that around 7 or 7,",
+"conf": -0.49,
+"no_speech": 0.63
+},
+{
+"start": 142.4,
+"end": 148.0,
+"text": "I know this is a very hard time for you and your family,",
+"conf": -0.32,
+"no_speech": 0.19
+},
+{
+"start": 148.2,
+"end": 151.1,
+"text": "but I want you to know that Mrs. Mech and I are thinking about you.",
+"conf": -0.32,
+"no_speech": 0.19
+},
+{
+"start": 151.8,
+"end": 153.9,
+"text": "We're just praying that out in that snow,",
+"conf": -0.32,
+"no_speech": 0.19
+},
+{
+"start": 154.1,
+"end": 157.1,
+"text": "they're going to find me and we're going to walk around up there.",
+"conf": -0.32,
+"no_speech": 0.19
+},
+{
+"start": 158.4,
+"end": 158.6,
+"text": "Yeah.",
+"conf": -0.32,
+"no_speech": 0.19
+},
+{
+"start": 159.9,
+"end": 163.5,
+"text": "Well, we're, as you know, doing everything we can.",
+"conf": -0.32,
+"no_speech": 0.19
+},
+{
+"start": 164.1,
+"end": 166.1,
+"text": "On the government side, not that we can do it,",
+"conf": -0.32,
+"no_speech": 0.19
+},
+{
+"start": 166.1,
+"end": 168.3,
+"text": "but every search line is out.",
+"conf": -0.32,
+"no_speech": 0.19
+},
+{
+"start": 168.3,
+"end": 176.2,
+"text": "and uh but you just keep your faith okay and get my best of here",
+"conf": -0.43,
+"no_speech": 0.13
+},
+{
+"start": 176.2,
+"end": 183.1,
+"text": "get those wonderful children congratulations okay okay bye",
+"conf": -0.43,
+"no_speech": 0.13
+},
+{
+"start": 183.1,
+"end": 192.3,
+"text": "wow so how are we going to do this well the work getting geared up so anytime after",
+"conf": -0.43,
+"no_speech": 0.13
+},
+{
+"start": 192.3,
+"end": 195.1,
+"text": "we'll be in shape",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 195.1,
+"end": 197.1,
+"text": "to do a number of different things",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 197.1,
+"end": 198.9,
+"text": "that have to be done. For instance, if they kill",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 198.9,
+"end": 200.6,
+"text": "the spending limit, which looks likely",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 200.6,
+"end": 203.0,
+"text": "in the Senate, we'll be ready to go",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 203.0,
+"end": 204.5,
+"text": "out and blast them.",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 205.2,
+"end": 207.0,
+"text": "Ziegler is going to say that the eyes of every",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 207.0,
+"end": 208.9,
+"text": "taxpayer in the nation are on the Senate today",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 208.9,
+"end": 210.6,
+"text": "before the vote.",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 213.1,
+"end": 214.6,
+"text": "We'll kick them hard.",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 214.8,
+"end": 215.2,
+"text": "He should.",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 216.0,
+"end": 218.3,
+"text": "I agree.",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 218.4,
+"end": 219.5,
+"text": "I just think",
+"conf": -0.25,
+"no_speech": 0.12
+},
+{
+"start": 219.5,
+"end": 225.5,
+"text": "right right because we know we're going to lose it right and we don't want to have our money right",
+"conf": -0.27,
+"no_speech": 0.29
+},
+{
+"start": 225.5,
+"end": 230.8,
+"text": "or not yeah yeah it's a bit let's don't tell them it's time to be assured and then i should say now",
+"conf": -0.27,
+"no_speech": 0.29
+},
+{
+"start": 230.8,
+"end": 241.6,
+"text": "i don't like this this battle alone the congress has deserted and the fight against higher taxes",
+"conf": -0.27,
+"no_speech": 0.29
+},
+{
+"start": 241.6,
+"end": 247.2,
+"text": "they have deserted the mass this congress and now i would have to fight the battle alone",
+"conf": -0.27,
+"no_speech": 0.29
+},
+{
+"start": 247.2,
+"end": 256.2,
+"text": "with the support of the American people and with the support, I trust, of those courageous members of the House and Senate,",
+"conf": -0.33,
+"no_speech": 0.12
+},
+{
+"start": 256.2,
+"end": 260.2,
+"text": "who will vote just as they speak.",
+"conf": -0.33,
+"no_speech": 0.12
+},
+{
+"start": 260.2,
+"end": 264.2,
+"text": "I can say that the Congress has deserved it.",
+"conf": -0.33,
+"no_speech": 0.12
+},
+{
+"start": 264.2,
+"end": 266.2,
+"text": "Is there any better word we could use?",
+"conf": -0.33,
+"no_speech": 0.12
+},
+{
+"start": 266.2,
+"end": 268.2,
+"text": "AWOL.",
+"conf": -0.33,
+"no_speech": 0.12
+},
+{
+"start": 272.2,
+"end": 276.2,
+"text": "Well, let's see what the absentee record is.",
+"conf": -0.33,
+"no_speech": 0.12
+},
+{
+"start": 276.2,
+"end": 279.6,
+"text": "No, it's an action without the fight against A.W.O.L.",
+"conf": -0.45,
+"no_speech": 0.22
+},
+{
+"start": 279.9,
+"end": 280.7,
+"text": "That's not an action.",
+"conf": -0.45,
+"no_speech": 0.22
+},
+{
+"start": 280.8,
+"end": 287.2,
+"text": "The Congress has gone A.W.O.L., and the fight's deserved, and that is a fight against a higher value.",
+"conf": -0.45,
+"no_speech": 0.22
+},
+{
+"start": 287.5,
+"end": 290.0,
+"text": "And the fight against a higher value.",
+"conf": -0.45,
+"no_speech": 0.22
+},
+{
+"start": 290.0,
+"end": 300.2,
+"text": "The Congress has a half of Congress has gone A.W.O.L., and the other half is deserved.",
+"conf": -0.45,
+"no_speech": 0.22
+},
+{
+"start": 303.2,
+"end": 303.7,
+"text": "See?",
+"conf": -0.45,
+"no_speech": 0.22
+},
+{
+"start": 303.9,
+"end": 304.2,
+"text": "Yep.",
+"conf": -0.45,
+"no_speech": 0.22
+},
+{
+"start": 306.2,
+"end": 317.2,
+"text": "Then, about 6 or 7 at night would be my best guess right now, whether or not we're here.",
+"conf": -0.35,
+"no_speech": 0.2
+},
+{
+"start": 317.2,
+"end": 320.2,
+"text": "We'll send the water veto up.",
+"conf": -0.35,
+"no_speech": 0.2
+},
+{
+"start": 320.2,
+"end": 328.2,
+"text": "And if the game plan goes according to schedule, we'll have the House out of here by then.",
+"conf": -0.35,
+"no_speech": 0.2
+},
+{
+"start": 328.2,
+"end": 333.2,
+"text": "Your idea is that they're getting the Republicans.",
+"conf": -0.3,
+"no_speech": 0.18
+},
+{
+"start": 333.2,
+"end": 336.2,
+"text": "The Republicans just take off so they can't get a quorum.",
+"conf": -0.3,
+"no_speech": 0.18
+},
+{
+"start": 336.2,
+"end": 338.2,
+"text": "Well, no, we may get the whole House out.",
+"conf": -0.3,
+"no_speech": 0.18
+},
+{
+"start": 338.2,
+"end": 340.2,
+"text": "The House is mad as hell at the Senate right now.",
+"conf": -0.3,
+"no_speech": 0.18
+},
+{
+"start": 340.2,
+"end": 342.2,
+"text": "Good, good.",
+"conf": -0.3,
+"no_speech": 0.18
+},
+{
+"start": 342.2,
+"end": 344.2,
+"text": "And we just may be able to get this.",
+"conf": -0.3,
+"no_speech": 0.18
+},
+{
+"start": 344.2,
+"end": 348.2,
+"text": "Tim is working on it, his guys, and they may be able to get this out.",
+"conf": -0.3,
+"no_speech": 0.18
+},
+{
+"start": 348.2,
+"end": 351.2,
+"text": "The House do their work and adjourn.",
+"conf": -0.3,
+"no_speech": 0.18
+},
+{
+"start": 351.2,
+"end": 355.2,
+"text": "The Senate then, symbolically, might want to vote on the override.",
+"conf": -0.3,
+"no_speech": 0.18
+},
+{
+"start": 355.2,
+"end": 356.2,
+"text": "It doesn't mean anything.",
+"conf": -0.3,
+"no_speech": 0.18
+},
+{
+"start": 356.2,
+"end": 357.2,
+"text": "That's right.",
+"conf": -0.3,
+"no_speech": 0.18
+},
+{
+"start": 357.2,
+"end": 362.7,
+"text": "don't think they could that's right empty in correct so that's our one hope that's our one",
+"conf": -0.24,
+"no_speech": 0.36
+},
+{
+"start": 362.7,
+"end": 368.5,
+"text": "for lauren at this point so well they don't really let them overrun yeah that's that's right",
+"conf": -0.24,
+"no_speech": 0.36
+},
+{
+"start": 368.5,
+"end": 376.2,
+"text": "that's right now on the tax speech on the you know circuit breaker for the owner i have the same",
+"conf": -0.24,
+"no_speech": 0.36
+},
+{
+"start": 376.2,
+"end": 381.5,
+"text": "feeling sapphire's put it together yeah he called me yesterday and he said this comes on the heading",
+"conf": -0.24,
+"no_speech": 0.36
+},
+{
+"start": 381.5,
+"end": 388.3,
+"text": "of overkill. He says we're 30 points ahead in the polls. Revenue or tax reform has disappeared",
+"conf": -0.31,
+"no_speech": 0.11
+},
+{
+"start": 388.3,
+"end": 389.2,
+"text": "from the WTO.",
+"conf": -0.31,
+"no_speech": 0.11
+},
+{
+"start": 399.1,
+"end": 406.9,
+"text": "Well, Bill's point is that while the polls show taxes up there, that the issue poll wasn't",
+"conf": -0.31,
+"no_speech": 0.11
+},
+{
+"start": 406.9,
+"end": 408.5,
+"text": "really the poll to look at right now.",
+"conf": -0.31,
+"no_speech": 0.11
+},
+{
+"start": 409.5,
+"end": 410.1,
+"text": "It's the math.",
+"conf": -0.31,
+"no_speech": 0.11
+},
+{
+"start": 410.1,
+"end": 425.1,
+"text": "The only point about the taxes that I wonder is, frankly, since I'm not going to have a press conference until the very last, maybe the Chicago press, I might as well say we're going to have this and submit it to the next conference.",
+"conf": -0.24,
+"no_speech": 0.3
+},
+{
+"start": 425.1,
+"end": 433.1,
+"text": "Well, you could give it away. You could say, listen, I had this, but I haven't wanted to make it appear to be a campaign document.",
+"conf": -0.24,
+"no_speech": 0.3
+},
+{
+"start": 433.1,
+"end": 437.1,
+"text": "I've indicated that I'm going to be the property tax relief.",
+"conf": -0.24,
+"no_speech": 0.3
+},
+{
+"start": 437.1,
+"end": 442.8,
+"text": "i now know how to do it it's good i'm satisfied with it it's constructive i want to be sure that",
+"conf": -0.15,
+"no_speech": 0.09
+},
+{
+"start": 442.8,
+"end": 446.5,
+"text": "it's on the sound ground and i'm still i wouldn't tell me but i will have it ready to present it to",
+"conf": -0.15,
+"no_speech": 0.09
+},
+{
+"start": 446.5,
+"end": 450.3,
+"text": "the new conference or you give it away you can say look i've got this ready but here three weeks",
+"conf": -0.15,
+"no_speech": 0.09
+},
+{
+"start": 450.3,
+"end": 460.0,
+"text": "before the election all right but you say uh i've had it for the last three weeks but obviously",
+"conf": -0.15,
+"no_speech": 0.09
+},
+{
+"start": 460.0,
+"end": 464.0,
+"text": "that close to an election anything that i might do in this direction would be suspect",
+"conf": -0.15,
+"no_speech": 0.09
+},
+{
+"start": 464.0,
+"end": 465.0,
+"text": "Yeah, that's right.",
+"conf": -0.42,
+"no_speech": 0.49
+},
+{
+"start": 465.0,
+"end": 472.0,
+"text": "And I want this to be considered on its merits and so forth, the weight and the promises and the election.",
+"conf": -0.42,
+"no_speech": 0.49
+},
+{
+"start": 472.0,
+"end": 475.0,
+"text": "Now, you'll have to handle it, too. You're the one that's got to get the question down.",
+"conf": -0.42,
+"no_speech": 0.49
+},
+{
+"start": 475.0,
+"end": 477.0,
+"text": "But I have some ways to keep on our feet.",
+"conf": -0.42,
+"no_speech": 0.49
+},
+{
+"start": 477.0,
+"end": 480.0,
+"text": "We're studying it. We're considering it for progress.",
+"conf": -0.42,
+"no_speech": 0.49
+},
+{
+"start": 480.0,
+"end": 482.0,
+"text": "We think we will have a recommendation for the next Congress.",
+"conf": -0.42,
+"no_speech": 0.49
+},
+{
+"start": 482.0,
+"end": 485.0,
+"text": "Why don't you have a view?",
+"conf": -0.42,
+"no_speech": 0.49
+},
+{
+"start": 485.0,
+"end": 489.0,
+"text": "I don't know. My whole view is that we don't raise issues.",
+"conf": -0.42,
+"no_speech": 0.49
+},
+{
+"start": 489.0,
+"end": 500.0,
+"text": "issues, because they can only lose, that's why we're watching this negotiation, I said",
+"conf": -0.36,
+"no_speech": 0.61
+},
+{
+"start": 500.0,
+"end": 507.0,
+"text": "the election, I said the best thing for you is to have a stalemate, that's the best thing,",
+"conf": -0.36,
+"no_speech": 0.61
+},
+{
+"start": 507.0,
+"end": 512.0,
+"text": "that's the surest, I said of course if you could give the only way, if this is the best",
+"conf": -0.36,
+"no_speech": 0.61
+},
+{
+"start": 512.0,
+"end": 516.0,
+"text": "time to settle, it won't be better after the election.",
+"conf": -0.36,
+"no_speech": 0.61
+}
+]
+}

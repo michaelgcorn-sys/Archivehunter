@@ -1,0 +1,6020 @@
+{
+"meta": {
+"conv": "902-003",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/902/conversation-902-003",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/2018-08/37-wht-conversation-902-003-pa.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 3262,
+"made": "2026-10-11",
+"took_min": 47.3
+},
+"segments": [
+{
+"start": 0.0,
+"end": 8.6,
+"text": "I want to get you back in the office. I want to get you back in the office.",
+"conf": -0.54,
+"no_speech": 0.32
+},
+{
+"start": 9.6,
+"end": 11.1,
+"text": "I want to get you back in the office.",
+"conf": -0.54,
+"no_speech": 0.32
+},
+{
+"start": 15.3,
+"end": 20.8,
+"text": "Which I think probably should be the new guy who started this whole thing.",
+"conf": -0.54,
+"no_speech": 0.32
+},
+{
+"start": 21.8,
+"end": 24.6,
+"text": "Yes, sir. I need to know about the problem.",
+"conf": -0.54,
+"no_speech": 0.32
+},
+{
+"start": 24.9,
+"end": 29.5,
+"text": "Basically, this is the elsewhere case.",
+"conf": -0.54,
+"no_speech": 0.32
+},
+{
+"start": 30.0,
+"end": 35.6,
+"text": "Do you remember our late, very hard friend,",
+"conf": -0.53,
+"no_speech": 0.55
+},
+{
+"start": 35.6,
+"end": 38.0,
+"text": "Edward Hoover, you may recall him.",
+"conf": -0.53,
+"no_speech": 0.55
+},
+{
+"start": 38.0,
+"end": 40.0,
+"text": "He got into the Ellsberg case.",
+"conf": -0.53,
+"no_speech": 0.55
+},
+{
+"start": 40.0,
+"end": 42.7,
+"text": "It was a personal case.",
+"conf": -0.53,
+"no_speech": 0.55
+},
+{
+"start": 42.7,
+"end": 44.2,
+"text": "It involved Marks.",
+"conf": -0.53,
+"no_speech": 0.55
+},
+{
+"start": 44.2,
+"end": 45.9,
+"text": "He's one of his closest friends.",
+"conf": -0.53,
+"no_speech": 0.55
+},
+{
+"start": 45.9,
+"end": 51.1,
+"text": "It's Marks who, not the Marks brother, but .",
+"conf": -0.53,
+"no_speech": 0.55
+},
+{
+"start": 51.1,
+"end": 54.8,
+"text": "Marks' daughter was married to Ellsberg.",
+"conf": -0.53,
+"no_speech": 0.55
+},
+{
+"start": 54.8,
+"end": 56.9,
+"text": "And Hoover just kicked his friend and said,",
+"conf": -0.53,
+"no_speech": 0.55
+},
+{
+"start": 56.9,
+"end": 58.8,
+"text": "I just want to investigate this thing.",
+"conf": -0.53,
+"no_speech": 0.55
+},
+{
+"start": 58.8,
+"end": 59.8,
+"text": "I can't do it.",
+"conf": -0.53,
+"no_speech": 0.55
+},
+{
+"start": 59.8,
+"end": 64.6,
+"text": "I mean, this is at least what we got through Mitchell.",
+"conf": -0.48,
+"no_speech": 0.23
+},
+{
+"start": 64.6,
+"end": 67.3,
+"text": "Under the circumstances, under the circumstances,",
+"conf": -0.48,
+"no_speech": 0.23
+},
+{
+"start": 67.3,
+"end": 74.8,
+"text": "an investigation was undertaken with a very, very small group",
+"conf": -0.48,
+"no_speech": 0.23
+},
+{
+"start": 74.8,
+"end": 76.9,
+"text": "at the White House.",
+"conf": -0.48,
+"no_speech": 0.23
+},
+{
+"start": 76.9,
+"end": 84.2,
+"text": "That's where nothing in terms of or anything was approved.",
+"conf": -0.48,
+"no_speech": 0.23
+},
+{
+"start": 84.2,
+"end": 87.2,
+"text": "But seeing what these crazy bad things have done since,",
+"conf": -0.48,
+"no_speech": 0.23
+},
+{
+"start": 87.2,
+"end": 88.1,
+"text": "you can see what it was.",
+"conf": -0.48,
+"no_speech": 0.23
+},
+{
+"start": 88.1,
+"end": 95.1,
+"text": "The investigation also, and this is the whole of it, as far as the prosecution, they didn't do a damn thing about it.",
+"conf": -0.41,
+"no_speech": 0.42
+},
+{
+"start": 95.1,
+"end": 100.1,
+"text": "They got most of the superior in the papers at Ellsberg, had psychiatric problems at Ellsberg,",
+"conf": -0.41,
+"no_speech": 0.42
+},
+{
+"start": 100.1,
+"end": 106.1,
+"text": "which we could have learned from Henry Kissinger, who was one of the students, one of the journalists.",
+"conf": -0.41,
+"no_speech": 0.42
+},
+{
+"start": 106.1,
+"end": 113.1,
+"text": "By the time I talked to you, the advice that I made is this.",
+"conf": -0.41,
+"no_speech": 0.42
+},
+{
+"start": 113.1,
+"end": 115.1,
+"text": "None of that went into the prosecution.",
+"conf": -0.41,
+"no_speech": 0.42
+},
+{
+"start": 115.1,
+"end": 123.1,
+"text": "And then after that, finally Hoover got into it, and when Hoover got into it, you should know he wired that into it.",
+"conf": -0.33,
+"no_speech": 0.42
+},
+{
+"start": 123.1,
+"end": 126.1,
+"text": "He did, there's no question about that.",
+"conf": -0.33,
+"no_speech": 0.42
+},
+{
+"start": 126.1,
+"end": 131.1,
+"text": "I don't know who he wired it, but I mean the national security caps were used at that time.",
+"conf": -0.33,
+"no_speech": 0.42
+},
+{
+"start": 131.1,
+"end": 138.1,
+"text": "And then, you know, with the hull that all rose to that period, we knocked off all of those caps,",
+"conf": -0.33,
+"no_speech": 0.42
+},
+{
+"start": 138.1,
+"end": 141.1,
+"text": "except for the bank jobs we do on that.",
+"conf": -0.33,
+"no_speech": 0.42
+},
+{
+"start": 141.1,
+"end": 145.7,
+"text": "quite aware of the fact we do a lot of illegal things in this field yes sir yes sir and i don't",
+"conf": -0.26,
+"no_speech": 0.57
+},
+{
+"start": 145.7,
+"end": 150.7,
+"text": "want you to know i want you to know that my purpose i have a problem called to be illegal",
+"conf": -0.26,
+"no_speech": 0.57
+},
+{
+"start": 152.0,
+"end": 158.2,
+"text": "my purpose in hunting on you is simply to say it is it was a national security investigation",
+"conf": -0.26,
+"no_speech": 0.57
+},
+{
+"start": 158.2,
+"end": 164.4,
+"text": "it is not related in any way to the watergate thing and that uh the purpose of it well is",
+"conf": -0.26,
+"no_speech": 0.57
+},
+{
+"start": 164.4,
+"end": 167.7,
+"text": "there any other you know i can't stay away from that which i don't know",
+"conf": -0.26,
+"no_speech": 0.57
+},
+{
+"start": 171.1,
+"end": 178.0,
+"text": "Is there any other national security stuff that we could inadvertently get into through Hunt and Kiss?",
+"conf": -0.41,
+"no_speech": 0.25
+},
+{
+"start": 178.0,
+"end": 189.8,
+"text": "Yes, you could get into other things. For example, Hunt, uh, Hunt, I think it would all be bugging apparently, but I try.",
+"conf": -0.41,
+"no_speech": 0.25
+},
+{
+"start": 190.3,
+"end": 196.1,
+"text": "For example, on one occasion, he was, it was basically, for what else, for a period, even when this place was legal,",
+"conf": -0.41,
+"no_speech": 0.25
+},
+{
+"start": 196.1,
+"end": 202.1,
+"text": "like I said, you remember Kissinger's, the National Security Service, we had a horrible time.",
+"conf": -0.47,
+"no_speech": 0.65
+},
+{
+"start": 202.1,
+"end": 207.1,
+"text": "And frankly, the country was in jeopardy because it was imperative in our situation,",
+"conf": -0.47,
+"no_speech": 0.65
+},
+{
+"start": 207.1,
+"end": 209.1,
+"text": "foreign governments and a lot of other things.",
+"conf": -0.47,
+"no_speech": 0.65
+},
+{
+"start": 209.1,
+"end": 212.1,
+"text": "And I'd get Uber in and I'd say, God damn it, we've got debt.",
+"conf": -0.47,
+"no_speech": 0.65
+},
+{
+"start": 212.1,
+"end": 215.1,
+"text": "Well, I should not have been there. I got it in much myself.",
+"conf": -0.47,
+"no_speech": 0.65
+},
+{
+"start": 215.1,
+"end": 217.1,
+"text": "I don't know how low it was.",
+"conf": -0.47,
+"no_speech": 0.65
+},
+{
+"start": 217.1,
+"end": 220.1,
+"text": "We all hated to get it, and it was involving the price.",
+"conf": -0.47,
+"no_speech": 0.65
+},
+{
+"start": 220.1,
+"end": 231.1,
+"text": "So, uh, when you, uh, I know, right now, over the years, we should know this bug, the, uh...",
+"conf": -0.52,
+"no_speech": 0.59
+},
+{
+"start": 231.1,
+"end": 242.1,
+"text": "...situation, but again, I don't think, uh, the crisis is anything, you know, the bullish",
+"conf": -0.52,
+"no_speech": 0.59
+},
+{
+"start": 242.1,
+"end": 244.1,
+"text": "I'm like a very smart smart man here.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 244.1,
+"end": 246.1,
+"text": "He just wrote another one.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 254.1,
+"end": 255.1,
+"text": "I can't tell you.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 255.1,
+"end": 256.1,
+"text": "I remember, I remember.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 256.1,
+"end": 257.1,
+"text": "I know who you're talking to.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 257.1,
+"end": 258.1,
+"text": "I can't go away.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 258.1,
+"end": 259.1,
+"text": "I've been talking to him for years.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 259.1,
+"end": 261.1,
+"text": "Because he said it's Hooper, so I was like",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 265.1,
+"end": 266.1,
+"text": "I know him.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 266.1,
+"end": 267.1,
+"text": "I first came to the office.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 267.1,
+"end": 269.1,
+"text": "He used to turn himself over here to the carpet.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 269.1,
+"end": 271.1,
+"text": "He used to love that sort of thing.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 271.1,
+"end": 294.9,
+"text": "Well, I should tell you, Mr. President, just coincidentally, since it's transferred in terms of security to me, but also, the authority that runs from you to the attorney general, the way some of it's being exercised is almost an application.",
+"conf": -0.47,
+"no_speech": 0.49
+},
+{
+"start": 294.9,
+"end": 298.4,
+"text": "the way some of it's being exercised",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 298.4,
+"end": 299.4,
+"text": "it's only not the case",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 299.4,
+"end": 301.0,
+"text": "and I've just set up",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 301.0,
+"end": 302.2,
+"text": "I just",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 302.2,
+"end": 303.7,
+"text": "well",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 303.7,
+"end": 305.9,
+"text": "you understand",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 305.9,
+"end": 306.6,
+"text": "I understand",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 306.6,
+"end": 308.2,
+"text": "I don't want to",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 308.2,
+"end": 309.2,
+"text": "I don't want to",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 309.2,
+"end": 314.9,
+"text": "I'm not talking about",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 314.9,
+"end": 316.8,
+"text": "the stuff in the country",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 316.8,
+"end": 317.5,
+"text": "I'm talking about",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 317.5,
+"end": 319.3,
+"text": "even foreign intelligence stuff",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 319.3,
+"end": 322.0,
+"text": "I'm holding them up",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 322.0,
+"end": 323.4,
+"text": "because if they're being approved",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 323.4,
+"end": 324.3,
+"text": "by a deputy",
+"conf": -0.37,
+"no_speech": 0.57
+},
+{
+"start": 324.3,
+"end": 327.0,
+"text": "somebody over to the State Department and we're",
+"conf": -0.47,
+"no_speech": 0.43
+},
+{
+"start": 327.0,
+"end": 329.2,
+"text": "taking up the procedure",
+"conf": -0.47,
+"no_speech": 0.43
+},
+{
+"start": 329.2,
+"end": 330.9,
+"text": "that's why the President approved this thing",
+"conf": -0.47,
+"no_speech": 0.43
+},
+{
+"start": 330.9,
+"end": 331.7,
+"text": "I understand",
+"conf": -0.47,
+"no_speech": 0.43
+},
+{
+"start": 331.7,
+"end": 333.0,
+"text": "I don't know about it",
+"conf": -0.47,
+"no_speech": 0.43
+},
+{
+"start": 333.0,
+"end": 345.1,
+"text": "now you've also",
+"conf": -0.47,
+"no_speech": 0.43
+},
+{
+"start": 345.1,
+"end": 346.5,
+"text": "heard about Joel Kraft",
+"conf": -0.47,
+"no_speech": 0.43
+},
+{
+"start": 346.5,
+"end": 348.2,
+"text": "have you read that",
+"conf": -0.47,
+"no_speech": 0.43
+},
+{
+"start": 348.2,
+"end": 350.5,
+"text": "that was over about",
+"conf": -0.47,
+"no_speech": 0.43
+},
+{
+"start": 350.5,
+"end": 351.3,
+"text": "I think",
+"conf": -0.47,
+"no_speech": 0.43
+},
+{
+"start": 351.3,
+"end": 358.3,
+"text": "I don't know, I'm not sure, but what it involved were leaks of the National Security documents",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 358.3,
+"end": 361.3,
+"text": "that were gotten to Grascombe and so forth and so on.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 361.3,
+"end": 366.3,
+"text": "Nothing happened as a result, except I think they fired somebody over here.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 366.3,
+"end": 371.3,
+"text": "Now that's, that's, uh, I just wanted you to know that they're, that's what I meant,",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 371.3,
+"end": 374.3,
+"text": "but it's minuscule compared to what Johnson was doing.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 374.3,
+"end": 379.3,
+"text": "We, you know what I mean, as you know, it was very heavy, it was very, very heavy.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 379.3,
+"end": 384.0,
+"text": "And if you just ask Bill Sullivan, he's written memorandum to me, and it's pretty shocking how crazy he is.",
+"conf": -0.36,
+"no_speech": 0.23
+},
+{
+"start": 384.7,
+"end": 390.0,
+"text": "One after some people in the Democratic committee also bugged our client during the election to the White House.",
+"conf": -0.36,
+"no_speech": 0.23
+},
+{
+"start": 390.7,
+"end": 395.9,
+"text": "My point is, that doesn't justify anything now, but in the case of the number of things we should know,",
+"conf": -0.36,
+"no_speech": 0.23
+},
+{
+"start": 396.5,
+"end": 403.9,
+"text": "that when he was at the White House, in addition to working in the field of drugs, he worked on this particular activity.",
+"conf": -0.36,
+"no_speech": 0.23
+},
+{
+"start": 404.8,
+"end": 407.9,
+"text": "And Libby worked with him, as I understand. I think Libby did too.",
+"conf": -0.36,
+"no_speech": 0.23
+},
+{
+"start": 407.9,
+"end": 412.9,
+"text": "This I have found out right there. I really didn't know this myself until this case came out.",
+"conf": -0.28,
+"no_speech": 0.64
+},
+{
+"start": 412.9,
+"end": 416.9,
+"text": "It wasn't in the name of God. It was on Hillary. I understand not what he was doing.",
+"conf": -0.28,
+"no_speech": 0.64
+},
+{
+"start": 416.9,
+"end": 419.9,
+"text": "And I would have proved it. Yeah, I would have proved it at the time.",
+"conf": -0.28,
+"no_speech": 0.64
+},
+{
+"start": 419.9,
+"end": 422.9,
+"text": "Because we had nothing that we could get out of Hoover.",
+"conf": -0.28,
+"no_speech": 0.64
+},
+{
+"start": 422.9,
+"end": 426.9,
+"text": "Hoover did pick up the investigation after that and did help with their job.",
+"conf": -0.28,
+"no_speech": 0.64
+},
+{
+"start": 426.9,
+"end": 431.9,
+"text": "Hoover did recommend that they did the prosecution on Bellspringer.",
+"conf": -0.28,
+"no_speech": 0.64
+},
+{
+"start": 431.9,
+"end": 435.9,
+"text": "Which I think was probably the state. I don't know whether they're going to make it or not.",
+"conf": -0.28,
+"no_speech": 0.64
+},
+{
+"start": 435.9,
+"end": 436.9,
+"text": "I don't know either.",
+"conf": -0.32,
+"no_speech": 0.46
+},
+{
+"start": 436.9,
+"end": 437.9,
+"text": "I hope so.",
+"conf": -0.32,
+"no_speech": 0.46
+},
+{
+"start": 437.9,
+"end": 442.9,
+"text": "But the one thing I want you to understand, I will never use the word national security",
+"conf": -0.32,
+"no_speech": 0.46
+},
+{
+"start": 442.9,
+"end": 443.9,
+"text": "in the spheres.",
+"conf": -0.32,
+"no_speech": 0.46
+},
+{
+"start": 443.9,
+"end": 448.9,
+"text": "As far as Watergate is concerned or any of that crap, you just burned our ass.",
+"conf": -0.32,
+"no_speech": 0.46
+},
+{
+"start": 448.9,
+"end": 452.9,
+"text": "Like when I called you the other day, I'm not going to let you make a stone unturned.",
+"conf": -0.32,
+"no_speech": 0.46
+},
+{
+"start": 452.9,
+"end": 453.9,
+"text": "That's what I'm saying.",
+"conf": -0.32,
+"no_speech": 0.46
+},
+{
+"start": 453.9,
+"end": 455.9,
+"text": "You and I have a hundred and ten.",
+"conf": -0.32,
+"no_speech": 0.46
+},
+{
+"start": 455.9,
+"end": 459.9,
+"text": "But on national security, there are only two places in here where I think it's very important",
+"conf": -0.32,
+"no_speech": 0.46
+},
+{
+"start": 459.9,
+"end": 464.9,
+"text": "in terms of privilege that you have to have.",
+"conf": -0.32,
+"no_speech": 0.46
+},
+{
+"start": 464.9,
+"end": 468.9,
+"text": "Any conversations with the President are obviously privileged.",
+"conf": -0.38,
+"no_speech": 0.41
+},
+{
+"start": 468.9,
+"end": 469.9,
+"text": "Yes, sir.",
+"conf": -0.38,
+"no_speech": 0.41
+},
+{
+"start": 469.9,
+"end": 470.9,
+"text": "Any questions?",
+"conf": -0.38,
+"no_speech": 0.41
+},
+{
+"start": 470.9,
+"end": 476.9,
+"text": "I understand that that should be something that everybody should do, should have in mind.",
+"conf": -0.38,
+"no_speech": 0.41
+},
+{
+"start": 476.9,
+"end": 481.9,
+"text": "Any conversation in the national security area, but you can ask.",
+"conf": -0.38,
+"no_speech": 0.41
+},
+{
+"start": 481.9,
+"end": 487.9,
+"text": "I don't have anybody around here now that you haven't deemed on the carpet.",
+"conf": -0.38,
+"no_speech": 0.41
+},
+{
+"start": 487.9,
+"end": 490.9,
+"text": "You've got a little bit of attention on the carpet, so you should ask me.",
+"conf": -0.38,
+"no_speech": 0.41
+},
+{
+"start": 490.9,
+"end": 492.9,
+"text": "It's a national security area.",
+"conf": -0.38,
+"no_speech": 0.41
+},
+{
+"start": 492.9,
+"end": 499.9,
+"text": "In this field, Duke Hunt was involved in the Ellsberg case, and he was involved in what they called the plumbing operation.",
+"conf": -0.45,
+"no_speech": 0.39
+},
+{
+"start": 500.6,
+"end": 505.0,
+"text": "And basically, it was leased from the National Security Council, which appeared to be a conference.",
+"conf": -0.45,
+"no_speech": 0.39
+},
+{
+"start": 505.4,
+"end": 505.8,
+"text": "That's all.",
+"conf": -0.45,
+"no_speech": 0.39
+},
+{
+"start": 506.4,
+"end": 514.3,
+"text": "And it did not involve any, as I understand it, electronic funding.",
+"conf": -0.45,
+"no_speech": 0.39
+},
+{
+"start": 514.7,
+"end": 515.4,
+"text": "He used drug money.",
+"conf": -0.45,
+"no_speech": 0.39
+},
+{
+"start": 515.5,
+"end": 517.5,
+"text": "But it involved a hell of a lot of investigation.",
+"conf": -0.45,
+"no_speech": 0.39
+},
+{
+"start": 518.1,
+"end": 519.0,
+"text": "One hell of a lot.",
+"conf": -0.45,
+"no_speech": 0.39
+},
+{
+"start": 519.0,
+"end": 540.0,
+"text": "I don't know if Dean may have been quite familiar with this because he was very much in charge of this kind of activity, and he may be familiar with it, he may not be, but I tried to get this sorted out.",
+"conf": -0.39,
+"no_speech": 0.66
+},
+{
+"start": 540.0,
+"end": 545.3,
+"text": "out. I just haven't checked out for a couple of years now. What did they do? And what is there?",
+"conf": -0.29,
+"no_speech": 0.74
+},
+{
+"start": 545.6,
+"end": 549.0,
+"text": "As far as I'm concerned, I didn't come out, but I don't want anything coming out of the",
+"conf": -0.29,
+"no_speech": 0.74
+},
+{
+"start": 549.0,
+"end": 552.9,
+"text": "hospital. We had to do it. I don't want anything coming out of what we were doing with",
+"conf": -0.29,
+"no_speech": 0.74
+},
+{
+"start": 552.9,
+"end": 556.4,
+"text": "the other seats. I don't want anything coming out of what we were doing with the other",
+"conf": -0.29,
+"no_speech": 0.74
+},
+{
+"start": 556.4,
+"end": 560.8,
+"text": "seats. It flopped over with Uber. That didn't look very good with Uber. I don't want the",
+"conf": -0.29,
+"no_speech": 0.74
+},
+{
+"start": 560.8,
+"end": 566.4,
+"text": "Bureau anymore. I'm just hoping for the day that the man I have in mind with that job",
+"conf": -0.29,
+"no_speech": 0.74
+},
+{
+"start": 566.4,
+"end": 570.1,
+"text": "gets away or when he's present he doesn't slide in front of him, you've got to get into the man in there",
+"conf": -0.54,
+"no_speech": 0.7
+},
+{
+"start": 570.1,
+"end": 574.3,
+"text": "fast. And I'm going to blame everybody out there on the second level. Everybody.",
+"conf": -0.54,
+"no_speech": 0.7
+},
+{
+"start": 574.6,
+"end": 577.9,
+"text": "Well, he needs",
+"conf": -0.54,
+"no_speech": 0.7
+},
+{
+"start": 577.9,
+"end": 580.3,
+"text": "to get into the person, right?",
+"conf": -0.54,
+"no_speech": 0.7
+},
+{
+"start": 580.3,
+"end": 583.8,
+"text": "You know you deal with the first, you hear John Biden",
+"conf": -0.54,
+"no_speech": 0.7
+},
+{
+"start": 583.8,
+"end": 586.9,
+"text": "deal with you, or you ought to get into this fight.",
+"conf": -0.54,
+"no_speech": 0.7
+},
+{
+"start": 587.1,
+"end": 592.7,
+"text": "It's not a job anybody should run for, Mr. President. It's not a job anybody should ask for or run for.",
+"conf": -0.54,
+"no_speech": 0.7
+},
+{
+"start": 593.4,
+"end": 595.4,
+"text": "Responsibilities are almost as great as your own.",
+"conf": -0.54,
+"no_speech": 0.7
+},
+{
+"start": 595.4,
+"end": 604.4,
+"text": "I don't know if I felt that if you were, if you came to me to be straight, I could help you through many, many things.",
+"conf": -0.59,
+"no_speech": 0.47
+},
+{
+"start": 604.4,
+"end": 608.4,
+"text": "I told Senator Peters that we were the best guys in the job.",
+"conf": -0.59,
+"no_speech": 0.47
+},
+{
+"start": 608.4,
+"end": 611.4,
+"text": "But even in this present difficulty, I'm glad you're here.",
+"conf": -0.59,
+"no_speech": 0.47
+},
+{
+"start": 611.4,
+"end": 614.4,
+"text": "No, it's like all the land. It's very important.",
+"conf": -0.59,
+"no_speech": 0.47
+},
+{
+"start": 614.4,
+"end": 617.4,
+"text": "But that's all I wanted to know.",
+"conf": -0.59,
+"no_speech": 0.47
+},
+{
+"start": 617.4,
+"end": 621.4,
+"text": "Now the otherwise, I'm not thinking about it.",
+"conf": -0.59,
+"no_speech": 0.47
+},
+{
+"start": 621.4,
+"end": 626.4,
+"text": "Mr. President, the other day I indicated we had a problem with leaks. You know we do.",
+"conf": -0.28,
+"no_speech": 0.38
+},
+{
+"start": 626.4,
+"end": 634.4,
+"text": "Well, it was shocking to me to see Strom's testimony, not his latest testimony, and alerting the U.S. Attorney General.",
+"conf": -0.28,
+"no_speech": 0.38
+},
+{
+"start": 634.4,
+"end": 637.4,
+"text": "Well, I think we're going to have to do something verbatim.",
+"conf": -0.28,
+"no_speech": 0.38
+},
+{
+"start": 637.4,
+"end": 642.4,
+"text": "Verbatim? In Iowa? I don't know. Doesn't that have some effect on the legality of this case?",
+"conf": -0.28,
+"no_speech": 0.38
+},
+{
+"start": 642.4,
+"end": 645.4,
+"text": "Yes, sir. I don't want any diversion.",
+"conf": -0.28,
+"no_speech": 0.38
+},
+{
+"start": 645.4,
+"end": 650.4,
+"text": "When I heard Baldwin's attorney, I didn't put you in a pretty good place to understand.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 651.4,
+"end": 652.4,
+"text": "You probably know him.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 653.4,
+"end": 654.4,
+"text": "John Wilson.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 654.4,
+"end": 655.4,
+"text": "I work at the old man.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 655.4,
+"end": 656.4,
+"text": "Oh yes, I know him very well.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 656.4,
+"end": 657.4,
+"text": "Sorry.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 657.4,
+"end": 658.4,
+"text": "Very good, indeed so.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 658.4,
+"end": 660.4,
+"text": "How do you honor him in arrest?",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 660.4,
+"end": 664.4,
+"text": "His defense says that they're very vulnerable in finding their case.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 664.4,
+"end": 666.4,
+"text": "Well, you know, we're very much concerned.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 666.4,
+"end": 667.4,
+"text": "Our case.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 667.4,
+"end": 670.4,
+"text": "What we're trying to do is get you to be on the case.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 671.4,
+"end": 674.4,
+"text": "There's somebody there, it seems there's somebody at the U.S. Attorney's Office.",
+"conf": -0.54,
+"no_speech": 0.64
+},
+{
+"start": 674.4,
+"end": 676.4,
+"text": "office, report something to this",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 676.4,
+"end": 678.3,
+"text": "union, you know, they don't",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 678.3,
+"end": 679.1,
+"text": "do that bullshit.",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 680.0,
+"end": 682.1,
+"text": "This sort of thing comes from somebody",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 682.1,
+"end": 684.1,
+"text": "that's either tight or",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 684.1,
+"end": 686.0,
+"text": "it's a, what's his name?",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 686.3,
+"end": 686.6,
+"text": "Silver.",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 686.6,
+"end": 688.1,
+"text": "Silver or any other boy.",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 688.4,
+"end": 690.4,
+"text": "Glantz. Glantz is a notorious",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 690.4,
+"end": 691.9,
+"text": "leader. You know him.",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 692.1,
+"end": 694.6,
+"text": "I'll tell you, I've been reluctant",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 694.6,
+"end": 696.3,
+"text": "to divert anything",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 696.3,
+"end": 698.6,
+"text": "from this effort.",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 699.2,
+"end": 700.4,
+"text": "But I have another",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 700.4,
+"end": 702.4,
+"text": "group entirely apart from the prosecution",
+"conf": -0.48,
+"no_speech": 0.5
+},
+{
+"start": 702.4,
+"end": 707.4,
+"text": "now exploring what we can do, whether we can get a temporary injunction, we're going to",
+"conf": -0.34,
+"no_speech": 0.65
+},
+{
+"start": 707.4,
+"end": 709.4,
+"text": "have to do something with the prison, and it's getting too bad.",
+"conf": -0.34,
+"no_speech": 0.65
+},
+{
+"start": 709.4,
+"end": 711.4,
+"text": "Restrain the police?",
+"conf": -0.34,
+"no_speech": 0.65
+},
+{
+"start": 711.4,
+"end": 713.4,
+"text": "Restrain the reporter.",
+"conf": -0.34,
+"no_speech": 0.65
+},
+{
+"start": 713.4,
+"end": 717.4,
+"text": "The reporter got them restraining the people?",
+"conf": -0.34,
+"no_speech": 0.65
+},
+{
+"start": 717.4,
+"end": 719.4,
+"text": "Well, you know, that...",
+"conf": -0.34,
+"no_speech": 0.65
+},
+{
+"start": 719.4,
+"end": 724.4,
+"text": "If this is a case by a high chaplain, do you have a right to remove him?",
+"conf": -0.34,
+"no_speech": 0.65
+},
+{
+"start": 724.4,
+"end": 726.4,
+"text": "No, sir.",
+"conf": -0.34,
+"no_speech": 0.65
+},
+{
+"start": 726.4,
+"end": 727.4,
+"text": "This is a national security case?",
+"conf": -0.34,
+"no_speech": 0.65
+},
+{
+"start": 727.4,
+"end": 728.4,
+"text": "Yes, sir.",
+"conf": -0.34,
+"no_speech": 0.65
+},
+{
+"start": 728.4,
+"end": 748.4,
+"text": "I don't know what you're talking about when I picked up and saw that answer and I thought verbatim, verbatim, verbatim, verbatim, verbatim, verbatim, verbatim, verbatim, verbatim, verbatim.",
+"conf": -0.56,
+"no_speech": 0.49
+},
+{
+"start": 748.4,
+"end": 750.9,
+"text": "I understand it's accurate, too.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 751.1,
+"end": 752.3,
+"text": "I haven't compared it to surgery.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 752.6,
+"end": 754.2,
+"text": "It doesn't concern Titus.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 754.5,
+"end": 754.8,
+"text": "For sure.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 754.9,
+"end": 755.8,
+"text": "It doesn't concern Silver.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 756.0,
+"end": 757.4,
+"text": "It doesn't concern Blankson.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 757.6,
+"end": 758.0,
+"text": "Yes, sir.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 758.2,
+"end": 758.7,
+"text": "You sure?",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 759.3,
+"end": 760.4,
+"text": "I've had them all in.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 760.8,
+"end": 761.7,
+"text": "You know, we're talking...",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 761.7,
+"end": 765.1,
+"text": "I've been lied to a little around here.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 765.3,
+"end": 768.1,
+"text": "That's why I've gone after these people,",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 768.2,
+"end": 769.6,
+"text": "that we're going to find the truth here.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 769.6,
+"end": 771.1,
+"text": "Well, we're going to have to...",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 771.1,
+"end": 772.6,
+"text": "They have the only copy of the Grainger.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 772.8,
+"end": 774.6,
+"text": "They have the only copy of the Grainger.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 774.6,
+"end": 775.2,
+"text": "There's something.",
+"conf": -0.46,
+"no_speech": 0.42
+},
+{
+"start": 775.2,
+"end": 784.2,
+"text": "I'm not talking about the Grand Jury. I'm talking about the reporter.",
+"conf": -0.34,
+"no_speech": 0.53
+},
+{
+"start": 784.2,
+"end": 790.2,
+"text": "The reporter service. We've had your agents over there yesterday.",
+"conf": -0.34,
+"no_speech": 0.53
+},
+{
+"start": 790.2,
+"end": 792.2,
+"text": "We've got to do something.",
+"conf": -0.34,
+"no_speech": 0.53
+},
+{
+"start": 792.2,
+"end": 798.2,
+"text": "The Grand Jury report. It's a private reporting service.",
+"conf": -0.34,
+"no_speech": 0.53
+},
+{
+"start": 798.2,
+"end": 801.2,
+"text": "I'm not sure which one. There are two or three in town that we use.",
+"conf": -0.34,
+"no_speech": 0.53
+},
+{
+"start": 801.2,
+"end": 812.2,
+"text": "I mean, I have a couple of other things on this business of the so-called privilege and so forth.",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 812.2,
+"end": 818.2,
+"text": "Let me just say, let you handle it. I mean, I can't come over there. I mean, I haven't got any counsel or anything.",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 818.2,
+"end": 820.2,
+"text": "But you use your judgment on it.",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 820.2,
+"end": 826.2,
+"text": "The U.S. attorneys have got to be instructed in any security area and in conversation with the President.",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 826.2,
+"end": 828.2,
+"text": "That's the only thing I consider privilege.",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 828.2,
+"end": 835.2,
+"text": "You don't think that's a problem because I should have told you something.",
+"conf": -0.37,
+"no_speech": 0.7
+},
+{
+"start": 835.2,
+"end": 837.2,
+"text": "I don't have a big problem with that.",
+"conf": -0.37,
+"no_speech": 0.7
+},
+{
+"start": 837.2,
+"end": 839.2,
+"text": "I don't have a big problem with that.",
+"conf": -0.37,
+"no_speech": 0.7
+},
+{
+"start": 839.2,
+"end": 844.2,
+"text": "And if the problem in that area comes up and I can't figure it out, I'll just have to come back to you.",
+"conf": -0.37,
+"no_speech": 0.7
+},
+{
+"start": 844.2,
+"end": 846.2,
+"text": "Sure.",
+"conf": -0.37,
+"no_speech": 0.7
+},
+{
+"start": 846.2,
+"end": 854.2,
+"text": "I told you what I was for so you could see what was done in that area.",
+"conf": -0.37,
+"no_speech": 0.7
+},
+{
+"start": 854.2,
+"end": 864.2,
+"text": "Now, uh, let me come to the other thing.",
+"conf": -0.5,
+"no_speech": 0.58
+},
+{
+"start": 864.2,
+"end": 870.2,
+"text": "I still have not asked Dean, I still have not, I have not, uh,",
+"conf": -0.5,
+"no_speech": 0.58
+},
+{
+"start": 870.2,
+"end": 878.2,
+"text": "uh, did, I felt that it was not a proper thing to ask Dean for a resignation",
+"conf": -0.5,
+"no_speech": 0.58
+},
+{
+"start": 878.2,
+"end": 882.6,
+"text": "and the reason that I'm worried is that we've all been hurt, and it's all been happening from the ground up,",
+"conf": -0.71,
+"no_speech": 0.39
+},
+{
+"start": 882.6,
+"end": 887.6,
+"text": "because of this. As far as I'm particularly concerned, that's that position of the R.I.S.",
+"conf": -0.71,
+"no_speech": 0.39
+},
+{
+"start": 887.6,
+"end": 893.5,
+"text": "Well, I don't mean to, I mean, let me do what you said, but I mean in terms of the prosecution.",
+"conf": -0.71,
+"no_speech": 0.39
+},
+{
+"start": 893.9,
+"end": 895.0,
+"text": "Yes, it's all right.",
+"conf": -0.71,
+"no_speech": 0.39
+},
+{
+"start": 896.3,
+"end": 903.1,
+"text": "On Dean, the, of course, that he's a, I don't know where that's from, but he's been in the Washington Post,",
+"conf": -0.71,
+"no_speech": 0.39
+},
+{
+"start": 903.1,
+"end": 908.1,
+"text": "This has become more different than what you've been talking about, Magruder.",
+"conf": -0.48,
+"no_speech": 0.24
+},
+{
+"start": 908.1,
+"end": 912.1,
+"text": "Magruder's a possibility. Magruder's a possibility.",
+"conf": -0.48,
+"no_speech": 0.24
+},
+{
+"start": 912.1,
+"end": 916.1,
+"text": "The story itself says...",
+"conf": -0.48,
+"no_speech": 0.24
+},
+{
+"start": 916.1,
+"end": 920.1,
+"text": "The story of what I have gathered is inaccurate in my respect.",
+"conf": -0.48,
+"no_speech": 0.24
+},
+{
+"start": 920.1,
+"end": 926.1,
+"text": "John Dee, John Dee, through all this period, up until...",
+"conf": -0.48,
+"no_speech": 0.24
+},
+{
+"start": 926.1,
+"end": 933.1,
+"text": "I have asked him, I have asked him the period since I got into this, right, actually, the",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 933.1,
+"end": 935.1,
+"text": "anomaly itself.",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 935.1,
+"end": 939.1,
+"text": "I read it and I found at least ten hours.",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 939.1,
+"end": 944.1,
+"text": "I said, John, I said, was anybody from the White House, including yourself, did any of",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 944.1,
+"end": 945.1,
+"text": "you know of this?",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 945.1,
+"end": 947.1,
+"text": "Did any of you participate?",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 947.1,
+"end": 948.1,
+"text": "He said no.",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 948.1,
+"end": 954.1,
+"text": "So if that's what he tells you as far as his prior participation is concerned, he knew",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 954.1,
+"end": 957.0,
+"text": "He knew of meetings, but he thought it was turned off.",
+"conf": -0.29,
+"no_speech": 0.29
+},
+{
+"start": 957.3,
+"end": 958.3,
+"text": "Now, that's what he tells me.",
+"conf": -0.29,
+"no_speech": 0.29
+},
+{
+"start": 958.4,
+"end": 959.5,
+"text": "Does he change his story now?",
+"conf": -0.29,
+"no_speech": 0.29
+},
+{
+"start": 959.9,
+"end": 963.2,
+"text": "Well, basically, that's what he tells us.",
+"conf": -0.29,
+"no_speech": 0.29
+},
+{
+"start": 964.2,
+"end": 967.9,
+"text": "The point is that nobody, as I indicated before,",
+"conf": -0.29,
+"no_speech": 0.29
+},
+{
+"start": 968.0,
+"end": 973.8,
+"text": "nobody exercised any initiative and said to ensure that it was turned off.",
+"conf": -0.29,
+"no_speech": 0.29
+},
+{
+"start": 974.0,
+"end": 975.6,
+"text": "Let me ask you about John Dean.",
+"conf": -0.29,
+"no_speech": 0.29
+},
+{
+"start": 976.4,
+"end": 978.9,
+"text": "John Dean's report to me and what he said,",
+"conf": -0.29,
+"no_speech": 0.29
+},
+{
+"start": 979.1,
+"end": 981.1,
+"text": "and what I would say to his comment,",
+"conf": -0.29,
+"no_speech": 0.29
+},
+{
+"start": 981.1,
+"end": 987.1,
+"text": "I wrote a paper in San Fernando that was based on Dean's oral report.",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 987.1,
+"end": 990.1,
+"text": "But the President told the same thing to me repeatedly.",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 990.1,
+"end": 991.1,
+"text": "Did he?",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 991.1,
+"end": 993.1,
+"text": "Yeah, one of our conversations throughout this whole thing.",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 993.1,
+"end": 994.1,
+"text": "It was heard.",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 994.1,
+"end": 996.1,
+"text": "When did he tell you that?",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 996.1,
+"end": 997.1,
+"text": "You understand?",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 997.1,
+"end": 1001.1,
+"text": "That's what gets me today.",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 1001.1,
+"end": 1003.1,
+"text": "And I think he had it at the best of intentions.",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 1003.1,
+"end": 1005.1,
+"text": "I think he was concerned about Mitchell.",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 1005.1,
+"end": 1006.1,
+"text": "I don't know.",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 1006.1,
+"end": 1007.1,
+"text": "I don't know.",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 1007.1,
+"end": 1010.1,
+"text": "But he said, he just didn't want to go about it at all.",
+"conf": -0.31,
+"no_speech": 0.41
+},
+{
+"start": 1010.1,
+"end": 1012.5,
+"text": "But he said no one in the White House was involved.",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1013.0,
+"end": 1014.8,
+"text": "Now, that, however, could be precisely true.",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1016.4,
+"end": 1018.2,
+"text": "Yeah, he wasn't telling anybody who won, was he?",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1018.5,
+"end": 1019.2,
+"text": "Well, that's right.",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1019.7,
+"end": 1021.0,
+"text": "Why did you ask him about it?",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1021.1,
+"end": 1024.4,
+"text": "Of course, I was dealing with him all along in this thing.",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1024.4,
+"end": 1025.1,
+"text": "Sure, you were.",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1025.2,
+"end": 1027.9,
+"text": "And I would say to him, John, I know...",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1027.9,
+"end": 1029.1,
+"text": "See, you had an obligation.",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1030.3,
+"end": 1032.1,
+"text": "He was trying to do something at all,",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1032.2,
+"end": 1034.7,
+"text": "and her and her officials and the legislature told me...",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1034.7,
+"end": 1037.1,
+"text": "Well, he didn't tell me any of that stuff.",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1037.1,
+"end": 1038.9,
+"text": "I would say, John, are you sure?",
+"conf": -0.34,
+"no_speech": 0.12
+},
+{
+"start": 1038.9,
+"end": 1040.9,
+"text": "I don't know what you're doing with this information.",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1041.1,
+"end": 1044.0,
+"text": "Are you sure that it's not getting out?",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1044.1,
+"end": 1046.5,
+"text": "And he would say, he never identified me.",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1046.5,
+"end": 1051.3,
+"text": "He would say, Henry, this information that you give me doesn't go anyplace but up.",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1051.8,
+"end": 1055.2,
+"text": "Well, up to me, men only are looking in the hall at the minute of view,",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1055.4,
+"end": 1056.8,
+"text": "which was perfectly all right with me.",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1056.9,
+"end": 1057.7,
+"text": "Oh, I'm not looking for that.",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1057.9,
+"end": 1058.8,
+"text": "Oh, subsequently.",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1059.1,
+"end": 1060.2,
+"text": "There's no information here.",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1060.5,
+"end": 1064.1,
+"text": "No information on the status of the investigation.",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1064.1,
+"end": 1064.8,
+"text": "Oh, that's right.",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1064.9,
+"end": 1067.8,
+"text": "That's what I'm talking about is something else.",
+"conf": -0.33,
+"no_speech": 0.18
+},
+{
+"start": 1067.8,
+"end": 1072.8,
+"text": "Throughout your investigation during these months, we were relying on Deaton.",
+"conf": -0.33,
+"no_speech": 0.4
+},
+{
+"start": 1072.8,
+"end": 1076.8,
+"text": "You must have asked Deaton whether or not anybody from the White House was involved.",
+"conf": -0.33,
+"no_speech": 0.4
+},
+{
+"start": 1076.8,
+"end": 1078.8,
+"text": "And he said no.",
+"conf": -0.33,
+"no_speech": 0.4
+},
+{
+"start": 1078.8,
+"end": 1080.8,
+"text": "But he said whether so.",
+"conf": -0.33,
+"no_speech": 0.4
+},
+{
+"start": 1080.8,
+"end": 1082.8,
+"text": "Well, I never asked him the question.",
+"conf": -0.33,
+"no_speech": 0.4
+},
+{
+"start": 1082.8,
+"end": 1084.8,
+"text": "You just assumed he was.",
+"conf": -0.33,
+"no_speech": 0.4
+},
+{
+"start": 1084.8,
+"end": 1086.8,
+"text": "No, I would say John.",
+"conf": -0.33,
+"no_speech": 0.4
+},
+{
+"start": 1086.8,
+"end": 1090.8,
+"text": "That's right. He would say, I can assure you, nobody in the White House is involved.",
+"conf": -0.33,
+"no_speech": 0.4
+},
+{
+"start": 1090.8,
+"end": 1094.8,
+"text": "You see, the point that I think is very important, and I'm going to say it with the Department of Justice,",
+"conf": -0.33,
+"no_speech": 0.4
+},
+{
+"start": 1094.8,
+"end": 1123.8,
+"text": "I don't know what you can do about this.",
+"conf": -0.97,
+"no_speech": 0.55
+},
+{
+"start": 1124.8,
+"end": 1129.7,
+"text": "situation right now. You just have to do whatever you think is right.",
+"conf": -0.43,
+"no_speech": 0.42
+},
+{
+"start": 1129.7,
+"end": 1136.1,
+"text": "Like I said, the only problem I have with the immunity side, the problem I have to say",
+"conf": -0.43,
+"no_speech": 0.42
+},
+{
+"start": 1136.1,
+"end": 1139.5,
+"text": "with you, God, is how the hell is it going to look?",
+"conf": -0.43,
+"no_speech": 0.42
+},
+{
+"start": 1139.5,
+"end": 1145.6,
+"text": "Mr. President, I would just put it all. And I was hoping that additional evidence would",
+"conf": -0.43,
+"no_speech": 0.42
+},
+{
+"start": 1145.6,
+"end": 1151.7,
+"text": "come in that would make our bargaining position with Dean better and that we can drive a harder",
+"conf": -0.43,
+"no_speech": 0.42
+},
+{
+"start": 1151.7,
+"end": 1156.2,
+"text": "pardon, on our conversation last night, I'm getting a memorandum, which I'll make available",
+"conf": -0.24,
+"no_speech": 0.24
+},
+{
+"start": 1156.2,
+"end": 1160.5,
+"text": "to you, on what has been extended to Dean up to this point.",
+"conf": -0.24,
+"no_speech": 0.24
+},
+{
+"start": 1161.3,
+"end": 1168.5,
+"text": "They tell me that his lawyer fully understands that no promise of immunity in any shape or",
+"conf": -0.24,
+"no_speech": 0.24
+},
+{
+"start": 1168.5,
+"end": 1171.3,
+"text": "form has been extended to Dean as of this time.",
+"conf": -0.24,
+"no_speech": 0.24
+},
+{
+"start": 1172.6,
+"end": 1173.4,
+"text": "And that what...",
+"conf": -0.24,
+"no_speech": 0.24
+},
+{
+"start": 1173.4,
+"end": 1174.1,
+"text": "Let me understand.",
+"conf": -0.24,
+"no_speech": 0.24
+},
+{
+"start": 1174.3,
+"end": 1175.2,
+"text": "Let me say one thing.",
+"conf": -0.24,
+"no_speech": 0.24
+},
+{
+"start": 1176.0,
+"end": 1181.0,
+"text": "I am not, I am not suggesting to you that you don't grant the money because of my...",
+"conf": -0.24,
+"no_speech": 0.24
+},
+{
+"start": 1181.0,
+"end": 1182.0,
+"text": "I understand.",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1182.0,
+"end": 1183.0,
+"text": "No, I understand.",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1183.0,
+"end": 1184.0,
+"text": "No, sir.",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1184.0,
+"end": 1185.0,
+"text": "I'm simply saying that he told me...",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1185.0,
+"end": 1186.0,
+"text": "Mr. President, let me say something.",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1186.0,
+"end": 1187.0,
+"text": "I haven't...",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1187.0,
+"end": 1188.0,
+"text": "... an under-operated testimony that will come to light on the case of that, because",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1188.0,
+"end": 1189.0,
+"text": "I think, I must say, I regret to say that I'm afraid that Dean was telling two different",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1189.0,
+"end": 1190.0,
+"text": "stories.",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1190.0,
+"end": 1191.0,
+"text": "But let me tell you what was going on.",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1191.0,
+"end": 1192.0,
+"text": "You've got to...",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1192.0,
+"end": 1193.0,
+"text": "I had...",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1193.0,
+"end": 1194.0,
+"text": "I know this.",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1194.0,
+"end": 1195.0,
+"text": "He told me the entire...",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1195.0,
+"end": 1196.0,
+"text": "We kept asking.",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1196.0,
+"end": 1197.0,
+"text": "He was advising us as to what was going on during this period.",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1197.0,
+"end": 1198.0,
+"text": "I understand.",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1198.0,
+"end": 1199.0,
+"text": "I understand.",
+"conf": -0.4,
+"no_speech": 0.3
+},
+{
+"start": 1199.0,
+"end": 1210.0,
+"text": "I don't know, you've got to, I know this, he told me the entire time, we kept asking, he was advising us as to what was going on during this period.",
+"conf": -0.35,
+"no_speech": 0.65
+},
+{
+"start": 1210.1,
+"end": 1215.1,
+"text": "I had to sit right in that chair and say, John, what's the story? What's the deal?",
+"conf": -0.35,
+"no_speech": 0.65
+},
+{
+"start": 1215.6,
+"end": 1221.9,
+"text": "And so he said, he did something, he said, that is what I believe.",
+"conf": -0.35,
+"no_speech": 0.65
+},
+{
+"start": 1221.9,
+"end": 1228.8,
+"text": "But even then, he said, I said to you, can you say, as a matter of fact, that Mitchell will do this?",
+"conf": -0.35,
+"no_speech": 0.65
+},
+{
+"start": 1228.8,
+"end": 1244.2,
+"text": "He said, no. He said, did you say, as a matter of fact, that McGruder, he said, McGruder may have approved. But he said, McGruder may not have known about this or that. But there, I think he was being a little, shall we say.",
+"conf": -0.16,
+"no_speech": 0.18
+},
+{
+"start": 1244.8,
+"end": 1254.1,
+"text": "I don't have any problem with what you're saying. If I reached a point where I would think, you know, frankly, I would come to you and say, Mr. President, we're at odds. I can't do it. You know, I don't think that.",
+"conf": -0.16,
+"no_speech": 0.18
+},
+{
+"start": 1254.4,
+"end": 1256.0,
+"text": "We're trying to get the problem in this case.",
+"conf": -0.16,
+"no_speech": 0.18
+},
+{
+"start": 1256.0,
+"end": 1261.7,
+"text": "My problem is establishing the credibility of Magruder and Strawn and Dean.",
+"conf": -0.25,
+"no_speech": 0.1
+},
+{
+"start": 1262.3,
+"end": 1264.4,
+"text": "And that's really what's taken us so long.",
+"conf": -0.25,
+"no_speech": 0.1
+},
+{
+"start": 1264.7,
+"end": 1267.3,
+"text": "Now, Magruder and Strawn are in some conflict.",
+"conf": -0.25,
+"no_speech": 0.1
+},
+{
+"start": 1267.6,
+"end": 1271.1,
+"text": "You know, I'm trying to work out to put both people on lie detection.",
+"conf": -0.25,
+"no_speech": 0.1
+},
+{
+"start": 1271.9,
+"end": 1275.8,
+"text": "I don't have all that much credit and faith in it, but it's...",
+"conf": -0.25,
+"no_speech": 0.1
+},
+{
+"start": 1275.8,
+"end": 1276.7,
+"text": "You can do that, can't you?",
+"conf": -0.25,
+"no_speech": 0.1
+},
+{
+"start": 1276.9,
+"end": 1277.4,
+"text": "Yes, sir.",
+"conf": -0.25,
+"no_speech": 0.1
+},
+{
+"start": 1277.9,
+"end": 1280.2,
+"text": "If they're willing, not without their consent, of course.",
+"conf": -0.25,
+"no_speech": 0.1
+},
+{
+"start": 1280.2,
+"end": 1289.2,
+"text": "I remember I thought Colson was stupid if he didn't want to take the test, but Jesus Christ, I mean that's just another thing.",
+"conf": -0.52,
+"no_speech": 0.4
+},
+{
+"start": 1289.2,
+"end": 1291.2,
+"text": "It was a little bit of an overreaction.",
+"conf": -0.52,
+"no_speech": 0.4
+},
+{
+"start": 1291.2,
+"end": 1299.2,
+"text": "Well, it's like, it looks as if, I'm, I couldn't be a greater friend of Chuck's,",
+"conf": -0.52,
+"no_speech": 0.4
+},
+{
+"start": 1299.2,
+"end": 1303.2,
+"text": "but I get his lawyers to give him bad advice because what the hell.",
+"conf": -0.52,
+"no_speech": 0.4
+},
+{
+"start": 1303.2,
+"end": 1310.2,
+"text": "And in fact, if you budget better, all the questions are going to be the same.",
+"conf": -0.35,
+"no_speech": 0.23
+},
+{
+"start": 1310.2,
+"end": 1316.2,
+"text": "Well, we've got the very key questions on Reuter and Strachan with respect to Haldeman.",
+"conf": -0.35,
+"no_speech": 0.23
+},
+{
+"start": 1316.2,
+"end": 1317.2,
+"text": "Yeah.",
+"conf": -0.35,
+"no_speech": 0.23
+},
+{
+"start": 1317.2,
+"end": 1319.2,
+"text": "And that's what scares all of us.",
+"conf": -0.35,
+"no_speech": 0.23
+},
+{
+"start": 1319.2,
+"end": 1324.2,
+"text": "We've got the key questions there. What are the differences in the science?",
+"conf": -0.35,
+"no_speech": 0.23
+},
+{
+"start": 1324.2,
+"end": 1329.2,
+"text": "Well, Strachan says Haldeman got the budget that he didn't know anything about.",
+"conf": -0.35,
+"no_speech": 0.23
+},
+{
+"start": 1329.2,
+"end": 1334.5,
+"text": "you know and it's in essence a content so there's something better he didn't know whether or not the",
+"conf": -0.43,
+"no_speech": 0.37
+},
+{
+"start": 1334.5,
+"end": 1341.8,
+"text": "budget is completely bugging that's right and when rudy says uh he was given the product of",
+"conf": -0.43,
+"no_speech": 0.37
+},
+{
+"start": 1341.8,
+"end": 1347.4,
+"text": "the intercepts so he says we get the budget but what's the question whether or not we got the",
+"conf": -0.43,
+"no_speech": 0.37
+},
+{
+"start": 1347.4,
+"end": 1354.5,
+"text": "question well gruder says that too the greater says all the time the budget plus plus yes plus",
+"conf": -0.43,
+"no_speech": 0.37
+},
+{
+"start": 1354.5,
+"end": 1359.3,
+"text": "the intercepts. Strong says no, you know, we're gonna try and put them both on the",
+"conf": -0.59,
+"no_speech": 0.15
+},
+{
+"start": 1359.3,
+"end": 1364.0,
+"text": "lie detectors and see if we can get it out of the blue house.",
+"conf": -0.59,
+"no_speech": 0.15
+},
+{
+"start": 1364.0,
+"end": 1367.0,
+"text": "Tough case.",
+"conf": -0.59,
+"no_speech": 0.15
+},
+{
+"start": 1367.0,
+"end": 1380.0,
+"text": "I mean, coming back to the earlier thing, you're still, you're still on the fire of the, what happened to the, what you call the deep six, right?",
+"conf": -0.59,
+"no_speech": 0.15
+},
+{
+"start": 1380.0,
+"end": 1382.0,
+"text": "That's all we have, yes sir.",
+"conf": -0.59,
+"no_speech": 0.15
+},
+{
+"start": 1382.0,
+"end": 1393.0,
+"text": "...except one thing, I think, that whether he might have had knowledge that they were trying to help the defendants.",
+"conf": -0.4,
+"no_speech": 0.35
+},
+{
+"start": 1393.0,
+"end": 1402.0,
+"text": "That was something that was found. For example, a dean told me, told me this is really what triggered my own investigation,",
+"conf": -0.4,
+"no_speech": 0.35
+},
+{
+"start": 1402.0,
+"end": 1405.0,
+"text": "trying to get a dean out of it when early on.",
+"conf": -0.4,
+"no_speech": 0.35
+},
+{
+"start": 1405.0,
+"end": 1428.3,
+"text": "He told me that Ted had talked to him about having to have attorney's fees and support for him, you know, and I said, this is my guy. I said, Ted, go down this road. I mean, I got to give him credit. I said, but what would it cost you to keep supporting these defendants? He said, a million dollars. I said, how many of you can get that? Jesus Christ.",
+"conf": -0.26,
+"no_speech": 0.34
+},
+{
+"start": 1428.3,
+"end": 1436.3,
+"text": "I said that's blackmail, you can't go there with a short time.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 1436.3,
+"end": 1439.3,
+"text": "I'm trying to get back.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 1439.3,
+"end": 1441.3,
+"text": "See that's the whole point.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 1441.3,
+"end": 1444.3,
+"text": "That's why they can't interfere with me.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 1444.3,
+"end": 1447.3,
+"text": "What does that mean?",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 1447.3,
+"end": 1450.3,
+"text": "That's a bad piece of unsolidary.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 1450.3,
+"end": 1452.3,
+"text": "Get serious.",
+"conf": -0.58,
+"no_speech": 0.67
+},
+{
+"start": 1452.3,
+"end": 1462.7,
+"text": "these guys here, he had, of course, one of these attorney's fees, and frankly, if it were a case of getting their attorney's fees for the purpose of, you know,",
+"conf": -0.45,
+"no_speech": 0.37
+},
+{
+"start": 1462.7,
+"end": 1471.0,
+"text": "I'd be worried about it, but here at this point, they'd ask for an attorney's fee, and so forth. What the hell is that?",
+"conf": -0.45,
+"no_speech": 0.37
+},
+{
+"start": 1474.5,
+"end": 1478.3,
+"text": "Well, that's a very sensitive issue for a friend of mine.",
+"conf": -0.45,
+"no_speech": 0.37
+},
+{
+"start": 1478.3,
+"end": 1482.6,
+"text": "very well",
+"conf": -0.4,
+"no_speech": 0.53
+},
+{
+"start": 1482.6,
+"end": 1485.1,
+"text": "he's a very able lawyer",
+"conf": -0.4,
+"no_speech": 0.53
+},
+{
+"start": 1485.1,
+"end": 1485.9,
+"text": "I've worked with him",
+"conf": -0.4,
+"no_speech": 0.53
+},
+{
+"start": 1485.9,
+"end": 1495.1,
+"text": "I haven't felt free",
+"conf": -0.4,
+"no_speech": 0.53
+},
+{
+"start": 1495.1,
+"end": 1496.2,
+"text": "to associate with him",
+"conf": -0.4,
+"no_speech": 0.53
+},
+{
+"start": 1496.2,
+"end": 1497.3,
+"text": "I forget",
+"conf": -0.4,
+"no_speech": 0.53
+},
+{
+"start": 1497.3,
+"end": 1499.4,
+"text": "but I've thought deep",
+"conf": -0.4,
+"no_speech": 0.53
+},
+{
+"start": 1499.4,
+"end": 1502.0,
+"text": "deep about this conversation",
+"conf": -0.4,
+"no_speech": 0.53
+},
+{
+"start": 1502.0,
+"end": 1504.5,
+"text": "and that's the only time",
+"conf": -0.4,
+"no_speech": 0.53
+},
+{
+"start": 1504.5,
+"end": 1506.6,
+"text": "and the only time I've heard of him",
+"conf": -0.4,
+"no_speech": 0.53
+},
+{
+"start": 1506.6,
+"end": 1507.8,
+"text": "I've never heard of him",
+"conf": -0.4,
+"no_speech": 0.53
+},
+{
+"start": 1507.8,
+"end": 1513.8,
+"text": "I think this is very important because I asked John and they don't lie to me.",
+"conf": -0.34,
+"no_speech": 0.54
+},
+{
+"start": 1513.8,
+"end": 1516.8,
+"text": "I told you. I think he did.",
+"conf": -0.34,
+"no_speech": 0.54
+},
+{
+"start": 1516.8,
+"end": 1523.8,
+"text": "But not viciously. He thought that he was lying through the curses and given up and got a dance.",
+"conf": -0.34,
+"no_speech": 0.54
+},
+{
+"start": 1523.8,
+"end": 1525.8,
+"text": "But right on the moment, they're not lying to me.",
+"conf": -0.34,
+"no_speech": 0.54
+},
+{
+"start": 1525.8,
+"end": 1527.8,
+"text": "I hope that's right, Mr. Griffin.",
+"conf": -0.34,
+"no_speech": 0.54
+},
+{
+"start": 1527.8,
+"end": 1530.8,
+"text": "They're lying. I'll vouch for them. That's why I...",
+"conf": -0.34,
+"no_speech": 0.54
+},
+{
+"start": 1530.8,
+"end": 1534.8,
+"text": "And that's why, of course, my view has to be a little bit different from yours.",
+"conf": -0.34,
+"no_speech": 0.54
+},
+{
+"start": 1534.8,
+"end": 1543.8,
+"text": "Let me say the moment that anything happened, no question, without, without any question.",
+"conf": -0.39,
+"no_speech": 0.48
+},
+{
+"start": 1543.8,
+"end": 1551.8,
+"text": "Now let me say this, earlier, everybody around here had to be aware, not everybody in town,",
+"conf": -0.39,
+"no_speech": 0.48
+},
+{
+"start": 1551.8,
+"end": 1555.8,
+"text": "of the stories to the effect that the defendants were getting something, you know,",
+"conf": -0.39,
+"no_speech": 0.48
+},
+{
+"start": 1555.8,
+"end": 1557.8,
+"text": "maybe they were getting a turnstile or something.",
+"conf": -0.39,
+"no_speech": 0.48
+},
+{
+"start": 1557.8,
+"end": 1562.8,
+"text": "And I go, Mrs. Hunt's story, and so forth, and she died.",
+"conf": -0.36,
+"no_speech": 0.14
+},
+{
+"start": 1562.8,
+"end": 1571.8,
+"text": "And Dean, on one occasion, I did talk to her about the need for that.",
+"conf": -0.36,
+"no_speech": 0.14
+},
+{
+"start": 1571.8,
+"end": 1577.8,
+"text": "And Ervin said to me, Dean, thank God for your advice, because I can't have anything to do with it.",
+"conf": -0.36,
+"no_speech": 0.14
+},
+{
+"start": 1577.8,
+"end": 1583.8,
+"text": "And that's a problem for you to have to work out with political people.",
+"conf": -0.36,
+"no_speech": 0.14
+},
+{
+"start": 1583.8,
+"end": 1590.8,
+"text": "And all of the two were old advocates, right after the convention.",
+"conf": -0.46,
+"no_speech": 0.5
+},
+{
+"start": 1590.8,
+"end": 1594.8,
+"text": "And this thing came up, what I call the Let All That Out thing.",
+"conf": -0.46,
+"no_speech": 0.5
+},
+{
+"start": 1594.8,
+"end": 1596.8,
+"text": "I said, Christ, let's get it out.",
+"conf": -0.46,
+"no_speech": 0.5
+},
+{
+"start": 1596.8,
+"end": 1598.8,
+"text": "She couldn't get much of it.",
+"conf": -0.46,
+"no_speech": 0.5
+},
+{
+"start": 1598.8,
+"end": 1600.8,
+"text": "See, the key to this here was much of it.",
+"conf": -0.46,
+"no_speech": 0.5
+},
+{
+"start": 1600.8,
+"end": 1602.8,
+"text": "I mean, just talking between us.",
+"conf": -0.46,
+"no_speech": 0.5
+},
+{
+"start": 1602.8,
+"end": 1604.8,
+"text": "Mitchell wouldn't do it.",
+"conf": -0.46,
+"no_speech": 0.5
+},
+{
+"start": 1604.8,
+"end": 1608.8,
+"text": "I mean, I never asked him.",
+"conf": -0.46,
+"no_speech": 0.5
+},
+{
+"start": 1608.8,
+"end": 1610.8,
+"text": "I never asked John Mitchell what he was talking about.",
+"conf": -0.46,
+"no_speech": 0.5
+},
+{
+"start": 1610.8,
+"end": 1625.8,
+"text": "But the point was that what should have happened next was that John McAfee was the governor and said, look, I wasn't timing this story. These kids did these jackass things. I'm terribly sorry. I plead to you. Whatever you want to plead, let's get on with the campaign.",
+"conf": -0.36,
+"no_speech": 0.62
+},
+{
+"start": 1625.8,
+"end": 1629.8,
+"text": "So he went through it. And there it started to get much better. It was good.",
+"conf": -0.44,
+"no_speech": 0.69
+},
+{
+"start": 1629.8,
+"end": 1633.8,
+"text": "There it's bullshit. It was too late now. There it started to crash.",
+"conf": -0.44,
+"no_speech": 0.69
+},
+{
+"start": 1633.8,
+"end": 1636.8,
+"text": "And now we have to do our best to do it.",
+"conf": -0.44,
+"no_speech": 0.69
+},
+{
+"start": 1636.8,
+"end": 1642.8,
+"text": "But on this basis, you've got Strong and odds with McGruder.",
+"conf": -0.44,
+"no_speech": 0.69
+},
+{
+"start": 1642.8,
+"end": 1644.8,
+"text": "Yes.",
+"conf": -0.44,
+"no_speech": 0.69
+},
+{
+"start": 1644.8,
+"end": 1646.8,
+"text": "Both before the bankruptcy?",
+"conf": -0.44,
+"no_speech": 0.69
+},
+{
+"start": 1646.8,
+"end": 1647.8,
+"text": "Both, yes.",
+"conf": -0.44,
+"no_speech": 0.69
+},
+{
+"start": 1647.8,
+"end": 1650.8,
+"text": "But McGruder's a pretty great, great state.",
+"conf": -0.44,
+"no_speech": 0.69
+},
+{
+"start": 1650.8,
+"end": 1653.8,
+"text": "But eventually that's the hero of the campaign.",
+"conf": -0.44,
+"no_speech": 0.69
+},
+{
+"start": 1653.8,
+"end": 1657.8,
+"text": "Uh, I don't think he's under oath at this point, as a matter of fact, uh...",
+"conf": -0.42,
+"no_speech": 0.17
+},
+{
+"start": 1657.8,
+"end": 1661.8,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.17
+},
+{
+"start": 1661.8,
+"end": 1665.8,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.17
+},
+{
+"start": 1665.8,
+"end": 1669.8,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.17
+},
+{
+"start": 1669.8,
+"end": 1673.8,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.17
+},
+{
+"start": 1673.8,
+"end": 1677.8,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.17
+},
+{
+"start": 1677.8,
+"end": 1681.8,
+"text": "...",
+"conf": -0.42,
+"no_speech": 0.17
+},
+{
+"start": 1681.8,
+"end": 1685.8,
+"text": "One man against the other. Which one do you believe?",
+"conf": -0.41,
+"no_speech": 0.62
+},
+{
+"start": 1685.8,
+"end": 1691.8,
+"text": "The three of them against the other man. I see that.",
+"conf": -0.41,
+"no_speech": 0.62
+},
+{
+"start": 1691.8,
+"end": 1695.8,
+"text": "I haven't heard at all. I have to be aware.",
+"conf": -0.41,
+"no_speech": 0.62
+},
+{
+"start": 1695.8,
+"end": 1699.8,
+"text": "That may come out to be the toughest issue.",
+"conf": -0.41,
+"no_speech": 0.62
+},
+{
+"start": 1699.8,
+"end": 1703.8,
+"text": "That may come out to be the toughest issue so far at all.",
+"conf": -0.41,
+"no_speech": 0.62
+},
+{
+"start": 1703.8,
+"end": 1710.2,
+"text": "basically he had these funds and made them available at the request of the blue and all",
+"conf": -0.58,
+"no_speech": 0.45
+},
+{
+"start": 1710.2,
+"end": 1712.2,
+"text": "and so they're going to be available",
+"conf": -0.58,
+"no_speech": 0.45
+},
+{
+"start": 1712.2,
+"end": 1718.2,
+"text": "so that's meant certainly knowledge of the bank that the funds were used for certain purposes",
+"conf": -0.58,
+"no_speech": 0.45
+},
+{
+"start": 1718.2,
+"end": 1722.2,
+"text": "and it gets down to these kids I suppose are going to get through",
+"conf": -0.58,
+"no_speech": 0.45
+},
+{
+"start": 1722.2,
+"end": 1724.2,
+"text": "Mr. Wilson will have to do this",
+"conf": -0.58,
+"no_speech": 0.45
+},
+{
+"start": 1724.2,
+"end": 1726.2,
+"text": "for what purpose?",
+"conf": -0.58,
+"no_speech": 0.45
+},
+{
+"start": 1728.2,
+"end": 1730.2,
+"text": "when?",
+"conf": -0.58,
+"no_speech": 0.45
+},
+{
+"start": 1730.2,
+"end": 1734.2,
+"text": "only thing on the other end of the earth is the deep six thing",
+"conf": -0.44,
+"no_speech": 0.41
+},
+{
+"start": 1734.2,
+"end": 1736.2,
+"text": "yes sir",
+"conf": -0.44,
+"no_speech": 0.41
+},
+{
+"start": 1736.2,
+"end": 1739.2,
+"text": "and the others go rank and raise in the box too",
+"conf": -0.44,
+"no_speech": 0.41
+},
+{
+"start": 1739.2,
+"end": 1741.2,
+"text": "well that's the curve of life",
+"conf": -0.44,
+"no_speech": 0.41
+},
+{
+"start": 1741.2,
+"end": 1744.2,
+"text": "I feel that at least Ridd's documents have been alright",
+"conf": -0.44,
+"no_speech": 0.41
+},
+{
+"start": 1744.2,
+"end": 1745.2,
+"text": "if you like",
+"conf": -0.44,
+"no_speech": 0.41
+},
+{
+"start": 1745.2,
+"end": 1748.2,
+"text": "he tells me now that uh",
+"conf": -0.44,
+"no_speech": 0.41
+},
+{
+"start": 1748.2,
+"end": 1749.2,
+"text": "he didn't read it",
+"conf": -0.44,
+"no_speech": 0.41
+},
+{
+"start": 1749.2,
+"end": 1751.2,
+"text": "that he didn't read it when he burned them",
+"conf": -0.44,
+"no_speech": 0.41
+},
+{
+"start": 1753.2,
+"end": 1755.2,
+"text": "he has no idea what he burned",
+"conf": -0.44,
+"no_speech": 0.41
+},
+{
+"start": 1755.2,
+"end": 1759.2,
+"text": "and based it on the fact that he was told they were political box, political stuff",
+"conf": -0.44,
+"no_speech": 0.41
+},
+{
+"start": 1759.2,
+"end": 1763.2,
+"text": "By Dean and Earlywood.",
+"conf": -0.3,
+"no_speech": 0.3
+},
+{
+"start": 1763.2,
+"end": 1767.2,
+"text": "By Dean and Earlywood.",
+"conf": -0.3,
+"no_speech": 0.3
+},
+{
+"start": 1767.2,
+"end": 1771.2,
+"text": "What is the situation with Dean?",
+"conf": -0.3,
+"no_speech": 0.3
+},
+{
+"start": 1771.2,
+"end": 1775.2,
+"text": "Basically, is Dean's position",
+"conf": -0.3,
+"no_speech": 0.3
+},
+{
+"start": 1775.2,
+"end": 1779.2,
+"text": "that he was just a conduit?",
+"conf": -0.3,
+"no_speech": 0.3
+},
+{
+"start": 1779.2,
+"end": 1783.2,
+"text": "Dean's position is that he was an agent. That he was an",
+"conf": -0.3,
+"no_speech": 0.3
+},
+{
+"start": 1783.2,
+"end": 1787.2,
+"text": "information gatherer from all sources.",
+"conf": -0.3,
+"no_speech": 0.3
+},
+{
+"start": 1787.2,
+"end": 1792.2,
+"text": "do the things, do the things, do the things, do the things, is that right?",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1792.2,
+"end": 1793.2,
+"text": "That's right.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1793.2,
+"end": 1796.2,
+"text": "That's going to be hard to prove.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1796.2,
+"end": 1797.2,
+"text": "Very hard.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1797.2,
+"end": 1799.2,
+"text": "We've gone through the files.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1799.2,
+"end": 1800.2,
+"text": "I said we haven't.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1800.2,
+"end": 1803.2,
+"text": "I said, well, we'll see what the situation is.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1803.2,
+"end": 1807.2,
+"text": "Well, the whole case is going to be hard to prove, Mr. President, because it has to",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1807.2,
+"end": 1809.2,
+"text": "be an entirely testimonial case.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1809.2,
+"end": 1815.2,
+"text": "There are very little documents that are available to corroborate any of this.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1815.2,
+"end": 1816.2,
+"text": "That's right.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1816.2,
+"end": 1819.8,
+"text": "we have to use the testimony of insiders, so to speak.",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1819.8,
+"end": 1822.7,
+"text": "Yeah, so it's the testimony of people that are involved.",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1822.7,
+"end": 1823.4,
+"text": "That's right.",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1823.4,
+"end": 1824.4,
+"text": "That's a tough thing to use.",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1824.4,
+"end": 1824.9,
+"text": "That's right.",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1824.9,
+"end": 1825.4,
+"text": "It is indeed.",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1825.4,
+"end": 1825.9,
+"text": "Thank God.",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1825.9,
+"end": 1827.4,
+"text": "And you have to corroborate it.",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1827.4,
+"end": 1830.4,
+"text": "I've never said this to you, except I said my own exposure",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1830.4,
+"end": 1832.7,
+"text": "to criminal laws in this case.",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1832.7,
+"end": 1834.6,
+"text": "And it becomes terrible when the case",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1834.6,
+"end": 1836.9,
+"text": "has political connotation.",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1836.9,
+"end": 1841.1,
+"text": "Because then the motives of mine multiply.",
+"conf": -0.5,
+"no_speech": 0.26
+},
+{
+"start": 1841.1,
+"end": 1850.1,
+"text": "I hope you think we've made the right move and I've made the announcement that we're going to disagree with this from now on.",
+"conf": -0.37,
+"no_speech": 0.33
+},
+{
+"start": 1850.1,
+"end": 1851.1,
+"text": "Yes, sir. I don't agree with that.",
+"conf": -0.37,
+"no_speech": 0.33
+},
+{
+"start": 1851.1,
+"end": 1852.1,
+"text": "Yes, sir.",
+"conf": -0.37,
+"no_speech": 0.33
+},
+{
+"start": 1852.1,
+"end": 1853.1,
+"text": "Because we actually need some.",
+"conf": -0.37,
+"no_speech": 0.33
+},
+{
+"start": 1853.1,
+"end": 1862.1,
+"text": "But coming back to your whole business of immunity, that apparently you've got to grant that.",
+"conf": -0.37,
+"no_speech": 0.33
+},
+{
+"start": 1862.1,
+"end": 1864.1,
+"text": "When I say you, the Attorney General has to.",
+"conf": -0.37,
+"no_speech": 0.33
+},
+{
+"start": 1864.1,
+"end": 1865.1,
+"text": "He's having to.",
+"conf": -0.37,
+"no_speech": 0.33
+},
+{
+"start": 1865.1,
+"end": 1866.1,
+"text": "Do I have to?",
+"conf": -0.37,
+"no_speech": 0.33
+},
+{
+"start": 1866.1,
+"end": 1868.1,
+"text": "Yes, you will, because I push it.",
+"conf": -0.37,
+"no_speech": 0.33
+},
+{
+"start": 1868.1,
+"end": 1870.1,
+"text": "Fair enough.",
+"conf": -0.37,
+"no_speech": 0.33
+},
+{
+"start": 1870.1,
+"end": 1874.1,
+"text": "Fair enough. I'm not sure it's enjoyable, but it's fair enough.",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 1874.1,
+"end": 1877.1,
+"text": "So you've got to reach out to Paul, right?",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 1877.1,
+"end": 1879.1,
+"text": "Yes, sir.",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 1879.1,
+"end": 1882.1,
+"text": "Well, that's an anticipatory problem.",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 1882.1,
+"end": 1886.1,
+"text": "When will you get to that, though? You've got 15 other...",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 1886.1,
+"end": 1889.1,
+"text": "You've got anybody that he's sending home waiting for you?",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 1889.1,
+"end": 1890.1,
+"text": "Yes, sir.",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 1890.1,
+"end": 1891.1,
+"text": "What's his lawyer doing?",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 1891.1,
+"end": 1896.1,
+"text": "He's sitting, too. And frankly, that's part of our bargaining process.",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 1896.1,
+"end": 1898.1,
+"text": "What do you mean?",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 1898.1,
+"end": 1905.1,
+"text": "to let them sit and soak, and know that we're in the grand jury, we're getting other evidence.",
+"conf": -0.3,
+"no_speech": 0.16
+},
+{
+"start": 1905.1,
+"end": 1911.1,
+"text": "Well, look, you've got evidence on it. You know you've got evidence on Dean.",
+"conf": -0.3,
+"no_speech": 0.16
+},
+{
+"start": 1911.1,
+"end": 1918.1,
+"text": "That is not on the pre. Not on the pre, necessarily, because on the pre, he told me, and I believe him on this,",
+"conf": -0.3,
+"no_speech": 0.16
+},
+{
+"start": 1918.1,
+"end": 1922.1,
+"text": "that he came along and said, let's not have anything to do with this shit.",
+"conf": -0.3,
+"no_speech": 0.16
+},
+{
+"start": 1922.1,
+"end": 1929.1,
+"text": "I think you're right about some of that. I'm not sure if Dean's done a good job.",
+"conf": -0.37,
+"no_speech": 0.21
+},
+{
+"start": 1929.1,
+"end": 1934.1,
+"text": "He said it on time six, but he's never been told the truth on that.",
+"conf": -0.37,
+"no_speech": 0.21
+},
+{
+"start": 1934.1,
+"end": 1939.1,
+"text": "Do you believe that he did not know that this thing went forward?",
+"conf": -0.37,
+"no_speech": 0.21
+},
+{
+"start": 1939.1,
+"end": 1943.1,
+"text": "We're not ready to conclude on that.",
+"conf": -0.37,
+"no_speech": 0.21
+},
+{
+"start": 1943.1,
+"end": 1945.1,
+"text": "But that's what he says.",
+"conf": -0.37,
+"no_speech": 0.21
+},
+{
+"start": 1945.1,
+"end": 1948.1,
+"text": "That's what he says. We say we do not have a doubt.",
+"conf": -0.37,
+"no_speech": 0.21
+},
+{
+"start": 1948.1,
+"end": 1952.0,
+"text": "Now, the problems that he has is that one is a subordination perjury thing, right?",
+"conf": -0.4,
+"no_speech": 0.45
+},
+{
+"start": 1952.7,
+"end": 1952.9,
+"text": "Yes.",
+"conf": -0.4,
+"no_speech": 0.45
+},
+{
+"start": 1952.9,
+"end": 1954.5,
+"text": "But there's greater charges for that.",
+"conf": -0.4,
+"no_speech": 0.45
+},
+{
+"start": 1955.5,
+"end": 1956.5,
+"text": "How does he handle that?",
+"conf": -0.4,
+"no_speech": 0.45
+},
+{
+"start": 1956.6,
+"end": 1960.0,
+"text": "Does he say he does that as an agent if he was told to get these people in contact?",
+"conf": -0.4,
+"no_speech": 0.45
+},
+{
+"start": 1960.6,
+"end": 1965.2,
+"text": "No, his trust on agency is general.",
+"conf": -0.4,
+"no_speech": 0.45
+},
+{
+"start": 1965.6,
+"end": 1967.8,
+"text": "He hasn't reduced it to any specific thing.",
+"conf": -0.4,
+"no_speech": 0.45
+},
+{
+"start": 1967.8,
+"end": 1971.3,
+"text": "All that does, I suppose, is reduce the charge on this person's agent.",
+"conf": -0.4,
+"no_speech": 0.45
+},
+{
+"start": 1971.7,
+"end": 1972.6,
+"text": "Or does that get a man off?",
+"conf": -0.4,
+"no_speech": 0.45
+},
+{
+"start": 1973.0,
+"end": 1974.8,
+"text": "Well, no, it really doesn't get a man off.",
+"conf": -0.4,
+"no_speech": 0.45
+},
+{
+"start": 1974.8,
+"end": 1982.1,
+"text": "uh it's uh no defense at all in law such as mitigation of punishment if anything",
+"conf": -0.51,
+"no_speech": 0.32
+},
+{
+"start": 1982.1,
+"end": 1985.3,
+"text": "uh it may have some jury appeal in a particular",
+"conf": -0.51,
+"no_speech": 0.32
+},
+{
+"start": 1989.8,
+"end": 1993.0,
+"text": "no because he didn't on that you could say",
+"conf": -0.51,
+"no_speech": 0.32
+},
+{
+"start": 1997.5,
+"end": 2000.0,
+"text": "you could prove that his participation",
+"conf": -0.51,
+"no_speech": 0.32
+},
+{
+"start": 2000.0,
+"end": 2007.8,
+"text": "We're not ready to say, ultimately, that we can prove anything.",
+"conf": -0.57,
+"no_speech": 0.43
+},
+{
+"start": 2007.8,
+"end": 2010.8,
+"text": "We haven't really begun to marshal the facts.",
+"conf": -0.57,
+"no_speech": 0.43
+},
+{
+"start": 2010.8,
+"end": 2020.4,
+"text": "We're just in a terribly complicated, jigsaw puzzle, we're putting pieces together in the",
+"conf": -0.57,
+"no_speech": 0.43
+},
+{
+"start": 2020.4,
+"end": 2021.4,
+"text": "best we can.",
+"conf": -0.57,
+"no_speech": 0.43
+},
+{
+"start": 2021.4,
+"end": 2028.4,
+"text": "And at the very sub-front, all the cooperation we can here on this basis, it's going to be",
+"conf": -0.57,
+"no_speech": 0.43
+},
+{
+"start": 2028.4,
+"end": 2035.4,
+"text": "You let me know. I'm not going to protect anybody.",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 2035.4,
+"end": 2037.4,
+"text": "I understand that. I'm not going to protect anybody.",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 2037.4,
+"end": 2041.4,
+"text": "But I don't want, I don't want to have an incitement.",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 2041.4,
+"end": 2043.4,
+"text": "I think you would agree.",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 2043.4,
+"end": 2049.4,
+"text": "If it's one man's word against another, then it is not good.",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 2049.4,
+"end": 2052.4,
+"text": "We won't do that.",
+"conf": -0.36,
+"no_speech": 0.58
+},
+{
+"start": 2052.4,
+"end": 2063.4,
+"text": "do that. So, otherwise, we'll have testimony plus corroboration before we do anything.",
+"conf": -0.31,
+"no_speech": 0.64
+},
+{
+"start": 2063.8,
+"end": 2067.4,
+"text": "And I don't want to do it at all. I mean, Dean's too high on the echelon.",
+"conf": -0.31,
+"no_speech": 0.64
+},
+{
+"start": 2069.8,
+"end": 2077.2,
+"text": "You see, let me ask you one question. What I'm concerned about here is, if you would",
+"conf": -0.31,
+"no_speech": 0.64
+},
+{
+"start": 2077.2,
+"end": 2086.2,
+"text": "getting your advice on what I do is that I want to see some corroboration and I'll be ready to move and I will and I'm very excited to do what I do",
+"conf": -0.59,
+"no_speech": 0.62
+},
+{
+"start": 2086.2,
+"end": 2090.2,
+"text": "which is probably another situation I'm in.",
+"conf": -0.59,
+"no_speech": 0.62
+},
+{
+"start": 2090.2,
+"end": 2110.0,
+"text": "uh you know the whole what's the whole thing is when you when you look at that i tried to",
+"conf": -0.39,
+"no_speech": 0.69
+},
+{
+"start": 2110.0,
+"end": 2115.9,
+"text": "imagine assuming that he said and there you get you've got to learn some words i'm assuming he",
+"conf": -0.39,
+"no_speech": 0.69
+},
+{
+"start": 2115.9,
+"end": 2119.9,
+"text": "He said, then how did you get out of the country?",
+"conf": -0.39,
+"no_speech": 0.44
+},
+{
+"start": 2119.9,
+"end": 2122.9,
+"text": "Then what you find is that you did not get out of the country.",
+"conf": -0.39,
+"no_speech": 0.44
+},
+{
+"start": 2122.9,
+"end": 2127.9,
+"text": "And the doctor that you turned over to the head of the FBI.",
+"conf": -0.39,
+"no_speech": 0.44
+},
+{
+"start": 2127.9,
+"end": 2129.9,
+"text": "That is a hell of a lot of cases.",
+"conf": -0.39,
+"no_speech": 0.44
+},
+{
+"start": 2129.9,
+"end": 2132.9,
+"text": "I don't think that's the case at all.",
+"conf": -0.39,
+"no_speech": 0.44
+},
+{
+"start": 2132.9,
+"end": 2134.9,
+"text": "I don't think you can do it.",
+"conf": -0.39,
+"no_speech": 0.44
+},
+{
+"start": 2134.9,
+"end": 2137.9,
+"text": "Bill Rogers is actually the one who didn't think you had a case on that.",
+"conf": -0.39,
+"no_speech": 0.44
+},
+{
+"start": 2137.9,
+"end": 2139.9,
+"text": "I don't know.",
+"conf": -0.39,
+"no_speech": 0.44
+},
+{
+"start": 2139.9,
+"end": 2141.9,
+"text": "He said, well, what the hell is that?",
+"conf": -0.39,
+"no_speech": 0.44
+},
+{
+"start": 2141.9,
+"end": 2143.9,
+"text": "He said, you can't prove anything on that.",
+"conf": -0.39,
+"no_speech": 0.44
+},
+{
+"start": 2143.9,
+"end": 2154.9,
+"text": "what more can I add to it, but an acknowledge of possibility or some of this, that he might have had knowledge.",
+"conf": -0.68,
+"no_speech": 0.54
+},
+{
+"start": 2154.9,
+"end": 2160.9,
+"text": "The company on the fault of Tucker Pace, Tucker Pace, you, and all of them, the charge of all of them,",
+"conf": -0.68,
+"no_speech": 0.54
+},
+{
+"start": 2160.9,
+"end": 2168.9,
+"text": "and some of the take, strong, and the three-fifth of those two men, it's okay.",
+"conf": -0.68,
+"no_speech": 0.54
+},
+{
+"start": 2168.9,
+"end": 2170.9,
+"text": "He's quite candid with me.",
+"conf": -0.5,
+"no_speech": 0.65
+},
+{
+"start": 2170.9,
+"end": 2177.9,
+"text": "Haldeman, who, of course, was my second sorority affair's drop-in today.",
+"conf": -0.5,
+"no_speech": 0.65
+},
+{
+"start": 2177.9,
+"end": 2182.9,
+"text": "Most of the time, all these guys are pretty good guys.",
+"conf": -0.5,
+"no_speech": 0.65
+},
+{
+"start": 2182.9,
+"end": 2185.9,
+"text": "I'd look for them, too.",
+"conf": -0.5,
+"no_speech": 0.65
+},
+{
+"start": 2185.9,
+"end": 2189.9,
+"text": "God, you're an honest gentleman.",
+"conf": -0.5,
+"no_speech": 0.65
+},
+{
+"start": 2189.9,
+"end": 2195.9,
+"text": "Anyway, Haldeman, does it help you at all, Haldeman?",
+"conf": -0.5,
+"no_speech": 0.65
+},
+{
+"start": 2195.9,
+"end": 2200.7,
+"text": "I'm not going to say anything, but I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2200.7,
+"end": 2201.3,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2201.3,
+"end": 2201.6,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2201.6,
+"end": 2202.1,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2202.1,
+"end": 2202.4,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2202.4,
+"end": 2202.9,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2202.9,
+"end": 2203.4,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2203.4,
+"end": 2203.9,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2203.9,
+"end": 2204.4,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2204.4,
+"end": 2204.9,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2204.9,
+"end": 2205.4,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2205.4,
+"end": 2205.9,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2205.9,
+"end": 2206.4,
+"text": "I'm going to say this is a very important piece of history.",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 2206.4,
+"end": 2209.4,
+"text": "he would like you to start reading",
+"conf": -0.51,
+"no_speech": 0.66
+},
+{
+"start": 2209.4,
+"end": 2212.4,
+"text": "yes, yes, don't even start the reading",
+"conf": -0.51,
+"no_speech": 0.66
+},
+{
+"start": 2212.4,
+"end": 2215.4,
+"text": "and then I will come in and I will be able to read the message",
+"conf": -0.51,
+"no_speech": 0.66
+},
+{
+"start": 2215.4,
+"end": 2218.4,
+"text": "from a Soviet leader",
+"conf": -0.51,
+"no_speech": 0.66
+},
+{
+"start": 2218.4,
+"end": 2221.4,
+"text": "in my direction, so I'm tied up and I'll come in",
+"conf": -0.51,
+"no_speech": 0.66
+},
+{
+"start": 2221.4,
+"end": 2224.4,
+"text": "and I'm on the bandwagon",
+"conf": -0.51,
+"no_speech": 0.66
+},
+{
+"start": 2227.4,
+"end": 2230.4,
+"text": "this is the Jewish leader trying to reassure them",
+"conf": -0.51,
+"no_speech": 0.66
+},
+{
+"start": 2230.4,
+"end": 2233.4,
+"text": "regarding Soviet immigration",
+"conf": -0.51,
+"no_speech": 0.66
+},
+{
+"start": 2233.4,
+"end": 2237.4,
+"text": "I don't want to get in the way of the city of Monaco.",
+"conf": -0.63,
+"no_speech": 0.71
+},
+{
+"start": 2237.4,
+"end": 2240.4,
+"text": "So I'm probably unsatisfied with that.",
+"conf": -0.63,
+"no_speech": 0.71
+},
+{
+"start": 2240.4,
+"end": 2242.4,
+"text": "I said it.",
+"conf": -0.63,
+"no_speech": 0.71
+},
+{
+"start": 2242.4,
+"end": 2244.4,
+"text": "It's a sheer shock to me.",
+"conf": -0.63,
+"no_speech": 0.71
+},
+{
+"start": 2244.4,
+"end": 2246.4,
+"text": "I told a group I met yesterday,",
+"conf": -0.63,
+"no_speech": 0.71
+},
+{
+"start": 2246.4,
+"end": 2248.4,
+"text": "the Chatham School of Law,",
+"conf": -0.63,
+"no_speech": 0.71
+},
+{
+"start": 2248.4,
+"end": 2250.4,
+"text": "I said, all right, I don't care.",
+"conf": -0.63,
+"no_speech": 0.71
+},
+{
+"start": 2250.4,
+"end": 2254.4,
+"text": "Do you want to risk arms of the nation",
+"conf": -0.63,
+"no_speech": 0.71
+},
+{
+"start": 2254.4,
+"end": 2256.4,
+"text": "to solve the truth?",
+"conf": -0.63,
+"no_speech": 0.71
+},
+{
+"start": 2256.4,
+"end": 2258.4,
+"text": "And be a father?",
+"conf": -0.63,
+"no_speech": 0.71
+},
+{
+"start": 2258.4,
+"end": 2262.4,
+"text": "Do you want to risk assaulting,",
+"conf": -0.63,
+"no_speech": 0.71
+},
+{
+"start": 2262.4,
+"end": 2264.4,
+"text": "Do you want to resist the Soviet restraining itself in the Mideast?",
+"conf": -0.42,
+"no_speech": 0.46
+},
+{
+"start": 2264.4,
+"end": 2270.4,
+"text": "Do you want to resist the Soviet restraining itself in the Southeast Asia solely because of this?",
+"conf": -0.42,
+"no_speech": 0.46
+},
+{
+"start": 2270.4,
+"end": 2276.4,
+"text": "Do you want to repeal the meeting of the Soviet leader this fall because of this?",
+"conf": -0.42,
+"no_speech": 0.46
+},
+{
+"start": 2276.4,
+"end": 2278.4,
+"text": "Raise any other questions?",
+"conf": -0.42,
+"no_speech": 0.46
+},
+{
+"start": 2278.4,
+"end": 2280.4,
+"text": "I don't understand some of this.",
+"conf": -0.42,
+"no_speech": 0.46
+},
+{
+"start": 2280.4,
+"end": 2284.4,
+"text": "I agree.",
+"conf": -0.42,
+"no_speech": 0.46
+},
+{
+"start": 2284.4,
+"end": 2290.4,
+"text": "When I got out of there, I knew this morning that they were still opposing it.",
+"conf": -0.42,
+"no_speech": 0.46
+},
+{
+"start": 2290.4,
+"end": 2292.4,
+"text": "Chavis Lane.",
+"conf": -0.44,
+"no_speech": 0.31
+},
+{
+"start": 2292.4,
+"end": 2294.4,
+"text": "Chavis?",
+"conf": -0.44,
+"no_speech": 0.31
+},
+{
+"start": 2294.4,
+"end": 2296.4,
+"text": "Sure.",
+"conf": -0.44,
+"no_speech": 0.31
+},
+{
+"start": 2296.4,
+"end": 2298.4,
+"text": "I never thought about that.",
+"conf": -0.44,
+"no_speech": 0.31
+},
+{
+"start": 2298.4,
+"end": 2302.4,
+"text": "I just do the best I can.",
+"conf": -0.44,
+"no_speech": 0.31
+},
+{
+"start": 2302.4,
+"end": 2304.4,
+"text": "Are you satisfied?",
+"conf": -0.44,
+"no_speech": 0.31
+},
+{
+"start": 2304.4,
+"end": 2306.4,
+"text": "Yes.",
+"conf": -0.44,
+"no_speech": 0.31
+},
+{
+"start": 2306.4,
+"end": 2314.4,
+"text": "What does all of that thing do to him in terms of, first, what does it do for your case?",
+"conf": -0.44,
+"no_speech": 0.31
+},
+{
+"start": 2314.4,
+"end": 2323.4,
+"text": "case, what does it do to him in terms of making it easier for you to prosecute her or so-and-so?",
+"conf": -0.31,
+"no_speech": 0.16
+},
+{
+"start": 2323.4,
+"end": 2328.4,
+"text": "What can you do to me on that point? Who's there going to be talking about it?",
+"conf": -0.31,
+"no_speech": 0.16
+},
+{
+"start": 2328.4,
+"end": 2333.4,
+"text": "Well, I don't think that we've really come to any definitive judgments, and we won't,",
+"conf": -0.31,
+"no_speech": 0.16
+},
+{
+"start": 2333.4,
+"end": 2338.4,
+"text": "because what we're fashioning is a conspiracy case in which all the pieces of the will fit",
+"conf": -0.31,
+"no_speech": 0.16
+},
+{
+"start": 2338.4,
+"end": 2363.6,
+"text": "But in such a conspiracy case, the fact that, assuming it were true, and we still have a question of the credibility of Magruder, that hold of it was given a budget which he had the power to meet to, which included Operation Gemstone, which he knew to be an electronic intercept operation, would be a tremendously important fact.",
+"conf": -0.2,
+"no_speech": 0.26
+},
+{
+"start": 2363.6,
+"end": 2366.5,
+"text": "so when you couple that with",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2366.5,
+"end": 2370.8,
+"text": "that's from Grutter v. Trump",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2370.8,
+"end": 2372.2,
+"text": "and if you add to that",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2372.2,
+"end": 2374.1,
+"text": "the receipt of the product",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2374.1,
+"end": 2377.5,
+"text": "of the illegal intercepts",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2377.5,
+"end": 2379.1,
+"text": "in identifiable form",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2379.1,
+"end": 2382.3,
+"text": "coupled with the conspiracy",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2382.3,
+"end": 2383.7,
+"text": "and all of the relationships",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2383.7,
+"end": 2384.5,
+"text": "with Mitchell",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2384.5,
+"end": 2385.2,
+"text": "and what have you",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2385.2,
+"end": 2386.3,
+"text": "and his position of authority",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2386.3,
+"end": 2387.5,
+"text": "I have no doubt",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2387.5,
+"end": 2388.9,
+"text": "that we'd be able to include him",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2388.9,
+"end": 2389.7,
+"text": "in a conspiracy",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2389.7,
+"end": 2392.9,
+"text": "the question is the credibility",
+"conf": -0.24,
+"no_speech": 0.07
+},
+{
+"start": 2392.9,
+"end": 2395.2,
+"text": "which we're trying to resolve",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2395.2,
+"end": 2397.4,
+"text": "but even if that were to fail",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2397.4,
+"end": 2398.8,
+"text": "on a question of proof",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2398.8,
+"end": 2401.5,
+"text": "then you come into the secondary",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2401.5,
+"end": 2402.6,
+"text": "aspect of it",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2402.6,
+"end": 2404.4,
+"text": "that is the",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2404.4,
+"end": 2407.8,
+"text": "never mind",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2407.8,
+"end": 2408.4,
+"text": "that he's not",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2408.4,
+"end": 2411.2,
+"text": "he's not found guilty",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2411.2,
+"end": 2412.7,
+"text": "beyond a reasonable doubt",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2412.7,
+"end": 2413.6,
+"text": "you know",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2413.6,
+"end": 2417.6,
+"text": "that's right",
+"conf": -0.27,
+"no_speech": 0.11
+},
+{
+"start": 2417.6,
+"end": 2422.6,
+"text": "I understand, I understand what I'm against.",
+"conf": -0.38,
+"no_speech": 0.38
+},
+{
+"start": 2422.6,
+"end": 2427.6,
+"text": "Now, let me ask you this, does it help you with your Dean problem?",
+"conf": -0.38,
+"no_speech": 0.38
+},
+{
+"start": 2427.6,
+"end": 2432.6,
+"text": "I mean, I was curious because I got the impression when Dean came in",
+"conf": -0.38,
+"no_speech": 0.38
+},
+{
+"start": 2432.6,
+"end": 2437.6,
+"text": "and we discussed it in Lundy, the view of the fact that he probably should resign.",
+"conf": -0.38,
+"no_speech": 0.38
+},
+{
+"start": 2437.6,
+"end": 2442.6,
+"text": "He said, well, I resigned all of the current ones, and I got the impression that that was going to do it.",
+"conf": -0.38,
+"no_speech": 0.38
+},
+{
+"start": 2442.6,
+"end": 2445.6,
+"text": "Well, no sir, I don't think that's from us.",
+"conf": -0.38,
+"no_speech": 0.38
+},
+{
+"start": 2445.6,
+"end": 2462.6,
+"text": "Well, I mislay it in a sense, but, I mean, what you're seeing is a terribly desperate man, who's now beginning to try and rationalize his own condom, and he, in effect, is saying,",
+"conf": -0.4,
+"no_speech": 0.26
+},
+{
+"start": 2462.6,
+"end": 2464.6,
+"text": "But let me ask you this.",
+"conf": -0.49,
+"no_speech": 0.14
+},
+{
+"start": 2464.6,
+"end": 2466.6,
+"text": "That's why they placed him at this position.",
+"conf": -0.49,
+"no_speech": 0.14
+},
+{
+"start": 2466.6,
+"end": 2468.6,
+"text": "Let me ask you this.",
+"conf": -0.49,
+"no_speech": 0.14
+},
+{
+"start": 2468.6,
+"end": 2473.6,
+"text": "Earlier, you did a pretty hard conspiracy on him.",
+"conf": -0.49,
+"no_speech": 0.14
+},
+{
+"start": 2473.6,
+"end": 2474.6,
+"text": "Pardon?",
+"conf": -0.49,
+"no_speech": 0.14
+},
+{
+"start": 2474.6,
+"end": 2476.6,
+"text": "Earlier, you did a conspiracy.",
+"conf": -0.49,
+"no_speech": 0.14
+},
+{
+"start": 2476.6,
+"end": 2478.6,
+"text": "He's a very tough business, much tougher.",
+"conf": -0.49,
+"no_speech": 0.14
+},
+{
+"start": 2478.6,
+"end": 2479.6,
+"text": "Yes, sir.",
+"conf": -0.49,
+"no_speech": 0.14
+},
+{
+"start": 2479.6,
+"end": 2489.6,
+"text": "Unless the evidence develops that he was involved in a close operation on the structure of justice.",
+"conf": -0.49,
+"no_speech": 0.14
+},
+{
+"start": 2489.6,
+"end": 2491.8,
+"text": "now they",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2491.8,
+"end": 2494.1,
+"text": "well",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2494.1,
+"end": 2497.6,
+"text": "very little at this point",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2497.6,
+"end": 2499.3,
+"text": "the allegation is",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2499.3,
+"end": 2501.5,
+"text": "that Bidman to O'Brien",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2501.5,
+"end": 2502.7,
+"text": "to hold them in",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2502.7,
+"end": 2505.3,
+"text": "terms of a demand to take care of his will",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2505.3,
+"end": 2505.9,
+"text": "talk",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2505.9,
+"end": 2508.8,
+"text": "and Ehrlichman says",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2508.8,
+"end": 2512.5,
+"text": "we don't have it pinned down",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2512.5,
+"end": 2514.1,
+"text": "we have it in terms of allegations",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2514.1,
+"end": 2516.3,
+"text": "sometime after the trial",
+"conf": -0.29,
+"no_speech": 0.1
+},
+{
+"start": 2516.3,
+"end": 2520.5,
+"text": "January",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2520.5,
+"end": 2523.3,
+"text": "you know",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2523.3,
+"end": 2525.4,
+"text": "I don't know about the time",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2525.4,
+"end": 2526.6,
+"text": "Hunt was pleading guilty",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2526.6,
+"end": 2527.9,
+"text": "that's the implication",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2527.9,
+"end": 2530.5,
+"text": "now we haven't corroborated that one way or another",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2530.5,
+"end": 2532.9,
+"text": "Bittman said we'll talk",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2532.9,
+"end": 2534.2,
+"text": "Bittman",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2534.2,
+"end": 2536.7,
+"text": "Bittman says",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2536.7,
+"end": 2538.9,
+"text": "that allegation comes from",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2538.9,
+"end": 2540.7,
+"text": "McCord who says",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2540.7,
+"end": 2542.9,
+"text": "that he got it from Darby Hunt",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2542.9,
+"end": 2546.1,
+"text": "Bittman says",
+"conf": -0.26,
+"no_speech": 0.15
+},
+{
+"start": 2546.1,
+"end": 2548.1,
+"text": "we haven't had Bittman into testifying.",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2548.4,
+"end": 2549.7,
+"text": "Bittman says that's entirely",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2549.7,
+"end": 2550.5,
+"text": "untrue.",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2551.8,
+"end": 2554.4,
+"text": "I mention it",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2554.4,
+"end": 2555.9,
+"text": "not because I think it's an item",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2555.9,
+"end": 2557.6,
+"text": "of admissible evidence at this point.",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2557.7,
+"end": 2559.3,
+"text": "It's just another one of the",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2559.3,
+"end": 2561.2,
+"text": "scary dimensions of this problem.",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2564.6,
+"end": 2565.9,
+"text": "So you have",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2565.9,
+"end": 2567.5,
+"text": "Bittman say that he told",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2567.5,
+"end": 2569.2,
+"text": "O'Brien that we needed money",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2569.2,
+"end": 2570.1,
+"text": "or I would",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2570.1,
+"end": 2573.2,
+"text": "Well, I know",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2573.2,
+"end": 2575.4,
+"text": "Bittman is too good a lawyer",
+"conf": -0.31,
+"no_speech": 0.21
+},
+{
+"start": 2575.4,
+"end": 2578.5,
+"text": "to make a statement in a fashion like that. That's one thing.",
+"conf": -0.44,
+"no_speech": 0.08
+},
+{
+"start": 2578.5,
+"end": 2586.4,
+"text": "Uh, uh, that's the name. I think that's the name. It's not that I know of.",
+"conf": -0.44,
+"no_speech": 0.08
+},
+{
+"start": 2587.8,
+"end": 2589.6,
+"text": "I think it's called Colson.",
+"conf": -0.44,
+"no_speech": 0.08
+},
+{
+"start": 2592.1,
+"end": 2600.2,
+"text": "Colson. I don't know. I don't know about that. But I don't know. I have the name.",
+"conf": -0.44,
+"no_speech": 0.08
+},
+{
+"start": 2600.2,
+"end": 2611.2,
+"text": "he talked to somebody in regard to the possibility of getting back his attorney's fees or something like that.",
+"conf": -0.41,
+"no_speech": 0.43
+},
+{
+"start": 2611.2,
+"end": 2615.2,
+"text": "That was after the trial.",
+"conf": -0.41,
+"no_speech": 0.43
+},
+{
+"start": 2615.2,
+"end": 2617.2,
+"text": "I heard that.",
+"conf": -0.41,
+"no_speech": 0.43
+},
+{
+"start": 2617.2,
+"end": 2621.2,
+"text": "Chris, that's an area again where new room comes in.",
+"conf": -0.41,
+"no_speech": 0.43
+},
+{
+"start": 2621.2,
+"end": 2624.2,
+"text": "He was delivering money to Hogan & Hartson.",
+"conf": -0.41,
+"no_speech": 0.43
+},
+{
+"start": 2624.2,
+"end": 2627.2,
+"text": "Who's Hogan & Hartson?",
+"conf": -0.41,
+"no_speech": 0.43
+},
+{
+"start": 2627.2,
+"end": 2632.5,
+"text": "Hogan & Hartson is a law firm in which Phil Bittman is a partner.",
+"conf": -0.45,
+"no_speech": 0.09
+},
+{
+"start": 2634.7,
+"end": 2636.0,
+"text": "I will take a look at that.",
+"conf": -0.45,
+"no_speech": 0.09
+},
+{
+"start": 2637.3,
+"end": 2638.9,
+"text": "We'll send it up by messaging.",
+"conf": -0.45,
+"no_speech": 0.09
+},
+{
+"start": 2639.4,
+"end": 2641.5,
+"text": "And the rules, you've got all that right.",
+"conf": -0.45,
+"no_speech": 0.09
+},
+{
+"start": 2642.3,
+"end": 2646.0,
+"text": "Well, I haven't examined his very great testimony, but he was in yesterday.",
+"conf": -0.45,
+"no_speech": 0.09
+},
+{
+"start": 2646.0,
+"end": 2649.3,
+"text": "But he generally admits to the obstruction of justice,",
+"conf": -0.45,
+"no_speech": 0.09
+},
+{
+"start": 2649.6,
+"end": 2655.3,
+"text": "certainly with respect to the Magruder's testimony",
+"conf": -0.45,
+"no_speech": 0.09
+},
+{
+"start": 2655.3,
+"end": 2659.3,
+"text": "and how far he's come along on the payments of money.",
+"conf": -0.33,
+"no_speech": 0.19
+},
+{
+"start": 2659.3,
+"end": 2670.3,
+"text": "He agrees he's deliberative and he's willing to plead and take it to the obstruction charge.",
+"conf": -0.33,
+"no_speech": 0.19
+},
+{
+"start": 2670.3,
+"end": 2679.3,
+"text": "I guess I'm going to have to be silent.",
+"conf": -0.55,
+"no_speech": 0.5
+},
+{
+"start": 2679.3,
+"end": 2682.3,
+"text": "So that could involve Holland because of Brian.",
+"conf": -0.55,
+"no_speech": 0.5
+},
+{
+"start": 2682.3,
+"end": 2685.3,
+"text": "You're supposed to tell him to vote Holland, is that it?",
+"conf": -0.55,
+"no_speech": 0.5
+},
+{
+"start": 2685.3,
+"end": 2695.3,
+"text": "Yes, but I hesitate even telling him because we haven't hit that down.",
+"conf": -0.55,
+"no_speech": 0.5
+},
+{
+"start": 2695.3,
+"end": 2697.3,
+"text": "Not because I have any relationship with him.",
+"conf": -0.55,
+"no_speech": 0.5
+},
+{
+"start": 2697.3,
+"end": 2702.2,
+"text": "No, only because I don't want to imply that that's a charge.",
+"conf": -0.55,
+"no_speech": 0.06
+},
+{
+"start": 2702.2,
+"end": 2706.2,
+"text": "That's bad enough without...",
+"conf": -0.55,
+"no_speech": 0.06
+},
+{
+"start": 2706.2,
+"end": 2709.2,
+"text": "Sure, without getting into things that you can't do.",
+"conf": -0.55,
+"no_speech": 0.06
+},
+{
+"start": 2718.2,
+"end": 2721.2,
+"text": "I'm exposed looking at Dean.",
+"conf": -0.55,
+"no_speech": 0.06
+},
+{
+"start": 2721.2,
+"end": 2732.2,
+"text": "Now Dean was aware of the commitment. This I remember. Dean was aware of the commitment.",
+"conf": -0.44,
+"no_speech": 0.58
+},
+{
+"start": 2732.2,
+"end": 2743.2,
+"text": "He talked to someone with regard to his attorneys fees.",
+"conf": -0.44,
+"no_speech": 0.58
+},
+{
+"start": 2743.2,
+"end": 2751.8,
+"text": "Something hurt. Well, I guess that's what it was, which is, uh, which apparently was related to Mitchell.",
+"conf": -0.38,
+"no_speech": 0.28
+},
+{
+"start": 2752.1,
+"end": 2757.3,
+"text": "Oh, I don't know, sir. That's all I hear. Dean hasn't told you about this?",
+"conf": -0.38,
+"no_speech": 0.28
+},
+{
+"start": 2758.4,
+"end": 2761.3,
+"text": "No, sir, but Dean has not been debriefed fully.",
+"conf": -0.38,
+"no_speech": 0.28
+},
+{
+"start": 2763.1,
+"end": 2763.7,
+"text": "I heard that.",
+"conf": -0.38,
+"no_speech": 0.28
+},
+{
+"start": 2763.7,
+"end": 2770.6,
+"text": "Dean may have told you more than he told us, but all he needs to tell us is enough to articulate our interest in him as a witness.",
+"conf": -0.38,
+"no_speech": 0.28
+},
+{
+"start": 2770.6,
+"end": 2775.8,
+"text": "get into that you better get it from him right indeed so i don't know what the hell he uh",
+"conf": -0.34,
+"no_speech": 0.73
+},
+{
+"start": 2776.9,
+"end": 2781.0,
+"text": "but what he was telling me was whether he heard from somebody else whether he",
+"conf": -0.34,
+"no_speech": 0.73
+},
+{
+"start": 2781.0,
+"end": 2783.2,
+"text": "you know you see there's a bust he might be framed",
+"conf": -0.34,
+"no_speech": 0.73
+},
+{
+"start": 2796.3,
+"end": 2797.0,
+"text": "so you come down",
+"conf": -0.34,
+"no_speech": 0.73
+},
+{
+"start": 2797.0,
+"end": 2806.0,
+"text": "So the conspiracy then, with regard to Ehrlichman, is much stronger.",
+"conf": -0.41,
+"no_speech": 0.26
+},
+{
+"start": 2806.0,
+"end": 2808.0,
+"text": "Well, that's a great statement.",
+"conf": -0.41,
+"no_speech": 0.26
+},
+{
+"start": 2808.0,
+"end": 2819.0,
+"text": "With regard to Ehrlichman, I regard only as, at this stage, as an item of information for you.",
+"conf": -0.41,
+"no_speech": 0.26
+},
+{
+"start": 2819.0,
+"end": 2822.4,
+"text": "and really not",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2822.4,
+"end": 2824.5,
+"text": "that's right",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2824.5,
+"end": 2825.9,
+"text": "but not as a",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2825.9,
+"end": 2829.5,
+"text": "that's where I've got to be",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2829.5,
+"end": 2830.3,
+"text": "really sure",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2830.3,
+"end": 2832.1,
+"text": "who's on in there",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2832.1,
+"end": 2834.8,
+"text": "and the second",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2834.8,
+"end": 2836.0,
+"text": "and even with Ehrlichman",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2836.0,
+"end": 2838.7,
+"text": "we haven't paid judgment on these things",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2838.7,
+"end": 2841.0,
+"text": "we wanted to get them to you before you read them",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2841.0,
+"end": 2842.3,
+"text": "in the newspaper obviously",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2842.3,
+"end": 2845.0,
+"text": "but we haven't paid",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2845.0,
+"end": 2846.3,
+"text": "judgment on these things",
+"conf": -0.34,
+"no_speech": 0.35
+},
+{
+"start": 2846.3,
+"end": 2866.3,
+"text": "There, and the other day, we talked earlier about Deans' allegations that, we talked earlier about Deans, but she did.",
+"conf": -0.71,
+"no_speech": 0.56
+},
+{
+"start": 2866.3,
+"end": 2872.3,
+"text": "That I heard, so I can't tell you. Period. That I know.",
+"conf": -0.71,
+"no_speech": 0.56
+},
+{
+"start": 2872.3,
+"end": 2886.3,
+"text": "Because Ervin was advocating on the course of action, so I can't believe Ervin on this, because he was advocating on the action that should have been taken.",
+"conf": -0.4,
+"no_speech": 0.33
+},
+{
+"start": 2886.3,
+"end": 2898.3,
+"text": "Well, that's kind of, you can see me, I'm a very tortuous man, to get into that committee and find out who had the authority to expand their authorized expenditure fund post-election.",
+"conf": -0.4,
+"no_speech": 0.33
+},
+{
+"start": 2898.3,
+"end": 2912.3,
+"text": "Or, you know, in the alternative, whether or not the funds were taken out before the election.",
+"conf": -0.42,
+"no_speech": 0.25
+},
+{
+"start": 2912.3,
+"end": 2917.3,
+"text": "Most of this occurred after the election.",
+"conf": -0.42,
+"no_speech": 0.25
+},
+{
+"start": 2917.3,
+"end": 2921.3,
+"text": "Well, uh, apparently, I don't know.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2921.3,
+"end": 2924.3,
+"text": "I mean, I think it's all of them.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2924.3,
+"end": 2926.3,
+"text": "I don't think it's all of them.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2926.3,
+"end": 2927.3,
+"text": "Let me say this.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2927.3,
+"end": 2928.3,
+"text": "You've mentioned my question.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2928.3,
+"end": 2934.3,
+"text": "I guess it makes no difference to you whether it makes no difference to the prosecution.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2934.3,
+"end": 2939.3,
+"text": "It makes no difference to the history and the dean.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2939.3,
+"end": 2940.3,
+"text": "No, sir.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2940.3,
+"end": 2941.3,
+"text": "All of them.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2941.3,
+"end": 2942.3,
+"text": "It's not enough.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2942.3,
+"end": 2943.3,
+"text": "No, sir.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2943.3,
+"end": 2944.3,
+"text": "You've got to go forward with the case.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2944.3,
+"end": 2945.3,
+"text": "Surely.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2945.3,
+"end": 2946.3,
+"text": "That's right.",
+"conf": -0.42,
+"no_speech": 0.56
+},
+{
+"start": 2946.3,
+"end": 2954.4,
+"text": "concerned there is you that's all we wasn't we want you to have as much",
+"conf": -0.43,
+"no_speech": 0.39
+},
+{
+"start": 2954.4,
+"end": 2959.6,
+"text": "information as we have for whatever purpose you see fit to use it",
+"conf": -0.43,
+"no_speech": 0.39
+},
+{
+"start": 2959.6,
+"end": 2976.1,
+"text": "he's coming down he's talking",
+"conf": -0.26,
+"no_speech": 0.37
+},
+{
+"start": 2976.1,
+"end": 2979.3,
+"text": "she's talking to another lawyer",
+"conf": -0.26,
+"no_speech": 0.37
+},
+{
+"start": 2979.3,
+"end": 2981.0,
+"text": "who's a very good friend of mine today",
+"conf": -0.26,
+"no_speech": 0.37
+},
+{
+"start": 2981.0,
+"end": 2982.8,
+"text": "about representing him",
+"conf": -0.26,
+"no_speech": 0.37
+},
+{
+"start": 2982.8,
+"end": 2984.9,
+"text": "he's also along with",
+"conf": -0.26,
+"no_speech": 0.37
+},
+{
+"start": 2984.9,
+"end": 2986.8,
+"text": "Frank Vincent representing",
+"conf": -0.26,
+"no_speech": 0.37
+},
+{
+"start": 2986.8,
+"end": 2987.5,
+"text": "Lou River",
+"conf": -0.26,
+"no_speech": 0.37
+},
+{
+"start": 2987.5,
+"end": 2989.5,
+"text": "and the Bill Hundley",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 2989.5,
+"end": 2990.1,
+"text": "improvements.",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 2991.3,
+"end": 2993.3,
+"text": "So John Mitchell, who, frankly,",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 2993.4,
+"end": 2994.8,
+"text": "I introduced to Bill Hundley,",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 2995.0,
+"end": 2996.1,
+"text": "is coming down to",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 2996.1,
+"end": 2998.4,
+"text": "see Bill today.",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 2999.6,
+"end": 3001.4,
+"text": "Bill may not be able to represent",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 3001.4,
+"end": 3003.3,
+"text": "him if he's also representing LaRue,",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 3003.5,
+"end": 3005.1,
+"text": "so there may be a conflict there.",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 3005.6,
+"end": 3007.2,
+"text": "But he's certainly going to talk to me.",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 3009.2,
+"end": 3009.7,
+"text": "Well,",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 3009.9,
+"end": 3013.6,
+"text": "I'm not going to talk to him.",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 3014.4,
+"end": 3015.4,
+"text": "I don't know anything.",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 3015.9,
+"end": 3017.3,
+"text": "I'd say nothing coming today.",
+"conf": -0.38,
+"no_speech": 0.23
+},
+{
+"start": 3017.5,
+"end": 3022.3,
+"text": "what do you mean",
+"conf": -0.42,
+"no_speech": 0.69
+},
+{
+"start": 3022.3,
+"end": 3024.2,
+"text": "we can play all day long",
+"conf": -0.42,
+"no_speech": 0.69
+},
+{
+"start": 3024.2,
+"end": 3026.0,
+"text": "oh no no no",
+"conf": -0.42,
+"no_speech": 0.69
+},
+{
+"start": 3026.0,
+"end": 3031.9,
+"text": "and we will not",
+"conf": -0.42,
+"no_speech": 0.69
+},
+{
+"start": 3031.9,
+"end": 3034.3,
+"text": "until we find out the results",
+"conf": -0.42,
+"no_speech": 0.69
+},
+{
+"start": 3034.3,
+"end": 3034.8,
+"text": "of the conflict",
+"conf": -0.42,
+"no_speech": 0.69
+},
+{
+"start": 3034.8,
+"end": 3039.8,
+"text": "do you think I can go east or something",
+"conf": -0.42,
+"no_speech": 0.69
+},
+{
+"start": 3039.8,
+"end": 3041.9,
+"text": "in case you want to get me off",
+"conf": -0.42,
+"no_speech": 0.69
+},
+{
+"start": 3041.9,
+"end": 3044.6,
+"text": "let me ask you",
+"conf": -0.42,
+"no_speech": 0.69
+},
+{
+"start": 3044.6,
+"end": 3056.8,
+"text": "let me say i'm not holding it up",
+"conf": -0.36,
+"no_speech": 0.56
+},
+{
+"start": 3056.8,
+"end": 3068.1,
+"text": "the point that i make is that it's basically the enemy of this miserable case that of course",
+"conf": -0.36,
+"no_speech": 0.56
+},
+{
+"start": 3068.1,
+"end": 3079.1,
+"text": "Mr. President, let me say this, let me say this, just handle the case right, and remind you to be rest assured of this,",
+"conf": -0.37,
+"no_speech": 0.53
+},
+{
+"start": 3079.1,
+"end": 3086.1,
+"text": "despite all of this crap, we have moved, and I must say that I think that with the best of intentions,",
+"conf": -0.37,
+"no_speech": 0.53
+},
+{
+"start": 3086.1,
+"end": 3094.1,
+"text": "because those are the best of intentions, I think John Dean, I'm afraid was, he was an actor, he was responsible basically,",
+"conf": -0.37,
+"no_speech": 0.53
+},
+{
+"start": 3094.1,
+"end": 3100.1,
+"text": "And, and Frankie's is working with me. That's what you're going to find. That's what he was doing.",
+"conf": -0.44,
+"no_speech": 0.37
+},
+{
+"start": 3100.1,
+"end": 3105.1,
+"text": "And, and the rest over here got their tangential stuff.",
+"conf": -0.44,
+"no_speech": 0.37
+},
+{
+"start": 3105.1,
+"end": 3111.1,
+"text": "But I can assure you that, uh, that might have came with the period of the attorney's fees and so forth.",
+"conf": -0.44,
+"no_speech": 0.37
+},
+{
+"start": 3111.1,
+"end": 3115.1,
+"text": "That, that's really what broke the case when you were coming on to us.",
+"conf": -0.44,
+"no_speech": 0.37
+},
+{
+"start": 3115.1,
+"end": 3120.1,
+"text": "And I got to get Dean and Frankie to come in and say, Jesus Christ, here's all this money.",
+"conf": -0.44,
+"no_speech": 0.37
+},
+{
+"start": 3120.1,
+"end": 3144.0,
+"text": "he said we've got to do something about it, and I said, in fairness, I met with Dean, he never indicated he had anything about the money, but apparently, if there was something about the bill, but he said, he said that in a few years, he said, well, God damn it, John, we've got to get this above him, and he goes to me, and David couldn't write a report, and I turned it over to Haldeman, and I must say, Haldeman did get it above him.",
+"conf": -0.41,
+"no_speech": 0.4
+},
+{
+"start": 3144.0,
+"end": 3155.8,
+"text": "I reached a wire about the same thing he did, because he had to, he called him Saturday noon, and he had to do it Saturday afternoon, and then that was it.",
+"conf": -0.5,
+"no_speech": 0.73
+},
+{
+"start": 3156.5,
+"end": 3158.4,
+"text": "I mean, that Sunday, it's been a long week.",
+"conf": -0.5,
+"no_speech": 0.73
+},
+{
+"start": 3159.3,
+"end": 3161.7,
+"text": "Why don't we take the piece for a moment?",
+"conf": -0.5,
+"no_speech": 0.73
+},
+{
+"start": 3162.6,
+"end": 3172.8,
+"text": "The main thing I want to say, your record must be, your record must be one impeccable going after this.",
+"conf": -0.5,
+"no_speech": 0.73
+},
+{
+"start": 3172.8,
+"end": 3175.2,
+"text": "The Justice Department has handled this case, right?",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3175.5,
+"end": 3176.2,
+"text": "Yes, sir.",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3176.7,
+"end": 3177.1,
+"text": "Absolutely.",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3177.5,
+"end": 3180.6,
+"text": "And even in this period before, you were relying on the U.S.",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3180.6,
+"end": 3184.6,
+"text": "Department of Justice to question them all, right?",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3185.3,
+"end": 3186.1,
+"text": "And the U.S.",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3186.2,
+"end": 3190.4,
+"text": "Department of Justice started with a violence investigation, cooperation, however, if it",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3190.4,
+"end": 3191.3,
+"text": "wasn't for the WCC.",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3191.8,
+"end": 3193.3,
+"text": "So now, the U.S.",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3193.4,
+"end": 3196.1,
+"text": "Department of Justice, they have cooperation with the White House in this period.",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3196.8,
+"end": 3197.4,
+"text": "Or did they not?",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3197.7,
+"end": 3198.3,
+"text": "They were nice.",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3198.5,
+"end": 3202.7,
+"text": "You mean, you know, they, you know, there's a point of being.",
+"conf": -0.56,
+"no_speech": 0.37
+},
+{
+"start": 3202.8,
+"end": 3211.8,
+"text": "Maybe if you question what this is all about, they may think that, if you look back, that it may have been subordination.",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3211.8,
+"end": 3212.8,
+"text": "Okay.",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3212.8,
+"end": 3213.8,
+"text": "Okay.",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3213.8,
+"end": 3214.8,
+"text": "Have a good time.",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3214.8,
+"end": 3216.8,
+"text": "Let me answer your question now.",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3216.8,
+"end": 3217.8,
+"text": "Yes, sir.",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3217.8,
+"end": 3218.8,
+"text": ".",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3218.8,
+"end": 3220.8,
+"text": "I do not answer that, gentlemen.",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3220.8,
+"end": 3223.8,
+"text": "I don't take any conclusions from your mentioning.",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3223.8,
+"end": 3224.8,
+"text": "I know.",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3224.8,
+"end": 3226.8,
+"text": ".",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3226.8,
+"end": 3227.8,
+"text": "All right.",
+"conf": -0.41,
+"no_speech": 0.34
+},
+{
+"start": 3227.8,
+"end": 3257.1,
+"text": "Here's my present day standards, I come out of something that was religiously, only my present day standards, that's fine, and I pray every day that what I do will be right, and what people like me do that affects me will be right, and if that sounds fatalistic, that's what we do, if it comes out that you make me a director, that's fine, if you don't make me a director, that's fine, it's fine.",
+"conf": -0.3,
+"no_speech": 0.32
+},
+{
+"start": 3257.8,
+"end": 3259.8,
+"text": "That's how you eat your off, shall we?",
+"conf": -0.45,
+"no_speech": 0.11
+},
+{
+"start": 3259.8,
+"end": 3261.8,
+"text": "Yes, sir. Thank you so much.",
+"conf": -0.45,
+"no_speech": 0.11
+}
+]
+}

@@ -1,0 +1,28 @@
+{
+"meta": {
+"conv": "894-013",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/894/conversation-894-013",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape894/894-013.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 35,
+"made": "2026-10-11",
+"took_min": 0.6
+},
+"segments": [
+{
+"start": 0.0,
+"end": 29.9,
+"text": "President Nixon speaking with staff.",
+"conf": -0.64,
+"no_speech": 0.18
+},
+{
+"start": 30.0,
+"end": 60.0,
+"text": "Thank you.",
+"conf": -0.29,
+"no_speech": 0.83
+}
+]
+}

@@ -1,0 +1,4396 @@
+{
+"meta": {
+"conv": "881-012",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/881/conversation-881-012",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape881/881-012a.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 2318,
+"made": "2026-10-11",
+"took_min": 20.3
+},
+"segments": [
+{
+"start": 0.0,
+"end": 2.0,
+"text": "Well, to me, they're out there.",
+"conf": -0.39,
+"no_speech": 0.3
+},
+{
+"start": 4.0,
+"end": 10.0,
+"text": "I've seen the Republican Club presidents at Harvard and all the Eastern schools.",
+"conf": -0.39,
+"no_speech": 0.3
+},
+{
+"start": 10.0,
+"end": 12.0,
+"text": "They ask to come in and see the place and so forth.",
+"conf": -0.39,
+"no_speech": 0.3
+},
+{
+"start": 12.0,
+"end": 15.0,
+"text": "They're good people, you know. They're very active.",
+"conf": -0.39,
+"no_speech": 0.3
+},
+{
+"start": 19.0,
+"end": 21.0,
+"text": "They gave you a lot of water.",
+"conf": -0.39,
+"no_speech": 0.3
+},
+{
+"start": 21.0,
+"end": 25.0,
+"text": "I mean, they understand we're interested in the Constitutional question.",
+"conf": -0.39,
+"no_speech": 0.3
+},
+{
+"start": 25.0,
+"end": 31.0,
+"text": "There was a separation of powers, and I explained to you.",
+"conf": -0.46,
+"no_speech": 0.56
+},
+{
+"start": 31.0,
+"end": 36.0,
+"text": "And if we were cooperating, that's very terrible.",
+"conf": -0.46,
+"no_speech": 0.56
+},
+{
+"start": 36.0,
+"end": 38.0,
+"text": "And it made a great deal of sense.",
+"conf": -0.46,
+"no_speech": 0.56
+},
+{
+"start": 38.0,
+"end": 43.0,
+"text": "And you know the famous, if they ever asked one of the Sherman Hatties,",
+"conf": -0.46,
+"no_speech": 0.56
+},
+{
+"start": 43.0,
+"end": 45.0,
+"text": "did you know what the answer is there?",
+"conf": -0.46,
+"no_speech": 0.56
+},
+{
+"start": 45.0,
+"end": 49.0,
+"text": "He was charged. He was charged with a criminal crime.",
+"conf": -0.46,
+"no_speech": 0.56
+},
+{
+"start": 49.0,
+"end": 51.0,
+"text": "There's no charge here.",
+"conf": -0.46,
+"no_speech": 0.56
+},
+{
+"start": 51.0,
+"end": 52.0,
+"text": "Of course not.",
+"conf": -0.46,
+"no_speech": 0.56
+},
+{
+"start": 52.0,
+"end": 54.2,
+"text": "Anybody who's charged here, you're going to have to testify.",
+"conf": -0.47,
+"no_speech": 0.23
+},
+{
+"start": 55.1,
+"end": 59.5,
+"text": "I mean, like, nobody's there to not charge at home, and everybody else is there to do that, correct?",
+"conf": -0.47,
+"no_speech": 0.23
+},
+{
+"start": 59.9,
+"end": 60.1,
+"text": "Correct.",
+"conf": -0.47,
+"no_speech": 0.23
+},
+{
+"start": 60.2,
+"end": 61.0,
+"text": "Same with Dean.",
+"conf": -0.47,
+"no_speech": 0.23
+},
+{
+"start": 61.1,
+"end": 61.8,
+"text": "That's the point.",
+"conf": -0.47,
+"no_speech": 0.23
+},
+{
+"start": 62.4,
+"end": 64.3,
+"text": "We're not going to try to keep anybody away from the check.",
+"conf": -0.47,
+"no_speech": 0.23
+},
+{
+"start": 65.3,
+"end": 68.1,
+"text": "I hit the head today on the cooperation and so forth.",
+"conf": -0.47,
+"no_speech": 0.23
+},
+{
+"start": 68.2,
+"end": 69.2,
+"text": "It's damn hard to get that.",
+"conf": -0.47,
+"no_speech": 0.23
+},
+{
+"start": 71.0,
+"end": 72.2,
+"text": "I was very long with the president.",
+"conf": -0.47,
+"no_speech": 0.23
+},
+{
+"start": 72.4,
+"end": 73.4,
+"text": "How long did they back you up?",
+"conf": -0.47,
+"no_speech": 0.23
+},
+{
+"start": 73.7,
+"end": 77.9,
+"text": "You know, I was rested right on what you had said yesterday.",
+"conf": -0.47,
+"no_speech": 0.23
+},
+{
+"start": 77.9,
+"end": 91.9,
+"text": "They had, and I mentioned the fact that Kleindienst was meeting with the chairman and the banking members, and that seemed to handle things all right.",
+"conf": -0.43,
+"no_speech": 0.05
+},
+{
+"start": 91.9,
+"end": 101.9,
+"text": "And I hit again the cooperation and so forth. They said, did your comment yesterday mean that there would be, you know, no more,",
+"conf": -0.43,
+"no_speech": 0.05
+},
+{
+"start": 101.9,
+"end": 107.9,
+"text": "FBI found I was going to the Fort Nevis address again. I said the President was very clear about that.",
+"conf": -0.37,
+"no_speech": 0.27
+},
+{
+"start": 107.9,
+"end": 111.9,
+"text": "I said, Klein, he's working out with her. How does she handle it?",
+"conf": -0.37,
+"no_speech": 0.27
+},
+{
+"start": 111.9,
+"end": 114.9,
+"text": "Because we want to, the President has made clear we want to cooperate.",
+"conf": -0.37,
+"no_speech": 0.27
+},
+{
+"start": 114.9,
+"end": 119.9,
+"text": "We want to provide the facts. We want to provide relevant information.",
+"conf": -0.37,
+"no_speech": 0.27
+},
+{
+"start": 119.9,
+"end": 121.9,
+"text": "And then I took him to that line.",
+"conf": -0.37,
+"no_speech": 0.27
+},
+{
+"start": 121.9,
+"end": 123.9,
+"text": "Don't you think we're a very sound ground?",
+"conf": -0.37,
+"no_speech": 0.27
+},
+{
+"start": 123.9,
+"end": 125.9,
+"text": "I think so.",
+"conf": -0.37,
+"no_speech": 0.27
+},
+{
+"start": 131.9,
+"end": 161.9,
+"text": "Thank you.",
+"conf": -0.78,
+"no_speech": 0.79
+},
+{
+"start": 161.9,
+"end": 165.9,
+"text": "Um, no children, no parishioners, that's clear. Yes, we did.",
+"conf": -0.55,
+"no_speech": 0.66
+},
+{
+"start": 165.9,
+"end": 169.9,
+"text": "Good. Good. We'll have a D.C. tomorrow.",
+"conf": -0.55,
+"no_speech": 0.66
+},
+{
+"start": 169.9,
+"end": 173.9,
+"text": "We will have a radio tomorrow, later. That's fine.",
+"conf": -0.55,
+"no_speech": 0.66
+},
+{
+"start": 173.9,
+"end": 177.9,
+"text": "I frankly think we've got enough this weekend.",
+"conf": -0.55,
+"no_speech": 0.66
+},
+{
+"start": 177.9,
+"end": 181.9,
+"text": "We'll take a break.",
+"conf": -0.55,
+"no_speech": 0.66
+},
+{
+"start": 181.9,
+"end": 185.9,
+"text": "Mr. President, would you like to come on board? No, I'd like to have Mr. Zegner.",
+"conf": -0.55,
+"no_speech": 0.66
+},
+{
+"start": 185.9,
+"end": 189.9,
+"text": "Mr. Zegner, I'd like to see you again.",
+"conf": -0.55,
+"no_speech": 0.66
+},
+{
+"start": 189.9,
+"end": 194.9,
+"text": "See, the one thing you think of as a gun is that you are good at it.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 194.9,
+"end": 196.9,
+"text": "You'll get it in a three-year, three-year team game.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 196.9,
+"end": 197.9,
+"text": "Thanks, man.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 197.9,
+"end": 198.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 198.9,
+"end": 199.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 199.9,
+"end": 200.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 200.9,
+"end": 201.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 201.9,
+"end": 202.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 202.9,
+"end": 203.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 203.9,
+"end": 204.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 204.9,
+"end": 205.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 205.9,
+"end": 206.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 206.9,
+"end": 207.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 207.9,
+"end": 208.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 208.9,
+"end": 209.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 209.9,
+"end": 210.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 210.9,
+"end": 211.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 211.9,
+"end": 212.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 212.9,
+"end": 213.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 213.9,
+"end": 214.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 214.9,
+"end": 215.9,
+"text": "Thank you.",
+"conf": -0.4,
+"no_speech": 0.77
+},
+{
+"start": 215.9,
+"end": 217.9,
+"text": "I don't know if you've ever listened to it.",
+"conf": -0.56,
+"no_speech": 0.44
+},
+{
+"start": 217.9,
+"end": 219.9,
+"text": "It's not a very safe check.",
+"conf": -0.56,
+"no_speech": 0.44
+},
+{
+"start": 225.9,
+"end": 231.9,
+"text": "Well, my people really respect you very much.",
+"conf": -0.56,
+"no_speech": 0.44
+},
+{
+"start": 231.9,
+"end": 235.9,
+"text": "I'm pretty much giving them all my time.",
+"conf": -0.56,
+"no_speech": 0.44
+},
+{
+"start": 235.9,
+"end": 240.9,
+"text": "I mean, particularly, you know, my brother.",
+"conf": -0.56,
+"no_speech": 0.44
+},
+{
+"start": 240.9,
+"end": 249.9,
+"text": "to get out of here free, except that, uh, that I, uh, I, uh, see what Dr. Kahn would like.",
+"conf": -0.57,
+"no_speech": 0.66
+},
+{
+"start": 249.9,
+"end": 252.9,
+"text": "We'd like coffee, tea, I see very, very important.",
+"conf": -0.57,
+"no_speech": 0.66
+},
+{
+"start": 252.9,
+"end": 254.9,
+"text": "What kind of coffee?",
+"conf": -0.57,
+"no_speech": 0.66
+},
+{
+"start": 254.9,
+"end": 255.9,
+"text": "Just coffee, that's all.",
+"conf": -0.57,
+"no_speech": 0.66
+},
+{
+"start": 255.9,
+"end": 260.9,
+"text": "But I'm trying to, uh, see, uh, how to use coffee.",
+"conf": -0.57,
+"no_speech": 0.66
+},
+{
+"start": 260.9,
+"end": 264.9,
+"text": "Uh, I'm just trying to make sure that you can.",
+"conf": -0.57,
+"no_speech": 0.66
+},
+{
+"start": 264.9,
+"end": 269.9,
+"text": "Well, uh, uh, I'm just trying to think, uh, what he first came out.",
+"conf": -0.57,
+"no_speech": 0.66
+},
+{
+"start": 269.9,
+"end": 275.9,
+"text": "He was great. He came to work. We were back in, we had a talk in New York.",
+"conf": -0.49,
+"no_speech": 0.49
+},
+{
+"start": 275.9,
+"end": 278.9,
+"text": "Oh yeah, that was very much before that.",
+"conf": -0.49,
+"no_speech": 0.49
+},
+{
+"start": 278.9,
+"end": 282.9,
+"text": "Yeah, this was, I think, Bill Barton raised that, do you remember?",
+"conf": -0.49,
+"no_speech": 0.49
+},
+{
+"start": 282.9,
+"end": 284.9,
+"text": "Of course, yeah.",
+"conf": -0.49,
+"no_speech": 0.49
+},
+{
+"start": 284.9,
+"end": 293.9,
+"text": "He was, he mentioned to me, he said, so, I haven't seen him yet.",
+"conf": -0.49,
+"no_speech": 0.49
+},
+{
+"start": 293.9,
+"end": 297.9,
+"text": "He mentioned to me, he said, his value is very good on all these issues.",
+"conf": -0.49,
+"no_speech": 0.49
+},
+{
+"start": 297.9,
+"end": 307.9,
+"text": "He was very excited to meet you. He was absolutely certain that you would be returning to politics even though you weren't sure of it for a long time.",
+"conf": -0.44,
+"no_speech": 0.26
+},
+{
+"start": 307.9,
+"end": 319.9,
+"text": "Let me ask you something first about the Foundation. Are you angry about being banished? Do you need more people? Do you want more?",
+"conf": -0.44,
+"no_speech": 0.26
+},
+{
+"start": 319.9,
+"end": 328.9,
+"text": "We operate on the verge of bankruptcy. We're trying to change our policy to go through the no break.",
+"conf": -0.47,
+"no_speech": 0.11
+},
+{
+"start": 328.9,
+"end": 333.9,
+"text": "The reason for that is we have always spent our money on house sponsored research when they get money coming in.",
+"conf": -0.47,
+"no_speech": 0.11
+},
+{
+"start": 333.9,
+"end": 336.9,
+"text": "Even if they don't have a bank or anything.",
+"conf": -0.47,
+"no_speech": 0.11
+},
+{
+"start": 336.9,
+"end": 342.9,
+"text": "So we upgrade about 2 million a year, which is 1.8 million as contracts, that's not wrong at all.",
+"conf": -0.47,
+"no_speech": 0.11
+},
+{
+"start": 342.9,
+"end": 356.9,
+"text": "What is the situation with regard to, if you do certain studies and so forth, would it be, for example, would it corrupt you at all if you were to undertake any kind of government study?",
+"conf": -0.39,
+"no_speech": 0.27
+},
+{
+"start": 356.9,
+"end": 358.9,
+"text": "We have one third of that now.",
+"conf": -0.39,
+"no_speech": 0.27
+},
+{
+"start": 358.9,
+"end": 360.9,
+"text": "You have one third?",
+"conf": -0.39,
+"no_speech": 0.27
+},
+{
+"start": 360.9,
+"end": 362.9,
+"text": "State, executive office, and the state.",
+"conf": -0.39,
+"no_speech": 0.27
+},
+{
+"start": 362.9,
+"end": 364.9,
+"text": "You have that much?",
+"conf": -0.39,
+"no_speech": 0.27
+},
+{
+"start": 364.9,
+"end": 366.9,
+"text": "I have one third.",
+"conf": -0.39,
+"no_speech": 0.27
+},
+{
+"start": 366.9,
+"end": 368.9,
+"text": "Well, you need a little more.",
+"conf": -0.39,
+"no_speech": 0.27
+},
+{
+"start": 368.9,
+"end": 372.9,
+"text": "No, before we go there, there's two kinds of things we're trying to get at very hard.",
+"conf": -0.33,
+"no_speech": 0.56
+},
+{
+"start": 372.9,
+"end": 375.9,
+"text": "One is to study the song for yourself for the 200th National Orchestra.",
+"conf": -0.33,
+"no_speech": 0.56
+},
+{
+"start": 375.9,
+"end": 376.9,
+"text": "A what?",
+"conf": -0.33,
+"no_speech": 0.56
+},
+{
+"start": 376.9,
+"end": 377.9,
+"text": "To study the song for you.",
+"conf": -0.33,
+"no_speech": 0.56
+},
+{
+"start": 377.9,
+"end": 378.9,
+"text": "Yeah.",
+"conf": -0.33,
+"no_speech": 0.56
+},
+{
+"start": 378.9,
+"end": 379.9,
+"text": "For the 200th National Orchestra.",
+"conf": -0.33,
+"no_speech": 0.56
+},
+{
+"start": 379.9,
+"end": 380.9,
+"text": "Right.",
+"conf": -0.33,
+"no_speech": 0.56
+},
+{
+"start": 380.9,
+"end": 385.9,
+"text": "This is from the National Encyclopedia of Humanities, and it's an attempt to create",
+"conf": -0.33,
+"no_speech": 0.56
+},
+{
+"start": 385.9,
+"end": 392.9,
+"text": "a background in the American people and in the intellectual community and in the elites",
+"conf": -0.33,
+"no_speech": 0.56
+},
+{
+"start": 392.9,
+"end": 397.9,
+"text": "so that when the bicentennial comes around you can make certain kinds of speeches which",
+"conf": -0.33,
+"no_speech": 0.56
+},
+{
+"start": 397.9,
+"end": 399.9,
+"text": "which would be taken seriously.",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 399.9,
+"end": 401.9,
+"text": "Which if you don't create this background,",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 401.9,
+"end": 403.9,
+"text": "it wouldn't have to be taken seriously.",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 403.9,
+"end": 405.9,
+"text": "It's an attempt, in effect, to break the regular",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 405.9,
+"end": 407.9,
+"text": "canvass in the 20th century.",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 407.9,
+"end": 409.9,
+"text": "In the United States, they have one of the oldest.",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 409.9,
+"end": 411.9,
+"text": "Well, I wonder what it would take,",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 411.9,
+"end": 413.9,
+"text": "how long would it take for the project",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 413.9,
+"end": 415.9,
+"text": "to come to life here?",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 415.9,
+"end": 417.9,
+"text": "Well, basically,",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 417.9,
+"end": 419.9,
+"text": "let me share something with you.",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 419.9,
+"end": 421.9,
+"text": "Sure, sure, sure.",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 421.9,
+"end": 423.9,
+"text": "The company that bought this apartment",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 423.9,
+"end": 425.9,
+"text": "that I asked",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 425.9,
+"end": 431.7,
+"text": "earlier in the year, and I'm going to go to the party audience here to show you a small piece of it.",
+"conf": -0.57,
+"no_speech": 0.77
+},
+{
+"start": 432.0,
+"end": 436.8,
+"text": "I'm not sure how much we've got to end on that, but I'm going to talk to you about the Florida House.",
+"conf": -0.57,
+"no_speech": 0.77
+},
+{
+"start": 436.8,
+"end": 455.9,
+"text": "I'm going to talk to you about the Florida House, and I'm going to talk to you about what the",
+"conf": -0.57,
+"no_speech": 0.77
+},
+{
+"start": 455.9,
+"end": 475.0,
+"text": "I think he may be with a bus, if it's convenient.",
+"conf": -0.93,
+"no_speech": 0.79
+},
+{
+"start": 475.0,
+"end": 477.0,
+"text": "and I really was getting my head dragged out of my head.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 477.0,
+"end": 479.0,
+"text": "So now, I'm old now.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 479.0,
+"end": 481.0,
+"text": "Come to the point, this is an idea",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 481.0,
+"end": 483.0,
+"text": "that we're using our personal resources",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 483.0,
+"end": 485.0,
+"text": "to force the place into pollution",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 485.0,
+"end": 487.0,
+"text": "and decision making is getting too tough.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 487.0,
+"end": 489.0,
+"text": "Uh, everything's going wrong.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 489.0,
+"end": 491.0,
+"text": "This is not a worldwide",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 491.0,
+"end": 493.0,
+"text": "belief in intellectuals.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 493.0,
+"end": 495.0,
+"text": "If you stump a young child, literally,",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 495.0,
+"end": 497.0,
+"text": "right from a child in the state of the United States,",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 497.0,
+"end": 499.0,
+"text": "10, 12 years old, and ask him how well he'll live,",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 499.0,
+"end": 501.0,
+"text": "he'll take not as well as you did",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 501.0,
+"end": 503.0,
+"text": "because you used up all the resources.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 503.0,
+"end": 505.0,
+"text": "This is like 2x what you say this time.",
+"conf": -0.42,
+"no_speech": 0.21
+},
+{
+"start": 505.0,
+"end": 511.0,
+"text": "At the universities, 85-90% of people take homophones.",
+"conf": -0.42,
+"no_speech": 0.21
+},
+{
+"start": 511.0,
+"end": 515.0,
+"text": "Now, if you believe this, then everybody you understand is doing God's work.",
+"conf": -0.42,
+"no_speech": 0.21
+},
+{
+"start": 515.0,
+"end": 518.0,
+"text": "Because he's cutting this useless resources.",
+"conf": -0.42,
+"no_speech": 0.21
+},
+{
+"start": 518.0,
+"end": 523.0,
+"text": "Everybody who increases productivity, who works hard, is doing work with them.",
+"conf": -0.42,
+"no_speech": 0.21
+},
+{
+"start": 523.0,
+"end": 529.0,
+"text": "If you believe this, any bureaucrat who slows down a license application is doing God's work.",
+"conf": -0.42,
+"no_speech": 0.21
+},
+{
+"start": 529.0,
+"end": 534.0,
+"text": "See, this is the basic attitude towards recidivism in a culture of society.",
+"conf": -0.39,
+"no_speech": 0.32
+},
+{
+"start": 534.0,
+"end": 538.0,
+"text": "The way we put it is this. Imagine the world's people were on the rise.",
+"conf": -0.39,
+"no_speech": 0.32
+},
+{
+"start": 538.0,
+"end": 541.0,
+"text": "Three billion people. Dying thirst.",
+"conf": -0.39,
+"no_speech": 0.32
+},
+{
+"start": 541.0,
+"end": 546.0,
+"text": "In which you decide to take a shower with a glass of brown water.",
+"conf": -0.39,
+"no_speech": 0.32
+},
+{
+"start": 546.0,
+"end": 548.0,
+"text": "That's the biggest recidivism in the world.",
+"conf": -0.39,
+"no_speech": 0.32
+},
+{
+"start": 548.0,
+"end": 551.0,
+"text": "Now, you can make this picture very persuasive. I normally go through it.",
+"conf": -0.39,
+"no_speech": 0.32
+},
+{
+"start": 551.0,
+"end": 553.0,
+"text": "Explain why it's so persuasive.",
+"conf": -0.39,
+"no_speech": 0.32
+},
+{
+"start": 553.0,
+"end": 556.0,
+"text": "You know, it's the intellectual. And by the way, it is persuasive.",
+"conf": -0.39,
+"no_speech": 0.32
+},
+{
+"start": 556.0,
+"end": 561.0,
+"text": "This is what the picture would need to be correct, from a post-election perspective.",
+"conf": -0.54,
+"no_speech": 0.63
+},
+{
+"start": 561.0,
+"end": 567.0,
+"text": "This should be correct, and if you were to question the aggregates I had to treat, do they keep coming on this side?",
+"conf": -0.54,
+"no_speech": 0.63
+},
+{
+"start": 567.0,
+"end": 569.0,
+"text": "Oh yes, so the aggregates do.",
+"conf": -0.54,
+"no_speech": 0.63
+},
+{
+"start": 569.0,
+"end": 577.0,
+"text": "The aggregates, even if you were to expose it to, say, the CES, I don't think that's that obvious,",
+"conf": -0.54,
+"no_speech": 0.63
+},
+{
+"start": 577.0,
+"end": 580.0,
+"text": "even if the energy came quickly, or if it hit off the environment,",
+"conf": -0.54,
+"no_speech": 0.63
+},
+{
+"start": 580.0,
+"end": 582.0,
+"text": "or if it hit on the water, you know how the energy came about.",
+"conf": -0.54,
+"no_speech": 0.63
+},
+{
+"start": 582.0,
+"end": 584.0,
+"text": "No, he doesn't believe it.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 584.0,
+"end": 586.0,
+"text": "He just doesn't believe it.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 586.0,
+"end": 588.0,
+"text": "That was interesting.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 588.0,
+"end": 598.0,
+"text": "The average person is immune to propaganda on things he thinks he understands.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 598.0,
+"end": 602.0,
+"text": "We found out, for example, during cricket practice.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 602.0,
+"end": 605.0,
+"text": "It was 10 years of domination by the Russians.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 605.0,
+"end": 607.0,
+"text": "There's no saying for them.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 607.0,
+"end": 610.0,
+"text": "If you go to the South of France today, for example,",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 610.0,
+"end": 614.0,
+"text": "They were big Catholics, you know why?",
+"conf": -0.48,
+"no_speech": 0.34
+},
+{
+"start": 614.0,
+"end": 620.0,
+"text": "In the 13th and 12th centuries, the average inheritance was wiped out for the last man,",
+"conf": -0.48,
+"no_speech": 0.34
+},
+{
+"start": 620.0,
+"end": 623.0,
+"text": "and they became Catholics.",
+"conf": -0.48,
+"no_speech": 0.34
+},
+{
+"start": 623.0,
+"end": 627.0,
+"text": "And for 600 years, the Catholic Church, the best propaganda in the world, propaganda",
+"conf": -0.48,
+"no_speech": 0.34
+},
+{
+"start": 627.0,
+"end": 632.0,
+"text": "by those times, it still has to fail.",
+"conf": -0.48,
+"no_speech": 0.34
+},
+{
+"start": 632.0,
+"end": 636.0,
+"text": "Around 2027, you find people are very weak Catholics.",
+"conf": -0.48,
+"no_speech": 0.34
+},
+{
+"start": 636.0,
+"end": 640.0,
+"text": "People are on it. There have been Catholics. There have been strong Catholics.",
+"conf": -0.53,
+"no_speech": 0.61
+},
+{
+"start": 640.0,
+"end": 642.0,
+"text": "Yeah, there's some of them around.",
+"conf": -0.53,
+"no_speech": 0.61
+},
+{
+"start": 642.0,
+"end": 644.0,
+"text": "But I've heard some Catholics are Catholic.",
+"conf": -0.53,
+"no_speech": 0.61
+},
+{
+"start": 644.0,
+"end": 648.0,
+"text": "Well, they've always been more worldly.",
+"conf": -0.53,
+"no_speech": 0.61
+},
+{
+"start": 648.0,
+"end": 649.0,
+"text": "They're not.",
+"conf": -0.53,
+"no_speech": 0.61
+},
+{
+"start": 649.0,
+"end": 651.0,
+"text": "You know, they're not Catholics.",
+"conf": -0.53,
+"no_speech": 0.61
+},
+{
+"start": 651.0,
+"end": 653.0,
+"text": "But I'm talking about their...",
+"conf": -0.53,
+"no_speech": 0.61
+},
+{
+"start": 653.0,
+"end": 654.0,
+"text": "But then they're...",
+"conf": -0.53,
+"no_speech": 0.61
+},
+{
+"start": 654.0,
+"end": 656.0,
+"text": "It actually comes out of here, total control.",
+"conf": -0.53,
+"no_speech": 0.61
+},
+{
+"start": 656.0,
+"end": 659.0,
+"text": "Still, they're not quite true to their life.",
+"conf": -0.53,
+"no_speech": 0.61
+},
+{
+"start": 659.0,
+"end": 662.0,
+"text": "Because when I was a child,",
+"conf": -0.53,
+"no_speech": 0.61
+},
+{
+"start": 662.0,
+"end": 667.0,
+"text": "that basically this was the outside world forcing foreign religion on them.",
+"conf": -0.34,
+"no_speech": 0.3
+},
+{
+"start": 667.0,
+"end": 672.0,
+"text": "You see, and while they could teach their own religion, because it was there,",
+"conf": -0.34,
+"no_speech": 0.3
+},
+{
+"start": 672.0,
+"end": 678.0,
+"text": "they never really done with the foreign religion, as much as you would have thought they would have.",
+"conf": -0.34,
+"no_speech": 0.3
+},
+{
+"start": 678.0,
+"end": 681.0,
+"text": "You have the Sanctuary of the Czech Republic.",
+"conf": -0.34,
+"no_speech": 0.3
+},
+{
+"start": 681.0,
+"end": 685.0,
+"text": "To understand the 68 crisis, you've got to go back basically to 1220.",
+"conf": -0.34,
+"no_speech": 0.3
+},
+{
+"start": 685.0,
+"end": 688.0,
+"text": "The Czech nation was wiped out.",
+"conf": -0.34,
+"no_speech": 0.3
+},
+{
+"start": 688.0,
+"end": 693.0,
+"text": "But it's a big mistake for journalists and Protestants, you see.",
+"conf": -0.44,
+"no_speech": 0.29
+},
+{
+"start": 693.0,
+"end": 695.0,
+"text": "They don't...",
+"conf": -0.44,
+"no_speech": 0.29
+},
+{
+"start": 695.0,
+"end": 698.0,
+"text": "It's the largest communist party in the world outside of Soviet Union.",
+"conf": -0.44,
+"no_speech": 0.29
+},
+{
+"start": 698.0,
+"end": 700.0,
+"text": "A very good communist.",
+"conf": -0.44,
+"no_speech": 0.29
+},
+{
+"start": 700.0,
+"end": 703.0,
+"text": "It's a country which rhetoric and belief have always been separated.",
+"conf": -0.44,
+"no_speech": 0.29
+},
+{
+"start": 703.0,
+"end": 708.0,
+"text": "For 350 years, there's no raw act of Czech history as a group.",
+"conf": -0.44,
+"no_speech": 0.29
+},
+{
+"start": 708.0,
+"end": 710.0,
+"text": "Since 1720.",
+"conf": -0.44,
+"no_speech": 0.29
+},
+{
+"start": 710.0,
+"end": 713.0,
+"text": "They've been fighting for farmers. They've had a lot of good reasons.",
+"conf": -0.44,
+"no_speech": 0.29
+},
+{
+"start": 713.0,
+"end": 716.0,
+"text": "But the visual despite is they're a big hero.",
+"conf": -0.44,
+"no_speech": 0.29
+},
+{
+"start": 716.0,
+"end": 720.0,
+"text": "Like the man who really stands up when he comes in.",
+"conf": -0.39,
+"no_speech": 0.26
+},
+{
+"start": 720.0,
+"end": 722.0,
+"text": "Yeah, yeah, yeah, yeah.",
+"conf": -0.39,
+"no_speech": 0.26
+},
+{
+"start": 722.0,
+"end": 728.0,
+"text": "Well, one of the things here is that the average guy, if you tell him something here at home,",
+"conf": -0.39,
+"no_speech": 0.26
+},
+{
+"start": 728.0,
+"end": 731.0,
+"text": "the guy always seems to believe it, you know, apparently.",
+"conf": -0.39,
+"no_speech": 0.26
+},
+{
+"start": 731.0,
+"end": 733.0,
+"text": "I'm psychotic, but I'll change it.",
+"conf": -0.39,
+"no_speech": 0.26
+},
+{
+"start": 733.0,
+"end": 737.0,
+"text": "The only exception to this is that it's a good thing for us to be able to change a guy around.",
+"conf": -0.39,
+"no_speech": 0.26
+},
+{
+"start": 737.0,
+"end": 740.0,
+"text": "And it does, it's just changing around himself.",
+"conf": -0.39,
+"no_speech": 0.26
+},
+{
+"start": 740.0,
+"end": 749.0,
+"text": "That's why I suppose that the universities in the East, they were governed by people",
+"conf": -0.43,
+"no_speech": 0.1
+},
+{
+"start": 749.0,
+"end": 753.0,
+"text": "whereas across the country it's not quite that different.",
+"conf": -0.43,
+"no_speech": 0.1
+},
+{
+"start": 753.0,
+"end": 754.0,
+"text": "You have to be split.",
+"conf": -0.43,
+"no_speech": 0.1
+},
+{
+"start": 754.0,
+"end": 755.0,
+"text": "Does that tell us something?",
+"conf": -0.43,
+"no_speech": 0.1
+},
+{
+"start": 755.0,
+"end": 756.0,
+"text": "Yeah.",
+"conf": -0.43,
+"no_speech": 0.1
+},
+{
+"start": 756.0,
+"end": 757.0,
+"text": "Well, it's as strong as that.",
+"conf": -0.43,
+"no_speech": 0.1
+},
+{
+"start": 757.0,
+"end": 760.0,
+"text": "There are about 90 million people in academia.",
+"conf": -0.43,
+"no_speech": 0.1
+},
+{
+"start": 760.0,
+"end": 761.0,
+"text": "Not 90 million.",
+"conf": -0.43,
+"no_speech": 0.1
+},
+{
+"start": 761.0,
+"end": 762.0,
+"text": "Not 90 million.",
+"conf": -0.43,
+"no_speech": 0.1
+},
+{
+"start": 762.0,
+"end": 768.0,
+"text": "If you take really prestigious universities, they're about 50-40% of the government.",
+"conf": -0.43,
+"no_speech": 0.1
+},
+{
+"start": 768.0,
+"end": 787.0,
+"text": "If you go to these sort of 5-8 kids who are more land rents for accountants, which is why",
+"conf": -0.79,
+"no_speech": 0.75
+},
+{
+"start": 787.0,
+"end": 789.0,
+"text": "I ordered them, they were about to be the most even.",
+"conf": -0.79,
+"no_speech": 0.75
+},
+{
+"start": 789.0,
+"end": 795.0,
+"text": "We did well there. We did even. It was much better than even.",
+"conf": -0.5,
+"no_speech": 0.69
+},
+{
+"start": 795.0,
+"end": 798.0,
+"text": "I'm talking about when the government first was at its peak.",
+"conf": -0.5,
+"no_speech": 0.69
+},
+{
+"start": 798.0,
+"end": 799.0,
+"text": "Yeah.",
+"conf": -0.5,
+"no_speech": 0.69
+},
+{
+"start": 799.0,
+"end": 801.0,
+"text": "They had more than half of those kids.",
+"conf": -0.5,
+"no_speech": 0.69
+},
+{
+"start": 801.0,
+"end": 805.0,
+"text": "Well, if you go to the non-college kids, it's better than a country college kid.",
+"conf": -0.5,
+"no_speech": 0.69
+},
+{
+"start": 805.0,
+"end": 808.0,
+"text": "The dumbest camp I ever met was the one that the dumbest last time I met.",
+"conf": -0.5,
+"no_speech": 0.69
+},
+{
+"start": 808.0,
+"end": 810.0,
+"text": "It took me to 85% of the young people.",
+"conf": -0.5,
+"no_speech": 0.69
+},
+{
+"start": 810.0,
+"end": 811.0,
+"text": "Yeah.",
+"conf": -0.5,
+"no_speech": 0.69
+},
+{
+"start": 811.0,
+"end": 813.0,
+"text": "We had a brother who kept going everywhere.",
+"conf": -0.5,
+"no_speech": 0.69
+},
+{
+"start": 813.0,
+"end": 815.0,
+"text": "It was crazy. We thought it was crazy.",
+"conf": -0.5,
+"no_speech": 0.69
+},
+{
+"start": 815.0,
+"end": 823.0,
+"text": "The, uh, the fact of putting you in the book, one of our patents was recently published,",
+"conf": -0.77,
+"no_speech": 0.57
+},
+{
+"start": 823.0,
+"end": 829.0,
+"text": "which I think you're going to do a little bit of a movie, but please make a copy of it.",
+"conf": -0.77,
+"no_speech": 0.57
+},
+{
+"start": 829.0,
+"end": 833.0,
+"text": "It's basically the politics of the African Americans.",
+"conf": -0.77,
+"no_speech": 0.57
+},
+{
+"start": 835.0,
+"end": 839.0,
+"text": "Um, John, you're going to have to get into it.",
+"conf": -0.77,
+"no_speech": 0.57
+},
+{
+"start": 839.0,
+"end": 843.0,
+"text": "You're going to have to be a little bit careful, I guess, with what you're talking about.",
+"conf": -0.47,
+"no_speech": 0.46
+},
+{
+"start": 843.0,
+"end": 850.0,
+"text": "No, I'm not. I just want to say that I wanted to listen in on the first part of this,",
+"conf": -0.47,
+"no_speech": 0.46
+},
+{
+"start": 850.0,
+"end": 854.0,
+"text": "because it may involve something that I didn't know about.",
+"conf": -0.47,
+"no_speech": 0.46
+},
+{
+"start": 854.0,
+"end": 857.0,
+"text": "It was a way of studying this that you discussed.",
+"conf": -0.47,
+"no_speech": 0.46
+},
+{
+"start": 857.0,
+"end": 861.0,
+"text": "This is something we want the National Council of Humanities and NSF to support.",
+"conf": -0.47,
+"no_speech": 0.46
+},
+{
+"start": 861.0,
+"end": 866.0,
+"text": "And I may discuss it with you, but I'm not sure that you'd let me go over it very fast.",
+"conf": -0.47,
+"no_speech": 0.46
+},
+{
+"start": 866.0,
+"end": 870.0,
+"text": "We want to do a study for the long-term prospects of mankind.",
+"conf": -0.39,
+"no_speech": 0.4
+},
+{
+"start": 870.0,
+"end": 872.0,
+"text": "We believe we've done it. It's a six-phase study.",
+"conf": -0.39,
+"no_speech": 0.4
+},
+{
+"start": 872.0,
+"end": 875.0,
+"text": "The first phase is already done. It's about a million years. We don't have enough money.",
+"conf": -0.39,
+"no_speech": 0.4
+},
+{
+"start": 875.0,
+"end": 881.0,
+"text": "And this is a study which basically makes it clear that with current technology,",
+"conf": -0.39,
+"no_speech": 0.4
+},
+{
+"start": 881.0,
+"end": 884.0,
+"text": "you can name as far as we can see every problem that comes up.",
+"conf": -0.39,
+"no_speech": 0.4
+},
+{
+"start": 884.0,
+"end": 886.0,
+"text": "You don't have to depend on a group of technology.",
+"conf": -0.39,
+"no_speech": 0.4
+},
+{
+"start": 886.0,
+"end": 889.0,
+"text": "And that's the one idea that we had the spectrum come up with.",
+"conf": -0.39,
+"no_speech": 0.4
+},
+{
+"start": 889.0,
+"end": 893.0,
+"text": "That means we can now get out so we can do cytometry and natural science.",
+"conf": -0.39,
+"no_speech": 0.4
+},
+{
+"start": 893.0,
+"end": 908.0,
+"text": "The second phase I hope to do this year is to do it right, you do the study of the tail,",
+"conf": -0.6,
+"no_speech": 0.44
+},
+{
+"start": 908.0,
+"end": 914.0,
+"text": "as you look at food prospects of the tail, not just grain, you look at living accommodations,",
+"conf": -0.6,
+"no_speech": 0.44
+},
+{
+"start": 914.0,
+"end": 917.0,
+"text": "even settlements, not just densities, but populations.",
+"conf": -0.6,
+"no_speech": 0.44
+},
+{
+"start": 917.0,
+"end": 922.0,
+"text": "Murphy's team is believed to support 20 million people with $20,000 per capita worldwide if you want.",
+"conf": -0.42,
+"no_speech": 0.52
+},
+{
+"start": 922.0,
+"end": 924.0,
+"text": "At low and middle class standards.",
+"conf": -0.42,
+"no_speech": 0.52
+},
+{
+"start": 924.0,
+"end": 927.0,
+"text": "Now let's talk about middle class standards in a second.",
+"conf": -0.42,
+"no_speech": 0.52
+},
+{
+"start": 927.0,
+"end": 929.0,
+"text": "The third case of study that I want to do next year.",
+"conf": -0.42,
+"no_speech": 0.52
+},
+{
+"start": 929.0,
+"end": 931.0,
+"text": "You meet in an event community.",
+"conf": -0.42,
+"no_speech": 0.52
+},
+{
+"start": 931.0,
+"end": 932.0,
+"text": "We've done this before.",
+"conf": -0.42,
+"no_speech": 0.52
+},
+{
+"start": 932.0,
+"end": 936.0,
+"text": "What you do is you have to say, I'm suggesting to people on food issues.",
+"conf": -0.42,
+"no_speech": 0.52
+},
+{
+"start": 936.0,
+"end": 939.0,
+"text": "You pay 25 francs, 25 francs.",
+"conf": -0.42,
+"no_speech": 0.52
+},
+{
+"start": 939.0,
+"end": 942.0,
+"text": "You know, it's a little extreme, so it's really a change of accomplishment.",
+"conf": -0.42,
+"no_speech": 0.52
+},
+{
+"start": 942.0,
+"end": 944.0,
+"text": "You pay $10,000, $5,000, $5,000.",
+"conf": -0.42,
+"no_speech": 0.52
+},
+{
+"start": 944.0,
+"end": 947.0,
+"text": "a third month of each to make presentations for my papers.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 947.0,
+"end": 950.0,
+"text": "You make these people meet before the conference so they talk to each other.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 950.0,
+"end": 953.0,
+"text": "There's no dialogue in that, you know.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 953.0,
+"end": 957.0,
+"text": "You pay another $1,000 to prepare administrative publication.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 957.0,
+"end": 959.0,
+"text": "You build up 50 reviews.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 959.0,
+"end": 961.0,
+"text": "Reviewing has to be technically perfect.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 961.0,
+"end": 963.0,
+"text": "And you reflect on it.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 963.0,
+"end": 966.0,
+"text": "Some of you probably tell me in hospital that all of this is serious.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 966.0,
+"end": 968.0,
+"text": "The way this message is made.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 968.0,
+"end": 972.0,
+"text": "In 75, you do exactly the same thing as our lead leaders.",
+"conf": -0.41,
+"no_speech": 0.57
+},
+{
+"start": 972.0,
+"end": 978.0,
+"text": "That is to say that you paid $2,000 for that president to have a reading on Saturday night for $2,000 for $2,500.",
+"conf": -0.46,
+"no_speech": 0.4
+},
+{
+"start": 978.0,
+"end": 981.0,
+"text": "He was named into the press worldwide.",
+"conf": -0.46,
+"no_speech": 0.4
+},
+{
+"start": 981.0,
+"end": 986.0,
+"text": "Instead he says that if you wish to, you say this is the vice-chairman.",
+"conf": -0.46,
+"no_speech": 0.4
+},
+{
+"start": 986.0,
+"end": 991.0,
+"text": "You will write her back 200 years, which is the vice-chairman.",
+"conf": -0.46,
+"no_speech": 0.4
+},
+{
+"start": 991.0,
+"end": 993.0,
+"text": "You will write her back 100 years.",
+"conf": -0.46,
+"no_speech": 0.4
+},
+{
+"start": 993.0,
+"end": 996.0,
+"text": "You will write her back eight years to the beginning of your administration.",
+"conf": -0.46,
+"no_speech": 0.4
+},
+{
+"start": 996.0,
+"end": 999.0,
+"text": "You will write her back the year 2000, the next 25 years.",
+"conf": -0.46,
+"no_speech": 0.4
+},
+{
+"start": 999.0,
+"end": 1003.0,
+"text": "and share about every single problem that America has today, it can't be settled.",
+"conf": -0.44,
+"no_speech": 0.24
+},
+{
+"start": 1003.0,
+"end": 1006.0,
+"text": "As a result of the policies you just started.",
+"conf": -0.44,
+"no_speech": 0.24
+},
+{
+"start": 1006.0,
+"end": 1008.0,
+"text": "In the next 25 years.",
+"conf": -0.44,
+"no_speech": 0.24
+},
+{
+"start": 1008.0,
+"end": 1010.0,
+"text": "See, he can't do this in 10 years, or in 5 years.",
+"conf": -0.44,
+"no_speech": 0.24
+},
+{
+"start": 1010.0,
+"end": 1012.0,
+"text": "25 years, he always can.",
+"conf": -0.44,
+"no_speech": 0.24
+},
+{
+"start": 1012.0,
+"end": 1013.0,
+"text": "But 25 years...",
+"conf": -0.44,
+"no_speech": 0.24
+},
+{
+"start": 1013.0,
+"end": 1016.0,
+"text": "You know what I hate is, what I would like to have,",
+"conf": -0.44,
+"no_speech": 0.24
+},
+{
+"start": 1016.0,
+"end": 1020.0,
+"text": "the thing that intrigues me about this is the bias in the technical connection.",
+"conf": -0.44,
+"no_speech": 0.24
+},
+{
+"start": 1020.0,
+"end": 1023.0,
+"text": "The fact that this could be ready, and you might have to do it,",
+"conf": -0.44,
+"no_speech": 0.24
+},
+{
+"start": 1023.0,
+"end": 1025.0,
+"text": "but you're on your deadline.",
+"conf": -0.44,
+"no_speech": 0.24
+},
+{
+"start": 1025.0,
+"end": 1027.0,
+"text": "Just admit so to me.",
+"conf": -0.44,
+"no_speech": 0.24
+},
+{
+"start": 1027.0,
+"end": 1035.2,
+"text": "are talking about doing the whole year and buying some contracts and that kind of thing a lot and uh maybe we can create something here",
+"conf": -0.58,
+"no_speech": 0.48
+},
+{
+"start": 1035.2,
+"end": 1040.9,
+"text": "what i would like to see john is to see this kind of a study uh this kind of study finance",
+"conf": -0.58,
+"no_speech": 0.48
+},
+{
+"start": 1041.8,
+"end": 1045.8,
+"text": "et cetera now we have the wherewithal to find out",
+"conf": -0.58,
+"no_speech": 0.48
+},
+{
+"start": 1057.0,
+"end": 1077.0,
+"text": "This is very much a great deal of my money, but it's something that's what I need is, as you know, we need ideas, we need to get into the example that I see from my youth that says you take the energy business and so on.",
+"conf": -0.64,
+"no_speech": 0.65
+},
+{
+"start": 1077.0,
+"end": 1080.0,
+"text": "I was interested in your comments about it.",
+"conf": -0.45,
+"no_speech": 0.46
+},
+{
+"start": 1080.0,
+"end": 1084.0,
+"text": "John is now a sort of man of all words,",
+"conf": -0.45,
+"no_speech": 0.46
+},
+{
+"start": 1084.0,
+"end": 1086.0,
+"text": "and he has to work it out.",
+"conf": -0.45,
+"no_speech": 0.46
+},
+{
+"start": 1086.0,
+"end": 1089.0,
+"text": "Matter of fact, we should use the word crisis",
+"conf": -0.45,
+"no_speech": 0.46
+},
+{
+"start": 1089.0,
+"end": 1091.0,
+"text": "even if I'm used to it once.",
+"conf": -0.45,
+"no_speech": 0.46
+},
+{
+"start": 1091.0,
+"end": 1094.0,
+"text": "The point is that as far as the entity is concerned,",
+"conf": -0.45,
+"no_speech": 0.46
+},
+{
+"start": 1094.0,
+"end": 1096.0,
+"text": "it can't be solved.",
+"conf": -0.45,
+"no_speech": 0.46
+},
+{
+"start": 1096.0,
+"end": 1102.0,
+"text": "But the whole, I think the main thrust",
+"conf": -0.45,
+"no_speech": 0.46
+},
+{
+"start": 1102.0,
+"end": 1105.0,
+"text": "was not what it told about Kennedy,",
+"conf": -0.45,
+"no_speech": 0.46
+},
+{
+"start": 1105.0,
+"end": 1111.0,
+"text": "of what it told about the crisis orientations of American writers and scholars over there.",
+"conf": -0.37,
+"no_speech": 0.53
+},
+{
+"start": 1111.0,
+"end": 1113.0,
+"text": "Everybody knows there has to be a crisis.",
+"conf": -0.37,
+"no_speech": 0.53
+},
+{
+"start": 1113.0,
+"end": 1119.0,
+"text": "And so, to provide an example of this, I mean, today the crisis is food crisis.",
+"conf": -0.37,
+"no_speech": 0.53
+},
+{
+"start": 1119.0,
+"end": 1122.0,
+"text": "Now, food prices are going up. They're going to go higher.",
+"conf": -0.37,
+"no_speech": 0.53
+},
+{
+"start": 1122.0,
+"end": 1124.0,
+"text": "And at the end of the year, they're going to go down.",
+"conf": -0.37,
+"no_speech": 0.53
+},
+{
+"start": 1124.0,
+"end": 1126.0,
+"text": "And, nevertheless, right now, it's a food crisis.",
+"conf": -0.37,
+"no_speech": 0.53
+},
+{
+"start": 1126.0,
+"end": 1129.0,
+"text": "There's ways to do something about the overall state.",
+"conf": -0.37,
+"no_speech": 0.53
+},
+{
+"start": 1129.0,
+"end": 1132.0,
+"text": "Now, why is it today?",
+"conf": -0.37,
+"no_speech": 0.53
+},
+{
+"start": 1132.0,
+"end": 1135.0,
+"text": "Today was a crisis. A month ago it wasn't.",
+"conf": -0.37,
+"no_speech": 0.49
+},
+{
+"start": 1135.0,
+"end": 1138.0,
+"text": "Because a month ago, ah man, about six weeks ago,",
+"conf": -0.37,
+"no_speech": 0.49
+},
+{
+"start": 1138.0,
+"end": 1140.0,
+"text": "the number one subject was still the war.",
+"conf": -0.37,
+"no_speech": 0.49
+},
+{
+"start": 1140.0,
+"end": 1143.0,
+"text": "But the minute the war is over, they've got to have a crisis",
+"conf": -0.37,
+"no_speech": 0.49
+},
+{
+"start": 1143.0,
+"end": 1144.0,
+"text": "until this gets out.",
+"conf": -0.37,
+"no_speech": 0.49
+},
+{
+"start": 1144.0,
+"end": 1146.0,
+"text": "And they don't either.",
+"conf": -0.37,
+"no_speech": 0.49
+},
+{
+"start": 1146.0,
+"end": 1148.0,
+"text": "After that, the water came to make that a crisis.",
+"conf": -0.37,
+"no_speech": 0.49
+},
+{
+"start": 1148.0,
+"end": 1150.0,
+"text": "But the point I'm getting at is,",
+"conf": -0.37,
+"no_speech": 0.49
+},
+{
+"start": 1150.0,
+"end": 1152.0,
+"text": "not that some of them are not legitimate,",
+"conf": -0.37,
+"no_speech": 0.49
+},
+{
+"start": 1152.0,
+"end": 1155.0,
+"text": "but I, I can claim to the fact that, uh,",
+"conf": -0.37,
+"no_speech": 0.49
+},
+{
+"start": 1155.0,
+"end": 1159.0,
+"text": "that, uh, the, that one of the,",
+"conf": -0.37,
+"no_speech": 0.49
+},
+{
+"start": 1159.0,
+"end": 1165.0,
+"text": "Well, it makes a great record. It's a way to charge people up, and it makes great speeches.",
+"conf": -0.29,
+"no_speech": 0.64
+},
+{
+"start": 1165.0,
+"end": 1169.0,
+"text": "I mean, you can talk about, we have a great crisis, and this is the greatest jump we've ever had,",
+"conf": -0.29,
+"no_speech": 0.64
+},
+{
+"start": 1169.0,
+"end": 1172.0,
+"text": "and we've got to get going and get people willing to get charged up.",
+"conf": -0.29,
+"no_speech": 0.64
+},
+{
+"start": 1172.0,
+"end": 1176.0,
+"text": "And they like to be told that everybody likes to think that everything keeps you out of trouble.",
+"conf": -0.29,
+"no_speech": 0.64
+},
+{
+"start": 1176.0,
+"end": 1183.0,
+"text": "Well, that is true, that nevertheless, in terms of what we do, we couldn't make a greater mistake",
+"conf": -0.29,
+"no_speech": 0.64
+},
+{
+"start": 1183.0,
+"end": 1185.0,
+"text": "than to act that way.",
+"conf": -0.29,
+"no_speech": 0.64
+},
+{
+"start": 1185.0,
+"end": 1189.7,
+"text": "Because, and also, I'm not here to tell you why you don't want people to go to sleep.",
+"conf": -0.31,
+"no_speech": 0.28
+},
+{
+"start": 1190.6,
+"end": 1194.3,
+"text": "I don't want them to get excited about the wrong things.",
+"conf": -0.31,
+"no_speech": 0.28
+},
+{
+"start": 1194.7,
+"end": 1199.8,
+"text": "I particularly don't want them to get, and particularly the leader class, this is what we're talking about here,",
+"conf": -0.31,
+"no_speech": 0.28
+},
+{
+"start": 1200.3,
+"end": 1206.0,
+"text": "the leader class of this country is the weakest, most violent, most useless group of people I've ever seen.",
+"conf": -0.31,
+"no_speech": 0.28
+},
+{
+"start": 1206.8,
+"end": 1208.5,
+"text": "I tell you what, I'm going to do an agenda.",
+"conf": -0.31,
+"no_speech": 0.28
+},
+{
+"start": 1208.5,
+"end": 1216.4,
+"text": "because they don't ask the right and the your people should make a study of it you know of course",
+"conf": -0.36,
+"no_speech": 0.72
+},
+{
+"start": 1216.4,
+"end": 1222.7,
+"text": "there's been a lot of sentimental things about the field i had talked before all their fish",
+"conf": -0.36,
+"no_speech": 0.72
+},
+{
+"start": 1222.7,
+"end": 1229.7,
+"text": "each year over now the amazement about these men here's a guy he's gone i spent four years",
+"conf": -0.36,
+"no_speech": 0.72
+},
+{
+"start": 1229.7,
+"end": 1236.6,
+"text": "in solitary never saw another single 240 four years in solitary before they began to see other",
+"conf": -0.36,
+"no_speech": 0.72
+},
+{
+"start": 1236.6,
+"end": 1242.6,
+"text": "people. But they come out, and there's this, there's this strength of character that is actually",
+"conf": -0.55,
+"no_speech": 0.7
+},
+{
+"start": 1242.6,
+"end": 1247.6,
+"text": "could be a shield for the city. But you see, and I think you see the plodding baskets we have",
+"conf": -0.55,
+"no_speech": 0.7
+},
+{
+"start": 1247.6,
+"end": 1252.6,
+"text": "running around here, and it isn't just Wisconsin, it'll be parts of that. The people that come out,",
+"conf": -0.55,
+"no_speech": 0.7
+},
+{
+"start": 1252.6,
+"end": 1257.6,
+"text": "the colors, the universes, and so forth, and it's hard to find that diversity on that backbone.",
+"conf": -0.55,
+"no_speech": 0.7
+},
+{
+"start": 1257.6,
+"end": 1261.6,
+"text": "I should have said right in the, it really is, I was talking about it, but let's face it,",
+"conf": -0.55,
+"no_speech": 0.7
+},
+{
+"start": 1261.6,
+"end": 1263.6,
+"text": "We have a few of one of those.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1263.6,
+"end": 1265.6,
+"text": "We don't know most of them.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1265.6,
+"end": 1268.6,
+"text": "But part of the difference is that this is a trans-United States.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1268.6,
+"end": 1269.6,
+"text": "Yes.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1269.6,
+"end": 1272.6,
+"text": "The people in academia are based in Los Angeles.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1272.6,
+"end": 1274.6,
+"text": "This is a traditional America.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1274.6,
+"end": 1279.6,
+"text": "Sky was the first father, roughly 230 Americans would be in this kind of state.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1279.6,
+"end": 1281.6,
+"text": "This was important to them.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1281.6,
+"end": 1285.6,
+"text": "None of these issues are important to the kids at prestigious universities.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1285.6,
+"end": 1286.6,
+"text": "None.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1286.6,
+"end": 1288.6,
+"text": "None.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1288.6,
+"end": 1289.6,
+"text": "None.",
+"conf": -0.58,
+"no_speech": 0.49
+},
+{
+"start": 1289.6,
+"end": 1294.3,
+"text": "And they said, well, you're not going to live here.",
+"conf": -0.44,
+"no_speech": 0.51
+},
+{
+"start": 1294.5,
+"end": 1297.7,
+"text": "I said, well, you spent six weekends a year to prove you can't spend a living.",
+"conf": -0.44,
+"no_speech": 0.51
+},
+{
+"start": 1297.8,
+"end": 1298.3,
+"text": "They said, no.",
+"conf": -0.44,
+"no_speech": 0.51
+},
+{
+"start": 1298.8,
+"end": 1300.1,
+"text": "I said, you don't know what they put up and talked about.",
+"conf": -0.44,
+"no_speech": 0.51
+},
+{
+"start": 1302.4,
+"end": 1304.5,
+"text": "He said, not these issues are important.",
+"conf": -0.44,
+"no_speech": 0.51
+},
+{
+"start": 1305.1,
+"end": 1306.7,
+"text": "He said, you're going to live in a house without a child.",
+"conf": -0.44,
+"no_speech": 0.51
+},
+{
+"start": 1307.0,
+"end": 1307.4,
+"text": "I said, I know.",
+"conf": -0.44,
+"no_speech": 0.51
+},
+{
+"start": 1308.1,
+"end": 1311.1,
+"text": "They're smart, educated.",
+"conf": -0.44,
+"no_speech": 0.51
+},
+{
+"start": 1312.2,
+"end": 1315.0,
+"text": "They said, they're 20,000 years without a child.",
+"conf": -0.44,
+"no_speech": 0.51
+},
+{
+"start": 1315.9,
+"end": 1316.6,
+"text": "They want a child.",
+"conf": -0.44,
+"no_speech": 0.51
+},
+{
+"start": 1316.7,
+"end": 1317.7,
+"text": "They're going to take care of you for quite a while.",
+"conf": -0.44,
+"no_speech": 0.51
+},
+{
+"start": 1317.7,
+"end": 1320.7,
+"text": "This one is from 1322.",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1320.7,
+"end": 1323.7,
+"text": "All right, here's the other video.",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1323.7,
+"end": 1325.7,
+"text": "Now this, I say it's healthy.",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1325.7,
+"end": 1328.7,
+"text": "Notice the move from Lansing to here is what the Indians did,",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1328.7,
+"end": 1330.7,
+"text": "what the Romans had to do, actually.",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1330.7,
+"end": 1332.7,
+"text": "It's very hard to keep the charismatic out ready",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1332.7,
+"end": 1334.7,
+"text": "for the rich, safe side.",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1334.7,
+"end": 1335.7,
+"text": "Very difficult.",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1335.7,
+"end": 1339.7,
+"text": "And I think the ideal situation is when you get into the 60s",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1339.7,
+"end": 1341.7,
+"text": "and hear the prestigious verses going here,",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1341.7,
+"end": 1344.7,
+"text": "which I don't mind personally, you understand,",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1344.7,
+"end": 1346.7,
+"text": "but it's healthy to go there",
+"conf": -0.45,
+"no_speech": 0.58
+},
+{
+"start": 1346.7,
+"end": 1351.7,
+"text": "The Russians were going here in the early 60s. In the late 60s, they went here.",
+"conf": -0.41,
+"no_speech": 0.35
+},
+{
+"start": 1351.7,
+"end": 1356.7,
+"text": "This is sick. This is sick. This is so, so sick.",
+"conf": -0.41,
+"no_speech": 0.35
+},
+{
+"start": 1356.7,
+"end": 1360.7,
+"text": "Now, I believe you can turn about half of the back.",
+"conf": -0.41,
+"no_speech": 0.35
+},
+{
+"start": 1360.7,
+"end": 1362.7,
+"text": "This is the better way to leave.",
+"conf": -0.41,
+"no_speech": 0.35
+},
+{
+"start": 1362.7,
+"end": 1365.7,
+"text": "The woman is gone. The other woman is gone.",
+"conf": -0.41,
+"no_speech": 0.35
+},
+{
+"start": 1365.7,
+"end": 1367.7,
+"text": "In fact, gone. That is it.",
+"conf": -0.41,
+"no_speech": 0.35
+},
+{
+"start": 1367.7,
+"end": 1370.7,
+"text": "Other than the kids, like I said, they have a serious commitment.",
+"conf": -0.41,
+"no_speech": 0.35
+},
+{
+"start": 1370.7,
+"end": 1372.7,
+"text": "You know, this kind of...",
+"conf": -0.41,
+"no_speech": 0.35
+},
+{
+"start": 1372.7,
+"end": 1374.7,
+"text": "This is the same thing.",
+"conf": -0.41,
+"no_speech": 0.35
+},
+{
+"start": 1374.7,
+"end": 1376.7,
+"text": "It's for American national character.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1376.7,
+"end": 1378.7,
+"text": "My grandfather was here.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1378.7,
+"end": 1380.7,
+"text": "Now if you like him, you put him here.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1380.7,
+"end": 1382.7,
+"text": "If you don't like him, you put him here.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1382.7,
+"end": 1384.7,
+"text": "It's the same policy.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1384.7,
+"end": 1386.7,
+"text": "I was raised here and here.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1386.7,
+"end": 1388.7,
+"text": "Actually, I was raised here, but I didn't say here.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1388.7,
+"end": 1390.7,
+"text": "I didn't say here.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1390.7,
+"end": 1394.7,
+"text": "The university is here and here.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1394.7,
+"end": 1397.7,
+"text": "Now you and I don't get mad if we think it was made like this or this.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1397.7,
+"end": 1400.7,
+"text": "They let themselves be here and here.",
+"conf": -0.28,
+"no_speech": 0.45
+},
+{
+"start": 1400.7,
+"end": 1407.7,
+"text": "You know, now, in the Senate, it's not the private perspective, because some actually are here, and some actually are here.",
+"conf": -0.39,
+"no_speech": 0.57
+},
+{
+"start": 1407.7,
+"end": 1412.7,
+"text": "It's your party's perspective. Parties, it's the way you look at it.",
+"conf": -0.39,
+"no_speech": 0.57
+},
+{
+"start": 1412.7,
+"end": 1416.7,
+"text": "Alright, this is America, right here. These are the prestigious persons.",
+"conf": -0.39,
+"no_speech": 0.57
+},
+{
+"start": 1416.7,
+"end": 1422.7,
+"text": "You see? Now, this is so bad, I think, up here, but even up here, you can't run a country without these guys.",
+"conf": -0.39,
+"no_speech": 0.57
+},
+{
+"start": 1422.7,
+"end": 1424.7,
+"text": "You need these guys to run a country, basically.",
+"conf": -0.39,
+"no_speech": 0.57
+},
+{
+"start": 1424.7,
+"end": 1428.7,
+"text": "See? By the way, mental management is here in our nation, increasingly, mental management.",
+"conf": -0.39,
+"no_speech": 0.57
+},
+{
+"start": 1428.7,
+"end": 1431.9,
+"text": "Yeah, it was kind of different every year. It was running a big organization.",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1431.9,
+"end": 1433.9,
+"text": "It became a big organization for us.",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1433.9,
+"end": 1436.9,
+"text": "I don't really know exactly what you mean.",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1436.9,
+"end": 1441.9,
+"text": "This is where the backbone is. This is where the backbone is here.",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1441.9,
+"end": 1444.9,
+"text": "This was the base of the Kennedy administration.",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1444.9,
+"end": 1446.9,
+"text": "And they went down here. They went down here very fast.",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1446.9,
+"end": 1447.9,
+"text": "See?",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1447.9,
+"end": 1449.9,
+"text": "It's very hard, particularly if you're a producer.",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1449.9,
+"end": 1451.9,
+"text": "And then there's Bobby over here.",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1451.9,
+"end": 1453.9,
+"text": "This is Bobby.",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1453.9,
+"end": 1454.9,
+"text": "Not quite.",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1454.9,
+"end": 1457.9,
+"text": "He's a bug. He's here. He's tough. He's a mess. He's still out here.",
+"conf": -0.48,
+"no_speech": 0.55
+},
+{
+"start": 1457.9,
+"end": 1459.9,
+"text": "They're going to fill up both of them.",
+"conf": -0.41,
+"no_speech": 0.6
+},
+{
+"start": 1459.9,
+"end": 1464.9,
+"text": "He put his deal to the law, but the rest of the market takes on here.",
+"conf": -0.41,
+"no_speech": 0.6
+},
+{
+"start": 1464.9,
+"end": 1467.9,
+"text": "I know, I know, but a lot of this was here.",
+"conf": -0.41,
+"no_speech": 0.6
+},
+{
+"start": 1467.9,
+"end": 1469.9,
+"text": "His supporters were here.",
+"conf": -0.41,
+"no_speech": 0.6
+},
+{
+"start": 1469.9,
+"end": 1471.9,
+"text": "His intellectual supporters were here.",
+"conf": -0.41,
+"no_speech": 0.6
+},
+{
+"start": 1471.9,
+"end": 1478.9,
+"text": "The people who elected the convention were here, except for the minority groups.",
+"conf": -0.41,
+"no_speech": 0.6
+},
+{
+"start": 1478.9,
+"end": 1481.9,
+"text": "The minority groups are on here. They're here.",
+"conf": -0.41,
+"no_speech": 0.6
+},
+{
+"start": 1481.9,
+"end": 1483.9,
+"text": "You know, you buy media, but you blow the price.",
+"conf": -0.41,
+"no_speech": 0.6
+},
+{
+"start": 1483.9,
+"end": 1485.9,
+"text": "They're here.",
+"conf": -0.41,
+"no_speech": 0.6
+},
+{
+"start": 1485.9,
+"end": 1489.2,
+"text": "You see, the good ones are at least for that way.",
+"conf": -0.69,
+"no_speech": 0.67
+},
+{
+"start": 1489.2,
+"end": 1495.6,
+"text": "But since killing the government, there's apparently promptly identified as many supporters as we hear, or hear.",
+"conf": -0.69,
+"no_speech": 0.67
+},
+{
+"start": 1495.6,
+"end": 1497.1,
+"text": "That's really strong.",
+"conf": -0.69,
+"no_speech": 0.67
+},
+{
+"start": 1497.1,
+"end": 1500.7,
+"text": "Yeah. We're trying to work that out. Maybe we can pick up this kind of crime.",
+"conf": -0.69,
+"no_speech": 0.67
+},
+{
+"start": 1500.7,
+"end": 1503.6,
+"text": "Let me just move over. Let me just move over here just a second, by the way.",
+"conf": -0.69,
+"no_speech": 0.67
+},
+{
+"start": 1503.6,
+"end": 1508.4,
+"text": "You haven't really mentioned this before. I did an article about it last week.",
+"conf": -0.69,
+"no_speech": 0.67
+},
+{
+"start": 1508.4,
+"end": 1510.8,
+"text": "And I described it. We don't know the country.",
+"conf": -0.69,
+"no_speech": 0.67
+},
+{
+"start": 1510.8,
+"end": 1514.6,
+"text": "Now, this is the group that I said this was. Yeah, here's this other report.",
+"conf": -0.69,
+"no_speech": 0.67
+},
+{
+"start": 1514.6,
+"end": 1529.6,
+"text": "They took out numbers 2, 3, and 4. They took out 3, and they took out 6 from the list. And they took out 7.",
+"conf": -0.44,
+"no_speech": 0.33
+},
+{
+"start": 1529.6,
+"end": 1531.6,
+"text": "Because that's what happened.",
+"conf": -0.59,
+"no_speech": 0.65
+},
+{
+"start": 1531.6,
+"end": 1533.6,
+"text": "What was that like?",
+"conf": -0.59,
+"no_speech": 0.65
+},
+{
+"start": 1533.6,
+"end": 1537.6,
+"text": "They had three liberal district presidents.",
+"conf": -0.59,
+"no_speech": 0.65
+},
+{
+"start": 1537.6,
+"end": 1540.6,
+"text": "All of them were press congregations.",
+"conf": -0.59,
+"no_speech": 0.65
+},
+{
+"start": 1540.6,
+"end": 1541.6,
+"text": "Right.",
+"conf": -0.59,
+"no_speech": 0.65
+},
+{
+"start": 1541.6,
+"end": 1543.6,
+"text": "And everyone was press presidenciers.",
+"conf": -0.59,
+"no_speech": 0.65
+},
+{
+"start": 1543.6,
+"end": 1546.6,
+"text": "Well, that's the problem with these people here.",
+"conf": -0.59,
+"no_speech": 0.65
+},
+{
+"start": 1546.6,
+"end": 1553.6,
+"text": "And I'm not going to be mad if I develop enough students and become a presidenciary.",
+"conf": -0.59,
+"no_speech": 0.65
+},
+{
+"start": 1553.6,
+"end": 1556.6,
+"text": "That's not fair.",
+"conf": -0.59,
+"no_speech": 0.65
+},
+{
+"start": 1556.6,
+"end": 1563.6,
+"text": "But those listed moves there, I would argue, after about 1955, were the best part of America.",
+"conf": -0.44,
+"no_speech": 0.47
+},
+{
+"start": 1563.6,
+"end": 1566.6,
+"text": "If it's 1960, then that's a disaster.",
+"conf": -0.44,
+"no_speech": 0.47
+},
+{
+"start": 1566.6,
+"end": 1568.6,
+"text": "But in five years, they've changed.",
+"conf": -0.44,
+"no_speech": 0.47
+},
+{
+"start": 1568.6,
+"end": 1573.6,
+"text": "You mean up until 1955, a good deal of what was good in America came from those moves?",
+"conf": -0.44,
+"no_speech": 0.47
+},
+{
+"start": 1573.6,
+"end": 1575.6,
+"text": "Yeah, the leaders won.",
+"conf": -0.44,
+"no_speech": 0.47
+},
+{
+"start": 1575.6,
+"end": 1581.6,
+"text": "They won the university, they won the tribes.",
+"conf": -0.44,
+"no_speech": 0.47
+},
+{
+"start": 1581.6,
+"end": 1611.6,
+"text": "They are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that are considered jobless, they are the kind of people that",
+"conf": -0.12,
+"no_speech": 0.8
+},
+{
+"start": 1611.6,
+"end": 1613.6,
+"text": "They all work with Joy Love Culture.",
+"conf": -0.42,
+"no_speech": 0.25
+},
+{
+"start": 1613.6,
+"end": 1615.6,
+"text": "The whole group is Joy Love Culture now.",
+"conf": -0.42,
+"no_speech": 0.25
+},
+{
+"start": 1615.6,
+"end": 1617.6,
+"text": "You know, the last two columns.",
+"conf": -0.42,
+"no_speech": 0.25
+},
+{
+"start": 1617.6,
+"end": 1619.6,
+"text": "And the country can't take it.",
+"conf": -0.42,
+"no_speech": 0.25
+},
+{
+"start": 1619.6,
+"end": 1622.6,
+"text": "It's not a Joy Love Country, it's you to take it.",
+"conf": -0.42,
+"no_speech": 0.25
+},
+{
+"start": 1622.6,
+"end": 1625.6,
+"text": "Let me ask you for a minute.",
+"conf": -0.42,
+"no_speech": 0.25
+},
+{
+"start": 1625.6,
+"end": 1630.6,
+"text": "At first, what it creates for me is that I've been trying to get something, you know,",
+"conf": -0.42,
+"no_speech": 0.25
+},
+{
+"start": 1630.6,
+"end": 1636.6,
+"text": "to get intellectual content for this whole advice and channel thing.",
+"conf": -0.42,
+"no_speech": 0.25
+},
+{
+"start": 1636.6,
+"end": 1639.6,
+"text": "This could be helpful, because we need several lines up.",
+"conf": -0.42,
+"no_speech": 0.25
+},
+{
+"start": 1639.6,
+"end": 1646.6,
+"text": "But remember, in doing it, we've got to have ways that it's manageable.",
+"conf": -0.39,
+"no_speech": 0.69
+},
+{
+"start": 1646.6,
+"end": 1652.6,
+"text": "You know, this is meant to be the basis of a serious self-examination of the role of America in the century.",
+"conf": -0.39,
+"no_speech": 0.69
+},
+{
+"start": 1652.6,
+"end": 1657.6,
+"text": "Is the role of America only here or in the world?",
+"conf": -0.39,
+"no_speech": 0.69
+},
+{
+"start": 1657.6,
+"end": 1663.6,
+"text": "I tell you what you can say here. You can say that all the problems of the world that relate to wealth and poverty",
+"conf": -0.39,
+"no_speech": 0.69
+},
+{
+"start": 1663.6,
+"end": 1668.6,
+"text": "can result in refugees. Maybe because of the leadership of America and Japan.",
+"conf": -0.39,
+"no_speech": 0.69
+},
+{
+"start": 1668.6,
+"end": 1671.6,
+"text": "to check out the campus and figure out how to do the right things.",
+"conf": -0.46,
+"no_speech": 0.72
+},
+{
+"start": 1671.6,
+"end": 1673.6,
+"text": "They looked like they were going to roll right away.",
+"conf": -0.46,
+"no_speech": 0.72
+},
+{
+"start": 1673.6,
+"end": 1674.6,
+"text": "They looked like they were going to roll back.",
+"conf": -0.46,
+"no_speech": 0.72
+},
+{
+"start": 1674.6,
+"end": 1678.6,
+"text": "I heard what you said about Japan going to the U.S.",
+"conf": -0.46,
+"no_speech": 0.72
+},
+{
+"start": 1678.6,
+"end": 1681.6,
+"text": "They were going to hire a captain from the U.S.",
+"conf": -0.46,
+"no_speech": 0.72
+},
+{
+"start": 1681.6,
+"end": 1683.6,
+"text": "It looks like we're past the end of 1985 now.",
+"conf": -0.46,
+"no_speech": 0.72
+},
+{
+"start": 1683.6,
+"end": 1685.6,
+"text": "I said that about the end of the century now.",
+"conf": -0.46,
+"no_speech": 0.72
+},
+{
+"start": 1685.6,
+"end": 1689.6,
+"text": "What is the advice that you're going to have to hear in the foreign field",
+"conf": -0.46,
+"no_speech": 0.72
+},
+{
+"start": 1694.6,
+"end": 1696.6,
+"text": "first before we get into the foreign field?",
+"conf": -0.46,
+"no_speech": 0.72
+},
+{
+"start": 1696.6,
+"end": 1709.2,
+"text": "John, you see what I'm trying to get at. Could you give, could you, in terms of this, we've got an awful lot of work to do with the rest of the council.",
+"conf": -0.36,
+"no_speech": 0.32
+},
+{
+"start": 1709.4,
+"end": 1718.4,
+"text": "Could you meet at the con organization some of the things that we're, some of the problems, for example, if we're going to be,",
+"conf": -0.36,
+"no_speech": 0.32
+},
+{
+"start": 1718.4,
+"end": 1728.6,
+"text": "I know that another thing about John Terry, like we used to address your subject before,",
+"conf": -0.68,
+"no_speech": 0.35
+},
+{
+"start": 1728.6,
+"end": 1741.2,
+"text": "I don't know if it's time to talk about it, but it's time to get to the point that it's important for the president now",
+"conf": -0.68,
+"no_speech": 0.35
+},
+{
+"start": 1741.2,
+"end": 1745.9,
+"text": "to open a dialogue or some communication with the upper class.",
+"conf": -0.68,
+"no_speech": 0.35
+},
+{
+"start": 1745.9,
+"end": 1761.9,
+"text": "I would say that one of them was, but I don't think it was one of them.",
+"conf": -0.43,
+"no_speech": 0.37
+},
+{
+"start": 1761.9,
+"end": 1765.9,
+"text": "I believe that the biggest failure of your administration is that dialogue.",
+"conf": -0.43,
+"no_speech": 0.37
+},
+{
+"start": 1765.9,
+"end": 1770.9,
+"text": "In some ways it's the only spectacular failure of your administration.",
+"conf": -0.43,
+"no_speech": 0.37
+},
+{
+"start": 1770.9,
+"end": 1771.9,
+"text": "How do you do that?",
+"conf": -0.43,
+"no_speech": 0.37
+},
+{
+"start": 1771.9,
+"end": 1778.9,
+"text": "You have to look at their times. Their times, not yours. They will listen to you in your times.",
+"conf": -0.44,
+"no_speech": 0.35
+},
+{
+"start": 1778.9,
+"end": 1779.9,
+"text": "The first and foremost thing...",
+"conf": -0.44,
+"no_speech": 0.35
+},
+{
+"start": 1779.9,
+"end": 1780.9,
+"text": "You don't give an inch.",
+"conf": -0.44,
+"no_speech": 0.35
+},
+{
+"start": 1780.9,
+"end": 1783.9,
+"text": "You don't give an inch. You don't give an inch.",
+"conf": -0.44,
+"no_speech": 0.35
+},
+{
+"start": 1783.9,
+"end": 1785.9,
+"text": "You don't give an inch.",
+"conf": -0.44,
+"no_speech": 0.35
+},
+{
+"start": 1785.9,
+"end": 1788.9,
+"text": "You don't give an inch.",
+"conf": -0.44,
+"no_speech": 0.35
+},
+{
+"start": 1788.9,
+"end": 1790.9,
+"text": "Not a touch of this.",
+"conf": -0.44,
+"no_speech": 0.35
+},
+{
+"start": 1790.9,
+"end": 1796.9,
+"text": "And not to make it acceptable, you have to admit it's a terrible bit.",
+"conf": -0.44,
+"no_speech": 0.35
+},
+{
+"start": 1796.9,
+"end": 1798.9,
+"text": "But you have to get through.",
+"conf": -0.44,
+"no_speech": 0.35
+},
+{
+"start": 1798.9,
+"end": 1803.9,
+"text": "See, take the act of speech back in the back of the river, like 12 acts, about 69.",
+"conf": -0.35,
+"no_speech": 0.35
+},
+{
+"start": 1803.9,
+"end": 1809.9,
+"text": "If you take out three bad tempered sentences, which are pretty sickly put in there,",
+"conf": -0.35,
+"no_speech": 0.35
+},
+{
+"start": 1809.9,
+"end": 1813.9,
+"text": "or four of them or what's not, that speech is a research document.",
+"conf": -0.35,
+"no_speech": 0.35
+},
+{
+"start": 1813.9,
+"end": 1817.9,
+"text": "You should have seen it before .",
+"conf": -0.35,
+"no_speech": 0.35
+},
+{
+"start": 1817.9,
+"end": 1820.9,
+"text": "Well, you can't afford any bad tempered remarks.",
+"conf": -0.35,
+"no_speech": 0.35
+},
+{
+"start": 1820.9,
+"end": 1823.9,
+"text": "You can't afford any bad tempered remarks.",
+"conf": -0.35,
+"no_speech": 0.35
+},
+{
+"start": 1823.9,
+"end": 1825.9,
+"text": "You just can't afford them.",
+"conf": -0.35,
+"no_speech": 0.35
+},
+{
+"start": 1825.9,
+"end": 1830.6,
+"text": "That speech is easy. I use that speech, and I have to edit out this paragraph, unfortunately.",
+"conf": -0.47,
+"no_speech": 0.4
+},
+{
+"start": 1830.6,
+"end": 1835.5,
+"text": "Then I say, I say to my friends, I say, why are you so angry at this speech?",
+"conf": -0.47,
+"no_speech": 0.4
+},
+{
+"start": 1835.5,
+"end": 1842.4,
+"text": "And one of them is a very funny one. He says, I'll defend to the death, the incorrectness of the speech,",
+"conf": -0.47,
+"no_speech": 0.4
+},
+{
+"start": 1842.4,
+"end": 1848.4,
+"text": "but I'll attack the death's right to make it worse. That's a twist that they use.",
+"conf": -0.47,
+"no_speech": 0.4
+},
+{
+"start": 1848.4,
+"end": 1852.0,
+"text": "But it's a really scary one. That would be to make the speech.",
+"conf": -0.47,
+"no_speech": 0.4
+},
+{
+"start": 1852.0,
+"end": 1857.0,
+"text": "If David had a paragraph out, then I could read publishers I couldn't afford, and I could say,",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 1857.0,
+"end": 1861.0,
+"text": "without the aid of the documentation of the speech, he'd put it in the documentation,",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 1861.0,
+"end": 1864.0,
+"text": "and the American listeners wouldn't see it was right.",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 1864.0,
+"end": 1868.0,
+"text": "But the people who were doing the problem thought it was just an attack on them.",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 1868.0,
+"end": 1870.0,
+"text": "They had no concept that the speech was right.",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 1870.0,
+"end": 1873.0,
+"text": "The editors had no idea they had a sociology where they talked to themselves.",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 1873.0,
+"end": 1876.0,
+"text": "Do you think it would have changed in a few days, in two paragraphs?",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 1876.0,
+"end": 1878.0,
+"text": "No, it doesn't change that at all.",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 1878.0,
+"end": 1881.0,
+"text": "But it makes it possible for me to say that the speech is perfect.",
+"conf": -0.32,
+"no_speech": 0.56
+},
+{
+"start": 1881.0,
+"end": 1887.0,
+"text": "To change that, you have to have good documentation. You have to give examples that are persuasive.",
+"conf": -0.35,
+"no_speech": 0.64
+},
+{
+"start": 1887.0,
+"end": 1894.0,
+"text": "You see, it's not a normal requirement for a newspaper to give documentation. That's a recent issue, a requirement, I'm not sure.",
+"conf": -0.35,
+"no_speech": 0.64
+},
+{
+"start": 1894.0,
+"end": 1898.0,
+"text": "But you have to get through to the New York Times. You can't get through to the New York Review of Books.",
+"conf": -0.35,
+"no_speech": 0.64
+},
+{
+"start": 1898.0,
+"end": 1902.0,
+"text": "You've got to separate the two problems. The New York Review of Books is just going to be there.",
+"conf": -0.35,
+"no_speech": 0.64
+},
+{
+"start": 1902.0,
+"end": 1906.0,
+"text": "It's not going to be, it's not the new world where professionals say we'll change anything there.",
+"conf": -0.35,
+"no_speech": 0.64
+},
+{
+"start": 1906.0,
+"end": 1910.0,
+"text": "So the assumption is that it's a binary concept.",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1910.0,
+"end": 1912.0,
+"text": "Then they have a good circuit.",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1912.0,
+"end": 1914.0,
+"text": "It's an expensive circuit.",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1914.0,
+"end": 1916.0,
+"text": "For the last four years,",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1916.0,
+"end": 1918.0,
+"text": "in 1969, they have been starting",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1918.0,
+"end": 1920.0,
+"text": "these issues for the wrong time.",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1920.0,
+"end": 1922.0,
+"text": "So here's a list of the ten issues",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1922.0,
+"end": 1924.0,
+"text": "which they were trying to watch for us in the wrong time.",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1924.0,
+"end": 1926.0,
+"text": "It's a chart set up.",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1926.0,
+"end": 1928.0,
+"text": "The latest,",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1928.0,
+"end": 1930.0,
+"text": "the time magazine learned that the same",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1930.0,
+"end": 1932.0,
+"text": "as the law was not a code word that had been used.",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1932.0,
+"end": 1934.0,
+"text": "The latest in our time.",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1934.0,
+"end": 1936.0,
+"text": "The latest in our time.",
+"conf": -0.65,
+"no_speech": 0.59
+},
+{
+"start": 1936.0,
+"end": 1938.5,
+"text": "that it was not appropriate to vote on it.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1938.5,
+"end": 1943.0,
+"text": "But the last century survey shows that 81% of people voted for you,",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1943.0,
+"end": 1946.0,
+"text": "voted for pages and morons.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1946.0,
+"end": 1948.0,
+"text": "That's the century survey shows.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1948.0,
+"end": 1950.0,
+"text": "The latest one was a paper that surveyed,",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1950.0,
+"end": 1953.0,
+"text": "argued that people who voted were racist friends, of course.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1953.0,
+"end": 1955.0,
+"text": "We had six senators who were racist friends.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1955.0,
+"end": 1958.0,
+"text": "Now, I was on a talk with Tom Wicker and Frank.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1958.0,
+"end": 1959.5,
+"text": "In both cases, I took that one.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1959.5,
+"end": 1960.5,
+"text": "This was on the platform.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1960.5,
+"end": 1963.0,
+"text": "They didn't have a chance to talk, you know.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1963.0,
+"end": 1964.5,
+"text": "I said, I said, look.",
+"conf": -0.48,
+"no_speech": 0.63
+},
+{
+"start": 1964.5,
+"end": 1966.5,
+"text": "take the rules and throw them in the toilet.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1966.5,
+"end": 1968.5,
+"text": "The other term was perfect.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1968.5,
+"end": 1970.5,
+"text": "Make an accurate survey.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1970.5,
+"end": 1972.5,
+"text": "The first paragraph is the longest paragraph.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1972.5,
+"end": 1974.5,
+"text": "We said the exact opposite.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1974.5,
+"end": 1976.5,
+"text": "That's the other term.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1976.5,
+"end": 1978.5,
+"text": "Now, take the rules and throw them in the toilet.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1978.5,
+"end": 1980.5,
+"text": "It was reported in the accurate survey.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1980.5,
+"end": 1982.5,
+"text": "So they said, look, we've got a survey that notes all the terms you know.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1982.5,
+"end": 1984.5,
+"text": "I said, no, no, read that thing.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1984.5,
+"end": 1986.5,
+"text": "Throw out the first paragraph and the longest paragraph.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1986.5,
+"end": 1988.5,
+"text": "You can find that it's the exact opposite.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1988.5,
+"end": 1990.5,
+"text": "You can call them actively, but they're racist.",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1990.5,
+"end": 1992.5,
+"text": "You see?",
+"conf": -0.4,
+"no_speech": 0.65
+},
+{
+"start": 1992.5,
+"end": 2001.5,
+"text": "It's been easy for them in their times, if you really want to, that they had every one of these nations wrong, and that is so wrong, it sounds great.",
+"conf": -0.45,
+"no_speech": 0.32
+},
+{
+"start": 2001.5,
+"end": 2007.5,
+"text": "Well, that changes in their time, even when they're wrong. That changes them.",
+"conf": -0.45,
+"no_speech": 0.32
+},
+{
+"start": 2007.5,
+"end": 2013.5,
+"text": "You see? And here's the thing, here's the thing, here's the thing, here's the thing.",
+"conf": -0.45,
+"no_speech": 0.32
+},
+{
+"start": 2013.5,
+"end": 2017.5,
+"text": "They've been so dumb that they haven't protected themselves.",
+"conf": -0.45,
+"no_speech": 0.32
+},
+{
+"start": 2017.5,
+"end": 2023.5,
+"text": "I mean, they're so sure that they're right, I mean, that they stuck their neck out through an attack.",
+"conf": -0.44,
+"no_speech": 0.34
+},
+{
+"start": 2023.5,
+"end": 2026.5,
+"text": "Nobody would attack themselves if their heart was shut around.",
+"conf": -0.44,
+"no_speech": 0.34
+},
+{
+"start": 2026.5,
+"end": 2030.5,
+"text": "You live in a cabin here or a cabin there or something like that. They don't know that.",
+"conf": -0.44,
+"no_speech": 0.34
+},
+{
+"start": 2030.5,
+"end": 2033.5,
+"text": "So you can really, you can have a history.",
+"conf": -0.44,
+"no_speech": 0.34
+},
+{
+"start": 2033.5,
+"end": 2038.5,
+"text": "You know, they've lost a sense of that. They take themselves for granted. They don't have a sense of style anymore.",
+"conf": -0.44,
+"no_speech": 0.34
+},
+{
+"start": 2038.5,
+"end": 2041.5,
+"text": "That's fine. That's what they need. You can change it.",
+"conf": -0.44,
+"no_speech": 0.34
+},
+{
+"start": 2041.5,
+"end": 2050.2,
+"text": "He said, you know, when I even talked to him in their terms, he said, I can tell you, I'll talk to you on Pierre Yankovic's poll.",
+"conf": -0.46,
+"no_speech": 0.24
+},
+{
+"start": 2050.8,
+"end": 2052.9,
+"text": "He said, look, Paul, it's Jack Yankovic who's the best in the country.",
+"conf": -0.46,
+"no_speech": 0.24
+},
+{
+"start": 2054.2,
+"end": 2055.2,
+"text": "You pay him a fortune.",
+"conf": -0.46,
+"no_speech": 0.24
+},
+{
+"start": 2056.8,
+"end": 2058.9,
+"text": "He has shown that you've got a trail of the wrong.",
+"conf": -0.46,
+"no_speech": 0.24
+},
+{
+"start": 2060.6,
+"end": 2062.0,
+"text": "Why are you saying that stuff?",
+"conf": -0.46,
+"no_speech": 0.24
+},
+{
+"start": 2062.9,
+"end": 2064.8,
+"text": "Don't say it as if it's a big, busty shit.",
+"conf": -0.46,
+"no_speech": 0.24
+},
+{
+"start": 2064.9,
+"end": 2067.2,
+"text": "I think it's worse if I speak to it and not as a busty.",
+"conf": -0.46,
+"no_speech": 0.24
+},
+{
+"start": 2067.9,
+"end": 2071.3,
+"text": "I started by saying, how many big, busty scars does my team have?",
+"conf": -0.46,
+"no_speech": 0.24
+},
+{
+"start": 2071.5,
+"end": 2075.5,
+"text": "Except that South has no racist issues to consolidate scores, better scores.",
+"conf": -0.49,
+"no_speech": 0.66
+},
+{
+"start": 2075.5,
+"end": 2081.5,
+"text": "How many of you remember the first thing a minister told you when he wanted to save a house?",
+"conf": -0.49,
+"no_speech": 0.66
+},
+{
+"start": 2081.5,
+"end": 2086.5,
+"text": "Better scores. If you checked, the deal would be 5, 10, 30% extra for better scores.",
+"conf": -0.49,
+"no_speech": 0.66
+},
+{
+"start": 2086.5,
+"end": 2091.5,
+"text": "This was the same. It would mean the average tax bill descends to 5% or better scores if necessary.",
+"conf": -0.49,
+"no_speech": 0.66
+},
+{
+"start": 2091.5,
+"end": 2097.5,
+"text": "But many, many nods, thought it would be 5, 10, 30% extra for a particular one.",
+"conf": -0.49,
+"no_speech": 0.66
+},
+{
+"start": 2097.5,
+"end": 2101.5,
+"text": "You see? Alright, it's clear that there's a big man in David's course.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 2101.5,
+"end": 2103.5,
+"text": "But I'll make a second comment.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 2103.5,
+"end": 2105.5,
+"text": "But David's going to be surprised to learn",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 2105.5,
+"end": 2109.5,
+"text": "that if a public policy student was to send people long distances to bad schools,",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 2109.5,
+"end": 2111.5,
+"text": "that somebody would check.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 2111.5,
+"end": 2113.5,
+"text": "David's going to be surprised.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 2113.5,
+"end": 2115.5,
+"text": "Ready to hear David be surprised?",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 2115.5,
+"end": 2117.5,
+"text": "No way, right? That's David.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 2117.5,
+"end": 2119.5,
+"text": "Okay. He doesn't say anything.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 2119.5,
+"end": 2122.5,
+"text": "Happened to me in England. That was the first thing his policy raised.",
+"conf": -0.48,
+"no_speech": 0.75
+},
+{
+"start": 2122.5,
+"end": 2130.5,
+"text": "I'll have to ask a lot of Asian students, my Jewish friends, they still live there, but they still can't afford to go to the stands.",
+"conf": -0.63,
+"no_speech": 0.59
+},
+{
+"start": 2130.5,
+"end": 2133.5,
+"text": "That's because they don't have an education. They've got a shameful role.",
+"conf": -0.63,
+"no_speech": 0.59
+},
+{
+"start": 2133.5,
+"end": 2136.5,
+"text": "Yeah, I understand that. I've also seen the same thing. I remember the people at the schools.",
+"conf": -0.63,
+"no_speech": 0.59
+},
+{
+"start": 2136.5,
+"end": 2137.5,
+"text": "Sure.",
+"conf": -0.63,
+"no_speech": 0.59
+},
+{
+"start": 2137.5,
+"end": 2141.5,
+"text": "I remember that. They don't even catch the people long distances, the basketballs.",
+"conf": -0.63,
+"no_speech": 0.59
+},
+{
+"start": 2141.5,
+"end": 2146.5,
+"text": "They brought the people farther, but it's 74% against busing. It's 29% against segregation.",
+"conf": -0.63,
+"no_speech": 0.59
+},
+{
+"start": 2146.5,
+"end": 2149.5,
+"text": "You find it constantly. They don't.",
+"conf": -0.63,
+"no_speech": 0.59
+},
+{
+"start": 2149.5,
+"end": 2153.5,
+"text": "Why should they have to waste money? Maybe they're decent people.",
+"conf": -0.51,
+"no_speech": 0.56
+},
+{
+"start": 2153.5,
+"end": 2156.5,
+"text": "There you go. Let's see how dumb people can get.",
+"conf": -0.51,
+"no_speech": 0.56
+},
+{
+"start": 2156.5,
+"end": 2160.5,
+"text": "Take an example, like, with this big house in New York City.",
+"conf": -0.51,
+"no_speech": 0.56
+},
+{
+"start": 2160.5,
+"end": 2163.5,
+"text": "The biggest thing is that we now have a situation where",
+"conf": -0.51,
+"no_speech": 0.56
+},
+{
+"start": 2163.5,
+"end": 2167.5,
+"text": "maybe there's 25% people with no class in the state.",
+"conf": -0.51,
+"no_speech": 0.56
+},
+{
+"start": 2167.5,
+"end": 2171.5,
+"text": "The kids go to school, certain kids make no progress.",
+"conf": -0.51,
+"no_speech": 0.56
+},
+{
+"start": 2171.5,
+"end": 2176.5,
+"text": "If you start busting kids out of that school, you're tempted to make a lot of money.",
+"conf": -0.51,
+"no_speech": 0.56
+},
+{
+"start": 2176.5,
+"end": 2182.3,
+"text": "The way they played with us, the school board picked us, we perfectly, satisfactorily played with us.",
+"conf": -0.54,
+"no_speech": 0.34
+},
+{
+"start": 2182.3,
+"end": 2187.4,
+"text": "And we should have had at least segregation. 20% of people was in school, but who do you want?",
+"conf": -0.54,
+"no_speech": 0.34
+},
+{
+"start": 2189.0,
+"end": 2193.2,
+"text": "That was the one thing that started the segregation. We had a successful takeover.",
+"conf": -0.54,
+"no_speech": 0.34
+},
+{
+"start": 2193.2,
+"end": 2195.7,
+"text": "And at this point, the people were doing so sick.",
+"conf": -0.54,
+"no_speech": 0.34
+},
+{
+"start": 2196.7,
+"end": 2201.7,
+"text": "They said, what happens is maybe 10% hate my guts, and 20% are ashamed.",
+"conf": -0.54,
+"no_speech": 0.34
+},
+{
+"start": 2201.7,
+"end": 2205.4,
+"text": "I mean really ashamed, see, because they realized their crime.",
+"conf": -0.54,
+"no_speech": 0.34
+},
+{
+"start": 2205.4,
+"end": 2207.4,
+"text": "I had to go to the voters over here.",
+"conf": -0.45,
+"no_speech": 0.31
+},
+{
+"start": 2207.4,
+"end": 2210.4,
+"text": "They were wrong on every big issue on my list.",
+"conf": -0.45,
+"no_speech": 0.31
+},
+{
+"start": 2210.4,
+"end": 2212.4,
+"text": "I needed to prove it.",
+"conf": -0.45,
+"no_speech": 0.31
+},
+{
+"start": 2212.4,
+"end": 2214.4,
+"text": "Our position is this.",
+"conf": -0.45,
+"no_speech": 0.31
+},
+{
+"start": 2214.4,
+"end": 2217.4,
+"text": "Let me ask you a question.",
+"conf": -0.45,
+"no_speech": 0.31
+},
+{
+"start": 2219.4,
+"end": 2222.4,
+"text": "And I will, I will, uh, uh,",
+"conf": -0.45,
+"no_speech": 0.31
+},
+{
+"start": 2222.4,
+"end": 2224.4,
+"text": "I will reiterate a history that probably cannot,",
+"conf": -0.45,
+"no_speech": 0.31
+},
+{
+"start": 2224.4,
+"end": 2228.4,
+"text": "I cannot prove, but it's just based on my recollections",
+"conf": -0.45,
+"no_speech": 0.31
+},
+{
+"start": 2228.4,
+"end": 2230.4,
+"text": "for a very, very long time.",
+"conf": -0.45,
+"no_speech": 0.31
+},
+{
+"start": 2230.4,
+"end": 2242.4,
+"text": "I was making this point to Captain Denny, he was the first man on the plane, a very thoughtful man.",
+"conf": -0.62,
+"no_speech": 0.55
+},
+{
+"start": 2242.4,
+"end": 2247.4,
+"text": "He was seven years and a half there, not just four years, but so many years old.",
+"conf": -0.62,
+"no_speech": 0.55
+},
+{
+"start": 2247.4,
+"end": 2249.4,
+"text": "I was impressed with those guys.",
+"conf": -0.62,
+"no_speech": 0.55
+},
+{
+"start": 2249.4,
+"end": 2257.4,
+"text": "But then he's going to write a book, and probably won't sell it, because he's going to write about some strange things.",
+"conf": -0.58,
+"no_speech": 0.69
+},
+{
+"start": 2257.4,
+"end": 2266.4,
+"text": "He's going to write about what he sees about his country, and what he sees through the environment.",
+"conf": -0.58,
+"no_speech": 0.69
+},
+{
+"start": 2266.4,
+"end": 2274.4,
+"text": "And he believes that he left the country and left the world, and he said he had to go now.",
+"conf": -0.58,
+"no_speech": 0.69
+},
+{
+"start": 2274.4,
+"end": 2283.4,
+"text": "He said he saw it going in because he'd read it and he didn't have to go to the beach to do a thing in Berkeley and all the rest of it started in 64, 65, 65, he was catching it.",
+"conf": -0.6,
+"no_speech": 0.34
+},
+{
+"start": 2283.4,
+"end": 2285.4,
+"text": "So here he is, he's back.",
+"conf": -0.6,
+"no_speech": 0.34
+},
+{
+"start": 2285.4,
+"end": 2291.4,
+"text": "And he, uh, when he wrote this, he's kind of writing it.",
+"conf": -0.6,
+"no_speech": 0.34
+},
+{
+"start": 2291.4,
+"end": 2295.4,
+"text": "I mean, it may still go in, it may be quite a remarkable document.",
+"conf": -0.6,
+"no_speech": 0.34
+},
+{
+"start": 2295.4,
+"end": 2297.4,
+"text": "It's very thoughtful, I have to say.",
+"conf": -0.6,
+"no_speech": 0.34
+},
+{
+"start": 2297.4,
+"end": 2304.4,
+"text": "And the point that I made to him, I said, we've got to write you a book for what you're talking to.",
+"conf": -0.45,
+"no_speech": 0.33
+},
+{
+"start": 2305.4,
+"end": 2312.5,
+"text": "And he said, well, I'm going to write a book for basically what I mean.",
+"conf": -0.45,
+"no_speech": 0.33
+},
+{
+"start": 2312.7,
+"end": 2315.7,
+"text": "He didn't choose the word commonly, but he liked the common theme the most.",
+"conf": -0.45,
+"no_speech": 0.33
+}
+]
+}

@@ -1,0 +1,602 @@
+{
+"meta": {
+"conv": "359-004",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/359/conversation-359-004",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape359/359-004.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 339,
+"made": "2026-10-11",
+"took_min": 2.6
+},
+"segments": [
+{
+"start": 0.0,
+"end": 2.0,
+"text": "Well, what's the deal today?",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 2.0,
+"end": 4.0,
+"text": "Well, I think the, uh, I gotta run over here.",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 4.0,
+"end": 6.0,
+"text": "Sorry, that's what I was gonna say.",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 6.0,
+"end": 8.0,
+"text": "So wait, the news, uh,",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 8.0,
+"end": 10.0,
+"text": "is still, of course,",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 10.0,
+"end": 12.0,
+"text": "the next story is still the Middle East.",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 12.0,
+"end": 14.0,
+"text": "Great.",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 14.0,
+"end": 16.0,
+"text": "The back stuff is not gonna be good.",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 16.0,
+"end": 18.0,
+"text": "No, don't make any, you're not good,",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 18.0,
+"end": 20.0,
+"text": "we're not good at anything yet.",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 20.0,
+"end": 22.0,
+"text": "No, I pulled another one back today, a good one.",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 22.0,
+"end": 24.0,
+"text": "I just killed it because",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 24.0,
+"end": 26.0,
+"text": "the government versus the government,",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 26.0,
+"end": 28.0,
+"text": "because I'm sure they would have done awesome.",
+"conf": -0.44,
+"no_speech": 0.43
+},
+{
+"start": 28.0,
+"end": 32.0,
+"text": "With the Israelis going in the weatherman, a raid started.",
+"conf": -0.5,
+"no_speech": 0.25
+},
+{
+"start": 32.0,
+"end": 37.0,
+"text": "A raid, bizarre, without a week in us.",
+"conf": -0.5,
+"no_speech": 0.25
+},
+{
+"start": 37.0,
+"end": 42.0,
+"text": "And I was thinking, so they don't crack the tape, they can just take the country.",
+"conf": -0.5,
+"no_speech": 0.25
+},
+{
+"start": 47.0,
+"end": 49.0,
+"text": "But I think that that's still stirring.",
+"conf": -0.5,
+"no_speech": 0.25
+},
+{
+"start": 49.0,
+"end": 52.0,
+"text": "And it's been, I don't know, it's been a question of what I should do with it.",
+"conf": -0.5,
+"no_speech": 0.25
+},
+{
+"start": 52.0,
+"end": 53.0,
+"text": "What does that have to do with it?",
+"conf": -0.5,
+"no_speech": 0.25
+},
+{
+"start": 53.0,
+"end": 56.9,
+"text": "And let them, frankly, the whole week is just,",
+"conf": -0.45,
+"no_speech": 0.06
+},
+{
+"start": 57.1,
+"end": 58.7,
+"text": "it's usually a killer of a government.",
+"conf": -0.45,
+"no_speech": 0.06
+},
+{
+"start": 58.8,
+"end": 59.9,
+"text": "I mean, that's great.",
+"conf": -0.45,
+"no_speech": 0.06
+},
+{
+"start": 60.6,
+"end": 62.2,
+"text": "Harris this morning called and said,",
+"conf": -0.45,
+"no_speech": 0.06
+},
+{
+"start": 62.4,
+"end": 65.4,
+"text": "you're so lucky, he said,",
+"conf": -0.45,
+"no_speech": 0.06
+},
+{
+"start": 65.5,
+"end": 67.8,
+"text": "this is just taking everybody's minds off the campaign.",
+"conf": -0.45,
+"no_speech": 0.06
+},
+{
+"start": 68.0,
+"end": 69.0,
+"text": "He said, well, why did that happen?",
+"conf": -0.45,
+"no_speech": 0.06
+},
+{
+"start": 69.1,
+"end": 70.4,
+"text": "He said, well, there are a few others.",
+"conf": -0.45,
+"no_speech": 0.06
+},
+{
+"start": 70.9,
+"end": 74.0,
+"text": "He's got a fascinating piece.",
+"conf": -0.45,
+"no_speech": 0.06
+},
+{
+"start": 83.0,
+"end": 111.0,
+"text": "I don't care who, exactly, I want you to put something down, I want you to tell me,",
+"conf": -0.59,
+"no_speech": 0.41
+},
+{
+"start": 111.0,
+"end": 122.0,
+"text": "I want Conley to defend it now. I'm so glad he didn't burp in here or anything, but you know, God, and I want him to defend it.",
+"conf": -0.47,
+"no_speech": 0.17
+},
+{
+"start": 122.0,
+"end": 126.0,
+"text": "Who's gonna do it? I want somebody that's the best guy in the nation to do it.",
+"conf": -0.47,
+"no_speech": 0.17
+},
+{
+"start": 126.0,
+"end": 128.0,
+"text": "He'll say something.",
+"conf": -0.47,
+"no_speech": 0.17
+},
+{
+"start": 132.0,
+"end": 137.0,
+"text": "How about having it, how about having it done even on a given night?",
+"conf": -0.47,
+"no_speech": 0.17
+},
+{
+"start": 137.0,
+"end": 139.0,
+"text": "No, I don't think so.",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 139.0,
+"end": 143.0,
+"text": "But, uh, keep somebody up in the Congress with David Dillon.",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 143.0,
+"end": 145.0,
+"text": "Put the men in power.",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 145.0,
+"end": 147.0,
+"text": "Power?",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 147.0,
+"end": 149.0,
+"text": "Power.",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 149.0,
+"end": 151.0,
+"text": "Right.",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 151.0,
+"end": 153.0,
+"text": "But if Woodrow is safe,",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 153.0,
+"end": 155.0,
+"text": "What's he doing?",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 155.0,
+"end": 157.0,
+"text": "I don't know, but he said,",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 157.0,
+"end": 159.0,
+"text": "I would be upset if I had his support,",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 159.0,
+"end": 161.0,
+"text": "and I'd be worried about my in-campus",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 161.0,
+"end": 163.0,
+"text": "if I had his support and not have him in Texas.",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 163.0,
+"end": 165.0,
+"text": "So he can cheat on Dallas.",
+"conf": -0.52,
+"no_speech": 0.66
+},
+{
+"start": 165.0,
+"end": 170.0,
+"text": "That's complicated. I think he's trying to set a profile to secure a chance to handle it in the world.",
+"conf": -0.61,
+"no_speech": 0.16
+},
+{
+"start": 170.0,
+"end": 174.0,
+"text": "Well, Kotler says that there's one mistake he's going to carry, which is, you know, he's determined.",
+"conf": -0.61,
+"no_speech": 0.16
+},
+{
+"start": 174.0,
+"end": 177.0,
+"text": "But where would he head to, sir?",
+"conf": -0.61,
+"no_speech": 0.16
+},
+{
+"start": 177.0,
+"end": 183.0,
+"text": "The other significant news is, well, Scott, the defenseman, Scott did very well.",
+"conf": -0.61,
+"no_speech": 0.16
+},
+{
+"start": 183.0,
+"end": 189.0,
+"text": "He came out of the leadership meeting. He did extremely well.",
+"conf": -0.61,
+"no_speech": 0.16
+},
+{
+"start": 189.0,
+"end": 191.0,
+"text": "And he did very well.",
+"conf": -0.61,
+"no_speech": 0.16
+},
+{
+"start": 191.0,
+"end": 195.4,
+"text": "I was going to hit it in the deck, but he didn't realize it.",
+"conf": -0.55,
+"no_speech": 0.43
+},
+{
+"start": 195.4,
+"end": 199.2,
+"text": "Everybody knows that there would be a tax increase on the government,",
+"conf": -0.55,
+"no_speech": 0.43
+},
+{
+"start": 199.2,
+"end": 201.0,
+"text": "and there would be no tax increase on the government.",
+"conf": -0.55,
+"no_speech": 0.43
+},
+{
+"start": 201.0,
+"end": 204.2,
+"text": "Actually, even Scott, he was going to comment on it.",
+"conf": -0.55,
+"no_speech": 0.43
+},
+{
+"start": 204.2,
+"end": 207.2,
+"text": "He said it's a terrible damn thing, a vicious thing.",
+"conf": -0.55,
+"no_speech": 0.43
+},
+{
+"start": 207.9,
+"end": 209.4,
+"text": "Call the court.",
+"conf": -0.55,
+"no_speech": 0.43
+},
+{
+"start": 209.6,
+"end": 212.7,
+"text": "I mean, you know, we're going to get it done.",
+"conf": -0.55,
+"no_speech": 0.43
+},
+{
+"start": 213.0,
+"end": 215.1,
+"text": "I'm about several people to speak up.",
+"conf": -0.55,
+"no_speech": 0.43
+},
+{
+"start": 215.1,
+"end": 245.1,
+"text": "Thank you.",
+"conf": -0.74,
+"no_speech": 0.89
+},
+{
+"start": 245.1,
+"end": 251.1,
+"text": "I told the whole agent if I wanted to, he doesn't know how to tell me I'm not going to have these snares.",
+"conf": -0.54,
+"no_speech": 0.66
+},
+{
+"start": 251.1,
+"end": 253.1,
+"text": "You've got to get down hard, Chuck, with the snares.",
+"conf": -0.54,
+"no_speech": 0.66
+},
+{
+"start": 253.1,
+"end": 255.1,
+"text": "You don't want to be staring at your mother.",
+"conf": -0.54,
+"no_speech": 0.66
+},
+{
+"start": 255.1,
+"end": 257.1,
+"text": "Yeah, that's coming through.",
+"conf": -0.54,
+"no_speech": 0.66
+},
+{
+"start": 257.1,
+"end": 262.1,
+"text": "This little nader, the nader in town, he's here today.",
+"conf": -0.54,
+"no_speech": 0.66
+},
+{
+"start": 262.1,
+"end": 265.1,
+"text": "All right, he may be over at your service.",
+"conf": -0.54,
+"no_speech": 0.66
+},
+{
+"start": 265.1,
+"end": 268.1,
+"text": "I told him to go right in and take him around.",
+"conf": -0.54,
+"no_speech": 0.66
+},
+{
+"start": 268.1,
+"end": 272.1,
+"text": "All right, I'll give you a chance to see something.",
+"conf": -0.54,
+"no_speech": 0.66
+},
+{
+"start": 272.1,
+"end": 273.1,
+"text": "All right.",
+"conf": -0.54,
+"no_speech": 0.66
+},
+{
+"start": 273.1,
+"end": 282.1,
+"text": "He said that it really, the government really offended a lot of people this week by seeking to make political capital out of the Supreme Court.",
+"conf": -0.44,
+"no_speech": 0.32
+},
+{
+"start": 282.1,
+"end": 290.1,
+"text": "He said the way he jumped out of the coach was right on his decision to tell people he was trying to make political mileage out of the church.",
+"conf": -0.44,
+"no_speech": 0.32
+},
+{
+"start": 290.1,
+"end": 294.1,
+"text": "He said that really just saw an adverse effect, didn't it?",
+"conf": -0.44,
+"no_speech": 0.32
+},
+{
+"start": 294.1,
+"end": 296.1,
+"text": "He said that really affected the Jews.",
+"conf": -0.44,
+"no_speech": 0.32
+},
+{
+"start": 296.1,
+"end": 299.1,
+"text": "They are pretty funny that way.",
+"conf": -0.44,
+"no_speech": 0.32
+},
+{
+"start": 299.1,
+"end": 302.5,
+"text": "Well, I got as much as I'm going to do.",
+"conf": -0.47,
+"no_speech": 0.1
+},
+{
+"start": 302.8,
+"end": 307.1,
+"text": "I don't think a country can turn on these people just for a time.",
+"conf": -0.47,
+"no_speech": 0.1
+},
+{
+"start": 308.0,
+"end": 309.9,
+"text": "Northern Ireland's getting killed every day.",
+"conf": -0.47,
+"no_speech": 0.1
+},
+{
+"start": 310.1,
+"end": 313.4,
+"text": "If you did more, you would look like you were free.",
+"conf": -0.47,
+"no_speech": 0.1
+},
+{
+"start": 313.8,
+"end": 315.8,
+"text": "You'd probably do it later, right?",
+"conf": -0.47,
+"no_speech": 0.1
+},
+{
+"start": 316.8,
+"end": 321.3,
+"text": "That was a sheriff who was a perceptive guy.",
+"conf": -0.47,
+"no_speech": 0.1
+},
+{
+"start": 321.5,
+"end": 325.4,
+"text": "He said, look like this son of a bitch is trying to get a little bit of a problem in this.",
+"conf": -0.47,
+"no_speech": 0.1
+},
+{
+"start": 329.1,
+"end": 359.1,
+"text": "Thank you.",
+"conf": -0.42,
+"no_speech": 0.78
+}
+]
+}

@@ -1,0 +1,266 @@
+{
+"meta": {
+"conv": "768-024",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/768/conversation-768-024",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape768/768-024a.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 149,
+"made": "2026-10-11",
+"took_min": 1.9
+},
+"segments": [
+{
+"start": 0.0,
+"end": 30.0,
+"text": "President Nixon speaking with staff.",
+"conf": -0.54,
+"no_speech": 0.1
+},
+{
+"start": 30.0,
+"end": 33.6,
+"text": "I'm going to get it back to you.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 34.2,
+"end": 34.6,
+"text": "Yeah.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 36.5,
+"end": 37.5,
+"text": "You see his plan?",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 38.6,
+"end": 39.0,
+"text": "Oh, sure.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 39.4,
+"end": 44.5,
+"text": "No, by the way, he had a skillful public relations plan.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 44.7,
+"end": 45.2,
+"text": "I'm talking to you.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 45.4,
+"end": 46.0,
+"text": "Oh, no.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 52.1,
+"end": 52.5,
+"text": "Yeah.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 52.9,
+"end": 53.3,
+"text": "Yeah.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 53.9,
+"end": 54.3,
+"text": "Yeah.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 54.6,
+"end": 55.2,
+"text": "The rest of it.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 55.9,
+"end": 57.1,
+"text": "Man, I bet most of that will work.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 57.5,
+"end": 57.9,
+"text": "All right.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 58.0,
+"end": 58.3,
+"text": "All right.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 58.6,
+"end": 59.5,
+"text": "All right.",
+"conf": -0.67,
+"no_speech": 0.75
+},
+{
+"start": 60.0,
+"end": 62.0,
+"text": "Have you been waiting an hour?",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 62.0,
+"end": 64.0,
+"text": "Sir?",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 64.0,
+"end": 66.0,
+"text": "Do you know where to go?",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 66.0,
+"end": 68.0,
+"text": "Oh, I don't know.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 68.0,
+"end": 70.0,
+"text": "Have you had lunch?",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 70.0,
+"end": 72.0,
+"text": "I have had lunch.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 74.0,
+"end": 76.0,
+"text": "Looking grand.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 76.0,
+"end": 78.0,
+"text": "Now wait a minute.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 78.0,
+"end": 80.0,
+"text": "There's the education bill.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 80.0,
+"end": 82.0,
+"text": "Oh, thank you.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 82.0,
+"end": 84.0,
+"text": "Oh, thank you.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 84.0,
+"end": 86.0,
+"text": "Oh, thank you.",
+"conf": -0.44,
+"no_speech": 0.56
+},
+{
+"start": 86.0,
+"end": 113.6,
+"text": "I hope it's good.",
+"conf": -0.53,
+"no_speech": 0.72
+},
+{
+"start": 113.6,
+"end": 114.9,
+"text": "Let's put it that way.",
+"conf": -0.53,
+"no_speech": 0.72
+},
+{
+"start": 114.9,
+"end": 118.0,
+"text": "You know, we're always, we're always, we're done.",
+"conf": -0.45,
+"no_speech": 0.1
+},
+{
+"start": 120.0,
+"end": 122.6,
+"text": "You'll find out half a century later.",
+"conf": -0.45,
+"no_speech": 0.1
+},
+{
+"start": 123.4,
+"end": 127.6,
+"text": "But, you know, there have been four such pieces of legislation in the history of Congress.",
+"conf": -0.45,
+"no_speech": 0.1
+},
+{
+"start": 127.6,
+"end": 136.5,
+"text": "There's the 1787 Morrell Act, the National Defense Education Act.",
+"conf": -0.45,
+"no_speech": 0.1
+},
+{
+"start": 137.2,
+"end": 139.5,
+"text": "So, you know, I mean, it's really marked this good.",
+"conf": -0.45,
+"no_speech": 0.1
+},
+{
+"start": 144.9,
+"end": 174.8,
+"text": "Thanks for watching!",
+"conf": -0.48,
+"no_speech": 0.85
+}
+]
+}

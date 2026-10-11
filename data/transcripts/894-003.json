@@ -1,0 +1,399 @@
+{
+"meta": {
+"conv": "894-003",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/894/conversation-894-003",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape894/894-003.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 243,
+"made": "2026-10-11",
+"took_min": 2.9
+},
+"segments": [
+{
+"start": 0.0,
+"end": 21.6,
+"text": "I just want to add one thing to it. If you ask, should it begin with a briefing and then to a story, yes. I didn't put that in there, but just, that gives everybody a chance to speak. There isn't that much controversy.",
+"conf": -0.53,
+"no_speech": 0.33
+},
+{
+"start": 21.6,
+"end": 31.6,
+"text": "That's right, I would listen and I wouldn't give any instructions because the only contentious",
+"conf": -0.35,
+"no_speech": 0.39
+},
+{
+"start": 31.6,
+"end": 36.6,
+"text": "items are tricky ones which I'd like to perhaps discuss with you.",
+"conf": -0.35,
+"no_speech": 0.39
+},
+{
+"start": 36.6,
+"end": 42.6,
+"text": "Sometime today, we have had the chance now, I'd like to discuss with you this problem",
+"conf": -0.35,
+"no_speech": 0.39
+},
+{
+"start": 42.6,
+"end": 43.6,
+"text": "of...",
+"conf": -0.35,
+"no_speech": 0.39
+},
+{
+"start": 51.6,
+"end": 58.6,
+"text": "... such as the planned state of the Middle East after the Lebanese raid.",
+"conf": -0.32,
+"no_speech": 0.75
+},
+{
+"start": 58.6,
+"end": 62.6,
+"text": "On the other hand, did we let these guys drive us off?",
+"conf": -0.32,
+"no_speech": 0.75
+},
+{
+"start": 62.6,
+"end": 66.6,
+"text": "Let me ask you this, and let's come back to that a little later.",
+"conf": -0.32,
+"no_speech": 0.75
+},
+{
+"start": 66.6,
+"end": 70.6,
+"text": "On this meeting with regard to the schedule on Monday,",
+"conf": -0.32,
+"no_speech": 0.75
+},
+{
+"start": 70.6,
+"end": 72.6,
+"text": "I get the feeling I was a little bit concerned about it,",
+"conf": -0.32,
+"no_speech": 0.75
+},
+{
+"start": 72.6,
+"end": 77.6,
+"text": "so I revealed to you a little bit too much that by three or four hours,",
+"conf": -0.32,
+"no_speech": 0.75
+},
+{
+"start": 77.6,
+"end": 83.6,
+"text": "informing them, you know, that it's so cold, meeting the Jewish leaders and so forth, you know what I mean?",
+"conf": -0.44,
+"no_speech": 0.66
+},
+{
+"start": 83.6,
+"end": 89.6,
+"text": "Well, it doesn't have to be done today. It can't be done Monday anyway. We have to move it to Wednesday.",
+"conf": -0.44,
+"no_speech": 0.66
+},
+{
+"start": 89.6,
+"end": 94.6,
+"text": "Because of Passover, we forgot about that. Wednesday or Thursday.",
+"conf": -0.44,
+"no_speech": 0.66
+},
+{
+"start": 94.6,
+"end": 96.6,
+"text": "Wednesday or Thursday.",
+"conf": -0.44,
+"no_speech": 0.66
+},
+{
+"start": 96.6,
+"end": 97.6,
+"text": "Yeah.",
+"conf": -0.44,
+"no_speech": 0.66
+},
+{
+"start": 97.6,
+"end": 104.6,
+"text": "I mean, uh, could you really just wish that nothing was going to happen in the Congress and so forth?",
+"conf": -0.42,
+"no_speech": 0.42
+},
+{
+"start": 104.6,
+"end": 108.6,
+"text": "The Mike's going to get frozen in our day before then.",
+"conf": -0.42,
+"no_speech": 0.42
+},
+{
+"start": 108.6,
+"end": 113.6,
+"text": "But could we, if we could do it, and we'd like to do it in a very, I don't want to forget,",
+"conf": -0.42,
+"no_speech": 0.42
+},
+{
+"start": 113.6,
+"end": 117.6,
+"text": "I can't not forget too much. I know these figures, and you should know them too.",
+"conf": -0.42,
+"no_speech": 0.42
+},
+{
+"start": 117.6,
+"end": 120.6,
+"text": "And Christ, they'll drag in 18 other different sub-editions and all that and so forth.",
+"conf": -0.42,
+"no_speech": 0.42
+},
+{
+"start": 120.6,
+"end": 125.6,
+"text": "Well, you don't have to do it at all. I was thinking, I think I ought to do the congressional leaders,",
+"conf": -0.42,
+"no_speech": 0.42
+},
+{
+"start": 125.6,
+"end": 127.3,
+"text": "because I will look them in the eye and say,",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 127.3,
+"end": 129.9,
+"text": "not bad, this is it, it's awesome.",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 129.9,
+"end": 131.5,
+"text": "But I should do it very hand-in-the-ball only.",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 131.5,
+"end": 132.8,
+"text": "Yeah, you should do it hand-in-the-ball only.",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 132.8,
+"end": 134.0,
+"text": "That's all there is in it.",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 134.0,
+"end": 136.0,
+"text": "With the leaders, would you anticipate",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 136.0,
+"end": 138.5,
+"text": "we could do that in a very short space of time?",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 138.5,
+"end": 139.5,
+"text": "I would think so.",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 141.6,
+"end": 144.7,
+"text": "I would insist that, I mean, you could just say",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 144.7,
+"end": 147.4,
+"text": "you only have half an hour then.",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 147.4,
+"end": 149.7,
+"text": "Garment, or I could stay behind.",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 149.7,
+"end": 152.0,
+"text": "I'm not too eager to meet with the Jewish leaders,",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 152.0,
+"end": 153.3,
+"text": "but for once we could do it.",
+"conf": -0.4,
+"no_speech": 0.31
+},
+{
+"start": 153.3,
+"end": 165.0,
+"text": "I thought it was a good way to make some points, particularly if we had to get up with Israel later on.",
+"conf": -0.48,
+"no_speech": 0.54
+},
+{
+"start": 165.0,
+"end": 172.2,
+"text": "Would you tell, be sure, would you tell Steve that it's not a Monday thing because he was trying to work on Monday at the time?",
+"conf": -0.48,
+"no_speech": 0.54
+},
+{
+"start": 172.2,
+"end": 174.2,
+"text": "No, Monday won't work because of Sarah.",
+"conf": -0.48,
+"no_speech": 0.54
+},
+{
+"start": 174.2,
+"end": 176.2,
+"text": "Monday is the day for us here.",
+"conf": -0.48,
+"no_speech": 0.54
+},
+{
+"start": 176.2,
+"end": 179.2,
+"text": "So this day would probably be the best if this could be for you.",
+"conf": -0.48,
+"no_speech": 0.54
+},
+{
+"start": 179.2,
+"end": 184.2,
+"text": "We can do a Thursday afternoon meeting.",
+"conf": -0.67,
+"no_speech": 0.69
+},
+{
+"start": 184.2,
+"end": 187.2,
+"text": "I don't know whether we can get to Congress today.",
+"conf": -0.67,
+"no_speech": 0.69
+},
+{
+"start": 187.2,
+"end": 190.2,
+"text": "Thursday, Thursday, 10 o'clock.",
+"conf": -0.67,
+"no_speech": 0.69
+},
+{
+"start": 190.2,
+"end": 193.2,
+"text": "That's okay.",
+"conf": -0.67,
+"no_speech": 0.69
+},
+{
+"start": 193.2,
+"end": 196.2,
+"text": "We don't want to have too many of them.",
+"conf": -0.67,
+"no_speech": 0.69
+},
+{
+"start": 196.2,
+"end": 200.2,
+"text": "This morning I got a threat.",
+"conf": -0.67,
+"no_speech": 0.69
+},
+{
+"start": 200.2,
+"end": 214.6,
+"text": "I'm taking him this afternoon, and I'm taking the kid on Saturday.",
+"conf": -0.52,
+"no_speech": 0.76
+},
+{
+"start": 214.6,
+"end": 218.5,
+"text": "I think I've now broken the back of the salt, so we're pretty sure that the salt",
+"conf": -0.52,
+"no_speech": 0.76
+},
+{
+"start": 218.5,
+"end": 220.5,
+"text": "is going to get in there.",
+"conf": -0.52,
+"no_speech": 0.76
+},
+{
+"start": 220.5,
+"end": 222.5,
+"text": "I think the thing to do is to break back the tree.",
+"conf": -0.52,
+"no_speech": 0.76
+},
+{
+"start": 222.5,
+"end": 224.5,
+"text": "We ought to make the out of that tree.",
+"conf": -0.52,
+"no_speech": 0.76
+},
+{
+"start": 224.5,
+"end": 226.5,
+"text": "So I think that's the best that we can do.",
+"conf": -0.52,
+"no_speech": 0.76
+},
+{
+"start": 226.5,
+"end": 235.5,
+"text": "I have two names that are not as significant, but two names that will take a lot of the focus back to what I've probably given too long.",
+"conf": -0.77,
+"no_speech": 0.32
+},
+{
+"start": 236.5,
+"end": 237.5,
+"text": "Sure.",
+"conf": -0.77,
+"no_speech": 0.32
+},
+{
+"start": 237.5,
+"end": 238.5,
+"text": "Be back.",
+"conf": -0.77,
+"no_speech": 0.32
+}
+]
+}

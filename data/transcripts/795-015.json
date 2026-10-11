@@ -1,0 +1,798 @@
+{
+"meta": {
+"conv": "795-015",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/795/conversation-795-015",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape795/795-015.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 354,
+"made": "2026-10-11",
+"took_min": 3.4
+},
+"segments": [
+{
+"start": 0.0,
+"end": 30.0,
+"text": "President Nixon speaking with staff.",
+"conf": -0.7,
+"no_speech": 0.2
+},
+{
+"start": 30.0,
+"end": 60.0,
+"text": "We're not going to let her out.",
+"conf": -0.64,
+"no_speech": 0.83
+},
+{
+"start": 60.0,
+"end": 61.0,
+"text": "Congratulations.",
+"conf": -0.71,
+"no_speech": 0.68
+},
+{
+"start": 65.0,
+"end": 67.0,
+"text": "These fellows have set us aside.",
+"conf": -0.71,
+"no_speech": 0.68
+},
+{
+"start": 67.0,
+"end": 70.0,
+"text": "Yes, they have set us aside.",
+"conf": -0.71,
+"no_speech": 0.68
+},
+{
+"start": 81.0,
+"end": 83.0,
+"text": "The world has been made of children.",
+"conf": -0.71,
+"no_speech": 0.68
+},
+{
+"start": 83.0,
+"end": 86.2,
+"text": "seeing senators",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 86.2,
+"end": 87.4,
+"text": "who have questions",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 87.4,
+"end": 89.2,
+"text": "and shows that they can't make it",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 89.2,
+"end": 90.7,
+"text": "and spending",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 90.7,
+"end": 91.7,
+"text": "as much as they can",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 91.7,
+"end": 93.1,
+"text": "that's not necessarily",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 93.1,
+"end": 95.0,
+"text": "what I want to talk about here",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 95.0,
+"end": 96.1,
+"text": "but I mean that's",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 96.1,
+"end": 98.0,
+"text": "what I want to talk about",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 98.0,
+"end": 98.7,
+"text": "and I think",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 98.7,
+"end": 102.7,
+"text": "that's something",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 102.7,
+"end": 103.5,
+"text": "I'm aware of",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 103.5,
+"end": 105.4,
+"text": "and I'm working on something else right now",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 105.4,
+"end": 108.7,
+"text": "I probably won't put it in there",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 108.7,
+"end": 110.2,
+"text": "but I do not want to see any senator",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 110.2,
+"end": 111.3,
+"text": "which is not",
+"conf": -0.68,
+"no_speech": 0.72
+},
+{
+"start": 111.3,
+"end": 124.1,
+"text": "On Friday, Jim Copley,",
+"conf": -0.46,
+"no_speech": 0.51
+},
+{
+"start": 124.1,
+"end": 126.4,
+"text": "I'd like to bring Jim Copley in for about a 20-minute",
+"conf": -0.46,
+"no_speech": 0.51
+},
+{
+"start": 126.4,
+"end": 127.6,
+"text": "talk with you, so",
+"conf": -0.46,
+"no_speech": 0.51
+},
+{
+"start": 127.6,
+"end": 130.6,
+"text": "put it out",
+"conf": -0.46,
+"no_speech": 0.51
+},
+{
+"start": 130.6,
+"end": 132.3,
+"text": "in his 16 papers.",
+"conf": -0.46,
+"no_speech": 0.51
+},
+{
+"start": 132.8,
+"end": 133.3,
+"text": "Oh, all right.",
+"conf": -0.46,
+"no_speech": 0.51
+},
+{
+"start": 134.5,
+"end": 136.1,
+"text": "All of them are sort of opposed to that,",
+"conf": -0.46,
+"no_speech": 0.51
+},
+{
+"start": 136.1,
+"end": 137.0,
+"text": "but the client is eager",
+"conf": -0.46,
+"no_speech": 0.51
+},
+{
+"start": 137.0,
+"end": 138.8,
+"text": "to push an article.",
+"conf": -0.46,
+"no_speech": 0.51
+},
+{
+"start": 138.8,
+"end": 140.8,
+"text": "That's a lot of stuff.",
+"conf": -0.44,
+"no_speech": 0.36
+},
+{
+"start": 140.8,
+"end": 142.8,
+"text": "It's a whole lot of time.",
+"conf": -0.44,
+"no_speech": 0.36
+},
+{
+"start": 142.8,
+"end": 144.8,
+"text": "It's going to be a lot of work.",
+"conf": -0.44,
+"no_speech": 0.36
+},
+{
+"start": 144.8,
+"end": 146.8,
+"text": "We're going to be cut.",
+"conf": -0.44,
+"no_speech": 0.36
+},
+{
+"start": 146.8,
+"end": 148.8,
+"text": "We're going to be sick.",
+"conf": -0.44,
+"no_speech": 0.36
+},
+{
+"start": 148.8,
+"end": 150.8,
+"text": "We'll have to come in.",
+"conf": -0.44,
+"no_speech": 0.36
+},
+{
+"start": 150.8,
+"end": 154.8,
+"text": "Bob was also opposed to this one, but",
+"conf": -0.44,
+"no_speech": 0.36
+},
+{
+"start": 154.8,
+"end": 158.8,
+"text": "Bolzano and Malik and Dick Moore",
+"conf": -0.44,
+"no_speech": 0.36
+},
+{
+"start": 158.8,
+"end": 162.8,
+"text": "were pushed spontaneously up by the Marriott Key Bridge",
+"conf": -0.44,
+"no_speech": 0.36
+},
+{
+"start": 162.8,
+"end": 167.8,
+"text": "where the committee was entertaining about 200 ethnic leaders",
+"conf": -0.44,
+"no_speech": 0.36
+},
+{
+"start": 167.8,
+"end": 171.5,
+"text": "and just be a five- or ten-minute help.",
+"conf": -0.52,
+"no_speech": 0.25
+},
+{
+"start": 171.7,
+"end": 173.6,
+"text": "Ray Myers said that, you know, help.",
+"conf": -0.52,
+"no_speech": 0.25
+},
+{
+"start": 175.0,
+"end": 175.4,
+"text": "Yeah, sure.",
+"conf": -0.52,
+"no_speech": 0.25
+},
+{
+"start": 175.8,
+"end": 177.6,
+"text": "I've had Thursday, Thursday, Friday,",
+"conf": -0.52,
+"no_speech": 0.25
+},
+{
+"start": 177.8,
+"end": 179.8,
+"text": "and I've got to do that.",
+"conf": -0.52,
+"no_speech": 0.25
+},
+{
+"start": 180.0,
+"end": 181.3,
+"text": "You know, that wouldn't be, that'd be Saturday.",
+"conf": -0.52,
+"no_speech": 0.25
+},
+{
+"start": 181.8,
+"end": 182.5,
+"text": "We've got to do that.",
+"conf": -0.52,
+"no_speech": 0.25
+},
+{
+"start": 182.7,
+"end": 183.9,
+"text": "There's a whole year Saturday,",
+"conf": -0.52,
+"no_speech": 0.25
+},
+{
+"start": 184.1,
+"end": 186.5,
+"text": "and that's probably the year that we've got a radio broadcast.",
+"conf": -0.52,
+"no_speech": 0.25
+},
+{
+"start": 188.9,
+"end": 191.7,
+"text": "A week of the Thursday of the 19th,",
+"conf": -0.52,
+"no_speech": 0.25
+},
+{
+"start": 191.7,
+"end": 195.0,
+"text": "the signing ceremony of the Polish-U.S. Science and Technology Agreement.",
+"conf": -0.52,
+"no_speech": 0.25
+},
+{
+"start": 195.0,
+"end": 198.2,
+"text": "Dr. Davis and the Secretary of State signed.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 198.7,
+"end": 199.1,
+"text": "No.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 199.6,
+"end": 200.8,
+"text": "I call that Roger.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 202.6,
+"end": 203.8,
+"text": "Yeah, just like...",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 203.8,
+"end": 205.6,
+"text": "I don't want that to come to this level.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 205.8,
+"end": 208.8,
+"text": "There are some reasons that that would not help with the voters from every year.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 209.2,
+"end": 209.5,
+"text": "Okay.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 211.0,
+"end": 212.2,
+"text": "They don't understand.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 212.2,
+"end": 215.9,
+"text": "The point is that the comments covered by the poll is all that popular.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 216.1,
+"end": 216.6,
+"text": "It was true.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 216.9,
+"end": 218.1,
+"text": "So we don't want to fight about it.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 218.2,
+"end": 221.0,
+"text": "We want to be able to talk to this thing here today about the motion picture.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 221.3,
+"end": 222.6,
+"text": "So I don't want to do that then.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 222.8,
+"end": 223.1,
+"text": "It's there.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 223.5,
+"end": 224.6,
+"text": "I'm not going to do it.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 224.7,
+"end": 225.0,
+"text": "All right.",
+"conf": -0.56,
+"no_speech": 0.31
+},
+{
+"start": 225.0,
+"end": 227.5,
+"text": "If you have a broadcast, I will not be able to recognize you.",
+"conf": -0.52,
+"no_speech": 0.17
+},
+{
+"start": 228.5,
+"end": 229.0,
+"text": "Good.",
+"conf": -0.52,
+"no_speech": 0.17
+},
+{
+"start": 230.6,
+"end": 232.7,
+"text": "Veterans Day is October 23rd.",
+"conf": -0.52,
+"no_speech": 0.17
+},
+{
+"start": 233.1,
+"end": 237.2,
+"text": "TV spot, 52nd TV spot, and a few minute TV spot sometime.",
+"conf": -0.52,
+"no_speech": 0.17
+},
+{
+"start": 238.2,
+"end": 239.7,
+"text": "And I aspire to say so.",
+"conf": -0.52,
+"no_speech": 0.17
+},
+{
+"start": 240.2,
+"end": 240.9,
+"text": "For what?",
+"conf": -0.52,
+"no_speech": 0.17
+},
+{
+"start": 241.6,
+"end": 248.7,
+"text": "Well, to be a broadcast on the television and all the veterans' hospitals around the nation.",
+"conf": -0.52,
+"no_speech": 0.17
+},
+{
+"start": 248.7,
+"end": 252.8,
+"text": "I think they could do radio.",
+"conf": -0.52,
+"no_speech": 0.17
+},
+{
+"start": 252.8,
+"end": 255.4,
+"text": "I'll do a radio spot for those, but I'm not going to do it.",
+"conf": -0.36,
+"no_speech": 0.21
+},
+{
+"start": 255.5,
+"end": 258.0,
+"text": "I'm not going to exploit the weather to shoot a TV spot.",
+"conf": -0.36,
+"no_speech": 0.21
+},
+{
+"start": 258.5,
+"end": 258.8,
+"text": "No.",
+"conf": -0.36,
+"no_speech": 0.21
+},
+{
+"start": 259.1,
+"end": 259.4,
+"text": "Okay.",
+"conf": -0.36,
+"no_speech": 0.21
+},
+{
+"start": 259.7,
+"end": 261.5,
+"text": "They won't do a TV spot on that.",
+"conf": -0.36,
+"no_speech": 0.21
+},
+{
+"start": 261.6,
+"end": 263.9,
+"text": "We're not going to do a better radio talk than any of that.",
+"conf": -0.36,
+"no_speech": 0.21
+},
+{
+"start": 263.9,
+"end": 264.1,
+"text": "Yeah.",
+"conf": -0.36,
+"no_speech": 0.21
+},
+{
+"start": 264.6,
+"end": 265.5,
+"text": "And that's what we'll do.",
+"conf": -0.36,
+"no_speech": 0.21
+},
+{
+"start": 265.6,
+"end": 272.9,
+"text": "I'm not going to do it because a TV spot is a radio spot.",
+"conf": -0.36,
+"no_speech": 0.21
+},
+{
+"start": 273.9,
+"end": 274.9,
+"text": "Radio, not TV.",
+"conf": -0.36,
+"no_speech": 0.21
+},
+{
+"start": 276.2,
+"end": 276.6,
+"text": "Okay.",
+"conf": -0.36,
+"no_speech": 0.21
+},
+{
+"start": 276.6,
+"end": 279.9,
+"text": "the last one is just any time",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 279.9,
+"end": 280.7,
+"text": "the Gap Guard",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 280.7,
+"end": 283.7,
+"text": "has sort of a working session",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 283.7,
+"end": 284.3,
+"text": "about",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 284.3,
+"end": 286.6,
+"text": "8 or",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 286.6,
+"end": 289.1,
+"text": "10 of the administration",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 289.1,
+"end": 290.0,
+"text": "blacks",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 290.0,
+"end": 291.2,
+"text": "no",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 291.2,
+"end": 296.1,
+"text": "no administration blacks",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 296.1,
+"end": 296.6,
+"text": "no blacks",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 296.6,
+"end": 299.7,
+"text": "just can't",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 299.7,
+"end": 302.0,
+"text": "well we've done a lot",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 302.0,
+"end": 302.4,
+"text": "of research",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 302.4,
+"end": 305.2,
+"text": "no blacks",
+"conf": -0.4,
+"no_speech": 0.25
+},
+{
+"start": 305.2,
+"end": 319.2,
+"text": "You've got to ask about this case, but now you know there's not a lot of guys, there's no lack of some dudes.",
+"conf": -0.43,
+"no_speech": 0.57
+},
+{
+"start": 319.2,
+"end": 322.4,
+"text": "You've had them better than a lot of these editors.",
+"conf": -0.43,
+"no_speech": 0.57
+},
+{
+"start": 322.7,
+"end": 325.1,
+"text": "We can't do it. It's too late. It's four weeks from the election.",
+"conf": -0.43,
+"no_speech": 0.57
+},
+{
+"start": 325.5,
+"end": 328.7,
+"text": "We've just got to write it right now and take all this time.",
+"conf": -0.43,
+"no_speech": 0.57
+},
+{
+"start": 330.0,
+"end": 333.7,
+"text": "The Vice President is going to be going to this shit day tonight, this reception.",
+"conf": -0.43,
+"no_speech": 0.57
+},
+{
+"start": 333.7,
+"end": 337.7,
+"text": "Do you want the Vice President and Mrs. Agnew to re-sit with you?",
+"conf": -0.57,
+"no_speech": 0.01
+},
+{
+"start": 337.7,
+"end": 342.7,
+"text": "Or alternatively, they could just go to the State Dining Room and serve a service.",
+"conf": -0.57,
+"no_speech": 0.01
+},
+{
+"start": 342.7,
+"end": 344.7,
+"text": "Post in there.",
+"conf": -0.57,
+"no_speech": 0.01
+},
+{
+"start": 344.7,
+"end": 347.7,
+"text": "And we're happy to help.",
+"conf": -0.57,
+"no_speech": 0.01
+},
+{
+"start": 347.7,
+"end": 349.7,
+"text": "There you go.",
+"conf": -0.57,
+"no_speech": 0.01
+},
+{
+"start": 349.7,
+"end": 351.7,
+"text": "Thank you.",
+"conf": -0.57,
+"no_speech": 0.01
+}
+]
+}

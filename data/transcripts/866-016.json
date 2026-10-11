@@ -1,0 +1,133 @@
+{
+"meta": {
+"conv": "866-016",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/866/conversation-866-016",
+"audio": "https://catalog.archives.gov/medialz/presidential-libraries/nixon/rn-wht/17409633/7450007/37-wht-conversation-866-016-pa.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 155,
+"made": "2026-10-11",
+"took_min": 2.1
+},
+"segments": [
+{
+"start": 0.0,
+"end": 15.6,
+"text": "He said that it was going to be discussed two ways. One, we discussed the plan, the program, the name of the program, the issue of security, and so forth, and the other, we discussed the negotiations, and so forth, and so on.",
+"conf": -0.8,
+"no_speech": 0.24
+},
+{
+"start": 15.6,
+"end": 25.8,
+"text": "question is pretty well covered on everything except how to handle the question of moving",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 25.8,
+"end": 31.8,
+"text": "toward but in other words the office dead center in other words now that you've met with hussein",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 31.8,
+"end": 36.3,
+"text": "ishmael all i have to say is that i was uh that's right",
+"conf": -0.28,
+"no_speech": 0.75
+},
+{
+"start": 36.3,
+"end": 47.3,
+"text": "we had a very frank talk with the committee of construction.",
+"conf": -0.8,
+"no_speech": 0.73
+},
+{
+"start": 47.3,
+"end": 65.3,
+"text": "This is however, we have realized that the parties have stated their positions.",
+"conf": -0.8,
+"no_speech": 0.73
+},
+{
+"start": 65.3,
+"end": 69.9,
+"text": "and they're still very far apart.",
+"conf": -0.65,
+"no_speech": 0.56
+},
+{
+"start": 69.9,
+"end": 74.9,
+"text": "We don't want to raise the, raise the premature goals,",
+"conf": -0.65,
+"no_speech": 0.56
+},
+{
+"start": 76.0,
+"end": 79.1,
+"text": "but at the present time, we think these,",
+"conf": -0.65,
+"no_speech": 0.56
+},
+{
+"start": 79.1,
+"end": 83.1,
+"text": "we think these talks are very instructive.",
+"conf": -0.65,
+"no_speech": 0.56
+},
+{
+"start": 83.1,
+"end": 83.9,
+"text": "And,",
+"conf": -0.65,
+"no_speech": 0.56
+},
+{
+"start": 83.9,
+"end": 104.9,
+"text": "uh, maybe in a way more, uh, more, uh, negotiated, you know, just, uh, let's, uh, maybe we can",
+"conf": -0.71,
+"no_speech": 0.73
+},
+{
+"start": 104.9,
+"end": 117.9,
+"text": "because it is basically, we don't want to get the idea that people are rushing around here talking to each other.",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 117.9,
+"end": 125.9,
+"text": "Or that there's a great big diplomatic initiative and they'll ask every week, well how are you doing?",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 125.9,
+"end": 132.9,
+"text": "We don't expect results soon. It's been a very long competition there.",
+"conf": -0.46,
+"no_speech": 0.75
+},
+{
+"start": 132.9,
+"end": 139.9,
+"text": "and it takes time and negotiations are not going to be easy.",
+"conf": -0.53,
+"no_speech": 0.25
+},
+{
+"start": 139.9,
+"end": 147.9,
+"text": "And they're not going to be in the midst of immediate results.",
+"conf": -0.53,
+"no_speech": 0.25
+}
+]
+}

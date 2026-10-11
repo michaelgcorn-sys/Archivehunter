@@ -1,0 +1,105 @@
+{
+"meta": {
+"conv": "787-007",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/787/conversation-787-007",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape787/787-007.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 63,
+"made": "2026-10-11",
+"took_min": 1.3
+},
+"segments": [
+{
+"start": 0.0,
+"end": 30.0,
+"text": "President Nixon speaking with staff.",
+"conf": -0.82,
+"no_speech": 0.08
+},
+{
+"start": 30.0,
+"end": 36.0,
+"text": "We were not going to be, no, no pictures, no pictures, I don't want any pictures of those people.",
+"conf": -0.38,
+"no_speech": 0.22
+},
+{
+"start": 36.0,
+"end": 38.0,
+"text": "In real life you weren't going to put any in?",
+"conf": -0.38,
+"no_speech": 0.22
+},
+{
+"start": 38.0,
+"end": 40.0,
+"text": "No, no pictures of them.",
+"conf": -0.38,
+"no_speech": 0.22
+},
+{
+"start": 40.0,
+"end": 43.0,
+"text": "I don't want any pictures, I don't have a camera with me in the room.",
+"conf": -0.38,
+"no_speech": 0.22
+},
+{
+"start": 43.0,
+"end": 45.0,
+"text": "With either group, I don't want any camera on them.",
+"conf": -0.38,
+"no_speech": 0.22
+},
+{
+"start": 45.0,
+"end": 46.0,
+"text": "No photographs?",
+"conf": -0.38,
+"no_speech": 0.22
+},
+{
+"start": 46.0,
+"end": 49.0,
+"text": "No, no, no, I don't think there's no, no photographs there.",
+"conf": -0.38,
+"no_speech": 0.22
+},
+{
+"start": 49.0,
+"end": 50.0,
+"text": "No photographs.",
+"conf": -0.38,
+"no_speech": 0.22
+},
+{
+"start": 50.0,
+"end": 53.0,
+"text": "Then I'm just not going to have any pictures of them.",
+"conf": -0.38,
+"no_speech": 0.22
+},
+{
+"start": 53.0,
+"end": 55.0,
+"text": "That's better.",
+"conf": -0.38,
+"no_speech": 0.22
+},
+{
+"start": 55.0,
+"end": 59.0,
+"text": "It's only taking time and I don't want to rush through these things as fast as I can.",
+"conf": -0.38,
+"no_speech": 0.22
+},
+{
+"start": 60.0,
+"end": 90.0,
+"text": "Thank you.",
+"conf": -0.26,
+"no_speech": 0.84
+}
+]
+}

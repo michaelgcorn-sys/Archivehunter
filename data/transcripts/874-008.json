@@ -1,0 +1,301 @@
+{
+"meta": {
+"conv": "874-008",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/874/conversation-874-008",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape874/874-008.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 292,
+"made": "2026-10-11",
+"took_min": 2.1
+},
+"segments": [
+{
+"start": 0.0,
+"end": 30.0,
+"text": "President Nixon speaking with staff.",
+"conf": -0.53,
+"no_speech": 0.14
+},
+{
+"start": 30.0,
+"end": 32.3,
+"text": "I think I may have to do the tape in the morning.",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 32.4,
+"end": 33.8,
+"text": "We'll get it to the press in the morning",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 33.8,
+"end": 35.8,
+"text": "because it can't be run until it goes on the air",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 35.8,
+"end": 37.2,
+"text": "and you're fine.",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 38.2,
+"end": 38.9,
+"text": "You're all right.",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 39.1,
+"end": 40.2,
+"text": "I'm going to try to get it done today",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 40.2,
+"end": 41.2,
+"text": "if they get it back to me",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 41.2,
+"end": 42.6,
+"text": "because I worked on it last night.",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 43.4,
+"end": 45.4,
+"text": "We'll be ready any time you want to go.",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 46.3,
+"end": 49.3,
+"text": "Then I'm going to let you do the film clip on it.",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 49.5,
+"end": 52.9,
+"text": "There is material on the film clip",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 52.9,
+"end": 56.2,
+"text": "that we'll wait and see what you plan to do,",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 56.4,
+"end": 58.1,
+"text": "what you're planning to do.",
+"conf": -0.34,
+"no_speech": 0.47
+},
+{
+"start": 60.0,
+"end": 61.6,
+"text": "That's pretty good stuff.",
+"conf": -0.62,
+"no_speech": 0.23
+},
+{
+"start": 61.6,
+"end": 62.6,
+"text": "Yes.",
+"conf": -0.62,
+"no_speech": 0.23
+},
+{
+"start": 62.6,
+"end": 64.6,
+"text": "You know, that means pretty good lines.",
+"conf": -0.62,
+"no_speech": 0.23
+},
+{
+"start": 69.5,
+"end": 73.5,
+"text": "Well, I think it's good to do it real quick.",
+"conf": -0.62,
+"no_speech": 0.23
+},
+{
+"start": 74.3,
+"end": 75.3,
+"text": "Yes, sir.",
+"conf": -0.62,
+"no_speech": 0.23
+},
+{
+"start": 120.0,
+"end": 133.0,
+"text": "I'm going to continue to have a little problem, have some problems with that.",
+"conf": -0.73,
+"no_speech": 0.73
+},
+{
+"start": 133.0,
+"end": 135.0,
+"text": "Well, you know, we've always had a problem with that.",
+"conf": -0.73,
+"no_speech": 0.73
+},
+{
+"start": 135.0,
+"end": 137.0,
+"text": "So let's just bring it up here.",
+"conf": -0.73,
+"no_speech": 0.73
+},
+{
+"start": 137.0,
+"end": 142.0,
+"text": "I'm just going to leave it cool on the battery.",
+"conf": -0.73,
+"no_speech": 0.73
+},
+{
+"start": 142.0,
+"end": 145.0,
+"text": "I'm going to open the signal.",
+"conf": -0.73,
+"no_speech": 0.73
+},
+{
+"start": 145.0,
+"end": 174.4,
+"text": "John is doing pretty good.",
+"conf": -0.58,
+"no_speech": 0.76
+},
+{
+"start": 174.4,
+"end": 190.4,
+"text": "That's all I had today.",
+"conf": -0.52,
+"no_speech": 0.24
+},
+{
+"start": 190.4,
+"end": 192.8,
+"text": "I think the Erlichman thing will carry.",
+"conf": -0.52,
+"no_speech": 0.24
+},
+{
+"start": 193.0,
+"end": 195.8,
+"text": "What is your situation?",
+"conf": -0.52,
+"no_speech": 0.24
+},
+{
+"start": 204.4,
+"end": 231.9,
+"text": "It actually didn't get too heavy quite on TV last night.",
+"conf": -0.62,
+"no_speech": 0.71
+},
+{
+"start": 231.9,
+"end": 236.3,
+"text": "It didn't get as heavy a play as the food.",
+"conf": -0.45,
+"no_speech": 0.3
+},
+{
+"start": 237.2,
+"end": 241.5,
+"text": "The food, I'm talking about the cigarette thing, did not get as heavy a play in terms",
+"conf": -0.45,
+"no_speech": 0.3
+},
+{
+"start": 241.5,
+"end": 246.2,
+"text": "of the overall context of the TV news last night as it may appear in writing.",
+"conf": -0.45,
+"no_speech": 0.3
+},
+{
+"start": 247.8,
+"end": 250.0,
+"text": "Well, we're up to date on the news.",
+"conf": -0.45,
+"no_speech": 0.3
+},
+{
+"start": 250.1,
+"end": 252.7,
+"text": "We're on the second political story.",
+"conf": -0.45,
+"no_speech": 0.3
+},
+{
+"start": 252.7,
+"end": 254.7,
+"text": "Thank you.",
+"conf": -0.45,
+"no_speech": 0.3
+},
+{
+"start": 261.9,
+"end": 272.9,
+"text": "Yes sir, I have to tell you that I never want more than one minute of your picture a day.",
+"conf": -0.55,
+"no_speech": 0.41
+},
+{
+"start": 272.9,
+"end": 273.9,
+"text": "Yes sir.",
+"conf": -0.55,
+"no_speech": 0.41
+},
+{
+"start": 273.9,
+"end": 278.9,
+"text": "With the reporters, I don't mind patients.",
+"conf": -0.55,
+"no_speech": 0.41
+},
+{
+"start": 278.9,
+"end": 281.9,
+"text": "No, I don't want any of that.",
+"conf": -0.55,
+"no_speech": 0.41
+},
+{
+"start": 281.9,
+"end": 284.9,
+"text": "I just want to give you a short story.",
+"conf": -0.55,
+"no_speech": 0.41
+},
+{
+"start": 284.9,
+"end": 285.9,
+"text": "Okay.",
+"conf": -0.55,
+"no_speech": 0.41
+}
+]
+}

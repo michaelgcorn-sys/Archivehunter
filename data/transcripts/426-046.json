@@ -1,0 +1,56 @@
+{
+"meta": {
+"conv": "426-046",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/426/conversation-426-046",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape426/426-046.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 76,
+"made": "2026-10-11",
+"took_min": 1.0
+},
+"segments": [
+{
+"start": 0.0,
+"end": 30.0,
+"text": "President Nixon speaking with staff.",
+"conf": -0.84,
+"no_speech": 0.31
+},
+{
+"start": 30.0,
+"end": 60.0,
+"text": "Thank you.",
+"conf": -0.78,
+"no_speech": 0.88
+},
+{
+"start": 60.0,
+"end": 62.0,
+"text": "what is the situation",
+"conf": -0.66,
+"no_speech": 0.38
+},
+{
+"start": 62.0,
+"end": 63.1,
+"text": "I think people probably",
+"conf": -0.66,
+"no_speech": 0.38
+},
+{
+"start": 63.1,
+"end": 63.5,
+"text": "don't know",
+"conf": -0.66,
+"no_speech": 0.38
+},
+{
+"start": 63.5,
+"end": 63.7,
+"text": "right",
+"conf": -0.66,
+"no_speech": 0.38
+}
+]
+}

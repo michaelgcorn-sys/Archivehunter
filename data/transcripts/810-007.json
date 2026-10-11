@@ -1,0 +1,28 @@
+{
+"meta": {
+"conv": "810-007",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/810/conversation-810-007",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape810/810-007.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 52,
+"made": "2026-10-11",
+"took_min": 0.6
+},
+"segments": [
+{
+"start": 0.0,
+"end": 30.0,
+"text": "President Nixon speaking with staff.",
+"conf": -0.62,
+"no_speech": 0.16
+},
+{
+"start": 30.0,
+"end": 60.0,
+"text": "Thank you for watching.",
+"conf": -0.92,
+"no_speech": 0.56
+}
+]
+}

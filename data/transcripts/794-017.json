@@ -1,0 +1,343 @@
+{
+"meta": {
+"conv": "794-017",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/794/conversation-794-017",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape794/794-017.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 325,
+"made": "2026-10-11",
+"took_min": 5.0
+},
+"segments": [
+{
+"start": 0.0,
+"end": 30.0,
+"text": "President Nixon speaking with staff.",
+"conf": -0.5,
+"no_speech": 0.29
+},
+{
+"start": 30.0,
+"end": 60.0,
+"text": "Thank you.",
+"conf": -0.59,
+"no_speech": 0.83
+},
+{
+"start": 60.0,
+"end": 70.7,
+"text": "I don't want to do a number of the table next Friday in the afternoon.",
+"conf": -0.6,
+"no_speech": 0.78
+},
+{
+"start": 70.7,
+"end": 72.6,
+"text": "I'm going to bring up the date on the table.",
+"conf": -0.6,
+"no_speech": 0.78
+},
+{
+"start": 72.8,
+"end": 80.8,
+"text": "I don't want to do a number of the table next Friday in the afternoon.",
+"conf": -0.6,
+"no_speech": 0.78
+},
+{
+"start": 80.8,
+"end": 83.0,
+"text": "We've got a lot of stuff to do in the week.",
+"conf": -0.6,
+"no_speech": 0.78
+},
+{
+"start": 83.3,
+"end": 88.8,
+"text": "So, I'm going to make sure that we've got a lot of stuff to do.",
+"conf": -0.6,
+"no_speech": 0.78
+},
+{
+"start": 88.8,
+"end": 96.2,
+"text": "not the last two weeks",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 96.2,
+"end": 96.9,
+"text": "there's no reason",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 96.9,
+"end": 97.5,
+"text": "to do that",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 97.5,
+"end": 102.2,
+"text": "have it now",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 102.2,
+"end": 102.9,
+"text": "tomorrow",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 102.9,
+"end": 108.8,
+"text": "another one",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 108.8,
+"end": 110.3,
+"text": "is schedule any time",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 110.3,
+"end": 111.3,
+"text": "the president's committee",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 111.3,
+"end": 111.9,
+"text": "I'm not going to",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 111.9,
+"end": 112.4,
+"text": "reach out to you",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 112.4,
+"end": 113.0,
+"text": "and do something",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 113.0,
+"end": 113.8,
+"text": "you wouldn't know",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 113.8,
+"end": 116.0,
+"text": "so we'll have",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 116.0,
+"end": 116.5,
+"text": "an election",
+"conf": -0.63,
+"no_speech": 0.47
+},
+{
+"start": 116.5,
+"end": 146.5,
+"text": "I'm going to go back to the, we all got to have a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a",
+"conf": -0.19,
+"no_speech": 0.64
+},
+{
+"start": 176.5,
+"end": 178.0,
+"text": "no more black power.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 178.2,
+"end": 179.1,
+"text": "It's been a brand new thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 179.7,
+"end": 183.6,
+"text": "We really have to cut the black.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 183.9,
+"end": 185.3,
+"text": "There's no use.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 185.7,
+"end": 186.6,
+"text": "There's no use.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 187.3,
+"end": 188.4,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 188.5,
+"end": 189.9,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 189.9,
+"end": 191.9,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 191.9,
+"end": 193.5,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 193.5,
+"end": 195.0,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 195.0,
+"end": 196.8,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 196.8,
+"end": 197.7,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 197.7,
+"end": 198.7,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 198.7,
+"end": 199.3,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 199.3,
+"end": 199.7,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 199.7,
+"end": 200.9,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 200.9,
+"end": 201.7,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 201.7,
+"end": 202.4,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 202.4,
+"end": 202.8,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 202.8,
+"end": 204.0,
+"text": "I don't think that's a good thing.",
+"conf": -0.6,
+"no_speech": 0.71
+},
+{
+"start": 204.0,
+"end": 234.0,
+"text": "Thank you.",
+"conf": -0.92,
+"no_speech": 0.84
+},
+{
+"start": 234.0,
+"end": 264.0,
+"text": "Thank you.",
+"conf": -0.79,
+"no_speech": 0.75
+},
+{
+"start": 264.0,
+"end": 294.0,
+"text": "Thank you.",
+"conf": -0.6,
+"no_speech": 0.95
+},
+{
+"start": 294.0,
+"end": 324.0,
+"text": "Thank you.",
+"conf": -0.58,
+"no_speech": 0.74
+},
+{
+"start": 324.0,
+"end": 354.0,
+"text": "Thank you.",
+"conf": -0.31,
+"no_speech": 0.87
+}
+]
+}
