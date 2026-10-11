@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 84
+APP_CODE_VERSION = 85
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -273,7 +273,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 84 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 85 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -571,6 +571,17 @@ def show_trail(prefix):
                       on_click=goto_trail, args=(offset + j,), disabled=last, type="tertiary")
 
 
+def app_link(**params):
+    """A link that opens the app on a specific find, e.g. app_link(ufo=157) or app_link(tape="886-008")."""
+    try:
+        base = str(st.context.url or "").split("?")[0].replace("/~/+", "").rstrip("/") + "/"
+    except Exception:
+        base = ""
+    if not base.startswith("http"):
+        base = ""
+    return base + "?" + urllib.parse.urlencode(params)
+
+
 def share_url(ident):
     try:
         base = str(st.context.url or "").split("?")[0].replace("/~/+", "").rstrip("/") + "/"
@@ -706,6 +717,12 @@ def render_dossier(ident):
         _scroll()
 
 
+_ufo_link = st.query_params.get("ufo")
+if _ufo_link and str(_ufo_link).isdigit() and ss.get("ufo_link_done") != _ufo_link:
+    ss.ufo_open, ss.ufo_link_done, ss.scroll_to = int(_ufo_link), _ufo_link, ".st-key-ufo-box"
+_tape_link = st.query_params.get("tape")
+if _tape_link and re.fullmatch(r"\d{3}-\d{3}", str(_tape_link)) and ss.get("tape_link_done") != _tape_link:
+    ss.nixon_q, ss.tape_link_done, ss.scroll_to = f"conv:{_tape_link}", _tape_link, ".st-key-nixon-box"
 _doc = st.query_params.get("doc")
 if is_cia_ident(_doc):
     render_dossier(_doc)
@@ -752,8 +769,6 @@ def daily_mystery_card():
         st.caption("A new mystery every day.")
 
 
-with st.spinner("Pulling Top Secret documents from the archives…"):
-    top_secret_strip()
 
 
 @st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=40)
@@ -1612,6 +1627,22 @@ def ufo_detail(r):
     fav_button({"url": r.get("fileUrl") or f"https://www.war.gov/UFO/#{r['id']}", "title": r["title"],
                 "source": f"UFO Files · {r['agency']}", "date": str(r.get("incidentDate") or "")[:12]}, key=f"ufo-fav-{r['id']}")
     st.caption("From the Pentagon's 2026 release of government UFO files (war.gov/UFO). Description is the government's own.")
+    with st.expander("📤 Share this find"):
+        st.code(app_link(ufo=r["id"]), language=None, wrap_lines=True)
+        st.caption("This link opens straight to this file in Archive Hunter.")
+        when = " · ".join(x for x in (str(r.get("incidentDate") or ""), r.get("incidentLocation") or "") if x and x != "N/A")
+        hook = next((h for i, lab, h in UFO_EYEWITNESS if i == r["id"]), None)
+        first = re.split(r"(?<=[.!?])\s", r["description"])[0]
+        png = cached_quote_card("🛸 The UFO Files", hook or r["title"], first[:420],
+                                f"{r['agency']}{' · ' + when if when else ''} · war.gov/UFO", APP_CODE_VERSION)
+        st.image(png, width="stretch")
+        st.download_button("⬇ Save the image to post", png, file_name=f"ufo-file-{r['id']}.png", mime="image/png",
+                           key=f"ufo-card-dl-{r['id']}", width="stretch")
+
+
+@st.cache_data(show_spinner=False, max_entries=200)
+def cached_quote_card(kicker, headline, body, source, v=APP_CODE_VERSION):
+    return extras.quote_card(kicker, headline, body, source)
 
 
 def ufo_mini(r, label, hook, key):
@@ -1772,11 +1803,13 @@ with tab_search:
     # ── Deep dives: tiles on the empty front page ──────────────────────────────
     if not ss.status:
         on_this_day_card()
+        ufo_box()
+        nixon_box()
+        nara_box()
         st.markdown('<div class="sect">DEEP DIVES · tap a topic</div>', unsafe_allow_html=True)
         topic_tiles("home", with_ancient=True)
-        ufo_box()
-        nara_box()
-        nixon_box()
+        with st.spinner("Pulling Top Secret documents from the archives…"):
+            top_secret_strip()
 
     # ── Results ──────────────────────────────────────────────────────────────────
     results, status = ss.results, ss.status

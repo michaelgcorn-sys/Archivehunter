@@ -14,7 +14,7 @@ import urllib.parse
 
 from sources import _get, clean, search_cia
 
-MODULE_VERSION = 84   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 85   # keep in step with APP_CODE_VERSION in app.py
 
 
 # ── Fresh releases ───────────────────────────────────────────────────────────
@@ -183,6 +183,46 @@ def share_card(title, date, agency, thumb_bytes=None, footer="ARCHIVE HUNTER · 
         y += 64
     d.text((70, y + 16), " · ".join(x for x in (agency, date) if x), fill=(185, 171, 140), font=small)
     d.line([(70, H - 110), (W - 70, H - 110)], fill=(90, 74, 46), width=2)
+    d.text((70, H - 85), footer, fill=(200, 169, 110), font=mono)
+    buf = io.BytesIO()
+    img.save(buf, "PNG")
+    return buf.getvalue()
+
+
+def quote_card(kicker, headline, body, source, footer="ARCHIVE HUNTER · declassified records"):
+    """PNG bytes: a 1080x1350 shareable card for a UFO file or tape moment (headline, the government's words, source)."""
+    from PIL import Image, ImageDraw
+    W, H = 1080, 1350
+    img = Image.new("RGB", (W, H), (14, 18, 15))
+    d = ImageDraw.Draw(img)
+    for i in range(H):                                   # soft vertical glow
+        c = int(14 + 18 * max(0, 1 - abs(i - 420) / 700))
+        d.line([(0, i), (W, i)], fill=(c - 2, c + 6, c))
+    mono = _font(["DejaVuSansMono-Bold.ttf"], 30)
+    for size, width in ((64, 22), (54, 27), (46, 32), (40, 37)):     # shrink the headline until it fits 4 lines
+        if len(textwrap.wrap(headline, width)) <= 4:
+            break
+    serif = _font(["DejaVuSerif-Bold.ttf", "DejaVuSerif.ttf"], size)
+    body_f = _font(["DejaVuSerif.ttf", "DejaVuSans.ttf"], 36)
+    small = _font(["DejaVuSans.ttf"], 30)
+    kicker = re.sub(r"[^\x00-\u024f·–—“”’ ]", "", kicker).strip()   # the card font has no emoji
+    d.text((70, 70), kicker.upper(), fill=(127, 214, 164), font=mono)
+    y = 150
+    for line in textwrap.wrap(headline, width)[:4]:
+        d.text((70, y), line, fill=(243, 230, 200), font=serif)
+        y += int(size * 1.25)
+    y += 30
+    d.rectangle([70, y, 76, y + 10], fill=(200, 169, 110))
+    words = textwrap.wrap("“" + body.strip() + "”", 44)
+    for line in words[:12]:
+        d.text((100, y), line, fill=(214, 230, 220), font=body_f)
+        y += 50
+    if len(words) > 12:
+        d.text((100, y), "…", fill=(214, 230, 220), font=body_f)
+        y += 50
+    d.rectangle([70, y - 50 * min(len(words), 12) - 10, 76, y - 10], fill=(200, 169, 110))
+    d.text((70, y + 30), source, fill=(185, 171, 140), font=small)
+    d.line([(70, H - 110), (W - 70, H - 110)], fill=(47, 107, 79), width=2)
     d.text((70, H - 85), footer, fill=(200, 169, 110), font=mono)
     buf = io.BytesIO()
     img.save(buf, "PNG")
