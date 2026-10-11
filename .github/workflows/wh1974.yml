@@ -1,0 +1,32 @@
+name: Fetch 1974 White House transcripts
+
+on:
+  workflow_dispatch:
+    inputs:
+      first:
+        default: "1"
+      last:
+        default: "1308"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q requests
+      - run: python tools/fetch_wh_transcripts.py "${{ github.event.inputs.first }}" "${{ github.event.inputs.last }}"
+      - name: Commit
+        run: |
+          git config user.name "archivehunter-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/wh1974_pages.json.gz
+          git diff --cached --quiet && exit 0
+          git commit -m "1974 White House transcripts: page text"
+          for i in 1 2 3 4 5; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 10; done
