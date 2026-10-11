@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 78
+APP_CODE_VERSION = 79
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -193,6 +193,11 @@ st.markdown("""
 .subs{max-height:340px;overflow-y:auto;border-left:3px solid #7a5a3a;padding-left:.5rem}
 .sub-line{display:flex;gap:.55rem;align-items:baseline}.sub-line span{font:600 .72rem 'Courier New',monospace;color:#d9a066;min-width:2.6rem}
 .sub-line p{margin:.1rem 0;font-size:.9rem;line-height:1.35}.sub-line p.sub-low{opacity:.45}
+.nixon-pub{font-size:.78rem;color:#c8b48a;margin:.1rem 0 .35rem;opacity:.85}
+.hjc-p span{display:block;font:600 .7rem 'Courier New',monospace;color:#d9a066;margin-top:.45rem}.hjc-p span a{color:#d9a066}
+.hjc-p p{margin:.15rem 0;font-size:.9rem;line-height:1.4}
+.st-key-nixon-famous button{min-height:0!important;padding:.1rem .6rem!important;border-color:#7a5a3a!important}
+.st-key-nixon-famous button p{font-size:.82rem!important}
 .nixon-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#d9a066}
 .st-key-nixon-try button{min-height:0!important;padding:.1rem .7rem!important}
 .nara-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#8fb3de}
@@ -242,7 +247,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 78 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 79 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1270,6 +1275,14 @@ def nixon_index(v=APP_CODE_VERSION):
     return sources.load_nixon_index()
 
 
+NIXON_FAMOUS = [("886-008", "Mar 21, 1973 · “a cancer on the presidency”"),
+                ("779-002", "Sep 15, 1972 · Dean praised"),
+                ("865-014", "Feb 28, 1973 · Dean and the Ervin Committee"),
+                ("878-014", "Mar 13, 1973 · hush money"),
+                ("421-018", "Mar 21, 1973 · evening strategy"),
+                ("422-033", "Mar 22, 1973 · Mitchell joins"),
+                ("897-004", "Apr 16, 1973 · morning, Dean"),
+                ("427-010", "Apr 16, 1973 · afternoon, Dean")]
 NIXON_TRY = ["Jewish", "Kissinger", "\"Pentagon Papers\"", "Hoover", "Elvis", "Mao"]
 
 
@@ -1321,6 +1334,40 @@ def _ask_subtitles(conv):
         ss[f"subreq-{conv}"] = "ok"
     except Exception as e:
         ss[f"subreq-{conv}"] = f"{type(e).__name__}: {e}"
+
+
+@st.cache_data(show_spinner=False)
+def hjc_transcripts(v=APP_CODE_VERSION):
+    import json
+    import os
+    p = os.path.join(os.path.dirname(os.path.abspath(sources.__file__)), "data", "hjc1974.json")
+    if not os.path.exists(p):
+        return {}
+    with open(p) as f:
+        return json.load(f)
+
+
+def transcript_panel(conv, q, key):
+    t = hjc_transcripts(APP_CODE_VERSION).get(conv)
+    if not t:
+        return
+    words = [re.sub(r"(ish|ies|es|s)$", "", w, flags=re.I) for w in re.findall(r"[A-Za-z']{3,}", q)]
+    pat = re.compile(r"\b(" + "|".join(re.escape(w) for w in words) + r")\w{0,4}", re.I) if words else None
+    with st.expander("📜 Transcript excerpts · House Judiciary Committee, 1974", expanded=False):
+        st.caption("Real transcripts made by the impeachment inquiry staff in 1974, shown passage by passage. "
+                   "Toggle to see how the same passages read in Nixon's own edited White House version.")
+        side = st.toggle("Show Nixon's White House version instead", key=f"{key}-wh")
+        rows = t["white_house" if side else "committee"]
+        out = []
+        for r in rows:
+            txt = html.escape(r["text"]).replace("\n", "<br>")
+            if pat:
+                txt = pat.sub(lambda m: f"<mark>{m.group(0)}</mark>", txt)
+            out.append(f'<div class="hjc-p"><span>{html.escape(r["ref"])} · <a href="{html.escape(t["url"])}#page={r["pdf_page"]}" '
+                       f'target="_blank">see original page</a></span><p>{txt}</p></div>')
+        st.markdown('<div class="subs">' + "".join(out) + "</div>", unsafe_allow_html=True)
+        st.caption(f"Source: {t['source']}. Public domain. The scan's line breaks sometimes jumble overlapping "
+                   "speakers; tap “see original page” to read it as printed.")
 
 
 def subtitle_panel(conv, q, around_min, key):
@@ -1376,7 +1423,8 @@ def nixon_box():
             st.caption("The tape index is being built. Check back shortly.")
             return
         with st.form("nixon-form", border=False):
-            nq = st.text_input("Search the Nixon tapes", value=ss.get("nixon_q", ""), label_visibility="collapsed",
+            _shown = ss.get("nixon_q", "")
+            nq = st.text_input("Search the Nixon tapes", value="" if _shown.startswith("conv:") else _shown, label_visibility="collapsed",
                                placeholder="A name, place or topic…")
             if st.form_submit_button("📼 Search the tapes", width="stretch"):
                 ss.nixon_q = nq.strip()
@@ -1385,11 +1433,25 @@ def nixon_box():
             with st.container(horizontal=True, wrap=True, gap="small", key="nixon-try"):
                 for i, t in enumerate(NIXON_TRY):
                     st.button(t.strip('"'), key=f"nixon-try-{i}", on_click=_nixon_go, args=(t,))
+            if hjc_transcripts(APP_CODE_VERSION):
+                st.markdown('<div class="exp-sub">📜 THE WATERGATE CONVERSATIONS · with transcripts</div>',
+                            unsafe_allow_html=True)
+                with st.container(horizontal=True, wrap=True, gap="small", key="nixon-famous"):
+                    for i, (cid, lab) in enumerate(NIXON_FAMOUS):
+                        st.button(lab, key=f"nixon-fam-{i}", on_click=_nixon_go, args=(f"conv:{cid}",))
             return
-        rows = sources.search_nixon_logs(idx, q, limit=40)
+        if q.startswith("conv:"):
+            one = sources.nixon_conversation(idx, q[5:])
+            lab = (hjc_transcripts(APP_CODE_VERSION).get(q[5:]) or {}).get("label")
+            if one and lab:
+                one["snips"][0]["who"] = lab
+            rows = [one] if one else []
+            q = ""
+        else:
+            rows = sources.search_nixon_logs(idx, q, limit=40)
         top = st.columns([4, 1], vertical_alignment="center")
         total = sum(r["count"] for r in rows)
-        top[0].markdown(f'<div class="sect">NIXON TAPES · “{html.escape(q)}” · {len(rows)} tape'
+        top[0].markdown(f'<div class="sect">NIXON TAPES · “{html.escape(q or "conversation " + ss.nixon_q[5:])}” · {len(rows)} tape'
                         f'{"" if len(rows) == 1 else "s"}{" (top 40)" if len(rows) == 40 else ""}</div>',
                         unsafe_allow_html=True)
         top[1].button("✕ Clear", key="nixon-clear", on_click=lambda: ss.pop("nixon_q", None), type="tertiary")
@@ -1397,13 +1459,15 @@ def nixon_box():
             st.caption("Not in the logs. They summarize each conversation in a few words, so try a name or a "
                        "broader topic.")
             return
-        st.caption(f"{total} mention{'s' if total != 1 else ''} in the logs. The logs outline each conversation; "
+        st.caption((f"{total} mention{'s' if total != 1 else ''} in the logs. " if q else "")
+                   + "The logs outline each conversation; "
                    "they aren't word-for-word transcripts. Open a conversation to listen, where audio is online.")
         for i, r in enumerate(rows):
             with st.container(border=True, key=f"nixon-r-{i}"):
                 first = r["snips"][0]
-                st.markdown(f'<div class="src">Tape {r["tape"]} · {html.escape(r["group"])} · '
-                            f'{r["count"]} mention{"s" if r["count"] != 1 else ""}</div>', unsafe_allow_html=True)
+                cnt = f' · {r["count"]} mention{"s" if r["count"] != 1 else ""}' if r["count"] else ""
+                st.markdown(f'<div class="src">Tape {r["tape"]} · {html.escape(r["group"])}{cnt}</div>',
+                            unsafe_allow_html=True)
                 subbed = set()
                 for j, sn in enumerate(r["snips"]):
                     head = " · ".join(x for x in (f"Conversation {sn['conv']}" if sn["conv"] else "", sn["date"]) if x)
@@ -1417,6 +1481,10 @@ def nixon_box():
                                   f'{"…" if sn["tail"] else ""}</div>', unsafe_allow_html=True)
                     if sn["conv"] and sn["conv"] not in subbed:
                         subbed.add(sn["conv"])
+                        if sn.get("pub"):
+                            st.markdown(f'<div class="nixon-pub">📜 A published transcript exists. The log says: '
+                                        f'<i>{html.escape(sn["pub"][:260])}</i></div>', unsafe_allow_html=True)
+                        transcript_panel(sn["conv"], q, key=f"hjc-{i}-{j}")
                         mm = re.search(r"minute (\d+)", sn.get("cue") or "")
                         subtitle_panel(sn["conv"], q, int(mm.group(1)) if mm else None, key=f"sub-{i}-{j}")
                 links = [f'<a href="{html.escape(r["page"])}" target="_blank">Tape {r["tape"]} page ↗</a>']

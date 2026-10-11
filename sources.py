@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 78
+CODE_VERSION = 79
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -580,6 +580,29 @@ def load_nixon_index(path=NIXON_INDEX):
 _CONV_HEAD = re.compile(r"Conversation\s+No\.?\s*\d{3}\s*-\s*0*\d{1,3}(?![\dA-Z])(?!\s*\(cont)")
 
 
+def nixon_conversation(index, cid):
+    """One conversation's log entry, as a search-style result (for opening it directly)."""
+    tape, num = cid.split("-")
+    t = next((t for t in (index or {}).get("tapes", []) if t["tape"] == tape), None)
+    if not t:
+        return None
+    text = t["text"]
+    h = re.search(rf"Conversation\s+No\.?\s*{tape}\s*-\s*0*{int(num)}(?![\dA-Z])(?!\s*\(cont)", text)
+    if not h:
+        return None
+    nxt = _CONV_HEAD.search(text, h.end())
+    block = text[h.end(): nxt.start() if nxt else len(text)]
+    dm = re.search(r"Date:\s*([^\n]+)", block)
+    wm = re.search(r"(The President [^\n]*(?:met|talked|spoke|dictated)[^\n]*)", block)
+    pm = re.search(r"\[\s*(?:A\s+)?[Tt]ranscripts?\s+of\s+(?:this|the following)[^\]]{0,400}\]", block)
+    body = re.sub(r"\s+", " ", block).strip()
+    snip = {"text": body[:900], "marks": [], "conv": cid,
+            "conv_url": f"{t['page']}/conversation-{cid}" if cid in t.get("convs", []) else None,
+            "date": dm.group(1).strip() if dm else "", "who": re.sub(r"\s+", " ", wm.group(1)).strip()[:180] if wm else "",
+            "cue": "", "pub": re.sub(r"\s+", " ", pm.group(0)).strip("[] ") if pm else "", "lead": False, "tail": len(body) > 900}
+    return {"tape": tape, "group": t.get("group", ""), "page": t["page"], "pdf": t.get("pdf"), "count": 0, "snips": [snip]}
+
+
 def search_nixon_logs(index, q, limit=40, per_tape=3):
     """Find words in the Tape Subject Logs. "quotes" = exact phrase; otherwise every word must appear
     on the same tape. Returns one entry per tape, best first, with highlighted snippets."""
@@ -623,13 +646,15 @@ def search_nixon_logs(index, q, limit=40, per_tape=3):
             if conv is None:                                   # older logs: bare "838-18" style numbers
                 for c in re.finditer(rf"\b({t['tape']})\s*-\s*0*(\d{{1,3}})\b", before[-6000:]):
                     conv = c
-            cid, when, who, cue = None, "", "", ""
+            cid, when, who, cue, pub = None, "", "", "", ""
             if conv:
                 cid = f"{conv.group(1)}-{int(conv.group(2)):03d}"
                 head = re.search(rf"Conversation\s+No\.?\s*{conv.group(1)}\s*-\s*0*{int(conv.group(2))}\b(?!\s*\(cont)", text)
                 block = text[head.end():][:1500] if head else text[len(before) - len(before[-20000:]) + conv.end():][:1500]
                 dm = re.search(r"Date:\s*([^\n]+)", block)
                 when = dm.group(1).strip() if dm else ""
+                pm = re.search(r"\[\s*(?:A\s+)?[Tt]ranscripts?\s+of\s+(?:this|the following)[^\]]{0,400}\]", block)
+                pub = re.sub(r"\s+", " ", pm.group(0)).strip("[] ") if pm else ""
                 wm = re.search(r"(The President [^\n]*(?:met|talked|spoke|dictated)[^\n]*)", block)
                 who = re.sub(r"\s+", " ", wm.group(1)).strip()[:180] if wm else ""
                 # where in the recording: the log lists topics in order, so position in the outline ≈ position in audio
@@ -650,7 +675,7 @@ def search_nixon_logs(index, q, limit=40, per_tape=3):
             marks = [(x.start() - a, x.end() - a) for p in pats for x in p.finditer(text[a:b])]
             snips.append({"text": snippet, "marks": sorted(set(marks)), "conv": cid,
                           "conv_url": (f"{t['page']}/conversation-{cid}" if cid in t.get("convs", []) else None),
-                          "date": when, "who": who, "cue": cue, "lead": a > 0, "tail": b < len(text)})
+                          "date": when, "who": who, "cue": cue, "pub": pub, "lead": a > 0, "tail": b < len(text)})
         out.append({"tape": t["tape"], "group": t.get("group", ""), "page": t["page"], "pdf": t.get("pdf"),
                     "count": len(hits), "snips": snips})
     out.sort(key=lambda r: -r["count"])
