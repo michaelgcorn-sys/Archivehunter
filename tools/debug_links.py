@@ -1,19 +1,19 @@
-"""One-off: find how the Nixon Library's embedded transcript media resolve (prints GitHub annotations)."""
+"""One-off: render the transcript listing in a real browser and report what the embedded media become."""
 import re
-import requests
-UA = {"User-Agent": "ArchiveHunter-index-builder/1.0", "Accept": "application/vnd.api+json, application/json, */*"}
+from playwright.sync_api import sync_playwright
 B = "https://www.nixonlibrary.gov"
-U = "2291cc57-f35c-4394-8c71-d8e2a1bcd462"
-listing = requests.get(B + "/watergate-special-prosecution-force-transcripts", headers=UA, timeout=60).text
-print("::notice::uuids on listing=" + str(len(set(re.findall(r'data-entity-uuid="([0-9a-f-]{36})"', listing)))))
-for path in ["/jsonapi", "/jsonapi/media/document/" + U, "/jsonapi/media/audio/" + U, "/jsonapi/media/file/" + U,
-             "/jsonapi/media/remote_video/" + U, "/media/oembed?uuid=" + U]:
-    try:
-        r = requests.get(B + path, headers=UA, timeout=60)
-        body = re.sub(r"\s+", " ", r.text)
-        types = sorted(set(re.findall(r'"(media--[a-z_]+)"', body)))
-        files = re.findall(r'"(?:url|href)":\s*"([^"]+\.(?:pdf|mp3|txt|doc|docx)[^"]*)"', r.text)
-        print("::notice::" + path[:60] + " -> " + str(r.status_code) + " " + r.headers.get("content-type", "")[:40]
-              + " types=" + str(types[:12]) + " files=" + str(files[:4]) + " body=" + body[:300])
-    except Exception as e:
-        print("::notice::" + path + " error " + type(e).__name__)
+with sync_playwright() as p:
+    b = p.chromium.launch()
+    pg = b.new_page(user_agent="Mozilla/5.0 ArchiveHunter-index-builder/1.0")
+    pg.goto(B + "/watergate-special-prosecution-force-transcripts", wait_until="networkidle", timeout=90000)
+    pg.wait_for_timeout(4000)
+    links = pg.eval_on_selector_all("a[href]", "els => els.map(e => e.href)")
+    media = pg.eval_on_selector_all("audio source, audio, video source, iframe, embed, object",
+                                    "els => els.map(e => e.src || e.data || '')")
+    keep = sorted(set(l for l in links if re.search(r"\.(pdf|mp3|txt|docx?)\b|files/", l, re.I)))
+    print("::notice::rendered links=" + str(len(links)) + " files=" + str(keep[:20]))
+    print("::notice::media=" + str(media[:12]))
+    html = pg.content()
+    i = html.find("472-004")
+    print("::notice::around=" + re.sub(r"\s+", " ", html[max(0, i - 900):i + 300])[:1200])
+    b.close()
