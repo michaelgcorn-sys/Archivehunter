@@ -27,7 +27,9 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install
-        run: pip install -q requests faster-whisper
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q requests faster-whisper
       - name: Transcribe
         run: python tools/transcribe_conversation.py "${{ github.event.inputs.conv }}" "${{ github.event.inputs.model }}"
       - name: Commit
