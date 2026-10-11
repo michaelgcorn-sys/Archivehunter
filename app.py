@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 72
+APP_CODE_VERSION = 73
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -238,7 +238,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 72 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 73 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -700,7 +700,6 @@ def daily_mystery_card():
 
 with st.spinner("Pulling Top Secret documents from the archives…"):
     top_secret_strip()
-daily_mystery_card()
 
 
 @st.cache_data(ttl=6 * 3600, show_spinner=False, max_entries=40)
@@ -1672,3 +1671,7 @@ for j, (label, url) in enumerate(TRIPS):
     tm[j % 2].link_button(label, url, width="stretch")
 st.caption("Tip: every result above also has a 🕰 Saved copy link, and Find my words inside uses a saved "
            "copy automatically when a document has been taken down.")
+
+# ── Daily Mystery: the very end of the app ─────────────────────────────────────
+st.divider()
+daily_mystery_card()
