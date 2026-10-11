@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 89
+APP_CODE_VERSION = 90
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -216,6 +216,7 @@ st.markdown("""
 [class*="st-key-ufo-rel-"]{flex-wrap:nowrap!important;border-top:1px solid #1c3329;padding-top:.3rem}
 [class*="st-key-ufo-rel-"] > div:nth-child(1){flex:1 1 auto;min-width:0}
 .ufo-desc{font-size:.92rem;line-height:1.45;color:#d6e6dc;margin:.4rem 0}
+[class*="st-key-ufo-dig-"] button{min-height:0!important;padding:.15rem .6rem!important;border-color:#2f6b4f!important}
 .st-key-ufo-acc-head{justify-content:space-between}
 .st-key-ufo-pics-head{justify-content:space-between}
 .st-key-ufo-top{justify-content:space-between}
@@ -278,7 +279,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 89 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 90 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1245,6 +1246,7 @@ def cached_nara(q, v=APP_CODE_VERSION):
 
 def _nara_go(q):
     ss.nara_q = q
+    ss.scroll_to = ".st-key-nara-box"
 
 
 def nara_box():
@@ -1660,6 +1662,20 @@ def ufo_detail(r):
                             + f'<div class="fav-t"><b>{html.escape(sources.ufo_kind(x))}</b> {html.escape(x["title"][:90])}</div>',
                             unsafe_allow_html=True)
                 st.button("Open", key=f"ufo-relo-{r['id']}-{x['id']}", on_click=_ufo_open, args=(x["id"],), type="tertiary")
+    t = sources.ufo_dig_terms(r)
+    qs = []
+    for person in t["people"]:
+        qs.append(f'"{person}" {t["words"]}')
+    if t["places"]:
+        qs.append(f'{t["places"][0]} {t["words"]} {t["year"]}'.strip())
+    if qs:
+        st.markdown('<div class="exp-sub">🔎 DIG DEEPER · search every archive</div>', unsafe_allow_html=True)
+        with st.container(horizontal=True, wrap=True, gap="small", key=f"ufo-dig-{r['id']}"):
+            for j, qq in enumerate(qs[:4]):
+                st.button(f"🔎 {qq.replace(chr(34), '')}", key=f"ufo-dig-{r['id']}-{j}", on_click=follow_term, args=(qq,))
+            if sources.NARA_ON:
+                st.button(f"🏛 National Archives: {qs[0].replace(chr(34), '')}", key=f"ufo-dign-{r['id']}",
+                          on_click=_nara_go, args=(qs[0].replace(chr(34), ""),))
     links = []
     if r.get("fileUrl"):
         links.append(f'<a href="{html.escape(r["fileUrl"])}" target="_blank">Open the original on war.gov ↗</a>')

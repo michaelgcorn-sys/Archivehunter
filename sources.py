@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 89
+CODE_VERSION = 90
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -786,6 +786,45 @@ def _ufo_code(title):
     return m.group(1) if m else ""
 
 
+_PLACE_STOP = {"united", "states", "western", "eastern", "northern", "southern", "northeastern", "southwestern",
+               "various", "middle", "america", "region", "space", "orbit", "earth", "ocean", "westen", "centcom"}
+
+
+def _ufo_year(v):
+    v = str(v or "")
+    m = re.search(r"(?:19|20)\d\d", v)
+    if m:
+        return m.group()
+    m = re.match(r"\s*\d{1,2}/\d{1,2}/(\d{2})\b", v)                # 10/14/55 style
+    if m:
+        yy = int(m.group(1))
+        return str(1900 + yy if yy > 30 else 2000 + yy)
+    return ""
+
+
+def _place_words(loc):
+    return {w for w in re.findall(r"[a-z]{5,}", str(loc or "").lower()) if w not in _PLACE_STOP}
+
+
+_PEOPLE_RX = re.compile(r"\b(?:Senator|Sen\.|Colonel|Col\.|Lt\. Col\.|Captain|Capt\.|General|Gen\.|Admiral|Major|Astronaut|"
+                        r"Commander|Dr\.|Chief Warrant Officer|Pilot)\s+((?:[A-Z][a-z]+|[A-Z]\.)(?:\s+(?:[A-Z][a-z]+|[A-Z]\.|“[^”]+”)){0,3})")
+
+
+def ufo_dig_terms(r):
+    """Names, places and the year in a UFO file, for searching other archives."""
+    desc = r.get("description", "")
+    people = []
+    for m in _PEOPLE_RX.finditer(desc):
+        name = re.sub(r"\s+“[^”]+”", "", m.group(1)).strip()
+        if len(name.split()) >= 2 and name not in people:
+            people.append(name)
+    yv = _ufo_year(r.get("incidentDate")) or (re.search(r"\b(?:19|20)\d\d\b", r["title"]) or [""])[0]
+    places = [w.title() for w in re.findall(r"[A-Za-z]{5,}", str(r.get("incidentLocation") or ""))
+              if w.lower() not in _PLACE_STOP][:2]
+    words = "flying saucer" if yv and int(yv) < 1975 else "UFO"
+    return {"people": people[:3], "places": places, "year": yv, "words": words}
+
+
 def ufo_related(records, r, limit=12):
     """Other files from the same case: same agency/date/place, same title apart from the part number, the same
     quoted case name (e.g. “Northeastern Orb Sighting”), or a file that names the other by its code."""
@@ -803,14 +842,15 @@ def ufo_related(records, r, limit=12):
         same_case = (known(r.get("incidentDate")) and known(r.get("incidentLocation")) and x.get("agency") == r.get("agency")
                      and x.get("incidentDate") == r.get("incidentDate") and x.get("incidentLocation") == r.get("incidentLocation"))
         same_title = len(stem) > 12 and _ufo_stem(x["title"]) == stem
-        ryr = re.search(r"(?:19|20)\d\d", str(r.get("incidentDate") or ""))
-        xyr = re.search(r"(?:19|20)\d\d", str(x.get("incidentDate") or ""))
-        same_place_year = (bool(ryr and xyr) and ryr.group() == xyr.group() and known(r.get("incidentLocation"))
+        ryr, xyr = _ufo_year(r.get("incidentDate")), _ufo_year(x.get("incidentDate"))
+        same_place_year = (bool(ryr and xyr) and ryr == xyr and known(r.get("incidentLocation"))
                            and len(str(r["incidentLocation"])) > 12
                            and str(x.get("incidentLocation")).lower() == str(r["incidentLocation"]).lower())
         same_name = bool(quoted & set(re.findall(r"“([^”]{6,})”", x["title"])))
         cites = (xcode and xcode in refs) or (code and code in x.get("description", ""))
-        if same_case or same_title or same_name or cites or same_place_year:
+        rw = _place_words(r.get("incidentLocation"))
+        same_year_place = bool(ryr and xyr and ryr == xyr and rw & _place_words(x.get("incidentLocation")))
+        if same_case or same_title or same_name or cites or same_place_year or same_year_place:
             out.append(x)
     out.sort(key=lambda x: (x.get("type") != "PDF", x["title"]))     # accounts and reports first
     return out[:limit]
