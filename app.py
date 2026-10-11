@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 88
+APP_CODE_VERSION = 89
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -216,6 +216,7 @@ st.markdown("""
 [class*="st-key-ufo-rel-"]{flex-wrap:nowrap!important;border-top:1px solid #1c3329;padding-top:.3rem}
 [class*="st-key-ufo-rel-"] > div:nth-child(1){flex:1 1 auto;min-width:0}
 .ufo-desc{font-size:.92rem;line-height:1.45;color:#d6e6dc;margin:.4rem 0}
+.st-key-ufo-acc-head{justify-content:space-between}
 .st-key-ufo-pics-head{justify-content:space-between}
 .st-key-ufo-top{justify-content:space-between}
 .ufo-rth{width:56px;height:44px;object-fit:cover;border-radius:3px;flex:0 0 56px}
@@ -277,7 +278,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 88 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 89 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1687,6 +1688,39 @@ def cached_quote_card(kicker, headline, body, source, v=APP_CODE_VERSION):
     return extras.quote_card(kicker, headline, body, source)
 
 
+_ACCOUNT_RX = re.compile(r"(?i)first-hand|firsthand|FD-302|FD-1057|narrative statement|eyewitness|witness|interview|"
+                         r"debrief|statement|account of|reported observing")
+
+
+@st.cache_data(ttl=12 * 3600, show_spinner=False)
+def ufo_account_pool(v=APP_CODE_VERSION):
+    """Every released file that is itself a written or spoken account (interviews, statements, debriefings),
+    oldest first, one per case description."""
+    seen, out = set(), []
+    for r in ufo_records(APP_CODE_VERSION):
+        if r["type"] not in ("PDF", "AUD") or not _ACCOUNT_RX.search(r["description"] + " " + r["title"]):
+            continue
+        if re.search(r"(?i)sketch|rendering|photo b\d|notional map", r["title"]):
+            continue
+        k = r["description"][:140]
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(r)
+    def year(r):
+        m = re.search(r"(19|20)\d\d", str(r.get("incidentDate") or ""))
+        return int(m.group()) if m else 9999
+    out.sort(key=year)
+    return [r["id"] for r in out]
+
+
+def _account_label(r):
+    m = re.search(r"(19|20)\d\d", str(r.get("incidentDate") or ""))
+    place = r.get("incidentLocation") or ""
+    place = "" if place in ("N/A", "Various") else place.replace("Westen", "Western")
+    return " · ".join(x for x in ((m.group() if m else ""), place[:30]) if x) or r["agency"]
+
+
 @st.cache_data(ttl=12 * 3600, show_spinner=False)
 def ufo_picture_pool(v=APP_CODE_VERSION):
     """Every image, rendering or video in the UFO files that has a written account attached (its own text or a
@@ -1732,12 +1766,29 @@ def ufo_box():
                 ufo_detail(r)
                 return
             ss.pop("ufo_open", None)
-        st.markdown('<div class="exp-sub">👁 EYEWITNESS · 80 years of sightings, oldest first</div>', unsafe_allow_html=True)
+        accounts = ufo_account_pool(APP_CODE_VERSION)
+        apage = ss.get("ufo_acc_page", 0)
+        with st.container(horizontal=True, vertical_alignment="center", key="ufo-acc-head"):
+            n_acc = len(set(accounts) | {i for i, _l, _h in UFO_EYEWITNESS})
+            st.markdown(f'<div class="exp-sub">👁 EYEWITNESS · {n_acc} accounts</div>',
+                        unsafe_allow_html=True)
+            st.button("🔄 More accounts", key="ufo-acc-more", type="tertiary",
+                      on_click=lambda: ss.__setitem__("ufo_acc_page", ss.get("ufo_acc_page", 0) + 1))
         with st.container(horizontal=True, gap="small", key="ufo-rail"):
-            for rid, label, hook in UFO_EYEWITNESS:
-                r = ufo_by_id(rid)
-                if r:
-                    ufo_mini(r, label, hook, f"e{rid}")
+            if not apage:
+                for rid, label, hook in UFO_EYEWITNESS:
+                    r = ufo_by_id(rid)
+                    if r:
+                        ufo_mini(r, label, hook, f"e{rid}")
+            else:
+                curated = {i for i, _l, _h in UFO_EYEWITNESS}
+                rest = [i for i in accounts if i not in curated]
+                start = ((apage - 1) * 8) % max(1, len(rest))
+                for rid in (rest + rest)[start:start + 8]:
+                    r = ufo_by_id(rid)
+                    if r:
+                        first = re.split(r"(?<=[.!?])\s", r["description"])[0]
+                        ufo_mini(r, _account_label(r), first[:130] + ("…" if len(first) > 130 else ""), f"a{rid}")
         pool = ufo_picture_pool(APP_CODE_VERSION)
         page = ss.get("ufo_pic_page", 0)
         if page and len(pool) > 7:              # step through a fixed shuffle: no repeats until all have been shown
@@ -1797,7 +1848,19 @@ def todays_exhibit():
     from datetime import datetime
     from zoneinfo import ZoneInfo
     today = datetime.now(ZoneInfo("America/New_York")).date()
-    kind, ref, kicker, headline, source = EXHIBITS[today.toordinal() % len(EXHIBITS)]
+    curated_ids = {e[1] for e in EXHIBITS if e[0] == "ufo"} | {i for i, _l, _h in UFO_EYEWITNESS}
+    extra = []
+    for i, label, hook in UFO_EYEWITNESS:                    # the hand-written eyewitness picks
+        if i not in {e[1] for e in EXHIBITS}:
+            extra.append(("ufo", i, "🛸 THE UFO FILES", hook, label))
+    for i in ufo_account_pool(APP_CODE_VERSION):             # then every other first-person account
+        if i not in curated_ids:
+            r = ufo_by_id(i)
+            if r:
+                t = re.sub(r"^[A-Z]{2,4}-UAP-[A-Z]*\d+[A-Z]?,\s*", "", r["title"])
+                extra.append(("ufo", i, "🛸 THE UFO FILES", t, f'{r["agency"]} · {_account_label(r)}'))
+    allx = list(EXHIBITS) + extra
+    kind, ref, kicker, headline, source = allx[today.toordinal() % len(allx)]
     img, blurb = "", ""
     if kind == "ufo":
         r = ufo_by_id(ref)

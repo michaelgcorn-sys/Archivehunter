@@ -14,7 +14,7 @@ import urllib.parse
 
 from sources import _get, clean, search_cia
 
-MODULE_VERSION = 88   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 89   # keep in step with APP_CODE_VERSION in app.py
 
 
 # ── Fresh releases ───────────────────────────────────────────────────────────
@@ -74,6 +74,17 @@ MYSTERY = {
     "VENONA": ("codes", "cracking Soviet spy cables, 1943–1980"),
     "AZORIAN": ("codes", "raising a sunken Soviet submarine, 1974"),
 }
+MYSTERY.update({
+    "BLUEBIRD": ("mind", "the CIA's first behavior-control project, 1950–1951"),
+    "MKNAOMI": ("mind", "CIA–Army work on biological agents, 1950s–1960s"),
+    "SUN STREAK": ("mind", "Army remote viewing under a new name, 1986–1990"),
+    "TPAJAX": ("covert", "the CIA-backed coup in Iran, 1953"),
+    "PBSUCCESS": ("covert", "the CIA-backed coup in Guatemala, 1954"),
+    "JMWAVE": ("covert", "the CIA's Miami station running operations against Cuba, 1960s"),
+    "ZRRIFLE": ("covert", "the CIA's secret assassination-capability program, early 1960s"),
+    "AMLASH": ("covert", "a CIA plot to have Castro killed, 1963–1965"),
+    "HTLINGUAL": ("codes", "the CIA secretly opening Americans' mail, 1952–1973"),
+})
 MYSTERY_POOL = list(MYSTERY)
 
 # Jargon that turns up in CIA titles
