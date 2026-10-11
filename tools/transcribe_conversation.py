@@ -75,4 +75,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except BaseException as e:            # surface the reason as a GitHub annotation (readable via the API)
+        import traceback
+        tb = traceback.format_exc().strip().splitlines()
+        print(f"::error::{type(e).__name__}: {str(e)[:300]} | {' / '.join(tb[-4:])[:600]}", flush=True)
+        raise
