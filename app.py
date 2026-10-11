@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 85
+APP_CODE_VERSION = 86
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -212,6 +212,9 @@ st.markdown("""
 .ufo-hook{font-size:.84rem;line-height:1.3;color:#d6e6dc;min-height:4.4em}
 .ufo-title{font-family:Georgia,serif;font-size:1.1rem;color:#e6f2ea;margin:.2rem 0}
 .ufo-big{width:100%;max-height:340px;object-fit:contain;background:#000;border-radius:4px;margin:.3rem 0}
+.ufo-report{max-height:380px;overflow-y:auto;font:14px/1.45 Georgia,serif;color:#e8efe9;background:#0a0f0c;border-left:3px solid #2f6b4f;padding:.5rem .7rem;white-space:normal}
+[class*="st-key-ufo-rel-"]{flex-wrap:nowrap!important;border-top:1px solid #1c3329;padding-top:.3rem}
+[class*="st-key-ufo-rel-"] > div:nth-child(1){flex:1 1 auto;min-width:0}
 .ufo-desc{font-size:.92rem;line-height:1.45;color:#d6e6dc;margin:.4rem 0}
 .st-key-ufo-top{justify-content:space-between}
 .ufo-rth{width:56px;height:44px;object-fit:cover;border-radius:3px;flex:0 0 56px}
@@ -273,7 +276,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 85 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 86 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1602,6 +1605,13 @@ def _ufo_thumb(r):
     return r.get("thumbnailUrl") or ""
 
 
+@st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=300)
+def cached_ufo_text(rid, v=APP_CODE_VERSION):
+    t = sources.ufo_text(rid)
+    t = re.sub(r"(?m)^--- PAGE (\d+) ---$", r"\n[page \1]", t)
+    return re.sub(r"\n{3,}", "\n\n", t).strip()
+
+
 def ufo_detail(r):
     with st.container(horizontal=True, vertical_alignment="center", key="ufo-top"):
         st.markdown(f'<div class="ufo-kicker">{html.escape(sources.ufo_kind(r))} · {html.escape(r["agency"])}</div>',
@@ -1617,6 +1627,26 @@ def ufo_detail(r):
         st.markdown(f'<a href="{html.escape(r.get("fileUrl") or _ufo_thumb(r))}" target="_blank"><img class="ufo-big" '
                     f'src="{html.escape(_ufo_thumb(r))}" alt=""></a>', unsafe_allow_html=True)
     st.markdown(f'<div class="ufo-desc">{html.escape(r["description"])}</div>', unsafe_allow_html=True)
+    if r.get("type") in ("PDF", "IMG"):
+        with st.spinner("Opening the report…"):
+            txt = cached_ufo_text(r["id"], APP_CODE_VERSION)
+        if len(txt) > 120:
+            with st.expander("📄 Read the report", expanded=r.get("type") == "PDF"):
+                st.caption("Text machine-read from the released file, so expect some errors. Words the government blacked out "
+                           "show as [redacted] or [illegible]. The original is linked below.")
+                shown = txt[:9000]
+                st.markdown('<div class="ufo-report">' + html.escape(shown).replace("\n", "<br>")
+                            + ("<br><br>… <i>continues in the original</i>" if len(txt) > 9000 else "") + "</div>",
+                            unsafe_allow_html=True)
+    rel = sources.ufo_related(ufo_records(APP_CODE_VERSION), r)
+    if rel:
+        st.markdown(f'<div class="exp-sub">🗂 MORE FROM THIS CASE · {len(rel)}</div>', unsafe_allow_html=True)
+        for x in rel:
+            with st.container(horizontal=True, vertical_alignment="center", gap="small", key=f"ufo-rel-{r['id']}-{x['id']}"):
+                st.markdown((f'<img class="ufo-rth" src="{html.escape(_ufo_thumb(x))}" alt="">' if _ufo_thumb(x) else "")
+                            + f'<div class="fav-t"><b>{html.escape(sources.ufo_kind(x))}</b> {html.escape(x["title"][:90])}</div>',
+                            unsafe_allow_html=True)
+                st.button("Open", key=f"ufo-relo-{r['id']}-{x['id']}", on_click=_ufo_open, args=(x["id"],), type="tertiary")
     links = []
     if r.get("fileUrl"):
         links.append(f'<a href="{html.escape(r["fileUrl"])}" target="_blank">Open the original on war.gov ↗</a>')
@@ -1648,7 +1678,8 @@ def cached_quote_card(kicker, headline, body, source, v=APP_CODE_VERSION):
 def ufo_mini(r, label, hook, key):
     th = _ufo_thumb(r)
     with st.container(border=True, key=f"ufo-mini-{key}"):
-        st.markdown((f'<img class="ufo-th" src="{html.escape(th)}" alt="">' if th else '<div class="ufo-th ufo-noth">🛸</div>')
+        st.markdown((f'<img class="ufo-th" src="{html.escape(th)}" alt="">' if th else
+                     f'<div class="ufo-th ufo-noth">{"▶" if r.get("dvidsVideoId") else "🛸"}</div>')
                     + f'<div class="ufo-when">{html.escape(label)}</div><div class="ufo-hook">{html.escape(hook)}</div>',
                     unsafe_allow_html=True)
         st.button("Open the file", key=f"ufo-o-{key}", on_click=_ufo_open, args=(r["id"],), type="tertiary")
@@ -1682,7 +1713,7 @@ def ufo_box():
         with st.container(horizontal=True, gap="small", key="ufo-rail2"):
             for rid in UFO_PICTURES:
                 r = ufo_by_id(rid)
-                if r and _ufo_thumb(r):
+                if r and (_ufo_thumb(r) or r.get("dvidsVideoId")):
                     when = " · ".join(x for x in (str(r.get("incidentDate") or ""), r.get("incidentLocation") or "")
                                       if x and x != "N/A")
                     first = re.split(r"(?<=[.!?])\s", r["description"])[0]

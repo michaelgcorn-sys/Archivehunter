@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 85
+CODE_VERSION = 86
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -756,6 +756,64 @@ def load_ufo_records(remote=True):
         with open(UFO_BUNDLED) as f:
             recs = json.load(f)
     return [{k: x.get(k, "") for k in _UFO_KEYS} for x in recs if x.get("id") is not None]
+
+
+UFO_TEXT_URLS = ("https://raw.githubusercontent.com/abigailhaddad/ufo-releases/main/data/text/{id}.txt",
+                 "https://pub-a5fc1ae0b89944dba0ab60286076ab1e.r2.dev/text/{id}.txt")
+
+
+def ufo_text(rid):
+    """Machine-read text of a released UFO file (from the public mirror), or ''."""
+    for tpl in UFO_TEXT_URLS:
+        try:
+            r = requests.get(tpl.format(id=rid), headers=HEADERS, timeout=15)
+            if r.status_code == 200 and len(r.text.strip()) > 40 and "<html" not in r.text[:200].lower():
+                return r.text
+        except Exception:
+            pass
+    return ""
+
+
+def _ufo_stem(title):
+    t = re.sub(r"\s*[-–]\s*(Serial|Composite|Narrative|Digital|Part|Section)\b.*$", "", title, flags=re.I)
+    t = re.sub(r"^[A-Z]{2,4}-UAP-[A-Z]*\d+[A-Z]?,\s*", "", t)
+    t = re.sub(r",?\s*(Narrative Statement \d+|Digital Rendering|Transcript of .*|Incident.*)$", "", t, flags=re.I)
+    return t.strip().lower()
+
+
+def _ufo_code(title):
+    m = re.match(r"([A-Z]{2,4}-UAP-[A-Z]*\d+[A-Z]?)", title or "")
+    return m.group(1) if m else ""
+
+
+def ufo_related(records, r, limit=12):
+    """Other files from the same case: same agency/date/place, same title apart from the part number, the same
+    quoted case name (e.g. “Northeastern Orb Sighting”), or a file that names the other by its code."""
+    def known(v):
+        return v and str(v).strip() not in ("N/A", "Undated", "")
+    stem = _ufo_stem(r["title"])
+    quoted = set(re.findall(r"“([^”]{6,})”", r["title"]))
+    code = _ufo_code(r["title"])
+    refs = set(re.findall(r"[A-Z]{2,4}-UAP-[A-Z]*\d+[A-Z]?", r.get("description", "")))
+    out = []
+    for x in records:
+        if x["id"] == r["id"]:
+            continue
+        xcode = _ufo_code(x["title"])
+        same_case = (known(r.get("incidentDate")) and known(r.get("incidentLocation")) and x.get("agency") == r.get("agency")
+                     and x.get("incidentDate") == r.get("incidentDate") and x.get("incidentLocation") == r.get("incidentLocation"))
+        same_title = len(stem) > 12 and _ufo_stem(x["title"]) == stem
+        ryr = re.search(r"(?:19|20)\d\d", str(r.get("incidentDate") or ""))
+        xyr = re.search(r"(?:19|20)\d\d", str(x.get("incidentDate") or ""))
+        same_place_year = (bool(ryr and xyr) and ryr.group() == xyr.group() and known(r.get("incidentLocation"))
+                           and len(str(r["incidentLocation"])) > 12
+                           and str(x.get("incidentLocation")).lower() == str(r["incidentLocation"]).lower())
+        same_name = bool(quoted & set(re.findall(r"“([^”]{6,})”", x["title"])))
+        cites = (xcode and xcode in refs) or (code and code in x.get("description", ""))
+        if same_case or same_title or same_name or cites or same_place_year:
+            out.append(x)
+    out.sort(key=lambda x: (x.get("type") != "PDF", x["title"]))     # accounts and reports first
+    return out[:limit]
 
 
 def ufo_kind(r):

@@ -8,7 +8,7 @@ documents live from the CIA reading room mirror, so those titles are the CIA's o
 
 import requests
 
-CATALOG_VERSION = 85   # keep in step with APP_CODE_VERSION in app.py
+CATALOG_VERSION = 86   # keep in step with APP_CODE_VERSION in app.py
 
 from sources import HEADERS, _res
 
@@ -267,38 +267,40 @@ CORPORATE = [
 # ── UFO Files: eyewitness case file (record ids in the war.gov/UFO index), oldest first ──────────────
 # Captions paraphrase the Pentagon's own record descriptions.
 UFO_EYEWITNESS = [
-    (32, "1944 · Germany", "A witness later told the FBI he saw a huge, circular craft rise straight up near a German military compound."),
-    (358, "1946 · Sweden", "“Ghost rockets” over Scandinavia: the War Department's own intelligence review of the sightings."),
-    (392, "1952 · Tremonton, Utah", "A Navy officer films a group of bright objects with his home movie camera. Project Blue Book never solved it."),
-    (315, "1955 · Soviet Union", "Senator Richard Russell's party sees a glowing “greenish-yellow” object from their train. The CIA debriefs them."),
-    (249, "1956 · Budapest", "A CIA source sketches the formation of strange flying objects seen between Budapest and Moscow."),
+    (22, "1945 · Germany", "Allied night-fighter crews report “foo fighters,” including an object about 12 feet long “floating in the air at 9,000 ft.”"),
+    (32, "1944 · Germany", "A witness tells the FBI he saw a huge circular craft rise straight up near a German military compound."),
+    (386, "1952 · Tremonton, Utah", "A Navy officer's own statement: on a family drive, “my wife noticed a group of objects in the sky.” He filmed them."),
+    (273, "1952 · Washington State", "A witness tells the FBI a large, shining metal ball about 30 feet across came “swoosh” in from the west, a few hundred feet up."),
+    (272, "1950s · New Jersey", "FBI files: witnesses describe a long, cylindrical, dark silver object with no wings but fins on the rear."),
+    (242, "1955 · Soviet Union", "On a night train near Baku: “Did you see that out there? I just saw a flying saucer.” Then everyone saw it."),
     (31, "1958 · Detroit", "A local man reports a “circular object with a crystal-type dome.” The FBI passes it to the Air Force."),
-    (223, "1963 · In orbit", "Astronaut Gordon Cooper radios that he sees “John's fireflies” outside his capsule."),
-    (152, "1994 · Central Asia", "A State Department cable: a Tajik pilot and three Americans encounter a UFO in flight."),
-    (311, "1996 · In orbit", "Space Shuttle Columbia's crew photographs an unidentified object near the edge of the Earth."),
-    (346, "2002 · Bagram, Afghanistan", "A former service member describes a triangle in the sky over the air base. The FBI drew what he saw."),
-    (228, "2008 · Harare, Zimbabwe", "The international airport goes on high alert over a sighting. Spy craft, or something else?"),
-    (157, "2023 · United States", "Witnesses describe a bronze, metallic object 130–195 feet long appearing out of a bright light, then vanishing."),
-    (235, "2024 · Northeastern U.S.", "A glowing, shape-shifting sphere hovers over a pond for 45 minutes. The witness filmed it."),
-    (236, "2025 · Northeastern U.S.", "Home from work, a witness finds a “brilliant red sphere” hovering 25 feet above the backyard."),
+    (340, "1967 · United States", "An eleven-year-old hears a “weird” noise, looks out the window and sees a “flash of light going north.”"),
+    (152, "1994 · Central Asia", "A State Department cable: a Tajik pilot and three Americans encounter an unidentified object in flight."),
+    (377, "2002 · Bagram, Afghanistan", "A former military pilot tells the FBI about lights and a triangle over the base. The FBI drew what he saw."),
+    (228, "2008 · Harare, Zimbabwe", "A CIA report: the airport goes on high alert after an object is seen in the sky, possibly on radar too."),
+    (266, "2022 · Cheyenne Mountain", "A soldier tells the FBI that he and four others watched a strange object hover over Cheyenne Mountain."),
+    (160, "2023 · U.S. test range", "A drone-test worker “was annoyed when she first saw the object because the air space had been restricted.”"),
+    (257, "2023 · Western U.S.", "A federal agent's statement: “we suddenly noticed a large glowing ball to our right.”"),
+    (168, "2025 · Western U.S.", "A senior U.S. intelligence official's own account: pilots watched an object split in two, then accelerate out of sight."),
+    (233, "2026 · Northeastern U.S.", "Pulling into the driveway, a witness sees a yellow ball of light “about the size of a basketball.”"),
 ]
-UFO_PICTURES = [150, 311, 157, 346, 274, 392, 236, 235]
+UFO_PICTURES = [157, 346, 274, 231, 392, 236, 235]
 
 # ── Today's Exhibit: one find a day, mostly UFO and spy files ──────────────────────────────────────────
 # kind: "ufo" (record id) or "nixon" (conversation number)
 EXHIBITS = [
-    ("ufo", 157, "🛸 THE UFO FILES", "A bronze object up to 195 feet long, out of a bright light", "FBI eyewitness case, 2023"),
-    ("ufo", 236, "🛸 THE UFO FILES", "A red sphere, 25 feet above the backyard", "FBI eyewitness video, 2025"),
-    ("ufo", 32, "🛸 THE UFO FILES", "A circular craft over 1944 Germany", "FBI interview, 1957"),
+    ("ufo", 257, "🛸 THE UFO FILES", "“A large glowing ball to our right”", "A federal agent's statement, 2023"),
+    ("ufo", 266, "🛸 THE UFO FILES", "Five soldiers, one strange object over Cheyenne Mountain", "FBI interview, 2022"),
+    ("ufo", 242, "🛸 THE UFO FILES", "“I just saw a flying saucer”: a night train near Baku", "CIA report, 1955"),
     ("nixon", "886-008", "📼 THE NIXON TAPES", "“A cancer on the presidency”", "Oval Office, March 21, 1973"),
-    ("ufo", 315, "🛸 THE UFO FILES", "A senator, a train and a flying saucer", "CIA debriefing, 1955"),
-    ("ufo", 311, "🛸 THE UFO FILES", "The Space Shuttle's unidentified object", "NASA photograph, 1996"),
-    ("ufo", 392, "🛸 THE UFO FILES", "The Navy officer's home movie of a UFO", "Project Blue Book film, 1952"),
-    ("ufo", 152, "🛸 THE UFO FILES", "A pilot and three Americans meet a UFO", "State Department cable, 1994"),
+    ("ufo", 160, "🛸 THE UFO FILES", "The object that ruined a drone test", "FBI interview, 2023"),
+    ("ufo", 168, "🛸 THE UFO FILES", "A spy chief's own UFO account", "Senior intelligence official, 2025"),
+    ("ufo", 386, "🛸 THE UFO FILES", "The Navy officer who filmed a UFO on a family drive", "Project Blue Book file, 1952"),
+    ("ufo", 273, "🛸 THE UFO FILES", "A 30-foot metal ball, a few hundred feet up", "FBI file, Washington State"),
     ("nixon", "422-033", "📼 THE NIXON TAPES", "Nixon and Mitchell, the day after “the cancer”", "Executive Office Building, March 22, 1973"),
-    ("ufo", 346, "🛸 THE UFO FILES", "A triangle in the sky over Bagram", "FBI rendering of a first-hand account, 2002"),
-    ("ufo", 235, "🛸 THE UFO FILES", "Orbs over the pond", "FBI eyewitness video, 2024"),
-    ("ufo", 150, "🛸 THE UFO FILES", "Three dots in the Apollo 17 sky", "NASA photograph, 1972"),
-    ("ufo", 228, "🛸 THE UFO FILES", "An airport on high alert over a UFO", "CIA report, 2008"),
-    ("ufo", 31, "🛸 THE UFO FILES", "The crystal-domed object over Detroit", "FBI memo, 1958"),
+    ("ufo", 22, "🛸 THE UFO FILES", "“Foo fighters” over wartime Germany", "Allied military records, 1945"),
+    ("ufo", 377, "🛸 THE UFO FILES", "A pilot's lights and a triangle over Bagram", "FBI interview, 2024"),
+    ("ufo", 233, "🛸 THE UFO FILES", "A ball of light in the driveway", "FBI interview, 2026"),
+    ("ufo", 340, "🛸 THE UFO FILES", "What an eleven-year-old saw", "FBI correspondence, 1967"),
+    ("ufo", 152, "🛸 THE UFO FILES", "A pilot and three Americans meet a UFO", "State Department cable, 1994"),
 ]
