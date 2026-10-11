@@ -1534,6 +1534,7 @@ with tab_search:
         go = True
 
     ss.setdefault("chosen", ALL)
+    ss.chosen = [c for c in ss.chosen if c in ALL] or ALL      # drop archives that were removed
     st.markdown(f'<div class="which">Searching {len(ss.chosen)} archives at once · CIA, FBI, NSA, State Dept and more</div>',
                 unsafe_allow_html=True)
     with st.expander("See or change which archives"):
