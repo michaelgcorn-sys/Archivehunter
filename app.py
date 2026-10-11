@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 74
+APP_CODE_VERSION = 75
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -189,6 +189,7 @@ st.markdown("""
 [class*="st-key-nara-cell-"]:has(.nara-photo) button{border-top-left-radius:0!important;border-top-right-radius:0!important}
 .st-key-nara-box{border-color:#3d5a80!important;background:linear-gradient(180deg,#121a26,#0f1218)}
 .st-key-nixon-box{border-color:#7a5a3a!important;background:linear-gradient(180deg,#1a140e,#120f0b)}
+.nixon-cue{font-size:.85rem;color:#d9a066;margin:.15rem 0 .3rem}.nixon-cue span{opacity:.6;font-size:.72rem}
 .nixon-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#d9a066}
 .st-key-nixon-try button{min-height:0!important;padding:.1rem .7rem!important}
 .nara-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#8fb3de}
@@ -238,7 +239,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 74 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 75 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1332,6 +1333,8 @@ def nixon_box():
                             if sn.get("conv_url") and head else html.escape(head))
                     st.markdown((f'<div class="res-title" style="font-size:1rem">{link}</div>' if head else "")
                                 + (f'<div class="meta">{html.escape(sn["who"])}</div>' if sn["who"] else "")
+                                + (f'<div class="nixon-cue">🎧 {html.escape(sn["cue"])} <span>(estimate: the log lists '
+                                   f'topics in the order they came up)</span></div>' if sn.get("cue") else "")
                                 + f'<div class="passage">{"…" if sn["lead"] else ""}{_hl(sn["text"], sn["marks"])}'
                                   f'{"…" if sn["tail"] else ""}</div>', unsafe_allow_html=True)
                 links = [f'<a href="{html.escape(r["page"])}" target="_blank">Tape {r["tape"]} page ↗</a>']

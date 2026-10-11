@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 74
+CODE_VERSION = 75
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -577,6 +577,9 @@ def load_nixon_index(path=NIXON_INDEX):
     return idx
 
 
+_CONV_HEAD = re.compile(r"Conversation\s+No\.?\s*\d{3}\s*-\s*0*\d{1,3}(?![\dA-Z])(?!\s*\(cont)")
+
+
 def search_nixon_logs(index, q, limit=40, per_tape=3):
     """Find words in the Tape Subject Logs. "quotes" = exact phrase; otherwise every word must appear
     on the same tape. Returns one entry per tape, best first, with highlighted snippets."""
@@ -618,7 +621,7 @@ def search_nixon_logs(index, q, limit=40, per_tape=3):
             if conv is None:                                   # older logs: bare "838-18" style numbers
                 for c in re.finditer(rf"\b({t['tape']})\s*-\s*0*(\d{{1,3}})\b", before[-6000:]):
                     conv = c
-            cid, when, who = None, "", ""
+            cid, when, who, cue = None, "", "", ""
             if conv:
                 cid = f"{conv.group(1)}-{int(conv.group(2)):03d}"
                 head = re.search(rf"Conversation\s+No\.?\s*{conv.group(1)}\s*-\s*0*{int(conv.group(2))}\b(?!\s*\(cont)", text)
@@ -627,11 +630,25 @@ def search_nixon_logs(index, q, limit=40, per_tape=3):
                 when = dm.group(1).strip() if dm else ""
                 wm = re.search(r"(The President [^\n]*(?:met|talked|spoke|dictated)[^\n]*)", block)
                 who = re.sub(r"\s+", " ", wm.group(1)).strip()[:180] if wm else ""
+                # where in the recording: the log lists topics in order, so position in the outline ≈ position in audio
+                tm = re.search(r"Time:\s*(\d{1,2}):(\d{2})\s*([ap])\.?m\.?\s*-\s*(\d{1,2}):(\d{2})\s*([ap])", block, re.I)
+                if tm and head:
+                    def mins(h, mi, ap):
+                        h = int(h) % 12 + (12 if ap.lower() == "p" else 0)
+                        return h * 60 + int(mi)
+                    dur = mins(*tm.group(4, 5, 6)) - mins(*tm.group(1, 2, 3))
+                    nxt = _CONV_HEAD.search(text, head.end())
+                    end = nxt.start() if nxt else len(text)
+                    span = end - head.end()
+                    if dur >= 3 and span > 200 and head.end() <= m.start() < end:
+                        frac = (m.start() - head.end()) / span
+                        at = round(frac * dur)
+                        cue = f"About minute {max(1, at)} of this {dur}-minute conversation"
             snippet = text[a:b].replace("\n", " ")
             marks = [(x.start() - a, x.end() - a) for p in pats for x in p.finditer(text[a:b])]
             snips.append({"text": snippet, "marks": sorted(set(marks)), "conv": cid,
                           "conv_url": (f"{t['page']}/conversation-{cid}" if cid in t.get("convs", []) else None),
-                          "date": when, "who": who, "lead": a > 0, "tail": b < len(text)})
+                          "date": when, "who": who, "cue": cue, "lead": a > 0, "tail": b < len(text)})
         out.append({"tape": t["tape"], "group": t.get("group", ""), "page": t["page"], "pdf": t.get("pdf"),
                     "count": len(hits), "snips": snips})
     out.sort(key=lambda r: -r["count"])
