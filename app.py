@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 81
+APP_CODE_VERSION = 82
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -88,6 +88,9 @@ st.markdown("""
 .st-key-dossier{border-color:#c8a96e!important;background:linear-gradient(180deg,#1d1a13,#141310)}
 .dos-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.16em;color:#c4544a}
 .dos-title{font-family:Georgia,'Times New Roman',serif;font-size:1.25rem;line-height:1.3;color:#ecd9b0;margin:.1rem 0 .25rem}
+.dos-noimg{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.25rem;height:180px;
+ background:#1c1810;border:1px dashed #5a4a2e;border-radius:4px;text-decoration:none!important;color:#c8a96e!important;font-size:1.6rem}
+.dos-noimg b{font-size:.85rem}.dos-noimg span{font-size:.75rem;opacity:.7}
 .dos-img{width:100%;max-height:300px;object-fit:contain;background:#f1ece0;border-radius:4px;border:1px solid #3a3528}
 .dos-ex{font-family:Georgia,serif;font-size:.86rem;line-height:1.45;opacity:.85;margin:.45rem 0}
 .dos-ex span{font-family:inherit;font-style:italic;opacity:.6;font-size:.76rem}
@@ -247,7 +250,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 81 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 82 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -555,6 +558,20 @@ def share_url(ident):
     return f"{base}?doc={ident}"
 
 
+@st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=500)
+def cached_thumb(ident, first, v=APP_CODE_VERSION):
+    """A page picture that actually loads: the Archive's thumbnail, else its first page image, else none."""
+    import requests as _rq
+    for url in (first, f"https://archive.org/download/{ident}/page/n0_w500.jpg"):
+        try:
+            r = _rq.get(url, timeout=12, headers={"User-Agent": "ArchiveHunter/1.0"}, allow_redirects=True)
+            if r.status_code == 200 and r.headers.get("content-type", "").startswith("image") and len(r.content) > 2500:
+                return r.url
+        except Exception:
+            pass
+    return None
+
+
 def render_dossier(ident):
     with st.container(border=True, key="dossier"):
         try:
@@ -573,8 +590,13 @@ def render_dossier(ident):
             st.button("✕ Close", key="dos-close", on_click=close_dossier, type="tertiary")
         show_trail("dos")
         c1, c2 = st.columns([2, 3])
-        c1.markdown(f'<a href="{html.escape(d["view"])}" target="_blank"><img class="dos-img" '
-                    f'src="{html.escape(d["thumb"])}" alt="First page"></a>', unsafe_allow_html=True)
+        thumb = cached_thumb(ident, d["thumb"], APP_CODE_VERSION)
+        if thumb:
+            c1.markdown(f'<a href="{html.escape(d["view"])}" target="_blank"><img class="dos-img" '
+                        f'src="{html.escape(thumb)}" alt="First page"></a>', unsafe_allow_html=True)
+        else:
+            c1.markdown(f'<a class="dos-noimg" href="{html.escape(d["view"])}" target="_blank">📄<b>Page preview '
+                        f'not available</b><span>Tap to read the original</span></a>', unsafe_allow_html=True)
         with c2:
             st.markdown(f'<div class="dos-title">{html.escape(d["title"])}</div>'
                         f'<div class="meta">CIA · {html.escape(d["date"] or "date unknown")}</div>'
