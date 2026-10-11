@@ -8,7 +8,7 @@ documents live from the CIA reading room mirror, so those titles are the CIA's o
 
 import requests
 
-CATALOG_VERSION = 82   # keep in step with APP_CODE_VERSION in app.py
+CATALOG_VERSION = 83   # keep in step with APP_CODE_VERSION in app.py
 
 from sources import HEADERS, _res
 
@@ -261,4 +261,44 @@ CORPORATE = [
              "internal emails and memos.",
      "source": "U.S. Justice Department, Antitrust Division",
      "url": "https://www.justice.gov/atr/us-v-microsoft-corporation-browser-and-middleware-trial-exhibits"},
+]
+
+
+# ── UFO Files: eyewitness case file (record ids in the war.gov/UFO index), oldest first ──────────────
+# Captions paraphrase the Pentagon's own record descriptions.
+UFO_EYEWITNESS = [
+    (32, "1944 · Germany", "A witness later told the FBI he saw a huge, circular craft rise straight up near a German military compound."),
+    (358, "1946 · Sweden", "“Ghost rockets” over Scandinavia: the War Department's own intelligence review of the sightings."),
+    (392, "1952 · Tremonton, Utah", "A Navy officer films a group of bright objects with his home movie camera. Project Blue Book never solved it."),
+    (315, "1955 · Soviet Union", "Senator Richard Russell's party sees a glowing “greenish-yellow” object from their train. The CIA debriefs them."),
+    (249, "1956 · Budapest", "A CIA source sketches the formation of strange flying objects seen between Budapest and Moscow."),
+    (31, "1958 · Detroit", "A local man reports a “circular object with a crystal-type dome.” The FBI passes it to the Air Force."),
+    (223, "1963 · In orbit", "Astronaut Gordon Cooper radios that he sees “John's fireflies” outside his capsule."),
+    (152, "1994 · Central Asia", "A State Department cable: a Tajik pilot and three Americans encounter a UFO in flight."),
+    (311, "1996 · In orbit", "Space Shuttle Columbia's crew photographs an unidentified object near the edge of the Earth."),
+    (346, "2002 · Bagram, Afghanistan", "A former service member describes a triangle in the sky over the air base. The FBI drew what he saw."),
+    (228, "2008 · Harare, Zimbabwe", "The international airport goes on high alert over a sighting. Spy craft, or something else?"),
+    (157, "2023 · United States", "Witnesses describe a bronze, metallic object 130–195 feet long appearing out of a bright light, then vanishing."),
+    (235, "2024 · Northeastern U.S.", "A glowing, shape-shifting sphere hovers over a pond for 45 minutes. The witness filmed it."),
+    (236, "2025 · Northeastern U.S.", "Home from work, a witness finds a “brilliant red sphere” hovering 25 feet above the backyard."),
+]
+UFO_PICTURES = [150, 311, 157, 346, 274, 392, 236, 235]
+
+# ── Today's Exhibit: one find a day, mostly UFO and spy files ──────────────────────────────────────────
+# kind: "ufo" (record id) or "nixon" (conversation number)
+EXHIBITS = [
+    ("ufo", 157, "🛸 THE UFO FILES", "A bronze object up to 195 feet long, out of a bright light", "FBI eyewitness case, 2023"),
+    ("ufo", 236, "🛸 THE UFO FILES", "A red sphere, 25 feet above the backyard", "FBI eyewitness video, 2025"),
+    ("ufo", 32, "🛸 THE UFO FILES", "A circular craft over 1944 Germany", "FBI interview, 1957"),
+    ("nixon", "886-008", "📼 THE NIXON TAPES", "“A cancer on the presidency”", "Oval Office, March 21, 1973"),
+    ("ufo", 315, "🛸 THE UFO FILES", "A senator, a train and a flying saucer", "CIA debriefing, 1955"),
+    ("ufo", 311, "🛸 THE UFO FILES", "The Space Shuttle's unidentified object", "NASA photograph, 1996"),
+    ("ufo", 392, "🛸 THE UFO FILES", "The Navy officer's home movie of a UFO", "Project Blue Book film, 1952"),
+    ("ufo", 152, "🛸 THE UFO FILES", "A pilot and three Americans meet a UFO", "State Department cable, 1994"),
+    ("nixon", "422-033", "📼 THE NIXON TAPES", "Nixon and Mitchell, the day after “the cancer”", "Executive Office Building, March 22, 1973"),
+    ("ufo", 346, "🛸 THE UFO FILES", "A triangle in the sky over Bagram", "FBI rendering of a first-hand account, 2002"),
+    ("ufo", 235, "🛸 THE UFO FILES", "Orbs over the pond", "FBI eyewitness video, 2024"),
+    ("ufo", 150, "🛸 THE UFO FILES", "Three dots in the Apollo 17 sky", "NASA photograph, 1972"),
+    ("ufo", 228, "🛸 THE UFO FILES", "An airport on high alert over a UFO", "CIA report, 2008"),
+    ("ufo", 31, "🛸 THE UFO FILES", "The crystal-domed object over Detroit", "FBI memo, 1958"),
 ]

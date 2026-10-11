@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 82
+APP_CODE_VERSION = 83
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -34,7 +34,7 @@ for _m in (dossier_mod, explainers, extras, geo, newsday, redactions, tr):
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url, search_gwu,
                      pdb_on_this_day, search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
-from catalog import ANCIENT, CATEGORIES, CORPORATE, PICKS, TEASERS, met_gallery, met_image
+from catalog import ANCIENT, CATEGORIES, CORPORATE, EXHIBITS, PICKS, TEASERS, UFO_EYEWITNESS, UFO_PICTURES, met_gallery, met_image
 from dossier import folder_files, ident_from_url, is_cia_ident, load_dossier, redaction_estimate
 import streamlit.components.v1 as components
 
@@ -201,6 +201,29 @@ st.markdown("""
 .hjc-p p{margin:.15rem 0;font-size:.9rem;line-height:1.4}
 .st-key-nixon-famous button{min-height:0!important;padding:.1rem .6rem!important;border-color:#7a5a3a!important}
 .st-key-nixon-famous button p{font-size:.82rem!important}
+.ufo-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#7fd6a4}
+.st-key-ufo-box{border-color:#2f6b4f!important;background:linear-gradient(180deg,#0e1a14,#0c110f)}
+[class*="st-key-ufo-rail"]{overflow-x:auto;flex-wrap:nowrap!important;padding-bottom:.4rem;scroll-snap-type:x mandatory}
+[class*="st-key-ufo-rail"] > [data-testid="stLayoutWrapper"]{flex:0 0 210px!important;min-width:210px!important;max-width:210px!important;scroll-snap-align:start}
+[class*="st-key-ufo-mini-"]{background:#0f1612;border-color:#24453a!important;padding:.5rem!important;width:100%}
+.ufo-th{width:100%;height:118px;object-fit:cover;border-radius:4px;background:#0a0f0c;display:block}
+.ufo-noth{display:flex;align-items:center;justify-content:center;font-size:2.2rem}
+.ufo-when{font:700 .68rem 'Courier New',monospace;color:#7fd6a4;letter-spacing:.08em;margin-top:.35rem}
+.ufo-hook{font-size:.84rem;line-height:1.3;color:#d6e6dc;min-height:4.4em}
+.ufo-title{font-family:Georgia,serif;font-size:1.1rem;color:#e6f2ea;margin:.2rem 0}
+.ufo-big{width:100%;max-height:340px;object-fit:contain;background:#000;border-radius:4px;margin:.3rem 0}
+.ufo-desc{font-size:.92rem;line-height:1.45;color:#d6e6dc;margin:.4rem 0}
+.st-key-ufo-top{justify-content:space-between}
+.ufo-rth{width:56px;height:44px;object-fit:cover;border-radius:3px;flex:0 0 56px}
+[class*="st-key-ufo-row-"]{flex-wrap:nowrap!important;border-top:1px solid #1c3329;padding-top:.3rem}
+[class*="st-key-ufo-row-"] > div:nth-child(1){flex:1 1 auto;min-width:0}
+.st-key-exhibit{border-color:#c8a96e!important;background:radial-gradient(120% 80% at 50% 0%,#2a2214 0%,#15120c 70%);padding:.8rem!important}
+.ex-k{font:700 .72rem 'Courier New',monospace;letter-spacing:.2em;color:#c8a96e}
+.ex-img{width:100%;max-height:230px;object-fit:cover;border-radius:6px;margin:.45rem 0;background:#000}
+.ex-kick{font:700 .7rem 'Courier New',monospace;letter-spacing:.14em;color:#7fd6a4;margin-top:.25rem}
+.ex-h{font-family:Georgia,serif;font-size:1.45rem;line-height:1.2;color:#f3e6c8;margin:.1rem 0}
+.ex-src{font-size:.78rem;opacity:.65}
+.ex-b{font-size:.9rem;line-height:1.4;color:#e1d6bd;margin:.35rem 0 .2rem}
 .nixon-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#d9a066}
 .st-key-nixon-try button{min-height:0!important;padding:.1rem .7rem!important}
 .nara-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#8fb3de}
@@ -250,7 +273,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 82 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 83 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1519,6 +1542,152 @@ def nixon_box():
                            key=f"nixon-fav-{i}")
 
 
+
+# ── The UFO Files ─────────────────────────────────────────────────────────────────────────────────
+@st.cache_data(ttl=12 * 3600, show_spinner=False)
+def ufo_records(v=APP_CODE_VERSION):
+    return sources.load_ufo_records()
+
+
+def ufo_by_id(rid):
+    return next((r for r in ufo_records(APP_CODE_VERSION) if r["id"] == rid), None)
+
+
+def _ufo_open(rid):
+    ss.ufo_open = rid
+    ss.scroll_to = ".st-key-ufo-box"
+
+
+def _ufo_thumb(r):
+    return r.get("thumbnailUrl") or ""
+
+
+def ufo_detail(r):
+    with st.container(horizontal=True, vertical_alignment="center", key="ufo-top"):
+        st.markdown(f'<div class="ufo-kicker">{html.escape(sources.ufo_kind(r))} · {html.escape(r["agency"])}</div>',
+                    unsafe_allow_html=True)
+        st.button("✕ Back", key="ufo-back", on_click=lambda: ss.pop("ufo_open", None), type="tertiary")
+    when = " · ".join(x for x in (r.get("incidentDate"), r.get("incidentLocation")) if x and x not in ("N/A", "Undated"))
+    st.markdown(f'<div class="ufo-title">{html.escape(r["title"])}</div>'
+                + (f'<div class="meta">{html.escape(when)}</div>' if when else ""), unsafe_allow_html=True)
+    if r.get("dvidsVideoId"):
+        st.iframe(f"https://www.dvidshub.net/video/embed/{r['dvidsVideoId']}", height=260)
+        st.caption("Plays from DVIDS, the military's official media site.")
+    elif _ufo_thumb(r):
+        st.markdown(f'<a href="{html.escape(r.get("fileUrl") or _ufo_thumb(r))}" target="_blank"><img class="ufo-big" '
+                    f'src="{html.escape(_ufo_thumb(r))}" alt=""></a>', unsafe_allow_html=True)
+    st.markdown(f'<div class="ufo-desc">{html.escape(r["description"])}</div>', unsafe_allow_html=True)
+    links = []
+    if r.get("fileUrl"):
+        links.append(f'<a href="{html.escape(r["fileUrl"])}" target="_blank">Open the original on war.gov ↗</a>')
+    if r.get("dvidsVideoId"):
+        links.append(f'<a href="https://www.dvidshub.net/video/{r["dvidsVideoId"]}" target="_blank">Watch on DVIDS ↗</a>')
+    if links:
+        st.markdown(f'<div class="links">{" ".join(links)}</div>', unsafe_allow_html=True)
+    fav_button({"url": r.get("fileUrl") or f"https://www.war.gov/UFO/#{r['id']}", "title": r["title"],
+                "source": f"UFO Files · {r['agency']}", "date": str(r.get("incidentDate") or "")[:12]}, key=f"ufo-fav-{r['id']}")
+    st.caption("From the Pentagon's 2026 release of government UFO files (war.gov/UFO). Description is the government's own.")
+
+
+def ufo_mini(r, label, hook, key):
+    th = _ufo_thumb(r)
+    with st.container(border=True, key=f"ufo-mini-{key}"):
+        st.markdown((f'<img class="ufo-th" src="{html.escape(th)}" alt="">' if th else '<div class="ufo-th ufo-noth">🛸</div>')
+                    + f'<div class="ufo-when">{html.escape(label)}</div><div class="ufo-hook">{html.escape(hook)}</div>',
+                    unsafe_allow_html=True)
+        st.button("Open the file", key=f"ufo-o-{key}", on_click=_ufo_open, args=(r["id"],), type="tertiary")
+
+
+def ufo_box():
+    recs = ufo_records(APP_CODE_VERSION)
+    if not recs:
+        return
+    with st.container(border=True, key="ufo-box"):
+        n = len(recs)
+        nv = sum(1 for r in recs if r["type"] == "VID")
+        st.markdown(f'<div class="ufo-kicker">🛸 THE UFO FILES</div>'
+                    f'<div class="nara-title">What witnesses told the government</div>'
+                    f'<div class="intro">In 2026 the Pentagon began releasing its UFO files: {n} records so far, including '
+                    f'{nv} videos, from the military, FBI, CIA, NASA and State Department. Pilots, agents, astronauts and '
+                    f'ordinary people, in their own words.</div>', unsafe_allow_html=True)
+        if ss.get("ufo_open"):
+            r = ufo_by_id(ss.ufo_open)
+            if r:
+                ufo_detail(r)
+                return
+            ss.pop("ufo_open", None)
+        st.markdown('<div class="exp-sub">👁 EYEWITNESS · 80 years of sightings, oldest first</div>', unsafe_allow_html=True)
+        with st.container(horizontal=True, gap="small", key="ufo-rail"):
+            for rid, label, hook in UFO_EYEWITNESS:
+                r = ufo_by_id(rid)
+                if r:
+                    ufo_mini(r, label, hook, f"e{rid}")
+        st.markdown('<div class="exp-sub">📷 PICTURES & FILM</div>', unsafe_allow_html=True)
+        with st.container(horizontal=True, gap="small", key="ufo-rail2"):
+            for rid in UFO_PICTURES:
+                r = ufo_by_id(rid)
+                if r and _ufo_thumb(r):
+                    when = " · ".join(x for x in (str(r.get("incidentDate") or ""), r.get("incidentLocation") or "")
+                                      if x and x != "N/A")
+                    first = re.split(r"(?<=[.!?])\s", r["description"])[0]
+                    ufo_mini(r, f'{sources.ufo_kind(r)} · {when}'.strip(" ·"), first[:110] + ("…" if len(first) > 110 else ""),
+                             f"p{rid}")
+        with st.form("ufo-form", border=False):
+            uq = st.text_input("Search the UFO files", value=ss.get("ufo_q", ""), label_visibility="collapsed",
+                               placeholder="Search the UFO files: orb, triangle, pilot, Utah…")
+            if st.form_submit_button("🛸 Search the UFO files", width="stretch"):
+                ss.ufo_q = uq.strip()
+        q = ss.get("ufo_q", "")
+        if q:
+            rows = sources.search_ufo(recs, q)
+            top = st.columns([4, 1], vertical_alignment="center")
+            top[0].markdown(f'<div class="sect">UFO FILES · “{html.escape(q)}” · {len(rows)}</div>', unsafe_allow_html=True)
+            top[1].button("✕ Clear", key="ufo-clear", on_click=lambda: ss.pop("ufo_q", None), type="tertiary")
+            if not rows:
+                st.caption("Nothing matched. Try one simple word, like orb, disc, pilot or a state.")
+            for r in rows[:30]:
+                when = " · ".join(x for x in (r.get("incidentDate"), r.get("incidentLocation")) if x and x != "N/A")
+                with st.container(horizontal=True, vertical_alignment="center", gap="small", key=f"ufo-row-{r['id']}"):
+                    st.markdown((f'<img class="ufo-rth" src="{html.escape(_ufo_thumb(r))}" alt="">' if _ufo_thumb(r) else "")
+                                + f'<div class="fav-t"><b>{html.escape(sources.ufo_kind(r))}</b> {html.escape(r["title"][:90])}'
+                                f'<span>{html.escape(when or r["agency"])}</span></div>', unsafe_allow_html=True)
+                    st.button("Open", key=f"ufo-ro-{r['id']}", on_click=_ufo_open, args=(r["id"],), type="tertiary")
+
+
+# ── Today's Exhibit: one find a day ───────────────────────────────────────────────────────────────
+def _exhibit_go(kind, ref):
+    if kind == "ufo":
+        ss.ufo_open = ref
+        ss.scroll_to = ".st-key-ufo-box"
+    elif kind == "nixon":
+        ss.nixon_q = f"conv:{ref}"
+        ss.scroll_to = ".st-key-nixon-box"
+
+
+def todays_exhibit():
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    today = datetime.now(ZoneInfo("America/New_York")).date()
+    kind, ref, kicker, headline, source = EXHIBITS[today.toordinal() % len(EXHIBITS)]
+    img, blurb = "", ""
+    if kind == "ufo":
+        r = ufo_by_id(ref)
+        if not r:
+            return
+        img = _ufo_thumb(r)
+        blurb = re.split(r"(?<=[.!?])\s", r["description"])[0][:260]
+    elif kind == "nixon":
+        t = hjc_transcripts(APP_CODE_VERSION).get(ref)
+        blurb = (t or {}).get("label", "")
+    with st.container(border=True, key="exhibit"):
+        st.markdown(f'<div class="ex-k">⭐ TODAY’S EXHIBIT · {today.strftime("%b %-d").upper()}</div>'
+                    + (f'<img class="ex-img" src="{html.escape(img)}" alt="">' if img else "")
+                    + f'<div class="ex-kick">{html.escape(kicker)}</div><div class="ex-h">{html.escape(headline)}</div>'
+                    f'<div class="ex-src">{html.escape(source)}</div>'
+                    + (f'<div class="ex-b">{html.escape(blurb)}</div>' if blurb else ""), unsafe_allow_html=True)
+        st.button("Open today's exhibit →", key="exhibit-go", on_click=_exhibit_go, args=(kind, ref), type="primary",
+                  width="stretch")
+
 tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
 
 with tab_search:
@@ -1542,6 +1711,8 @@ with tab_search:
         ss.main_tabs = TAB_SEARCH
 
     ss.setdefault("qbox", "")
+    if not ss.get("status") and not st.query_params.get("doc"):
+        todays_exhibit()
     with st.form("search", border=False):
         st.text_input("Search", key="qbox", placeholder='Search: name, program or event…',
                       label_visibility="collapsed")
@@ -1578,6 +1749,7 @@ with tab_search:
         on_this_day_card()
         st.markdown('<div class="sect">DEEP DIVES · tap a topic</div>', unsafe_allow_html=True)
         topic_tiles("home", with_ancient=True)
+        ufo_box()
         nara_box()
         nixon_box()
 
@@ -1847,6 +2019,9 @@ for j, (label, url) in enumerate(TRIPS):
     tm[j % 2].link_button(label, url, width="stretch")
 st.caption("Tip: every result above also has a 🕰 Saved copy link, and Find my words inside uses a saved "
            "copy automatically when a document has been taken down.")
+
+if ss.get("scroll_to"):
+    _scroll(ss.pop("scroll_to"))
 
 # ── Daily Mystery: the very end of the app ─────────────────────────────────────
 st.divider()

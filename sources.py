@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 82
+CODE_VERSION = 83
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -730,6 +730,58 @@ def request_subtitles(conv):
     if r.status_code != 204:
         raise RuntimeError(f"GitHub said {r.status_code}: {r.text[:160]}")
     return True
+
+
+# ── The UFO Files: the Pentagon's 2026 war.gov/UFO releases ───────────────────────────────────────
+# war.gov blocks automated readers, so the index comes from a public daily mirror of the Pentagon's own
+# CSV (github.com/abigailhaddad/ufo-releases), with a bundled copy as a fallback. Only the government's
+# own fields are used; files, images and videos open from war.gov and DVIDS in the viewer's browser.
+UFO_MIRROR = "https://raw.githubusercontent.com/abigailhaddad/ufo-releases/main/data/records.json"
+UFO_BUNDLED = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "ufo_records.json")
+_UFO_KEYS = ("id", "title", "type", "agency", "releaseDate", "incidentDate", "incidentLocation", "description",
+             "fileUrl", "thumbnailUrl", "dvidsVideoId")
+
+
+def load_ufo_records(remote=True):
+    import json
+    recs = None
+    if remote:
+        try:
+            r = requests.get(UFO_MIRROR, headers=HEADERS, timeout=20)
+            if r.status_code == 200:
+                recs = [x for x in r.json() if not x.get("removedFromSource")]
+        except Exception:
+            recs = None
+    if not recs:
+        with open(UFO_BUNDLED) as f:
+            recs = json.load(f)
+    return [{k: x.get(k, "") for k in _UFO_KEYS} for x in recs if x.get("id") is not None]
+
+
+def ufo_kind(r):
+    return {"IMG": "📷 Image", "VID": "🎞 Video", "AUD": "🎧 Audio", "PDF": "📄 Document"}.get(r.get("type"), "📄 File")
+
+
+def search_ufo(records, q, limit=40):
+    q = normalize_query(q).strip()
+    if not q:
+        return []
+    words = [w for w in re.findall(r"[\w'-]+", q.lower()) if len(w) > 1]
+    out = []
+    for r in records:
+        hay = " ".join(str(r.get(k, "")) for k in ("title", "description", "incidentLocation", "incidentDate", "agency")).lower()
+        if all(w in hay for w in words):
+            score = sum(hay.count(w) for w in words) + (3 if any(w in r["title"].lower() for w in words) else 0)
+            out.append((score, r))
+    out.sort(key=lambda x: -x[0])
+    seen, res = set(), []
+    for _s, r in out:                        # the FBI's big case file is split into many near-identical parts
+        k = r["description"][:140]
+        if k in seen:
+            continue
+        seen.add(k)
+        res.append(r)
+    return res[:limit]
 
 
 def search_wilson(q, limit=8):
