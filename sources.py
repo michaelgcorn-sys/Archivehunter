@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 75
+CODE_VERSION = 76
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -598,7 +598,9 @@ def search_nixon_logs(index, q, limit=40, per_tape=3):
             if len(w) > len(suf) + 2 and w.lower().endswith(suf):
                 return w[:-len(suf)]
         return w
-    pats = [re.compile(r"\b" + re.escape(stem(n)).replace(r"\ ", r"\s+") + r"\w{0,4}\b", re.I) for n in needles]
+    ends = r"(?:s|es|ish|ry|ries|ies|y|ed|ing|er|ers|'s|’s)?"      # real word endings only (Jews, Jewry — not jewelry)
+    pats = [re.compile(r"\b" + re.escape(stem(n)).replace(r"\ ", r"\s+") + (ends if " " not in n else "") + r"\b", re.I)
+            for n in needles]
     out = []
     for t in index.get("tapes", []):
         text = t.get("text") or ""
