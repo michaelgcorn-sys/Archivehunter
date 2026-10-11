@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 90
+APP_CODE_VERSION = 91
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -54,7 +54,12 @@ st.markdown("""
          background:rgba(200,169,110,.07);border-radius:0 4px 4px 0}
 .passage mark{background:#c8a96e;color:#111;padding:0 2px;border-radius:2px}
 .pg{font:700 .7rem 'Courier New',monospace;opacity:.6}
-.ver{font:.72rem 'Courier New',monospace;opacity:.5;margin-bottom:.6rem}
+.ver{font:.72rem 'Courier New',monospace;opacity:.45;margin:1.2rem 0 .4rem;text-align:center}
+.tagline{font-family:Georgia,'Times New Roman',serif;font-size:1.02rem;line-height:1.5;color:#e6d6b8;margin:.35rem 0 .55rem;max-width:44rem}
+.agencies{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 .9rem}
+.agencies span{font:700 .62rem 'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase;color:#c8a96e;
+               border:1px solid rgba(200,169,110,.35);border-radius:3px;padding:2px 6px}
+.q-label{font:700 .7rem 'Courier New',monospace;letter-spacing:.1em;color:#c8a96e;margin:.2rem 0 .3rem}
 .ts-head{display:flex;align-items:center;gap:.6rem;margin:.2rem 0 .4rem}
 .ts-head b{font:700 .72rem 'Courier New',monospace;letter-spacing:.2em;color:#c4544a;white-space:nowrap}
 .ts-head span{font-size:.75rem;opacity:.55}
@@ -279,7 +284,9 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 90 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="tagline">Once-secret government files, all in one place. Search millions of declassified pages: spy programs,
+covert operations, cold cases, the Nixon tapes and the UFO files.</div>
+<div class="agencies"><span>CIA</span><span>FBI</span><span>NSA</span><span>Pentagon</span><span>State Dept</span><span>NRO</span><span>Energy</span><span>NASA</span><span>National Archives</span><span>Nixon tapes</span><span>+ more</span></div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1922,10 +1929,11 @@ with tab_search:
     if not ss.get("status") and not st.query_params.get("doc"):
         todays_exhibit()
     with st.form("search", border=False):
-        st.text_input("Search", key="qbox", placeholder='Search: name, program or event…',
+        st.markdown(f'<div class="q-label">🔎 SEARCH CIA, FBI, NSA + {len(ALL) - 3} MORE ARCHIVES</div>', unsafe_allow_html=True)
+        st.text_input("Search", key="qbox", placeholder='A name, operation or event…',
                       label_visibility="collapsed")
         st.markdown('<div class="qtip">💡 Tip: use "quotes" for an exact phrase</div>', unsafe_allow_html=True)
-        go = st.form_submit_button("Search all archives", type="primary", width="stretch")
+        go = st.form_submit_button("Search millions of declassified files", type="primary", width="stretch")
 
     with st.container(key="popular"):
         st.markdown('<div class="pop-label">Popular searches</div>', unsafe_allow_html=True)
@@ -2236,3 +2244,4 @@ if ss.get("scroll_to"):
 # ── Daily Mystery: the very end of the app ─────────────────────────────────────
 st.divider()
 daily_mystery_card()
+st.markdown('<div class="ver">Version 91 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
