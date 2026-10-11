@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 79
+CODE_VERSION = 80
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -555,6 +555,14 @@ def search_war_gov(q, limit=8):
     return site_search("war.gov", q, "War Dept (war.gov)", "Defense Dept page", limit)
 
 
+def search_dia(q, limit=8):
+    return site_search("dia.mil", q, "DIA (Defense Intelligence)", "DIA FOIA release", limit, hint="FOIA")
+
+
+def search_nato(q, limit=8):
+    return site_search("archives.nato.int", q, "NATO Archives", "NATO archive record", limit)
+
+
 def search_nixon_library(q, limit=8):
     return site_search("nixonlibrary.gov", q, "Nixon Library", "Nixon Library page or tape log", limit)
 
@@ -1043,6 +1051,8 @@ SOURCES = {
     "War Dept (war.gov)": search_war_gov,
     "Wilson Center": search_wilson,
     "Nixon Library": search_nixon_library,
+    "DIA (Defense Intelligence)": search_dia,
+    "NATO Archives": search_nato,
     "Internet Archive": search_internet_archive,
     "Library of Congress": search_loc,
     "NASA": search_nasa,
@@ -1054,7 +1064,7 @@ NARA_ON = bool(_nara_key())          # the National Archives gets its own box in
 # Declassified sources rank a little higher when relevance is otherwise equal.
 SOURCE_WEIGHT = {"CIA": 3, "FBI Vault": 3, "GWU Natl Security Archive": 3, "Black Vault": 2,
                  "DOJ Epstein Library": 2, "MuckRock": 2,
-                 "National Archives": 3, "NSA": 2, "NRO": 2, "State Dept FOIA": 2, "War Dept (war.gov)": 1, "Wilson Center": 2, "Nixon Library": 2, "NASA": 1, "Dept of Energy": 1}
+                 "National Archives": 3, "NSA": 2, "NRO": 2, "State Dept FOIA": 2, "War Dept (war.gov)": 1, "Wilson Center": 2, "Nixon Library": 2, "DIA (Defense Intelligence)": 2, "NATO Archives": 1, "NASA": 1, "Dept of Energy": 1}
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -1092,7 +1102,7 @@ def score(r, q):
 # show the search in the title or description: every word, or all but one for 4+ word searches.
 LOOSE_SOURCES = {"Library of Congress", "Internet Archive", "Wikimedia Commons", "Dept of Energy",
                  "DOJ Epstein Library", "NASA", "UK National Archives",
-                 "National Archives", "NSA", "NRO", "State Dept FOIA", "War Dept (war.gov)", "Wilson Center", "Nixon Library"}
+                 "National Archives", "NSA", "NRO", "State Dept FOIA", "War Dept (war.gov)", "Wilson Center", "Nixon Library", "DIA (Defense Intelligence)", "NATO Archives"}
 
 
 # Mostly published books: useful leads, not primary sources. Higher number = further down.
@@ -1316,7 +1326,7 @@ TEST_QUERIES = {"CIA": "MKUltra", "FBI Vault": "Roswell", "GWU Natl Security Arc
                 "Library of Congress": "Kennedy", "NASA": "Apollo 11", "Dept of Energy": "Manhattan Project",
                 "Wikimedia Commons": "Apollo 11",
                 "UK National Archives": "Philby", "National Archives": "Oswald", "NSA": "VENONA", "NRO": "CORONA",
-                "State Dept FOIA": "Castro", "War Dept (war.gov)": "UAP", "Wilson Center": "Khrushchev", "Nixon Library": "Kissinger"}
+                "State Dept FOIA": "Castro", "War Dept (war.gov)": "UAP", "Wilson Center": "Khrushchev", "Nixon Library": "Kissinger", "DIA (Defense Intelligence)": "UFO", "NATO Archives": "Berlin"}
 
 
 # ════════════════════════════════════════════════════════════════════════════
