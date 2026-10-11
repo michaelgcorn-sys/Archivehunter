@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 80
+CODE_VERSION = 81
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -1051,8 +1051,6 @@ SOURCES = {
     "War Dept (war.gov)": search_war_gov,
     "Wilson Center": search_wilson,
     "Nixon Library": search_nixon_library,
-    "DIA (Defense Intelligence)": search_dia,
-    "NATO Archives": search_nato,
     "Internet Archive": search_internet_archive,
     "Library of Congress": search_loc,
     "NASA": search_nasa,
@@ -1319,6 +1317,11 @@ BROWSER_ONLY = [
      "https://www.stasi-mediathek.de/"),
     ("FilesDropped", "https://www.google.com/search?q=site%3Afilesdropped.com+{q}",
      "https://filesdropped.com/"),
+    # DIA's site turns away automated requests and search engines return little of it, so it opens in the browser
+    ("DIA (Defense Intelligence Agency) FOIA reading room", "https://www.google.com/search?q=site%3Adia.mil+{q}",
+     "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/"),
+    ("NATO Archives Online", "https://www.google.com/search?q=site%3Aarchives.nato.int+{q}",
+     "https://archives.nato.int/"),
 ]
 
 TEST_QUERIES = {"CIA": "MKUltra", "FBI Vault": "Roswell", "GWU Natl Security Archive": "MKUltra",
