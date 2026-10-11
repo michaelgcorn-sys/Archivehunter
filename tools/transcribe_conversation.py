@@ -37,11 +37,27 @@ def main():
     print("audio:", url, flush=True)
     os.makedirs("/tmp/audio", exist_ok=True)
     path = "/tmp/audio/" + os.path.basename(url.split("?")[0])
-    with requests.get(url, headers=UA, timeout=300, stream=True) as r:
-        r.raise_for_status()
-        with open(path, "wb") as f:
-            for chunk in r.iter_content(1 << 20):
-                f.write(chunk)
+    # the Archives' audio server sometimes drops long downloads: retry, resuming where it stopped
+    for attempt in range(6):
+        have = os.path.getsize(path) if os.path.exists(path) else 0
+        hdrs = dict(UA, **({"Range": f"bytes={have}-"} if have else {}))
+        try:
+            with requests.get(url, headers=hdrs, timeout=300, stream=True) as r:
+                if have and r.status_code == 200:          # server ignored the resume request: start over
+                    have = 0
+                elif r.status_code == 416:                 # already complete
+                    break
+                r.raise_for_status()
+                with open(path, "ab" if have else "wb") as f:
+                    for chunk in r.iter_content(1 << 20):
+                        f.write(chunk)
+            break
+        except (requests.exceptions.ChunkedEncodingError, requests.exceptions.ConnectionError,
+                requests.exceptions.ReadTimeout) as e:
+            print(f"download interrupted ({type(e).__name__}), retry {attempt + 1}", flush=True)
+            time.sleep(10 * (attempt + 1))
+    else:
+        raise SystemExit("audio download kept failing")
     print("downloaded", os.path.getsize(path) // 1024, "KB", flush=True)
 
     if clean:     # Nixon tapes: cut rumble and hiss, keep the voice band, even out loud and quiet voices
