@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 87
+APP_CODE_VERSION = 88
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -216,6 +216,7 @@ st.markdown("""
 [class*="st-key-ufo-rel-"]{flex-wrap:nowrap!important;border-top:1px solid #1c3329;padding-top:.3rem}
 [class*="st-key-ufo-rel-"] > div:nth-child(1){flex:1 1 auto;min-width:0}
 .ufo-desc{font-size:.92rem;line-height:1.45;color:#d6e6dc;margin:.4rem 0}
+.st-key-ufo-pics-head{justify-content:space-between}
 .st-key-ufo-top{justify-content:space-between}
 .ufo-rth{width:56px;height:44px;object-fit:cover;border-radius:3px;flex:0 0 56px}
 [class*="st-key-ufo-row-"]{flex-wrap:nowrap!important;border-top:1px solid #1c3329;padding-top:.3rem}
@@ -276,7 +277,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 87 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 88 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -324,6 +325,10 @@ def top_secret_strip():
             f'<span class="ts-stamp">TOP SECRET</span></div><div class="ts-body">'
             f'<span class="ts-src">{html.escape(r["source"])}{year}</span>'
             f'<span class="ts-title">{html.escape(r["title"])}</span></div></a>')
+    if st.button("🔄 Pull a new batch", key="ts-reroll", type="tertiary",
+                 help="Search the archives again for a fresh set of documents marked Top Secret"):
+        cached_pool.clear()
+        st.rerun(scope="app")
     st.markdown(
         f'<div class="ts-head"><b>● TOP SECRET</b><span>{len(pool)} document{"" if len(pool) == 1 else "s"} marked Top Secret · '
         f'new picks every 30 seconds · swipe and tap to open</span></div>'
@@ -1209,23 +1214,25 @@ def cached_nara_samples(v=APP_CODE_VERSION):
     from concurrent.futures import ThreadPoolExecutor
 
     def one(queries):
-        fallback = None
+        fallback, good = None, []
         for qq in queries:
             try:
                 rows = [r for r in sources.search_nara(qq, limit=25, online_first=False) if r.get("image")]
             except Exception:
                 continue
             rows.sort(key=lambda r: not r.get("photo"))          # real photographs before scanned paperwork
-            for r in rows[:6]:
+            for r in rows[:8]:
                 ok = sources.image_is_interesting(r["image"])    # skip blank folder covers and empty pages
                 if ok is None and fallback is None:
                     fallback = r                                 # couldn't check it: keep as a backup
-                if ok:
-                    return {"img": r["image"], "title": r["title"], "url": r["url"], "date": r.get("date", "")}
-        if fallback:
+                if ok and r["image"] not in {g["img"] for g in good}:
+                    good.append({"img": r["image"], "title": r["title"], "url": r["url"], "date": r.get("date", "")})
+                if len(good) >= 4:
+                    return good
+        if not good and fallback:
             r = fallback
-            return {"img": r["image"], "title": r["title"], "url": r["url"], "date": r.get("date", "")}
-        return None
+            good.append({"img": r["image"], "title": r["title"], "url": r["url"], "date": r.get("date", "")})
+        return good
     with ThreadPoolExecutor(6) as ex:
         return list(ex.map(one, [h[4] for h in NARA_HIGHLIGHTS]))
 
@@ -1256,9 +1263,14 @@ def nara_box():
         if not ss.get("nara_q"):
             st.markdown('<div class="exp-sub">WHAT’S INSIDE · tap one</div>', unsafe_allow_html=True)
             try:
-                samples = cached_nara_samples(APP_CODE_VERSION)
+                cands = cached_nara_samples(APP_CODE_VERSION)
             except Exception:
-                samples = [None] * len(NARA_HIGHLIGHTS)
+                cands = [[] for _ in NARA_HIGHLIGHTS]
+            seed = ss.get("nara_seed", 0)
+            samples = [(c[(seed + i) % len(c)] if c else None) for i, c in enumerate(cands)]
+            if any(len(c) > 1 for c in cands):
+                st.button("🔄 New photos", key="nara-reroll", type="tertiary",
+                          on_click=lambda: ss.__setitem__("nara_seed", ss.get("nara_seed", 0) + 1))
             with st.container(horizontal=True, wrap=True, gap="small", key="nara-tiles"):
                 for i, (icon, name, blurb, q, _qs) in enumerate(NARA_HIGHLIGHTS):
                     smp = samples[i] if i < len(samples) else None
@@ -1675,6 +1687,23 @@ def cached_quote_card(kicker, headline, body, source, v=APP_CODE_VERSION):
     return extras.quote_card(kicker, headline, body, source)
 
 
+@st.cache_data(ttl=12 * 3600, show_spinner=False)
+def ufo_picture_pool(v=APP_CODE_VERSION):
+    """Every image, rendering or video in the UFO files that has a written account attached (its own text or a
+    related report), so a 🔄 refresh never shows a picture without the story behind it."""
+    recs = ufo_records(APP_CODE_VERSION)
+    out = []
+    for r in recs:
+        visual = r.get("dvidsVideoId") or (r.get("thumbnailUrl") and (r["type"] == "IMG" or
+                                           re.search(r"(?i)sketch|rendering|photo|image|map", r["title"])))
+        if not visual:
+            continue
+        rel = sources.ufo_related(recs, r)
+        if any(x["type"] == "PDF" for x in rel):
+            out.append(r["id"])
+    return out
+
+
 def ufo_mini(r, label, hook, key):
     th = _ufo_thumb(r)
     with st.container(border=True, key=f"ufo-mini-{key}"):
@@ -1709,9 +1738,22 @@ def ufo_box():
                 r = ufo_by_id(rid)
                 if r:
                     ufo_mini(r, label, hook, f"e{rid}")
-        st.markdown('<div class="exp-sub">📷 PICTURES & FILM</div>', unsafe_allow_html=True)
+        pool = ufo_picture_pool(APP_CODE_VERSION)
+        page = ss.get("ufo_pic_page", 0)
+        if page and len(pool) > 7:              # step through a fixed shuffle: no repeats until all have been shown
+            order = sorted(pool)
+            random.Random(1947).shuffle(order)
+            start = ((page - 1) * 7) % len(order)
+            pics = (order + order)[start:start + 7]
+        else:
+            pics = UFO_PICTURES
+        with st.container(horizontal=True, vertical_alignment="center", key="ufo-pics-head"):
+            st.markdown(f'<div class="exp-sub">📷 PICTURES & FILM · {len(pool)} with witness accounts</div>',
+                        unsafe_allow_html=True)
+            st.button("🔄 New pictures", key="ufo-reroll", type="tertiary",
+                      on_click=lambda: ss.__setitem__("ufo_pic_page", ss.get("ufo_pic_page", 0) + 1))
         with st.container(horizontal=True, gap="small", key="ufo-rail2"):
-            for rid in UFO_PICTURES:
+            for rid in pics:
                 r = ufo_by_id(rid)
                 if r and (_ufo_thumb(r) or r.get("dvidsVideoId")):
                     when = " · ".join(x for x in (str(r.get("incidentDate") or ""), r.get("incidentLocation") or "")
