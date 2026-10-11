@@ -1,0 +1,315 @@
+{
+"meta": {
+"conv": "905-017",
+"page": "https://www.nixonlibrary.gov/white-house-tapes/905/conversation-905-017",
+"audio": "https://www.nixonlibrary.gov/sites/default/files/forresearchers/find/tapes/tape905/905-017.mp3",
+"model": "large-v3",
+"cleaned": true,
+"seconds": 345,
+"made": "2026-10-11",
+"took_min": 1.9
+},
+"segments": [
+{
+"start": 0.0,
+"end": 19.3,
+"text": "Hello, hi, hello, how are you doing this morning, hi, uh, oh great, just a minute, two hour",
+"conf": -0.38,
+"no_speech": 0.18
+},
+{
+"start": 19.3,
+"end": 25.8,
+"text": "meeting on taxes, boy, that's a tough one, yeah, we've got to present our tax solution",
+"conf": -0.38,
+"no_speech": 0.18
+},
+{
+"start": 25.8,
+"end": 44.4,
+"text": "I don't know. I don't know. I could never even pass the first day of the test today. It changed so much.",
+"conf": -0.39,
+"no_speech": 0.14
+},
+{
+"start": 46.1,
+"end": 51.4,
+"text": "I'm just going to ask if you've gotten that message to you last night. Who did you talk to?",
+"conf": -0.39,
+"no_speech": 0.14
+},
+{
+"start": 51.4,
+"end": 70.4,
+"text": "And what do they, what do they affect on you?",
+"conf": -0.76,
+"no_speech": 0.09
+},
+{
+"start": 70.4,
+"end": 73.4,
+"text": "What do they affect on you?",
+"conf": -0.72,
+"no_speech": 0.08
+},
+{
+"start": 100.4,
+"end": 108.4,
+"text": "Right. That's the prosecutor.",
+"conf": -0.34,
+"no_speech": 0.36
+},
+{
+"start": 108.4,
+"end": 112.4,
+"text": "Yeah, what's the right thing to do?",
+"conf": -0.34,
+"no_speech": 0.36
+},
+{
+"start": 112.4,
+"end": 114.4,
+"text": "And they did the right thing.",
+"conf": -0.34,
+"no_speech": 0.36
+},
+{
+"start": 114.4,
+"end": 116.4,
+"text": "And of course the prosecutor is a Jew.",
+"conf": -0.34,
+"no_speech": 0.36
+},
+{
+"start": 116.4,
+"end": 122.4,
+"text": "He himself is the best witness to the fact that he didn't know a damn thing about them.",
+"conf": -0.34,
+"no_speech": 0.36
+},
+{
+"start": 122.4,
+"end": 126.4,
+"text": "Isn't that correct?",
+"conf": -0.34,
+"no_speech": 0.36
+},
+{
+"start": 126.4,
+"end": 128.4,
+"text": "Nobody...nobody knew.",
+"conf": -0.61,
+"no_speech": 0.11
+},
+{
+"start": 129.1,
+"end": 132.4,
+"text": "It was a damned, uh, one of those damned dry holes.",
+"conf": -0.61,
+"no_speech": 0.11
+},
+{
+"start": 139.1,
+"end": 141.1,
+"text": "Right. Yeah.",
+"conf": -0.61,
+"no_speech": 0.11
+},
+{
+"start": 143.3,
+"end": 145.3,
+"text": "I'm glad you did that.",
+"conf": -0.61,
+"no_speech": 0.11
+},
+{
+"start": 145.3,
+"end": 156.2,
+"text": "Oh, boy.",
+"conf": -0.99,
+"no_speech": 0.21
+},
+{
+"start": 156.2,
+"end": 158.8,
+"text": "All right.",
+"conf": -0.99,
+"no_speech": 0.21
+},
+{
+"start": 162.8,
+"end": 174.0,
+"text": "Sure did.",
+"conf": -0.99,
+"no_speech": 0.21
+},
+{
+"start": 175.3,
+"end": 184.3,
+"text": "Um, uh, it's been going in harder, I guess the ones in the interior.",
+"conf": -0.6,
+"no_speech": 0.15
+},
+{
+"start": 184.3,
+"end": 187.3,
+"text": "It's a layer that's been working on it.",
+"conf": -0.6,
+"no_speech": 0.15
+},
+{
+"start": 187.3,
+"end": 189.3,
+"text": "And Garmin, right?",
+"conf": -0.6,
+"no_speech": 0.15
+},
+{
+"start": 189.3,
+"end": 192.3,
+"text": "Who's, who's, who all, who?",
+"conf": -0.6,
+"no_speech": 0.15
+},
+{
+"start": 197.3,
+"end": 200.3,
+"text": "We're spending more department.",
+"conf": -0.6,
+"no_speech": 0.15
+},
+{
+"start": 202.3,
+"end": 204.3,
+"text": "I don't know.",
+"conf": -0.6,
+"no_speech": 0.15
+},
+{
+"start": 205.3,
+"end": 214.9,
+"text": "I'd like to talk to you about it, but I think if you would, you bring it with you, whatever",
+"conf": -0.42,
+"no_speech": 0.3
+},
+{
+"start": 214.9,
+"end": 221.0,
+"text": "one you think will get me, you know, because I've got to know what the damn Indian Department",
+"conf": -0.42,
+"no_speech": 0.3
+},
+{
+"start": 221.0,
+"end": 226.8,
+"text": "thinks, you know what I mean, but your judgment is the one that will be decisive, I can assure",
+"conf": -0.42,
+"no_speech": 0.3
+},
+{
+"start": 226.8,
+"end": 242.8,
+"text": "I don't know, Ken is a superb golfer, Cole is a superb golfer, he gets everything in your course, but it's a tough decision,",
+"conf": -0.59,
+"no_speech": 0.21
+},
+{
+"start": 242.8,
+"end": 247.8,
+"text": "The only thing I'm concerned about is getting somebody killed, and that aren't you.",
+"conf": -0.43,
+"no_speech": 0.28
+},
+{
+"start": 251.8,
+"end": 252.8,
+"text": "I'm sorry.",
+"conf": -0.43,
+"no_speech": 0.28
+},
+{
+"start": 255.8,
+"end": 257.8,
+"text": "I'm sorry. I'm sorry.",
+"conf": -0.43,
+"no_speech": 0.28
+},
+{
+"start": 260.8,
+"end": 264.8,
+"text": "I'm sorry. I'm sorry.",
+"conf": -0.43,
+"no_speech": 0.28
+},
+{
+"start": 272.8,
+"end": 290.5,
+"text": "Good boy.",
+"conf": -0.95,
+"no_speech": 0.26
+},
+{
+"start": 290.5,
+"end": 290.5,
+"text": "Good boy.",
+"conf": -0.95,
+"no_speech": 0.26
+},
+{
+"start": 300.3,
+"end": 301.8,
+"text": "Keep calling me to do that.",
+"conf": -0.95,
+"no_speech": 0.26
+},
+{
+"start": 302.8,
+"end": 303.8,
+"text": "I'm down here.",
+"conf": -0.46,
+"no_speech": 0.29
+},
+{
+"start": 306.8,
+"end": 308.8,
+"text": "Either way, should we go in again?",
+"conf": -0.46,
+"no_speech": 0.29
+},
+{
+"start": 308.8,
+"end": 310.8,
+"text": "Alright, off then.",
+"conf": -0.46,
+"no_speech": 0.29
+},
+{
+"start": 311.8,
+"end": 315.8,
+"text": "Well, that's right. We can get that truck in. That's pretty good. Put him on foot.",
+"conf": -0.46,
+"no_speech": 0.29
+},
+{
+"start": 318.8,
+"end": 327.8,
+"text": "Alright, well, well, well, you, you get a hold of, uh, of, uh, Steve, Nicole, whenever, you know, you think is the right day.",
+"conf": -0.46,
+"no_speech": 0.29
+},
+{
+"start": 327.8,
+"end": 329.8,
+"text": "And, uh, I'm available.",
+"conf": -0.46,
+"no_speech": 0.29
+},
+{
+"start": 329.8,
+"end": 336.8,
+"text": "Alright. Good deal. Fine. Fine. Hold it.",
+"conf": -0.54,
+"no_speech": 0.1
+}
+]
+}
