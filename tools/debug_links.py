@@ -1,16 +1,19 @@
-"""One-off: show how the Nixon Library links transcripts (prints GitHub annotations)."""
+"""One-off: find how the Nixon Library's embedded transcript media resolve (prints GitHub annotations)."""
 import re
 import requests
-UA = {"User-Agent": "ArchiveHunter-index-builder/1.0"}
-WS = re.compile(r"\s+")
-for url in ["https://www.nixonlibrary.gov/watergate-special-prosecution-force-transcripts",
-            "https://www.nixonlibrary.gov/white-house-tapes/472/conversation-472-004"]:
-    h = requests.get(url, headers=UA, timeout=60).text
-    name = url.rsplit("/", 1)[-1]
-    hrefs = sorted(set(re.findall(r'href="([^"#]+)"', h)))
-    keep = [x for x in hrefs if re.search(r"files|pdf|transcript|472|e-?25", x, re.I)]
-    print("::notice::" + name + " hrefs=" + str(len(hrefs)) + " keep=" + str(keep[:25]))
-    i = h.find("472-004")
-    print("::notice::" + name + " around472=" + WS.sub(" ", h[max(0, i - 700):i + 500])[:1100])
-    j = h.lower().find("transcript", max(0, h.lower().find("<main")))
-    print("::notice::" + name + " aroundTranscript=" + WS.sub(" ", h[max(0, j - 300):j + 500])[:800])
+UA = {"User-Agent": "ArchiveHunter-index-builder/1.0", "Accept": "application/vnd.api+json, application/json, */*"}
+B = "https://www.nixonlibrary.gov"
+U = "2291cc57-f35c-4394-8c71-d8e2a1bcd462"
+listing = requests.get(B + "/watergate-special-prosecution-force-transcripts", headers=UA, timeout=60).text
+print("::notice::uuids on listing=" + str(len(set(re.findall(r'data-entity-uuid="([0-9a-f-]{36})"', listing)))))
+for path in ["/jsonapi", "/jsonapi/media/document/" + U, "/jsonapi/media/audio/" + U, "/jsonapi/media/file/" + U,
+             "/jsonapi/media/remote_video/" + U, "/media/oembed?uuid=" + U]:
+    try:
+        r = requests.get(B + path, headers=UA, timeout=60)
+        body = re.sub(r"\s+", " ", r.text)
+        types = sorted(set(re.findall(r'"(media--[a-z_]+)"', body)))
+        files = re.findall(r'"(?:url|href)":\s*"([^"]+\.(?:pdf|mp3|txt|doc|docx)[^"]*)"', r.text)
+        print("::notice::" + path[:60] + " -> " + str(r.status_code) + " " + r.headers.get("content-type", "")[:40]
+              + " types=" + str(types[:12]) + " files=" + str(files[:4]) + " body=" + body[:300])
+    except Exception as e:
+        print("::notice::" + path + " error " + type(e).__name__)
