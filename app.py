@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 76
+APP_CODE_VERSION = 77
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -190,6 +190,9 @@ st.markdown("""
 .st-key-nara-box{border-color:#3d5a80!important;background:linear-gradient(180deg,#121a26,#0f1218)}
 .st-key-nixon-box{border-color:#7a5a3a!important;background:linear-gradient(180deg,#1a140e,#120f0b)}
 .nixon-cue{font-size:.85rem;color:#d9a066;margin:.15rem 0 .3rem}.nixon-cue span{opacity:.6;font-size:.72rem}
+.subs{max-height:340px;overflow-y:auto;border-left:3px solid #7a5a3a;padding-left:.5rem}
+.sub-line{display:flex;gap:.55rem;align-items:baseline}.sub-line span{font:600 .72rem 'Courier New',monospace;color:#d9a066;min-width:2.6rem}
+.sub-line p{margin:.1rem 0;font-size:.9rem;line-height:1.35}.sub-line p.sub-low{opacity:.45}
 .nixon-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#d9a066}
 .st-key-nixon-try button{min-height:0!important;padding:.1rem .7rem!important}
 .nara-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#8fb3de}
@@ -239,7 +242,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 76 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 77 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1285,6 +1288,52 @@ def _hl(text, marks):
     return "".join(out)
 
 
+@st.cache_data(show_spinner=False, max_entries=200)
+def nixon_subtitles(conv, v=APP_CODE_VERSION):
+    """Machine subtitles for a conversation, if they've been made (data/transcripts/<conv>.json)."""
+    import json
+    import os
+    p = os.path.join(os.path.dirname(os.path.abspath(sources.__file__)), "data", "transcripts", f"{conv}.json")
+    if not os.path.exists(p):
+        return None
+    with open(p) as f:
+        d = json.load(f)
+    lines, last = [], ""
+    for sg in d.get("segments", []):
+        t = (sg.get("text") or "").strip()
+        if not re.search(r"[A-Za-z]{2}", t) or t == last:      # drop "..." filler and stutter repeats
+            continue
+        last = t
+        lines.append((sg["start"], t, sg.get("conf", 0)))
+    return {"meta": d.get("meta", {}), "lines": lines}
+
+
+def subtitle_panel(conv, q, around_min, key):
+    sub = nixon_subtitles(conv, APP_CODE_VERSION)
+    if not sub:
+        return
+    words = [w for w in re.findall(r"[A-Za-z']{3,}", q)]
+    stem = [re.sub(r"(ish|ies|es|s)$", "", w, flags=re.I) for w in words]
+    pat = re.compile(r"\b(" + "|".join(re.escape(w) for w in stem) + r")\w{0,4}", re.I) if stem else None
+    with st.expander("📝 Machine subtitles · unverified", expanded=False):
+        st.caption("Made by speech-recognition software from the tape audio. Expect mistakes and misheard words, "
+                   "and never quote a line without listening to the tape yourself. Faded lines are the least certain.")
+        lo = (around_min - 2) * 60 if around_min else None
+        hi = (around_min + 3) * 60 if around_min else None
+        show_all = st.toggle("Show the whole conversation", key=f"{key}-all", value=not around_min)
+        out = []
+        for start, t, conf in sub["lines"]:
+            if not show_all and lo is not None and not (lo <= start <= hi):
+                continue
+            txt = html.escape(t)
+            if pat:
+                txt = pat.sub(lambda m: f"<mark>{m.group(0)}</mark>", txt)
+            fade = ' class="sub-low"' if conf < -0.6 else ""
+            out.append(f'<div class="sub-line"><span>{int(start // 60)}:{int(start % 60):02d}</span><p{fade}>{txt}</p></div>')
+        st.markdown('<div class="subs">' + ("".join(out) or "<p>No lines in this stretch.</p>") + "</div>",
+                    unsafe_allow_html=True)
+
+
 def nixon_box():
     """Search inside the Nixon White House Tape Subject Logs (index built monthly by GitHub Actions)."""
     idx = nixon_index(APP_CODE_VERSION)
@@ -1327,7 +1376,8 @@ def nixon_box():
                 first = r["snips"][0]
                 st.markdown(f'<div class="src">Tape {r["tape"]} · {html.escape(r["group"])} · '
                             f'{r["count"]} mention{"s" if r["count"] != 1 else ""}</div>', unsafe_allow_html=True)
-                for sn in r["snips"]:
+                subbed = set()
+                for j, sn in enumerate(r["snips"]):
                     head = " · ".join(x for x in (f"Conversation {sn['conv']}" if sn["conv"] else "", sn["date"]) if x)
                     link = (f'<a href="{html.escape(sn["conv_url"])}" target="_blank">{html.escape(head)} ↗</a>'
                             if sn.get("conv_url") and head else html.escape(head))
@@ -1337,6 +1387,10 @@ def nixon_box():
                                    f'topics in the order they came up)</span></div>' if sn.get("cue") else "")
                                 + f'<div class="passage">{"…" if sn["lead"] else ""}{_hl(sn["text"], sn["marks"])}'
                                   f'{"…" if sn["tail"] else ""}</div>', unsafe_allow_html=True)
+                    if sn["conv"] and sn["conv"] not in subbed:
+                        subbed.add(sn["conv"])
+                        mm = re.search(r"minute (\d+)", sn.get("cue") or "")
+                        subtitle_panel(sn["conv"], q, int(mm.group(1)) if mm else None, key=f"sub-{i}-{j}")
                 links = [f'<a href="{html.escape(r["page"])}" target="_blank">Tape {r["tape"]} page ↗</a>']
                 if r.get("pdf"):
                     links.append(f'<a href="{html.escape(r["pdf"])}" target="_blank">Full log (PDF) ⬇</a>')
