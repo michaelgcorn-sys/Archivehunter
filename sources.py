@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 77
+CODE_VERSION = 78
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -655,6 +655,48 @@ def search_nixon_logs(index, q, limit=40, per_tape=3):
                     "count": len(hits), "snips": snips})
     out.sort(key=lambda r: -r["count"])
     return out[:limit]
+
+
+# Tapes whose audio the Nixon Library has put online (per its White House Tapes page, Oct 2026)
+NIXON_AUDIO_ONLINE = [(27, 41), (43, 46), (137, 169), (176, 186), (196, 244), (348, 448), (746, 950)]
+GH_REPO = "michaelgcorn-sys/Archivehunter"
+
+
+def nixon_audio_online(conv):
+    try:
+        n = int(str(conv).split("-")[0])
+    except ValueError:
+        return False
+    return any(a <= n <= b for a, b in NIXON_AUDIO_ONLINE)
+
+
+def _setting(name):
+    try:
+        import streamlit as st
+        v = st.secrets.get(name)
+        if v:
+            return str(v).strip()
+    except Exception:
+        pass
+    return os.environ.get(name, "").strip()
+
+
+def subtitles_can_request():
+    return bool(_setting("GITHUB_DISPATCH_TOKEN"))
+
+
+def request_subtitles(conv):
+    """Ask GitHub to make machine subtitles for one conversation (needs GITHUB_DISPATCH_TOKEN in Secrets)."""
+    tok = _setting("GITHUB_DISPATCH_TOKEN")
+    if not tok:
+        raise RuntimeError("no GitHub token in Secrets")
+    r = requests.post(f"https://api.github.com/repos/{_setting('GITHUB_REPO') or GH_REPO}/actions/workflows/transcribe.yml/dispatches",
+                      headers={"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json",
+                               "X-GitHub-Api-Version": "2022-11-28"},
+                      json={"ref": "main", "inputs": {"conv": conv, "model": "large-v3"}}, timeout=20)
+    if r.status_code != 204:
+        raise RuntimeError(f"GitHub said {r.status_code}: {r.text[:160]}")
+    return True
 
 
 def search_wilson(q, limit=8):

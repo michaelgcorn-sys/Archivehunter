@@ -1,0 +1,79 @@
+name: Nixon subtitles in bulk
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: "Topic (jewish, watergate, or a word to match in the logs)"
+        required: true
+        default: "jewish"
+      max:
+        description: "Most conversations this run (GitHub allows up to 256)"
+        required: false
+        default: "256"
+
+permissions:
+  contents: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      convs: ${{ steps.p.outputs.convs }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q requests
+      - id: p
+        run: echo "convs=$(python tools/plan_subtitles.py '${{ github.event.inputs.topic }}' '${{ github.event.inputs.max }}')" >> "$GITHUB_OUTPUT"
+
+  transcribe:
+    needs: plan
+    if: ${{ needs.plan.outputs.convs != '[]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        conv: ${{ fromJson(needs.plan.outputs.convs) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q requests faster-whisper
+      - name: Transcribe
+        run: python tools/transcribe_conversation.py "${{ matrix.conv }}" large-v3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sub-${{ matrix.conv }}
+          path: data/transcripts/${{ matrix.conv }}.json
+          retention-days: 3
+
+  commit:
+    needs: transcribe
+    if: ${{ always() && needs.transcribe.result != 'skipped' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: incoming
+          pattern: sub-*
+          merge-multiple: true
+      - name: Commit all subtitles at once
+        run: |
+          mkdir -p data/transcripts
+          cp incoming/*.json data/transcripts/ 2>/dev/null || true
+          git config user.name "archivehunter-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/transcripts
+          git diff --cached --quiet && echo "nothing new" && exit 0
+          git commit -m "Subtitles for $(ls incoming/*.json 2>/dev/null | wc -l) Nixon conversations (${{ github.event.inputs.topic }})"
+          for i in 1 2 3 4 5; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 10; done

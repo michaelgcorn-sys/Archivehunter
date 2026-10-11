@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 77
+APP_CODE_VERSION = 78
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -242,7 +242,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="ver">Version 77 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
+<div class="ver">Version 78 · Archive Hunter 2.0 · updated Oct 5, 2026</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -1308,9 +1308,37 @@ def nixon_subtitles(conv, v=APP_CODE_VERSION):
     return {"meta": d.get("meta", {}), "lines": lines}
 
 
+@st.cache_resource
+def _sub_requests():
+    return {}                # conversation -> time asked (shared by everyone, survives reruns)
+
+
+def _ask_subtitles(conv):
+    import time as _t
+    try:
+        sources.request_subtitles(conv)
+        _sub_requests()[conv] = _t.time()
+        ss[f"subreq-{conv}"] = "ok"
+    except Exception as e:
+        ss[f"subreq-{conv}"] = f"{type(e).__name__}: {e}"
+
+
 def subtitle_panel(conv, q, around_min, key):
+    import time as _t
     sub = nixon_subtitles(conv, APP_CODE_VERSION)
     if not sub:
+        if not (sources.subtitles_can_request() and sources.nixon_audio_online(conv)):
+            return
+        asked = _sub_requests().get(conv)
+        msg = ss.get(f"subreq-{conv}")
+        if asked and _t.time() - asked < 4 * 3600:
+            st.caption(f"📝 Subtitles for {conv} are being made (about as long as the tape itself). "
+                       "They'll appear here automatically when ready.")
+        elif msg and msg != "ok":
+            st.caption(f"Couldn't request subtitles: {msg}")
+        else:
+            st.button(f"📝 Make subtitles for {conv}", key=f"{key}-make", on_click=_ask_subtitles, args=(conv,),
+                      type="tertiary", help="Machine subtitles from the tape audio. Takes about as long as the conversation.")
         return
     words = [w for w in re.findall(r"[A-Za-z']{3,}", q)]
     stem = [re.sub(r"(ish|ies|es|s)$", "", w, flags=re.I) for w in words]
