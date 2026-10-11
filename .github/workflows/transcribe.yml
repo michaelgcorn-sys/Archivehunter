@@ -9,7 +9,7 @@ on:
       model:
         description: "Whisper model (small.en, medium.en, large-v3)"
         required: false
-        default: "medium.en"
+        default: "large-v3"
 
 permissions:
   contents: write

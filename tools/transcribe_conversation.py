@@ -31,7 +31,8 @@ def audio_url(conv):
 
 def main():
     conv = sys.argv[1]
-    model_name = sys.argv[2] if len(sys.argv) > 2 else "medium.en"
+    model_name = sys.argv[2] if len(sys.argv) > 2 else "large-v3"
+    clean = os.environ.get("CLEAN_AUDIO", "1") == "1"
     page, url = audio_url(conv)
     print("audio:", url, flush=True)
     os.makedirs("/tmp/audio", exist_ok=True)
@@ -43,11 +44,22 @@ def main():
                 f.write(chunk)
     print("downloaded", os.path.getsize(path) // 1024, "KB", flush=True)
 
+    if clean:     # Nixon tapes: cut rumble and hiss, keep the voice band, even out loud and quiet voices
+        import subprocess
+        cleaned = path.rsplit(".", 1)[0] + "-clean.wav"
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", path, "-ac", "1", "-ar", "16000", "-af",
+                        "highpass=f=150,lowpass=f=3800,afftdn=nf=-25,dynaudnorm=f=150:g=15,volume=1.5", cleaned],
+                       check=True)
+        path = cleaned
+        print("cleaned audio", flush=True)
+
     from faster_whisper import WhisperModel
     t0 = time.time()
     model = WhisperModel(model_name, device="cpu", compute_type="int8")
-    segments, info = model.transcribe(path, beam_size=5, vad_filter=True, condition_on_previous_text=False,
-                                      no_speech_threshold=0.5, log_prob_threshold=-1.0)
+    segments, info = model.transcribe(path, beam_size=5, vad_filter=False, condition_on_previous_text=False,
+                                      no_speech_threshold=0.6, log_prob_threshold=-1.0, language="en",
+                                      temperature=[0.0, 0.2, 0.4], compression_ratio_threshold=2.2,
+                                      initial_prompt="Oval Office conversation, 1973. President Nixon speaking with staff.")
     out = []
     for s in segments:
         out.append({"start": round(s.start, 1), "end": round(s.end, 1), "text": s.text.strip(),
@@ -55,7 +67,7 @@ def main():
         if len(out) % 25 == 0:
             print(f"{len(out)} segments, at {s.end / 60:.1f} min", flush=True)
     os.makedirs(OUT_DIR, exist_ok=True)
-    meta = {"conv": conv, "page": page, "audio": url, "model": model_name, "seconds": round(info.duration),
+    meta = {"conv": conv, "page": page, "audio": url, "model": model_name, "cleaned": clean, "seconds": round(info.duration),
             "made": time.strftime("%Y-%m-%d"), "took_min": round((time.time() - t0) / 60, 1)}
     with open(os.path.join(OUT_DIR, f"{conv}.json"), "w") as f:
         json.dump({"meta": meta, "segments": out}, f, ensure_ascii=False, indent=0)
