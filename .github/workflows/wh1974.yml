@@ -21,7 +21,10 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install -q requests
-      - run: python tools/fetch_wh_transcripts.py "${{ github.event.inputs.first }}" "${{ github.event.inputs.last }}"
+      - if: ${{ github.event.inputs.first == 'probe' }}
+        run: python tools/probe_hathi.py
+      - if: ${{ github.event.inputs.first != 'probe' }}
+        run: python tools/fetch_wh_transcripts.py "${{ github.event.inputs.first }}" "${{ github.event.inputs.last }}"
       - name: Commit
         run: |
           git config user.name "archivehunter-bot"
