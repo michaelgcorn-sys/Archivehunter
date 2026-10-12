@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 94
+APP_CODE_VERSION = 95
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -2026,26 +2026,28 @@ with tab_search:
         st.text_input("Search", key="qbox", placeholder=f'Try "{ex}"', label_visibility="collapsed")
         go = st.form_submit_button("Search millions of declassified files", type="primary", width="stretch")
 
-    with st.container(key="popular"):
-        st.markdown('<div class="pop-label">🔥 Popular · swipe →</div>', unsafe_allow_html=True)
-        st.pills("Try", QUICK, key="quick", on_change=_use_quick, label_visibility="collapsed")
-    if not ss.get("status") and not st.query_params.get("doc"):
-        todays_exhibit()
     q = ss.qbox
     if ss.pop("run_quick", False):
         go = True
-
     ss.setdefault("chosen", ALL)
     ss.chosen = [c for c in ss.chosen if c in ALL] or ALL      # drop archives that were removed
-    st.markdown(f'<div class="which">Searching {len(ss.chosen)} archives at once · CIA, FBI, NSA, State Dept and more</div>',
-                unsafe_allow_html=True)
-    with st.expander("See or change which archives"):
-        chosen = st.pills("Archives", ALL, selection_mode="multi", default=ss.chosen, label_visibility="collapsed")
-        if chosen is not None and list(chosen) != list(ss.chosen):
-            ss.chosen = list(chosen)
-            st.rerun()
     chosen = ss.chosen
-    saved_files()
+    home = not (go and q.strip()) and not ss.get("status")     # results go straight under the search bar
+
+    if home:
+        with st.container(key="popular"):
+            st.markdown('<div class="pop-label">🔥 Popular · swipe →</div>', unsafe_allow_html=True)
+            st.pills("Try", QUICK, key="quick", on_change=_use_quick, label_visibility="collapsed")
+        if not st.query_params.get("doc"):
+            todays_exhibit()
+        st.markdown(f'<div class="which">Searching {len(ss.chosen)} archives at once · CIA, FBI, NSA, State Dept and more</div>',
+                    unsafe_allow_html=True)
+        with st.expander("See or change which archives"):
+            picked = st.pills("Archives", ALL, selection_mode="multi", default=ss.chosen, label_visibility="collapsed")
+            if picked is not None and list(picked) != list(ss.chosen):
+                ss.chosen = list(picked)
+                st.rerun()
+        saved_files()
 
     if go and q.strip():
         ss.query = sources.normalize_query(q)
@@ -2340,4 +2342,4 @@ daily_mystery_card()
 st.divider()
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 94 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 95 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
