@@ -10,7 +10,7 @@ import re
 
 import requests
 
-MODULE_VERSION = 91   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 92   # keep in step with APP_CODE_VERSION in app.py
 
 _UA = {"User-Agent": "ArchiveHunter/1.0 (personal research app for declassified records)"}
 

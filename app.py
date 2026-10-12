@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 91
+APP_CODE_VERSION = 92
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -382,6 +382,44 @@ def _fav_component():
 
 
 ss.setdefault("favs", [])
+
+# ── Share this site: the phone's own share sheet (texts, email, socials), with copy-the-link as backup ──
+SHARE_JS = """
+export default function(component) {
+  const { data, parentElement } = component;
+  const btn = parentElement.querySelector("button");
+  const note = parentElement.querySelector(".n");
+  const url = (data && data.url) || "";
+  if (!btn || btn.dataset.ready) return;
+  btn.dataset.ready = "1";
+  btn.addEventListener("click", async () => {
+    const t = "Archive Hunter: once-secret government files, all in one place";
+    try { if (navigator.share) { await navigator.share({ title: "Archive Hunter", text: t, url }); return; } }
+    catch (e) { if (e && e.name === "AbortError") return; }
+    try { await navigator.clipboard.writeText(url); note.textContent = "Link copied. Paste it anywhere."; return; }
+    catch (e) {}
+    note.innerHTML = 'Copy this link: <span style="user-select:all">' + url + '</span>';
+  });
+}
+"""
+SHARE_HTML = '<button class="b">📤 Share this site</button><div class="n"></div>'
+SHARE_CSS = """.b{font:600 .9rem system-ui,sans-serif;color:#c8a96e;background:transparent;border:1px solid rgba(200,169,110,.55);
+border-radius:999px;padding:.35rem .9rem;cursor:pointer}.b:active{background:rgba(200,169,110,.15)}
+.n{font:.8rem system-ui,sans-serif;color:#e6d6b8;margin-top:.3rem;word-break:break-all}"""
+
+
+@st.cache_resource
+def _share_component():
+    return st.components.v2.component("ah_share", html=SHARE_HTML, css=SHARE_CSS, js=SHARE_JS)
+
+
+def share_site_button():
+    url = app_link().rstrip("?") or "https://archivehunter.streamlit.app/"
+    try:
+        _share_component()(key="share-site", data={"url": url})
+    except Exception:
+        st.caption(f"Share this link: {url}")
+
 
 
 def fav_sync():
@@ -1903,6 +1941,7 @@ def todays_exhibit():
         st.button("Open today's exhibit →", key="exhibit-go", on_click=_exhibit_go, args=(kind, ref), type="primary",
                   width="stretch")
 
+share_site_button()
 tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
 
 with tab_search:
@@ -2244,4 +2283,4 @@ if ss.get("scroll_to"):
 # ── Daily Mystery: the very end of the app ─────────────────────────────────────
 st.divider()
 daily_mystery_card()
-st.markdown('<div class="ver">Version 91 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 92 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)

@@ -14,7 +14,7 @@ import urllib.parse
 
 from sources import _get, clean, search_cia
 
-MODULE_VERSION = 91   # keep in step with APP_CODE_VERSION in app.py
+MODULE_VERSION = 92   # keep in step with APP_CODE_VERSION in app.py
 
 
 # ── Fresh releases ───────────────────────────────────────────────────────────
