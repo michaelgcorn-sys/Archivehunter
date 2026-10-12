@@ -8,7 +8,7 @@ documents live from the CIA reading room mirror, so those titles are the CIA's o
 
 import requests
 
-CATALOG_VERSION = 92   # keep in step with APP_CODE_VERSION in app.py
+CATALOG_VERSION = 93   # keep in step with APP_CODE_VERSION in app.py
 
 from sources import HEADERS, _res
 
@@ -304,3 +304,61 @@ EXHIBITS = [
     ("ufo", 340, "🛸 THE UFO FILES", "What an eleven-year-old saw", "FBI correspondence, 1967"),
     ("ufo", 152, "🛸 THE UFO FILES", "A pilot and three Americans meet a UFO", "State Department cable, 1994"),
 ]
+
+
+# Plain-English headlines for the other first-person UFO files (Today's Exhibit rotation). Every hook is drawn from the
+# government's own description or the released report text; files that are not really accounts are left out.
+UFO_HOOKS = {
+    1: "The FBI's complete flying-disc file, 1947 to 1968, with newly declassified pages",
+    24: "An eyewitness watched an “unconventional aircraft” climb over Soviet Azerbaijan",
+    25: "Military and airline crews report flying discs across the skies, 1949",
+    35: "A military operator watched “5x UAP fly across the screen” over Iraq",
+    53: "A “solid white object” moving erratically above the Arabian Gulf",
+    55: "Three objects “moving amongst each other,” one overtaking another",
+    56: "A “round, cold object” making “abrupt directional changes” over the Gulf of Aden",
+    64: "A Navy patrol plane tracks an object skimming the sea at 500 knots off Syria",
+    139: "Apollo 12 astronauts, live on the radio, describe something they can't identify",
+    140: "Apollo 17's crew radios about “very bright particles” tumbling past the spacecraft",
+    141: "Buzz Aldrin: “The first unusual thing that we saw” on the way to the Moon",
+    144: "Skylab crews describe flashes of light and an object with a “reddish hue”",
+    156: "A senior intelligence official tells the FBI a “super-hot” orb outran a helicopter",
+    158: "A crew driving to a test site watches a bright light hover, slide right and vanish",
+    161: "Seven federal employees, two nights, and “orbs launching other orbs”",
+    166: "209 sightings of green orbs and fireballs near a nuclear weapons base",
+    169: "Apollo 12 astronauts describe streaks of light as they tried to sleep",
+    230: "“Potato” shaped, covered in shifting “fish scales”: an Army officer's sketch interview",
+    232: "A red sphere in the backyard with a “white plasma sun” at its center",
+    234: "A reverend writes J. Edgar Hoover about four beams of light and a “great explosion”",
+    258: "A federal agent watched a glowing orb release red lights that flew in formation",
+    259: "Another federal agent's own account of two nights of strange lights (Witness 3)",
+    260: "Through night-vision goggles, an agent sees orange orbs over the hills (Witness 4)",
+    261: "An agent on foot: “two red, smaller orbs release from the larger one” (Witness 5)",
+    267: "Three years of videos of glowing orbs near one man's home, handed to the FBI",
+    270: "Two FBI agents stake out a backyard and see a pulsing light move erratically",
+    288: "John Glenn and Wally Schirra are debriefed on glowing lights seen in orbit",
+    289: "Gemini 4 astronaut Ed White recounts seeing “sparkles” during the flight",
+    290: "Gemini 4's “Visual Sightings” debrief: McDivitt and White on what they saw",
+    291: "The first American spacewalk crew recalls bright particles outside the capsule",
+    293: "Gordon Cooper and Pete Conrad describe “all sorts of glittering pieces” in orbit",
+    294: "Gemini 7's Borman and Lovell describe lights and flashes in orbit",
+    295: "Gemini 9's Stafford and Cernan report “flashing lights” and “sparkles”",
+    296: "Walter Cronkite asks astronaut Gordon Cooper what he thinks UFOs are",
+    297: "Apollo 16 scientists reveal a “flash” no one had reported yet",
+    298: "A NASA scientist's aside: “Could be an alien starbase or something”",
+    315: "Senator Richard Russell's party tells the CIA what they saw from a Soviet train",
+    316: "The CIA's verdict on Senator Russell's “flying saucer” sighting",
+    341: "Apollo 14's crew is questioned about mysterious flashes of light",
+    342: "Apollo 14 debrief, continued: more on the flashes the astronauts saw",
+    343: "Apollo 17 astronauts saw flashes of light, even on the Moon's surface",
+    344: "Apollo 17 medical debrief, continued: the flashes in lunar orbit",
+    357: "A reported UFO crash in Brazil, and the U.S. diplomat who called it a fabrication",
+    358: "“Ghost rockets” over Sweden: the Army's 1947 intelligence review",
+    359: "Project Sign: the Air Force considers that some flying objects are “real”",
+    360: "An AC-130 gunship crew's unresolved sighting during a night live-fire exercise",
+    378: "An object the size of a large SUV glides over a Colorado Springs porch at 300 feet",
+    379: "A “massive black isosceles triangle,” humming, with a light in each corner",
+    380: "A black triangle with a red light emerges from a “pixelated” cloud",
+    381: "An agent alerted by a radio detection spots two black objects through a thermal scope",
+    384: "Six to ten red lights “sync up” over a mountain road; one plunges and vanishes",
+    399: "A military infrared camera captures an unidentified object over Iraq, 2022",
+}

@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 92
+APP_CODE_VERSION = 93
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -34,7 +34,7 @@ for _m in (dossier_mod, explainers, extras, geo, newsday, redactions, tr):
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url, search_gwu,
                      pdb_on_this_day, search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
-from catalog import ANCIENT, CATEGORIES, CORPORATE, EXHIBITS, PICKS, TEASERS, UFO_EYEWITNESS, UFO_PICTURES, met_gallery, met_image
+from catalog import ANCIENT, CATEGORIES, CORPORATE, EXHIBITS, PICKS, TEASERS, UFO_EYEWITNESS, UFO_HOOKS, UFO_PICTURES, met_gallery, met_image
 from dossier import folder_files, ident_from_url, is_cia_ident, load_dossier, redaction_estimate
 import streamlit.components.v1 as components
 
@@ -55,7 +55,7 @@ st.markdown("""
 .passage mark{background:#c8a96e;color:#111;padding:0 2px;border-radius:2px}
 .pg{font:700 .7rem 'Courier New',monospace;opacity:.6}
 .ver{font:.72rem 'Courier New',monospace;opacity:.45;margin:1.2rem 0 .4rem;text-align:center}
-.tagline{font-family:Georgia,'Times New Roman',serif;font-size:1.02rem;line-height:1.5;color:#e6d6b8;margin:.35rem 0 .55rem;max-width:44rem}
+.tagline{font-family:Georgia,'Times New Roman',serif;font-size:.98rem;line-height:1.4;color:#e6d6b8;margin:.2rem 0 .4rem;max-width:44rem}
 .agencies{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 .9rem}
 .agencies span{font:700 .62rem 'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase;color:#c8a96e;
                border:1px solid rgba(200,169,110,.35);border-radius:3px;padding:2px 6px}
@@ -216,6 +216,14 @@ st.markdown("""
 .ufo-when{font:700 .68rem 'Courier New',monospace;color:#7fd6a4;letter-spacing:.08em;margin-top:.35rem}
 .ufo-hook{font-size:.84rem;line-height:1.3;color:#d6e6dc;min-height:4.4em}
 .ufo-title{font-family:Georgia,serif;font-size:1.1rem;color:#e6f2ea;margin:.2rem 0}
+.prov{display:inline-block;font:600 .74rem system-ui,sans-serif;color:#e8d9b5;background:rgba(200,169,110,.12);
+      border:1px solid rgba(200,169,110,.35);border-radius:3px;padding:2px 7px;margin:.3rem 0 .2rem}
+.img-wrap{position:relative;display:block}
+.img-tag{position:absolute;top:6px;left:6px;z-index:2;font:700 .7rem system-ui,sans-serif;color:#111;background:#f0c869;
+         border-radius:3px;padding:2px 6px;box-shadow:0 1px 4px rgba(0,0,0,.5)}
+.ex-row{display:flex;gap:.7rem;align-items:flex-start;margin-top:.4rem}
+.ex-thumb{width:92px;height:92px;flex:none;object-fit:cover;border-radius:5px;background:#000}
+.ex-official{font-size:.72rem;opacity:.55;margin-top:.15rem}
 .ufo-big{width:100%;max-height:340px;object-fit:contain;background:#000;border-radius:4px;margin:.3rem 0}
 .ufo-report{max-height:380px;overflow-y:auto;font:14px/1.45 Georgia,serif;color:#e8efe9;background:#0a0f0c;border-left:3px solid #2f6b4f;padding:.5rem .7rem;white-space:normal}
 [class*="st-key-ufo-rel-"]{flex-wrap:nowrap!important;border-top:1px solid #1c3329;padding-top:.3rem}
@@ -232,7 +240,7 @@ st.markdown("""
 .ex-k{font:700 .72rem 'Courier New',monospace;letter-spacing:.2em;color:#c8a96e}
 .ex-img{width:100%;max-height:230px;object-fit:cover;border-radius:6px;margin:.45rem 0;background:#000}
 .ex-kick{font:700 .7rem 'Courier New',monospace;letter-spacing:.14em;color:#7fd6a4;margin-top:.25rem}
-.ex-h{font-family:Georgia,serif;font-size:1.45rem;line-height:1.2;color:#f3e6c8;margin:.1rem 0}
+.ex-h{font-family:Georgia,serif;font-size:1.18rem;line-height:1.25;color:#f3e6c8;margin:.1rem 0}
 .ex-src{font-size:.78rem;opacity:.65}
 .ex-b{font-size:.9rem;line-height:1.4;color:#e1d6bd;margin:.35rem 0 .2rem}
 .nixon-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#d9a066}
@@ -284,9 +292,7 @@ st.markdown("""
 </style>
 <div class="eyebrow">Exhibit A · Declassified</div>
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
-<div class="tagline">Once-secret government files, all in one place. Search millions of declassified pages: spy programs,
-covert operations, cold cases, the Nixon tapes and the UFO files.</div>
-<div class="agencies"><span>CIA</span><span>FBI</span><span>NSA</span><span>Pentagon</span><span>State Dept</span><span>NRO</span><span>Energy</span><span>NASA</span><span>National Archives</span><span>Nixon tapes</span><span>+ more</span></div>
+<div class="tagline">Once-secret files from the CIA, FBI, NSA, Pentagon and more, searchable in one place.</div>
 """, unsafe_allow_html=True)
 
 ALL = list(SOURCES)
@@ -312,16 +318,17 @@ def _tile_target(r):
     return "_self" if ident_from_url(r["url"]) else "_blank"
 
 
-@st.fragment(run_every="30s")
+@st.fragment
 def top_secret_strip():
     pool = cached_pool(APP_CODE_VERSION)
     if not pool:
         return
     hot = [r for r in pool if r.get("interest", 0) > 0]
     rest = [r for r in pool if r.get("interest", 0) <= 0]
-    picks = random.sample(hot, min(8, len(hot)))                    # mostly exciting ones
-    picks += random.sample(rest, min(10 - len(picks), len(rest)))
-    random.shuffle(picks)
+    rnd = random.Random(ss.setdefault("ts_seed", random.randrange(10 ** 6)))   # stays put until the reader asks
+    picks = rnd.sample(hot, min(8, len(hot)))                        # mostly exciting ones
+    picks += rnd.sample(rest, min(10 - len(picks), len(rest)))
+    rnd.shuffle(picks)
     cards = []
     for r in picks:
         if r.get("thumb"):
@@ -334,13 +341,13 @@ def top_secret_strip():
             f'<span class="ts-stamp">TOP SECRET</span></div><div class="ts-body">'
             f'<span class="ts-src">{html.escape(r["source"])}{year}</span>'
             f'<span class="ts-title">{html.escape(r["title"])}</span></div></a>')
-    if st.button("🔄 Pull a new batch", key="ts-reroll", type="tertiary",
-                 help="Search the archives again for a fresh set of documents marked Top Secret"):
-        cached_pool.clear()
-        st.rerun(scope="app")
+    if st.button("🔄 Show another batch", key="ts-reroll", type="tertiary",
+                 help="Swap in a different set of documents marked Top Secret"):
+        ss.ts_seed = random.randrange(10 ** 6)
+        st.rerun(scope="fragment")
     st.markdown(
         f'<div class="ts-head"><b>● TOP SECRET</b><span>{len(pool)} document{"" if len(pool) == 1 else "s"} marked Top Secret · '
-        f'new picks every 30 seconds · swipe and tap to open</span></div>'
+        f'swipe and tap to open</span></div>'
         f'<div class="ts-strip">{"".join(cards)}</div>', unsafe_allow_html=True)
 
 
@@ -1665,6 +1672,27 @@ def _ufo_thumb(r):
     return r.get("thumbnailUrl") or ""
 
 
+_ILLUS_RX = re.compile(r"(?i)sketch|rendering|drawing|illustration|composite|artist|artistic interpretation|forensic art")
+
+
+def ufo_provenance(r):
+    """What kind of evidence a UFO file is, in plain words, so a drawing never passes for a photo and a claim never
+    passes for a finding."""
+    t = r.get("title", "") + " " + r.get("description", "")[:400]
+    if r.get("type") != "VID" and (_ILLUS_RX.search(r.get("title", "")) or
+                                   (r.get("type") == "IMG" and _ILLUS_RX.search(r.get("description", "")[:200]))):
+        return "🎨 Illustration from a witness report · not a photo"
+    if r.get("type") == "VID" or r.get("dvidsVideoId"):
+        return "🎥 Government video"
+    if r.get("type") == "IMG":
+        return "📷 Government image"
+    if r.get("type") == "AUD":
+        return "🎧 Government audio recording"
+    if _ACCOUNT_RX.search(t):
+        return "🗣 Witness account · not a verified finding"
+    return "📄 Government record"
+
+
 @st.cache_data(ttl=7 * 24 * 3600, show_spinner=False, max_entries=300)
 def cached_ufo_text(rid, v=APP_CODE_VERSION):
     t = sources.ufo_text(rid)
@@ -1678,13 +1706,16 @@ def ufo_detail(r):
                     unsafe_allow_html=True)
         st.button("✕ Back", key="ufo-back", on_click=lambda: ss.pop("ufo_open", None), type="tertiary")
     when = " · ".join(x for x in (r.get("incidentDate"), r.get("incidentLocation")) if x and x not in ("N/A", "Undated"))
+    prov = ufo_provenance(r)
     st.markdown(f'<div class="ufo-title">{html.escape(r["title"])}</div>'
-                + (f'<div class="meta">{html.escape(when)}</div>' if when else ""), unsafe_allow_html=True)
+                + (f'<div class="meta">{html.escape(when)}</div>' if when else "")
+                + f'<div class="prov">{html.escape(prov)}</div>', unsafe_allow_html=True)
     if r.get("dvidsVideoId"):
         st.iframe(f"https://www.dvidshub.net/video/embed/{r['dvidsVideoId']}", height=260)
         st.caption("Plays from DVIDS, the military's official media site.")
     elif _ufo_thumb(r):
-        st.markdown(f'<a href="{html.escape(r.get("fileUrl") or _ufo_thumb(r))}" target="_blank"><img class="ufo-big" '
+        tag = f'<span class="img-tag">{html.escape(prov)}</span>' if prov.startswith("🎨") else ""
+        st.markdown(f'<a class="img-wrap" href="{html.escape(r.get("fileUrl") or _ufo_thumb(r))}" target="_blank">{tag}<img class="ufo-big" '
                     f'src="{html.escape(_ufo_thumb(r))}" alt=""></a>', unsafe_allow_html=True)
     st.markdown(f'<div class="ufo-desc">{html.escape(r["description"])}</div>', unsafe_allow_html=True)
     if r.get("type") in ("PDF", "IMG"):
@@ -1730,7 +1761,8 @@ def ufo_detail(r):
         st.markdown(f'<div class="links">{" ".join(links)}</div>', unsafe_allow_html=True)
     fav_button({"url": r.get("fileUrl") or f"https://www.war.gov/UFO/#{r['id']}", "title": r["title"],
                 "source": f"UFO Files · {r['agency']}", "date": str(r.get("incidentDate") or "")[:12]}, key=f"ufo-fav-{r['id']}")
-    st.caption("From the Pentagon's 2026 release of government UFO files (war.gov/UFO). Description is the government's own.")
+    st.caption("From the Pentagon's 2026 release of government UFO files (war.gov/UFO). The description is the government's own; "
+               "the government holding an account does not mean it confirmed what the witness reported.")
     with st.expander("📤 Share this find"):
         st.code(app_link(ufo=r["id"]), language=None, wrap_lines=True)
         st.caption("This link opens straight to this file in Archive Hunter.")
@@ -1802,7 +1834,9 @@ def ufo_picture_pool(v=APP_CODE_VERSION):
 def ufo_mini(r, label, hook, key):
     th = _ufo_thumb(r)
     with st.container(border=True, key=f"ufo-mini-{key}"):
-        st.markdown((f'<img class="ufo-th" src="{html.escape(th)}" alt="">' if th else
+        ill = ufo_provenance(r).startswith("🎨")
+        st.markdown((f'<div class="img-wrap">{"<span class=img-tag>🎨 Illustration</span>" if ill else ""}'
+                     f'<img class="ufo-th" src="{html.escape(th)}" alt=""></div>' if th else
                      f'<div class="ufo-th ufo-noth">{"▶" if r.get("dvidsVideoId") else "🛸"}</div>')
                     + f'<div class="ufo-when">{html.escape(label)}</div><div class="ufo-hook">{html.escape(hook)}</div>',
                     unsafe_allow_html=True)
@@ -1914,34 +1948,35 @@ def todays_exhibit():
     for i, label, hook in UFO_EYEWITNESS:                    # the hand-written eyewitness picks
         if i not in {e[1] for e in EXHIBITS}:
             extra.append(("ufo", i, "🛸 THE UFO FILES", hook, label))
-    for i in ufo_account_pool(APP_CODE_VERSION):             # then every other first-person account
-        if i not in curated_ids:
+    for i in ufo_account_pool(APP_CODE_VERSION):             # then every other account with a plain-English headline
+        if i not in curated_ids and i in UFO_HOOKS:
             r = ufo_by_id(i)
             if r:
-                t = re.sub(r"^[A-Z]{2,4}-UAP-[A-Z]*\d+[A-Z]?,\s*", "", r["title"])
-                extra.append(("ufo", i, "🛸 THE UFO FILES", t, f'{r["agency"]} · {_account_label(r)}'))
+                extra.append(("ufo", i, "🛸 THE UFO FILES", UFO_HOOKS[i], f'{r["agency"]} · {_account_label(r)}'))
     allx = list(EXHIBITS) + extra
     kind, ref, kicker, headline, source = allx[today.toordinal() % len(allx)]
-    img, blurb = "", ""
+    img, official, prov = "", "", ""
     if kind == "ufo":
         r = ufo_by_id(ref)
         if not r:
             return
         img = _ufo_thumb(r)
-        blurb = re.split(r"(?<=[.!?])\s", r["description"])[0][:260]
+        official = r["title"]
+        prov = ufo_provenance(r)
     elif kind == "nixon":
         t = hjc_transcripts(APP_CODE_VERSION).get(ref)
-        blurb = (t or {}).get("label", "")
+        official = (t or {}).get("label", "")
+        prov = "🎧 White House tape, with the 1974 House Judiciary transcript"
     with st.container(border=True, key="exhibit"):
         st.markdown(f'<div class="ex-k">⭐ TODAY’S EXHIBIT · {today.strftime("%b %-d").upper()}</div>'
-                    + (f'<img class="ex-img" src="{html.escape(img)}" alt="">' if img else "")
-                    + f'<div class="ex-kick">{html.escape(kicker)}</div><div class="ex-h">{html.escape(headline)}</div>'
-                    f'<div class="ex-src">{html.escape(source)}</div>'
-                    + (f'<div class="ex-b">{html.escape(blurb)}</div>' if blurb else ""), unsafe_allow_html=True)
+                    f'<div class="ex-row">' + (f'<img class="ex-thumb" src="{html.escape(img)}" alt="">' if img else "")
+                    + f'<div><div class="ex-h">{html.escape(headline)}</div><div class="ex-src">{html.escape(source)}</div></div></div>'
+                    + (f'<div class="prov">{html.escape(prov)}</div>' if prov else "")
+                    + (f'<div class="ex-official">Official title: {html.escape(official)}</div>' if official else ""),
+                    unsafe_allow_html=True)
         st.button("Open today's exhibit →", key="exhibit-go", on_click=_exhibit_go, args=(kind, ref), type="primary",
                   width="stretch")
 
-share_site_button()
 tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
 
 with tab_search:
@@ -1965,8 +2000,6 @@ with tab_search:
         ss.main_tabs = TAB_SEARCH
 
     ss.setdefault("qbox", "")
-    if not ss.get("status") and not st.query_params.get("doc"):
-        todays_exhibit()
     with st.form("search", border=False):
         st.markdown(f'<div class="q-label">🔎 SEARCH CIA, FBI, NSA + {len(ALL) - 3} MORE ARCHIVES</div>', unsafe_allow_html=True)
         st.text_input("Search", key="qbox", placeholder='A name, operation or event…',
@@ -1977,6 +2010,8 @@ with tab_search:
     with st.container(key="popular"):
         st.markdown('<div class="pop-label">Popular searches</div>', unsafe_allow_html=True)
         st.pills("Try", QUICK, key="quick", on_change=_use_quick, label_visibility="collapsed")
+    if not ss.get("status") and not st.query_params.get("doc"):
+        todays_exhibit()
     q = ss.qbox
     if ss.pop("run_quick", False):
         go = True
@@ -2226,7 +2261,7 @@ def cached_reveal(key, v=APP_CODE_VERSION):
 st.divider()
 st.markdown('<div class="ba-head">⬛ BEFORE / AFTER</div>'
             '<div class="intro">The same secret document, released twice: first with black boxes, then again in '
-            'March 2025 with them lifted. Tap the page to declassify it.</div>', unsafe_allow_html=True)
+            'March 2025 with them lifted. Tap the page to see what the censors hid. Both versions are official public releases.</div>', unsafe_allow_html=True)
 labels = {c["short"]: c for c in redactions.CASES}
 pick = st.pills("Document", list(labels), default=list(labels)[0], key="ba-pick", label_visibility="collapsed")
 case = labels.get(pick) or redactions.CASES[0]
@@ -2283,4 +2318,7 @@ if ss.get("scroll_to"):
 # ── Daily Mystery: the very end of the app ─────────────────────────────────────
 st.divider()
 daily_mystery_card()
-st.markdown('<div class="ver">Version 92 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.divider()
+st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
+share_site_button()
+st.markdown('<div class="ver">Version 93 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
