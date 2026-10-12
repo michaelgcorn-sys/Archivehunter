@@ -15,7 +15,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 95
+APP_CODE_VERSION = 96
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -1699,7 +1699,9 @@ def dvids_posters(v=APP_CODE_VERSION):
 
 def _ufo_visual(x):
     """The picture for a record if it is itself a picture: an image, a drawing, or a video's poster frame."""
-    if x.get("dvidsVideoId"):
+    if x.get("dvidsVideoId"):          # audio files only have a NASA logo + waveform as a "poster"
+        if x.get("type") == "AUD" or x.get("agency") == "NASA":
+            return ""
         return dvids_posters(APP_CODE_VERSION).get(str(x["dvidsVideoId"])) or ""
     th = _ufo_thumb(x)
     if th and (x.get("type") == "IMG" or _ILLUS_RX.search(x.get("title", ""))):
@@ -1739,9 +1741,10 @@ def ufo_picture(rid, v=APP_CODE_VERSION):
             if i and i != rid:
                 cands.append(ufo_by_id(i))
     cands += sources.ufo_related(ufo_records(APP_CODE_VERSION), r)
-    for x in cands:
-        if x and _ufo_visual(x):
-            return _ufo_visual(x), ufo_provenance(x)
+    cands = [x for x in cands if x and _ufo_visual(x)]
+    cands.sort(key=lambda x: 1 if x.get("dvidsVideoId") else 0)   # drawings and photos beat grainy sensor frames
+    if cands:
+        return _ufo_visual(cands[0]), ufo_provenance(cands[0])
     return "", ""
 
 
@@ -2401,4 +2404,4 @@ daily_mystery_card()
 st.divider()
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 95 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 96 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
