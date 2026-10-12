@@ -14,7 +14,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 93
+APP_CODE_VERSION = 94
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -77,7 +77,10 @@ st.markdown("""
 .ts-body{padding:.5rem .6rem .6rem;display:flex;flex-direction:column;gap:.2rem}
 .ts-src{font:700 .6rem 'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;color:#c8a96e}
 .ts-title{font-size:.8rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.st-key-popular{border:1px solid #c4544a;border-radius:8px;padding:.35rem .5rem .45rem;margin:.3rem 0 .1rem;gap:.15rem}
+.st-key-popular{margin:.1rem 0 .4rem;gap:.1rem}
+.st-key-popular [data-testid="stButtonGroup"]>div{flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.st-key-popular [data-testid="stButtonGroup"]>div::-webkit-scrollbar{display:none}
+.st-key-popular button{flex:none!important;white-space:nowrap}
 .st-key-popular button{min-height:0!important;padding:.05rem .55rem!important}
 .st-key-popular button p,.st-key-popular button div{font-size:.82rem!important;line-height:1.5!important}
 .pop-label{font-size:.8rem;font-weight:700;color:#c4544a;line-height:1.2;padding:0 0 .15rem;display:block;letter-spacing:.06em;text-transform:uppercase}
@@ -222,7 +225,14 @@ st.markdown("""
 .img-tag{position:absolute;top:6px;left:6px;z-index:2;font:700 .7rem system-ui,sans-serif;color:#111;background:#f0c869;
          border-radius:3px;padding:2px 6px;box-shadow:0 1px 4px rgba(0,0,0,.5)}
 .ex-row{display:flex;gap:.7rem;align-items:flex-start;margin-top:.4rem}
-.ex-thumb{width:92px;height:92px;flex:none;object-fit:cover;border-radius:5px;background:#000}
+.ex-hero{position:relative;height:330px;margin:-.2rem -.2rem .5rem;border-radius:8px;overflow:hidden;background:#000 center/cover no-repeat}
+.ex-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 25%,rgba(0,0,0,.6) 55%,rgba(0,0,0,.95))}
+.ex-over{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:.9rem 1rem}
+.ex-over .ex-h{font-size:1.6rem;line-height:1.15;color:#fff;text-shadow:0 2px 8px #000}
+.ex-over .ex-src{color:#e8d9b5;opacity:.9}
+.ex-stamp{position:absolute;top:14px;right:12px;z-index:2;transform:rotate(7deg);font:900 .95rem 'Courier New',monospace;
+          letter-spacing:.14em;color:#e0453a;border:3px solid #e0453a;padding:2px 10px;background:rgba(0,0,0,.35)}
+.ex-tag{top:12px;left:12px}
 .ex-official{font-size:.72rem;opacity:.55;margin-top:.15rem}
 .ufo-big{width:100%;max-height:340px;object-fit:contain;background:#000;border-radius:4px;margin:.3rem 0}
 .ufo-report{max-height:380px;overflow-y:auto;font:14px/1.45 Georgia,serif;color:#e8efe9;background:#0a0f0c;border-left:3px solid #2f6b4f;padding:.5rem .7rem;white-space:normal}
@@ -1955,7 +1965,7 @@ def todays_exhibit():
                 extra.append(("ufo", i, "🛸 THE UFO FILES", UFO_HOOKS[i], f'{r["agency"]} · {_account_label(r)}'))
     allx = list(EXHIBITS) + extra
     kind, ref, kicker, headline, source = allx[today.toordinal() % len(allx)]
-    img, official, prov = "", "", ""
+    img, official, prov, img_tag = "", "", "", ""
     if kind == "ufo":
         r = ufo_by_id(ref)
         if not r:
@@ -1963,14 +1973,23 @@ def todays_exhibit():
         img = _ufo_thumb(r)
         official = r["title"]
         prov = ufo_provenance(r)
+        if r["type"] in ("PDF", "AUD"):          # a picture of the same case beats a photo of a typed page
+            for x in sources.ufo_related(ufo_records(APP_CODE_VERSION), r):
+                if x["type"] in ("IMG", "VID") and _ufo_thumb(x):
+                    img = _ufo_thumb(x)
+                    xp = ufo_provenance(x)
+                    img_tag = "🎨 Illustration" if xp.startswith("🎨") else xp.split(" · ")[0]
+                    break
     elif kind == "nixon":
         t = hjc_transcripts(APP_CODE_VERSION).get(ref)
         official = (t or {}).get("label", "")
         prov = "🎧 White House tape, with the 1974 House Judiciary transcript"
     with st.container(border=True, key="exhibit"):
-        st.markdown(f'<div class="ex-k">⭐ TODAY’S EXHIBIT · {today.strftime("%b %-d").upper()}</div>'
-                    f'<div class="ex-row">' + (f'<img class="ex-thumb" src="{html.escape(img)}" alt="">' if img else "")
-                    + f'<div><div class="ex-h">{html.escape(headline)}</div><div class="ex-src">{html.escape(source)}</div></div></div>'
+        st.markdown(f'<div class="ex-hero" style="background-image:url(\'{html.escape(img)}\')">'
+                    f'<span class="ex-stamp">DECLASSIFIED</span>'
+                    + (f'<span class="img-tag ex-tag">{html.escape(img_tag)}</span>' if img_tag else "")
+                    + f'<div class="ex-over"><div class="ex-k">⭐ TODAY’S EXHIBIT · {today.strftime("%b %-d").upper()}</div>'
+                    f'<div class="ex-h">{html.escape(headline)}</div><div class="ex-src">{html.escape(source)}</div></div></div>'
                     + (f'<div class="prov">{html.escape(prov)}</div>' if prov else "")
                     + (f'<div class="ex-official">Official title: {html.escape(official)}</div>' if official else ""),
                     unsafe_allow_html=True)
@@ -2002,13 +2021,13 @@ with tab_search:
     ss.setdefault("qbox", "")
     with st.form("search", border=False):
         st.markdown(f'<div class="q-label">🔎 SEARCH CIA, FBI, NSA + {len(ALL) - 3} MORE ARCHIVES</div>', unsafe_allow_html=True)
-        st.text_input("Search", key="qbox", placeholder='A name, operation or event…',
-                      label_visibility="collapsed")
-        st.markdown('<div class="qtip">💡 Tip: use "quotes" for an exact phrase</div>', unsafe_allow_html=True)
+        ex = ss.setdefault("q_example", random.choice(["Operation Northwoods", "MKUltra", "Area 51", "Roswell", "Gulf of Tonkin",
+                                                       "Bay of Pigs", "Lee Harvey Oswald", "Project Stargate"]))
+        st.text_input("Search", key="qbox", placeholder=f'Try "{ex}"', label_visibility="collapsed")
         go = st.form_submit_button("Search millions of declassified files", type="primary", width="stretch")
 
     with st.container(key="popular"):
-        st.markdown('<div class="pop-label">Popular searches</div>', unsafe_allow_html=True)
+        st.markdown('<div class="pop-label">🔥 Popular · swipe →</div>', unsafe_allow_html=True)
         st.pills("Try", QUICK, key="quick", on_change=_use_quick, label_visibility="collapsed")
     if not ss.get("status") and not st.query_params.get("doc"):
         todays_exhibit()
@@ -2321,4 +2340,4 @@ daily_mystery_card()
 st.divider()
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 93 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 94 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
