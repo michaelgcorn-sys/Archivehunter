@@ -4,6 +4,7 @@ Run locally:  streamlit run app.py
 """
 
 import html
+import os
 import random
 import re
 import urllib.parse
@@ -1685,6 +1686,65 @@ def _ufo_thumb(r):
 _ILLUS_RX = re.compile(r"(?i)sketch|rendering|drawing|illustration|composite|artist|artistic interpretation|forensic art")
 
 
+@st.cache_data(show_spinner=False)
+def dvids_posters(v=APP_CODE_VERSION):
+    """Poster frames for the UFO-file videos (collected from DVIDS by tools/probes/dvids.py)."""
+    import json
+    try:
+        with open(os.path.join(os.path.dirname(__file__), "data", "dvids_thumbs.json")) as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _ufo_visual(x):
+    """The picture for a record if it is itself a picture: an image, a drawing, or a video's poster frame."""
+    if x.get("dvidsVideoId"):
+        return dvids_posters(APP_CODE_VERSION).get(str(x["dvidsVideoId"])) or ""
+    th = _ufo_thumb(x)
+    if th and (x.get("type") == "IMG" or _ILLUS_RX.search(x.get("title", ""))):
+        return th
+    return ""
+
+
+_CODE_RX = re.compile(r"([A-Z]{2,4})-UAP-(PR|D)\s?(\d+)(?:\s*(?:through|to|-)\s*(?:[A-Z]{2,4}-UAP-)?(?:PR|D)?\s?(\d+))?")
+
+
+@st.cache_data(show_spinner=False)
+def _ufo_codes(v=APP_CODE_VERSION):
+    out = {}
+    for r in ufo_records(APP_CODE_VERSION):
+        m = re.match(r"([A-Z]{2,4}-UAP-(?:PR|D))\s?(\d+)", r["title"])
+        if m:
+            out[f"{m.group(1)}{int(m.group(2)):03d}"] = r["id"]
+    return out
+
+
+@st.cache_data(show_spinner=False, max_entries=500)
+def ufo_picture(rid, v=APP_CODE_VERSION):
+    """Best real picture for a case: its own image or video frame, else one from a file it cites or a related file.
+    Returns (url, label) or ("", "")."""
+    r = ufo_by_id(rid)
+    if not r:
+        return "", ""
+    own = _ufo_visual(r)
+    if own:
+        return own, ufo_provenance(r)
+    codes, cands = _ufo_codes(APP_CODE_VERSION), []
+    for m in _CODE_RX.finditer(r.get("description", "")):
+        a = int(m.group(3))
+        b = int(m.group(4)) if m.group(4) else a
+        for n in range(a, min(b, a + 8) + 1):
+            i = codes.get(f"{m.group(1)}-UAP-{m.group(2)}{n:03d}")
+            if i and i != rid:
+                cands.append(ufo_by_id(i))
+    cands += sources.ufo_related(ufo_records(APP_CODE_VERSION), r)
+    for x in cands:
+        if x and _ufo_visual(x):
+            return _ufo_visual(x), ufo_provenance(x)
+    return "", ""
+
+
 def ufo_provenance(r):
     """What kind of evidence a UFO file is, in plain words, so a drawing never passes for a photo and a claim never
     passes for a finding."""
@@ -1963,23 +2023,22 @@ def todays_exhibit():
             r = ufo_by_id(i)
             if r:
                 extra.append(("ufo", i, "🛸 THE UFO FILES", UFO_HOOKS[i], f'{r["agency"]} · {_account_label(r)}'))
-    allx = list(EXHIBITS) + extra
+    allx = [e for e in list(EXHIBITS) + extra if e[0] == "ufo" and ufo_picture(e[1], APP_CODE_VERSION)[0]] or list(EXHIBITS)
     kind, ref, kicker, headline, source = allx[today.toordinal() % len(allx)]
     img, official, prov, img_tag = "", "", "", ""
     if kind == "ufo":
         r = ufo_by_id(ref)
         if not r:
             return
-        img = _ufo_thumb(r)
         official = r["title"]
         prov = ufo_provenance(r)
-        if r["type"] in ("PDF", "AUD"):          # a picture of the same case beats a photo of a typed page
-            for x in sources.ufo_related(ufo_records(APP_CODE_VERSION), r):
-                if x["type"] in ("IMG", "VID") and _ufo_thumb(x):
-                    img = _ufo_thumb(x)
-                    xp = ufo_provenance(x)
-                    img_tag = "🎨 Illustration" if xp.startswith("🎨") else xp.split(" · ")[0]
-                    break
+        img, xp = ufo_picture(ref, APP_CODE_VERSION)    # a real picture of the case, never a typed page
+        if img and xp != prov:
+            img_tag = "🎨 Illustration" if xp.startswith("🎨") else xp.split(" · ")[0]
+        elif img and xp.startswith("🎨"):
+            img_tag = "🎨 Illustration"
+        if not img:
+            img = _ufo_thumb(r)
     elif kind == "nixon":
         t = hjc_transcripts(APP_CODE_VERSION).get(ref)
         official = (t or {}).get("label", "")

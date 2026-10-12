@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install -q requests pypdf
+      - run: pip install -q requests pypdf pillow
       - run: python "tools/probes/${{ github.event.inputs.script }}"
       - name: Save probe output (if any)
         run: |
