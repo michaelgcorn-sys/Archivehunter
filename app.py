@@ -15,7 +15,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 96
+APP_CODE_VERSION = 97
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -317,6 +317,17 @@ ss.setdefault("query", "")
 
 @st.cache_data(ttl=1800, show_spinner=False)    # new random batch every 30 minutes
 def cached_pool(v=APP_CODE_VERSION):    # version in the key: an update throws out old answers
+    """Top Secret documents: the pool gathered daily by GitHub Actions (instant), else a live search (~30 s)."""
+    import json
+    from datetime import date
+    try:
+        with open(os.path.join(os.path.dirname(__file__), "data", "top_secret_pool.json")) as f:
+            saved = json.load(f)
+        age = (date.today() - date.fromisoformat(saved["made"])).days
+        if saved.get("docs") and age <= 7:
+            return saved["docs"]
+    except Exception:
+        pass
     return top_secret_pool()
 
 
@@ -2404,4 +2415,4 @@ daily_mystery_card()
 st.divider()
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 96 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 97 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
