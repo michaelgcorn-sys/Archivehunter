@@ -15,7 +15,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 97
+APP_CODE_VERSION = 98
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -39,7 +39,14 @@ from catalog import ANCIENT, CATEGORIES, CORPORATE, EXHIBITS, PICKS, TEASERS, UF
 from dossier import folder_files, ident_from_url, is_cia_ident, load_dossier, redaction_estimate
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="centered")
+# ── Desktop or phone layout: picked from the screen width the browser reports (or ?view=desktop / ?view=phone) ──
+_view = st.query_params.get("view")
+if _view in ("desktop", "phone"):
+    st.session_state["view_pref"] = _view
+WIDE_AT = 1100
+WIDE = st.session_state.get("view_pref") == "desktop" or (
+    st.session_state.get("view_pref") is None and (st.session_state.get("screen_w") or 0) >= WIDE_AT)
+st.set_page_config(page_title="Archive Hunter", page_icon="🗂️", layout="wide" if WIDE else "centered")
 
 st.markdown("""
 <style>
@@ -305,6 +312,58 @@ st.markdown("""
 <a class="brand-link" href="./" target="_self"><div class="brand">Archive Hunter</div></a>
 <div class="tagline">Once-secret files from the CIA, FBI, NSA, Pentagon and more, searchable in one place.</div>
 """, unsafe_allow_html=True)
+
+SCREEN_JS = """
+export default function(component) {
+  const { setStateValue } = component;
+  const send = () => {
+    const w = window.innerWidth, wide = w >= %d ? 1 : 0;
+    if (window.__ahWide !== wide) { window.__ahWide = wide; setStateValue("w", w); }
+  };
+  send();
+  if (!window.__ahResize) {
+    window.__ahResize = 1;
+    window.addEventListener("resize", () => { clearTimeout(window.__ahT); window.__ahT = setTimeout(send, 400); });
+  }
+}
+""" % WIDE_AT
+
+
+@st.cache_resource
+def _screen_component():
+    return st.components.v2.component("ah_screen", js=SCREEN_JS)
+
+
+def screen_sync():
+    """Learn the screen width once (and again if the window is resized across the line) and switch layouts."""
+    try:
+        res = _screen_component()(key="screen", default={"w": None}, on_w_change=lambda: None)
+        w = res.get("w") if isinstance(res, dict) else getattr(res, "w", None)
+    except Exception:
+        return
+    if w and w != st.session_state.get("screen_w"):
+        st.session_state["screen_w"] = w
+        if st.session_state.get("view_pref") is None and (w >= WIDE_AT) != WIDE:
+            st.rerun()
+
+
+screen_sync()
+if WIDE:
+    st.markdown("""<style>
+[data-testid="stMainBlockContainer"],.block-container{max-width:1400px!important;padding-left:2.5rem!important;padding-right:2.5rem!important}
+.brand{font-size:3.3rem}
+.tagline{font-size:1.15rem;max-width:60rem}
+.ex-hero{height:440px}
+.ex-over .ex-h{font-size:2.3rem}
+.st-key-popular [data-testid="stButtonGroup"]>div{flex-wrap:wrap!important;overflow-x:visible}
+.st-key-searchwrap{max-width:860px;margin:0 auto}
+.st-key-reader{position:sticky;top:3.5rem;max-height:calc(100vh - 4.5rem);overflow-y:auto;
+               border:1px solid #3a3426;border-radius:8px;padding:.9rem 1rem;background:#12110e}
+.reader-k{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#c8a96e}
+.reader-t{font-family:Georgia,serif;font-size:1.35rem;color:#f3e6c8;margin:.2rem 0 .5rem}
+.st-key-results-grid .passage{font-size:.9rem}
+</style>""", unsafe_allow_html=True)
+st.markdown('<style>.st-key-screen{display:none}</style>', unsafe_allow_html=True)
 
 ALL = list(SOURCES)
 ss = st.session_state
@@ -885,7 +944,7 @@ def cached_met_gallery(v=APP_CODE_VERSION):
     return met_gallery()
 
 
-def render_result(r, uid, saved_copy=True, query=None):
+def render_result(r, uid, saved_copy=True, query=None, inline=True):
     """One result card: title, source, buttons, and the "find my words" passages."""
     key = r["url"]
     q_used = query or ss.query
@@ -916,6 +975,16 @@ def render_result(r, uid, saved_copy=True, query=None):
 
         if ss.open_doc != key:
             return
+        if not inline:                       # desktop: the passages open in the reading pane on the right
+            st.caption("📖 Reading this one in the pane on the right →")
+            return
+        render_passages(r, uid, q_used)
+
+
+def render_passages(r, uid, q_used):
+    """The "find my words" passages for one document."""
+    key = r["url"]
+    if True:
         with st.spinner("Reading the document… big PDFs take up to a minute"):
             try:
                 p = cached_passages(r["doc_url"], q_used, False, APP_CODE_VERSION)
@@ -2092,7 +2161,8 @@ with tab_search:
         ss.main_tabs = TAB_SEARCH
 
     ss.setdefault("qbox", "")
-    with st.form("search", border=False):
+    _sw = st.container(key="searchwrap")
+    with _sw, st.form("search", border=False):
         st.markdown(f'<div class="q-label">🔎 SEARCH CIA, FBI, NSA + {len(ALL) - 3} MORE ARCHIVES</div>', unsafe_allow_html=True)
         ex = ss.setdefault("q_example", random.choice(["Operation Northwoods", "MKUltra", "Area 51", "Roswell", "Gulf of Tonkin",
                                                        "Bay of Pigs", "Lee Harvey Oswald", "Project Stargate"]))
@@ -2107,12 +2177,7 @@ with tab_search:
     chosen = ss.chosen
     home = not (go and q.strip()) and not ss.get("status")     # results go straight under the search bar
 
-    if home:
-        with st.container(key="popular"):
-            st.markdown('<div class="pop-label">🔥 Popular · swipe →</div>', unsafe_allow_html=True)
-            st.pills("Try", QUICK, key="quick", on_change=_use_quick, label_visibility="collapsed")
-        if not st.query_params.get("doc"):
-            todays_exhibit()
+    def _archive_picker():
         st.markdown(f'<div class="which">Searching {len(ss.chosen)} archives at once · CIA, FBI, NSA, State Dept and more</div>',
                     unsafe_allow_html=True)
         with st.expander("See or change which archives"):
@@ -2120,6 +2185,27 @@ with tab_search:
             if picked is not None and list(picked) != list(ss.chosen):
                 ss.chosen = list(picked)
                 st.rerun()
+
+    def _popular(label):
+        with st.container(key="popular"):
+            st.markdown(f'<div class="pop-label">{label}</div>', unsafe_allow_html=True)
+            st.pills("Try", QUICK, key="quick", on_change=_use_quick, label_visibility="collapsed")
+
+    if home and WIDE:                   # desktop: big exhibit on the left, the day's extras alongside
+        left, right = st.columns([7, 5], gap="large")
+        with left:
+            if not st.query_params.get("doc"):
+                todays_exhibit()
+        with right:
+            _popular("🔥 Popular searches")
+            on_this_day_card()
+            _archive_picker()
+            saved_files()
+    elif home:
+        _popular("🔥 Popular · swipe →")
+        if not st.query_params.get("doc"):
+            todays_exhibit()
+        _archive_picker()
         saved_files()
 
     if go and q.strip():
@@ -2130,12 +2216,20 @@ with tab_search:
 
     # ── Deep dives: tiles on the empty front page ──────────────────────────────
     if not ss.status:
-        on_this_day_card()
+        if not WIDE:
+            on_this_day_card()
         ufo_box()
         with st.spinner("Pulling Top Secret documents from the archives…"):
             top_secret_strip()
-        nixon_box()
-        nara_box()
+        if WIDE:
+            a, b = st.columns(2, gap="large")
+            with a:
+                nixon_box()
+            with b:
+                nara_box()
+        else:
+            nixon_box()
+            nara_box()
         st.markdown('<div class="sect">DEEP DIVES · tap a topic</div>', unsafe_allow_html=True)
         topic_tiles("home", with_ancient=True)
 
@@ -2152,17 +2246,39 @@ with tab_search:
         st.caption(f"**{len(results)} results** for “{ss.query}” · " + " · ".join(ok)
                    + (f"  \n⚠️ No answer from: {', '.join(bad)}" if bad else ""))
 
-        explainer_card(explainers.find_program(ss.query) or explainers.find_event(ss.query), "res")
-        have = sorted({r["source"] for r in results})
-        only = st.pills("Show", ["All"] + have, default="All", label_visibility="collapsed") or "All"
-        shown = [r for r in results if only == "All" or r["source"] == only]
-        shown = when_where(shown, ss.query)
+        explainer = explainers.find_program(ss.query) or explainers.find_event(ss.query)
+        if WIDE:
+            col_list, col_read = st.columns([5, 6], gap="large")
+        else:
+            col_list, col_read = st.container(), None
+        with col_list:
+            if not WIDE:
+                explainer_card(explainer, "res")
+            have = sorted({r["source"] for r in results})
+            only = st.pills("Show", ["All"] + have, default="All", label_visibility="collapsed") or "All"
+            shown = [r for r in results if only == "All" or r["source"] == only]
+            shown = when_where(shown, ss.query)
 
-        if not shown:
-            st.info("Nothing came back. Try fewer or different words, or one of the browser links below.")
+            if not shown:
+                st.info("Nothing came back. Try fewer or different words, or one of the browser links below.")
 
-        for i, r in enumerate(shown[:80]):
-            render_result(r, f"r{i}")
+            for i, r in enumerate(shown[:80]):
+                render_result(r, f"r{i}", inline=not WIDE)
+        if col_read is not None:
+            with col_read, st.container(key="reader"):
+                opened = next(((i, r) for i, r in enumerate(shown[:80]) if r["url"] == ss.open_doc), None)
+                if opened:
+                    i, r = opened
+                    st.markdown(f'<div class="reader-k">📖 READING · {html.escape(r["source"])}</div>'
+                                f'<div class="reader-t">{html.escape(r["title"])}</div>', unsafe_allow_html=True)
+                    render_passages(r, f"rd{i}", ss.query)
+                    st.button("✕ Close", key="reader-close", on_click=lambda: ss.update(open_doc=None), type="tertiary")
+                else:
+                    if explainer:
+                        explainer_card(explainer, "res")
+                    st.markdown('<div class="reader-k">📖 READING PANE</div>'
+                                '<div class="intro">Tap <b>🔎 Find my words inside</b> on any result and the passages that '
+                                'mention your search open here, next to the list.</div>', unsafe_allow_html=True)
         st.button("🏠  Back to home", key="home-bottom", on_click=_go_home, width="stretch")
 
     # ── Sites that only work in the browser ──────────────────────────────────────
@@ -2413,6 +2529,13 @@ if ss.get("scroll_to"):
 st.divider()
 daily_mystery_card()
 st.divider()
+def _set_view(v):
+    ss.view_pref = v
+    st.query_params.pop("view", None)
+
+
+st.button("📱 Switch to phone layout" if WIDE else "🖥 Switch to desktop layout", key="view-toggle",
+          on_click=_set_view, args=("phone" if WIDE else "desktop",), type="tertiary")
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 97 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 98 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
