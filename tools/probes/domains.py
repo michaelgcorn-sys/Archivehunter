@@ -1,5 +1,10 @@
 """Check which domain names are registered (RDAP: 404 = not registered, likely available)."""
+import time
+
 import requests
+
+BOOT = requests.get("https://data.iana.org/rdap/dns.json", timeout=20).json()
+BASE = {t: svc[1][0] for svc in BOOT["services"] for t in svc[0]}
 
 NAMES = ["archivehunter", "archive-hunter", "thearchivehunter", "archivehunters", "exhibitaarchive", "exhibita",
          "declassifiedhunter", "declassified", "huntthearchive", "archivehunt"]
@@ -10,7 +15,8 @@ for n in NAMES:
     for t in TLDS:
         d = f"{n}.{t}"
         try:
-            r = requests.get(f"https://rdap.org/domain/{d}", headers=H, timeout=20, allow_redirects=True)
+            r = requests.get(BASE[t].rstrip("/") + f"/domain/{d}", headers=H, timeout=20, allow_redirects=True)
+            time.sleep(1.2)
             s = "TAKEN" if r.status_code == 200 else ("free?" if r.status_code == 404 else f"?{r.status_code}")
         except Exception as e:
             s = f"err:{type(e).__name__}"
