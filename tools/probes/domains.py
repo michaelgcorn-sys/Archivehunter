@@ -6,12 +6,14 @@ import requests
 BOOT = requests.get("https://data.iana.org/rdap/dns.json", timeout=20).json()
 BASE = {t: svc[1][0] for svc in BOOT["services"] for t in svc[0]}
 
-NAMES = ["burnbag", "theburnbag", "eyesonly", "eyesonlyfiles", "needtoknow", "theneedtoknow", "blackbar",
-         "theblackbar", "unsealed", "theunsealed", "unsealedfiles", "redactedfiles", "theredacted", "coldfile",
-         "thecoldfile", "fileroom", "thefileroom", "papertrailfiles", "rabbitholefiles", "dossierdaily",
-         "declassifiedfiles", "thedeclassified", "spyfiles", "deepstacks", "thestacks", "classifiedfiles",
-         "burnaftereading", "burnafterreading", "liftedredactions", "unredactedfiles"]
-TLDS = ["com", "news", "app", "org"]
+NAMES = ["eyesonlyfiles", "eyesonlyarchive", "theeyesonly", "geteyesonly", "eyesonlydaily", "burnbagfiles",
+         "theburnbagfiles", "blackbarfiles", "redactionhunter", "declassifieddaily", "dailydeclassified",
+         "declassifiedtoday", "secretfilesdaily", "thesecretfiles", "opentheFiles", "openthefile", "filehunter",
+         "thefilehunter", "dossierhunter", "classifiedhunter", "foiahunter", "thefoiafiles", "archivehunterhq",
+         "archivehunterapp", "getarchivehunter", "huntarchives", "declasshunter", "topsecretfiles",
+         "topsecretarchive", "unclassifiedfiles", "nowdeclassified", "justdeclassified", "freshlydeclassified",
+         "readtheredacted", "behindtheblackbar", "thedeclassifiednews"]
+TLDS = ["com"]
 H = {"Accept": "application/rdap+json", "User-Agent": "ArchiveHunter domain check"}
 LINES = []
 for n in NAMES:
@@ -20,7 +22,7 @@ for n in NAMES:
         d = f"{n}.{t}"
         try:
             r = requests.get(BASE[t].rstrip("/") + f"/domain/{d}", headers=H, timeout=20, allow_redirects=True)
-            time.sleep(1.2)
+            time.sleep(0.8)
             s = "TAKEN" if r.status_code == 200 else ("free?" if r.status_code == 404 else f"?{r.status_code}")
         except Exception as e:
             s = f"err:{type(e).__name__}"
