@@ -13,6 +13,7 @@ NAMES = ["burnbag", "theburnbag", "eyesonly", "eyesonlyfiles", "needtoknow", "th
          "burnaftereading", "burnafterreading", "liftedredactions", "unredactedfiles"]
 TLDS = ["com", "news", "app", "org"]
 H = {"Accept": "application/rdap+json", "User-Agent": "ArchiveHunter domain check"}
+LINES = []
 for n in NAMES:
     row = []
     for t in TLDS:
@@ -25,9 +26,14 @@ for n in NAMES:
             s = f"err:{type(e).__name__}"
         row.append(f"{t}={s}")
     print(f"::notice::{n}: " + "  ".join(row), flush=True)
+    LINES.append(f"{n}: " + "  ".join(row))
 for app in []:
     try:
         r = requests.get(f"https://{app}.fly.dev", timeout=15)
         print(f"::notice::fly.dev {app}: responds {r.status_code} (probably taken)", flush=True)
     except Exception as e:
         print(f"::notice::fly.dev {app}: no response ({type(e).__name__}) - likely free", flush=True)
+
+import os
+os.makedirs("data/probe", exist_ok=True)
+open("data/probe/domains.txt", "w").write("\n".join(LINES) + "\n")
