@@ -1,0 +1,24 @@
+name: Test the server image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: docker build -t ah .
+      - name: Run and check
+        run: |
+          docker run -d --name ah -p 8080:8080 ah
+          for i in $(seq 1 40); do
+            if curl -sf http://localhost:8080/_stcore/health >/dev/null; then echo "::notice::server healthy after $((i*3))s"; break; fi
+            sleep 3
+          done
+          curl -sf http://localhost:8080/_stcore/health || { docker logs ah | tail -40; echo "::error::server never became healthy"; exit 1; }
+          docker exec ah sh -c 'chromium --version; tesseract --version | head -1' | sed 's/^/::notice::/'
+          docker image inspect ah --format '{{.Size}}' | awk '{printf "::notice::image size %.0f MB\n", $1/1048576}'
+          sleep 20; docker logs ah 2>&1 | grep -i -E "error|traceback" | head -5 | sed 's/^/::warning::/' || true

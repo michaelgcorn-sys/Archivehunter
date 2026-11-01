@@ -1,0 +1,24 @@
+# Fly.io settings for Archive Hunter. The app name must be unique on Fly; change it here if it's taken.
+app = "archivehunter"
+primary_region = "ewr"            # Secaucus, NJ: closest to New York
+
+[build]
+  dockerfile = "Dockerfile"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "off"      # always on: no sleeping, no slow wake-ups
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "60s"
+    method = "GET"
+    path = "/_stcore/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "2gb"
