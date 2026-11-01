@@ -24,8 +24,24 @@ jobs:
           if [ -z "$FLY_API_TOKEN" ]; then echo "::notice::No FLY_API_TOKEN secret yet; not deploying."; echo "go=no" >> "$GITHUB_OUTPUT"; else echo "go=yes" >> "$GITHUB_OUTPUT"; fi
       - uses: superfly/flyctl-actions/setup-flyctl@master
         if: steps.gate.outputs.go == 'yes'
+      - name: Create the app on first run, pass along private keys
+        if: steps.gate.outputs.go == 'yes'
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          NARA_API_KEY: ${{ secrets.NARA_API_KEY }}
+          DISPATCH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+        run: |
+          APP=$(grep -E '^app *=' fly.toml | sed -E 's/.*"(.*)".*/\1/')
+          flyctl status -a "$APP" >/dev/null 2>&1 || flyctl apps create "$APP" || { echo "::error::Couldn't create app '$APP' (name taken?). Change app = in fly.toml."; exit 1; }
+          args=""
+          [ -n "$NARA_API_KEY" ] && args="$args NARA_API_KEY=$NARA_API_KEY"
+          [ -n "$DISPATCH_TOKEN" ] && args="$args GITHUB_DISPATCH_TOKEN=$DISPATCH_TOKEN"
+          [ -n "$args" ] && flyctl secrets set --stage -a "$APP" $args >/dev/null && echo "::notice::private keys passed to Fly" || true
       - name: Deploy
         if: steps.gate.outputs.go == 'yes'
-        run: flyctl deploy --remote-only
+        run: |
+          flyctl deploy --remote-only
+          APP=$(grep -E '^app *=' fly.toml | sed -E 's/.*"(.*)".*/\1/')
+          echo "::notice::Live at https://$APP.fly.dev"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
