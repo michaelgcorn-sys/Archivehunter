@@ -6,9 +6,12 @@ import requests
 BOOT = requests.get("https://data.iana.org/rdap/dns.json", timeout=20).json()
 BASE = {t: svc[1][0] for svc in BOOT["services"] for t in svc[0]}
 
-NAMES = ["archivehunter", "archive-hunter", "thearchivehunter", "archivehunters", "exhibitaarchive", "exhibita",
-         "declassifiedhunter", "declassified", "huntthearchive", "archivehunt"]
-TLDS = ["com", "io", "org", "net", "co", "news", "app"]
+NAMES = ["burnbag", "theburnbag", "eyesonly", "eyesonlyfiles", "needtoknow", "theneedtoknow", "blackbar",
+         "theblackbar", "unsealed", "theunsealed", "unsealedfiles", "redactedfiles", "theredacted", "coldfile",
+         "thecoldfile", "fileroom", "thefileroom", "papertrailfiles", "rabbitholefiles", "dossierdaily",
+         "declassifiedfiles", "thedeclassified", "spyfiles", "deepstacks", "thestacks", "classifiedfiles",
+         "burnaftereading", "burnafterreading", "liftedredactions", "unredactedfiles"]
+TLDS = ["com", "news", "app", "org"]
 H = {"Accept": "application/rdap+json", "User-Agent": "ArchiveHunter domain check"}
 for n in NAMES:
     row = []
@@ -22,7 +25,7 @@ for n in NAMES:
             s = f"err:{type(e).__name__}"
         row.append(f"{t}={s}")
     print(f"::notice::{n}: " + "  ".join(row), flush=True)
-for app in ["archivehunter", "archive-hunter"]:
+for app in []:
     try:
         r = requests.get(f"https://{app}.fly.dev", timeout=15)
         print(f"::notice::fly.dev {app}: responds {r.status_code} (probably taken)", flush=True)
