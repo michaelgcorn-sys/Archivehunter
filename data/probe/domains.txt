@@ -1,30 +1,36 @@
-burnbag: com=TAKEN  news=free?  app=TAKEN  org=free?
-theburnbag: com=TAKEN  news=free?  app=free?  org=TAKEN
-eyesonly: com=TAKEN  news=free?  app=TAKEN  org=TAKEN
-eyesonlyfiles: com=free?  news=free?  app=free?  org=free?
-needtoknow: com=TAKEN  news=TAKEN  app=TAKEN  org=TAKEN
-theneedtoknow: com=TAKEN  news=free?  app=free?  org=free?
-blackbar: com=TAKEN  news=free?  app=TAKEN  org=TAKEN
-theblackbar: com=TAKEN  news=free?  app=free?  org=free?
-unsealed: com=TAKEN  news=TAKEN  app=TAKEN  org=TAKEN
-theunsealed: com=TAKEN  news=free?  app=free?  org=free?
-unsealedfiles: com=TAKEN  news=free?  app=free?  org=free?
-redactedfiles: com=TAKEN  news=free?  app=TAKEN  org=free?
-theredacted: com=TAKEN  news=free?  app=free?  org=TAKEN
-coldfile: com=TAKEN  news=free?  app=TAKEN  org=free?
-thecoldfile: com=TAKEN  news=free?  app=free?  org=free?
-fileroom: com=TAKEN  news=free?  app=TAKEN  org=TAKEN
-thefileroom: com=TAKEN  news=free?  app=free?  org=TAKEN
-papertrailfiles: com=TAKEN  news=free?  app=free?  org=free?
-rabbitholefiles: com=TAKEN  news=free?  app=free?  org=TAKEN
-dossierdaily: com=TAKEN  news=free?  app=free?  org=free?
-declassifiedfiles: com=TAKEN  news=free?  app=free?  org=free?
-thedeclassified: com=TAKEN  news=free?  app=free?  org=TAKEN
-spyfiles: com=TAKEN  news=free?  app=free?  org=TAKEN
-deepstacks: com=TAKEN  news=free?  app=TAKEN  org=TAKEN
-thestacks: com=TAKEN  news=free?  app=TAKEN  org=TAKEN
-classifiedfiles: com=TAKEN  news=free?  app=free?  org=free?
-burnaftereading: com=free?  news=free?  app=free?  org=free?
-burnafterreading: com=TAKEN  news=free?  app=TAKEN  org=TAKEN
-liftedredactions: com=free?  news=free?  app=free?  org=free?
-unredactedfiles: com=TAKEN  news=free?  app=free?  org=free?
+eyesonlyfiles: com=free?
+eyesonlyarchive: com=TAKEN
+theeyesonly: com=free?
+geteyesonly: com=free?
+eyesonlydaily: com=free?
+burnbagfiles: com=free?
+theburnbagfiles: com=free?
+blackbarfiles: com=free?
+redactionhunter: com=free?
+declassifieddaily: com=TAKEN
+dailydeclassified: com=free?
+declassifiedtoday: com=TAKEN
+secretfilesdaily: com=free?
+thesecretfiles: com=TAKEN
+opentheFiles: com=free?
+openthefile: com=TAKEN
+filehunter: com=TAKEN
+thefilehunter: com=free?
+dossierhunter: com=free?
+classifiedhunter: com=TAKEN
+foiahunter: com=free?
+thefoiafiles: com=free?
+archivehunterhq: com=free?
+archivehunterapp: com=free?
+getarchivehunter: com=free?
+huntarchives: com=free?
+declasshunter: com=free?
+topsecretfiles: com=TAKEN
+topsecretarchive: com=free?
+unclassifiedfiles: com=free?
+nowdeclassified: com=TAKEN
+justdeclassified: com=TAKEN
+freshlydeclassified: com=free?
+readtheredacted: com=free?
+behindtheblackbar: com=free?
+thedeclassifiednews: com=free?
