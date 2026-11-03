@@ -40,7 +40,7 @@ jobs:
       - name: Deploy
         if: steps.gate.outputs.go == 'yes'
         run: |
-          flyctl deploy --remote-only
+          flyctl deploy --remote-only --ha=false
           APP=$(grep -E '^app *=' fly.toml | sed -E 's/.*"(.*)".*/\1/')
           echo "::notice::Live at https://$APP.fly.dev"
         env:
