@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 98
+CODE_VERSION = 99
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -740,6 +740,61 @@ UFO_MIRROR = "https://raw.githubusercontent.com/abigailhaddad/ufo-releases/main/
 UFO_BUNDLED = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "ufo_records.json")
 _UFO_KEYS = ("id", "title", "type", "agency", "releaseDate", "incidentDate", "incidentLocation", "description",
              "fileUrl", "thumbnailUrl", "dvidsVideoId")
+
+
+BLUEBOOK_FILE = os.path.join(os.path.dirname(__file__), "data", "bluebook.json.gz")
+
+
+def load_bluebook():
+    """Project Blue Book case files on the Internet Archive (index built by tools/build_bluebook.py)."""
+    import gzip
+    import json
+    try:
+        with gzip.open(BLUEBOOK_FILE, "rt") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+
+_US_STATES = {"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida",
+              "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine",
+              "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska",
+              "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
+              "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas",
+              "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"}
+
+
+def bluebook_place(r):
+    """'North Sacramento California' -> 'North Sacramento, California'."""
+    p = r.get("place") or ""
+    for st_ in sorted(_US_STATES, key=len, reverse=True):
+        if p.endswith(" " + st_) and len(p) > len(st_) + 1:
+            return p[: -len(st_) - 1] + ", " + st_
+    return p
+
+
+def search_bluebook(index, q, limit=60):
+    """Match words against place and year (e.g. 'Utah 1952', 'Levelland', 'Washington DC')."""
+    words = [w for w in re.findall(r"[\w'-]+", normalize_query(q).lower()) if len(w) > 1]
+    if not words:
+        return []
+    out = []
+    for r in index:
+        hay = f'{r.get("place", "")} {r.get("year", "")}'.lower()
+        if all(w in hay for w in words):
+            out.append(r)
+    return out[:limit]
+
+
+def bluebook_text(ident, max_chars=6000):
+    """Machine-read text of a case file (the Internet Archive's OCR)."""
+    try:
+        r = requests.get(f"https://archive.org/download/{ident}/{ident}_djvu.txt", headers=HEADERS, timeout=30)
+        if r.status_code == 200:
+            return re.sub(r"\n{3,}", "\n\n", r.text).strip()[:max_chars]
+    except Exception:
+        pass
+    return ""
 
 
 def load_ufo_records(remote=True):
