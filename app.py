@@ -15,7 +15,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 101
+APP_CODE_VERSION = 102
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -35,7 +35,7 @@ for _m in (dossier_mod, explainers, extras, geo, newsday, redactions, tr):
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url, search_gwu,
                      pdb_on_this_day, search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
-from catalog import ANCIENT, CATEGORIES, CORPORATE, EXHIBITS, PICKS, TEASERS, UFO_EYEWITNESS, UFO_HOOKS, UFO_PICTURES, met_gallery, met_image
+from catalog import ANCIENT, CATEGORIES, CORPORATE, EXHIBITS, PICKS, TEASERS, UFO_EYEWITNESS, UFO_HOOKS, UFO_PICTURES, UFO_VISUAL_HOOKS, met_gallery, met_image
 from dossier import folder_files, ident_from_url, is_cia_ident, load_dossier, redaction_estimate
 import streamlit.components.v1 as components
 
@@ -2266,7 +2266,26 @@ def todays_exhibit():
             r = ufo_by_id(i)
             if r:
                 extra.append(("ufo", i, "🛸 THE UFO FILES", UFO_HOOKS[i], f'{r["agency"]} · {_account_label(r)}'))
+    for i, hook in UFO_VISUAL_HOOKS.items():                  # picture-led stories: the videos, photos and drawings
+        r = ufo_by_id(i)
+        if r and i not in curated_ids:
+            extra.append(("ufo", i, "🛸 THE UFO FILES", hook, f'{r["agency"]} · {_account_label(r)}'))
     allx = [e for e in list(EXHIBITS) + extra if e[0] == "ufo" and ufo_picture(e[1], APP_CODE_VERSION)[0]] or list(EXHIBITS)
+    random.Random(7).shuffle(allx)              # mix story types day to day instead of running through one list
+    # one entry per case: the five agents' statements about the same 2023 event shouldn't take five days of the rotation
+    seen_pic, seen_case, uniq = set(), set(), []
+    for e in allx:
+        r = ufo_by_id(e[1]) if e[0] == "ufo" else None
+        pic = ufo_picture(e[1], APP_CODE_VERSION)[0] if r else ""
+        m = re.search(r"(19|20)\d\d", str((r or {}).get("incidentDate") or ""))
+        case = (re.sub(r"\W+", " ", str((r or {}).get("incidentLocation") or "")).lower().replace("westen", "western").strip(),
+                m.group() if m else "") if r else None
+        if (pic and pic in seen_pic) or (case and case[0] and case in seen_case):
+            continue
+        seen_pic.add(pic)
+        seen_case.add(case)
+        uniq.append(e)
+    allx = uniq or allx
     kind, ref, kicker, headline, source = allx[today.toordinal() % len(allx)]
     img, official, prov, img_tag = "", "", "", ""
     if kind == "ufo":
@@ -2698,4 +2717,4 @@ st.button("📱 Switch to phone layout" if WIDE else "🖥 Switch to desktop lay
           on_click=_set_view, args=("phone" if WIDE else "desktop",), type="tertiary")
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 101 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 102 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)

@@ -8,7 +8,7 @@ documents live from the CIA reading room mirror, so those titles are the CIA's o
 
 import requests
 
-CATALOG_VERSION = 101   # keep in step with APP_CODE_VERSION in app.py
+CATALOG_VERSION = 102   # keep in step with APP_CODE_VERSION in app.py
 
 from sources import HEADERS, _res
 
@@ -361,4 +361,32 @@ UFO_HOOKS = {
     381: "An agent alerted by a radio detection spots two black objects through a thermal scope",
     384: "Six to ten red lights “sync up” over a mountain road; one plunges and vanishes",
     399: "A military infrared camera captures an unidentified object over Iraq, 2022",
+}
+
+
+# Picture-led headlines for the UFO files' videos, photos and drawings (Today's Exhibit), each drawn from the
+# government's own description of that file.
+UFO_VISUAL_HOOKS = {
+    51: "Something “flying just above the surface of the ocean” off Greece",
+    86: "A “diamond-shaped” object at 434 knots that only one sensor could see",
+    87: "An object with a pole hanging beneath it, filmed over the Gulf of Oman",
+    103: "A football-shaped object with three arms, filmed over the East China Sea",
+    104: "Three objects hold a fixed formation off Japan for two minutes",
+    145: "Apollo 12: unexplained shapes in the sky above the lunar horizon",
+    150: "Three dots in a triangle in the Apollo 17 sky, and the Pentagon reopens the case",
+    157: "A bronze object up to 195 feet long emerges from a bright light, then vanishes",
+    164: "“4 UAP Formation Iran”: military footage from a classified network",
+    165: "“Syrian UAP instant acceleration”: footage lawmakers demanded to see",
+    176: "A sphere slipping in and out of the clouds over Afghanistan",
+    188: "A Coast Guard plane films a “Tic Tac” near Tyndall Air Force Base",
+    192: "Eglin Air Force Base aircrew film unidentified objects",
+    195: "Several unidentified objects encountered near Columbus, Ohio",
+    235: "A “plasma-like sphere” hovers over a pond for 45 minutes",
+    236: "A “brilliant red sphere” hovers 25 feet above a backyard",
+    307: "An object shaped like a six-pointed star, tracked over the Yellow Sea",
+    311: "Space Shuttle astronauts photograph an unidentified object in orbit",
+    325: "Two bright objects streak past a military sensor in the Middle East",
+    328: "An elongated object tracked for nearly two minutes over the South China Sea",
+    331: "A small metallic object with a reflective underside off the East Coast",
+    346: "A triangle in the sky over Bagram Air Base, drawn by the FBI",
 }
