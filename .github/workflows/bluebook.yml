@@ -17,15 +17,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install -q requests
+      - run: pip install -q requests pypdf pillow
       - run: python tools/build_bluebook.py
       - run: python tools/build_cia_ufo.py
       - run: python tools/build_assassination_2025.py
+      - run: python tools/build_nara_uap.py
       - name: Commit
         run: |
           git config user.name "archivehunter-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/bluebook.json.gz data/cia_ufo.json data/assassination_2025.json
+          git add data/bluebook.json.gz data/cia_ufo.json data/assassination_2025.json data/nara_uap.json
           git diff --cached --quiet && exit 0
           git commit -m "Record indexes"
           for i in 1 2 3; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 5; done
