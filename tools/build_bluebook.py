@@ -29,8 +29,8 @@ while True:
     if not cursor:
         break
 
-CASE = re.compile(r"^\s*((?:19)?\d\d)\s+(\d\d|xx|XX)\s+(\d{5,9})\s+(.+)$")
-out, colls = [], {}
+CASE = re.compile(r"^\s*((?:19)?\d\d)[\s_-]+(\d\d|xx|XX)[\s_-]+(?:(\d{5,9})[\s_-]+)?(.+)$")
+out, colls, unmatched = [], {}, []
 for d in rows:
     t = d.get("title") or ""
     if isinstance(t, list):
@@ -41,16 +41,20 @@ for d in rows:
         colls[x] = colls.get(x, 0) + 1
     m = CASE.match(t)
     if not m:
+        if len(unmatched) < 12:
+            unmatched.append(t)
         continue                                   # keep only actual case files ("1966 08 8725718 Place")
     y = m.group(1)
     y = int(y) if len(y) == 4 else 1900 + int(y)
     mo = m.group(2)
-    place = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", m.group(4)).strip()   # "NorthSacramento" -> "North Sacramento"
+    place = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", m.group(4)).replace("-", " ").replace("_", " ")
+    place = re.sub(r"\s+\d+\s*$", "", place).strip()   # "NorthSacramento" -> "North Sacramento"
     out.append({"id": d["identifier"], "title": t.strip(), "year": y, "month": None if mo.lower() == "xx" else int(mo),
                 "place": place, "pages": d.get("imagecount")})
 out.sort(key=lambda r: (r["year"], r["month"] or 0))
 print("::notice::Blue Book case files indexed:", len(out), "of", len(rows), "matching items", flush=True)
 print("::notice::top collections:", sorted(colls.items(), key=lambda kv: -kv[1])[:6], flush=True)
+print("::notice::not case-file titles, e.g.:", unmatched, flush=True)
 print("::notice::years:", out[0]["year"] if out else None, "-", out[-1]["year"] if out else None, "sample:", out[:2], flush=True)
 p = os.path.join(os.path.dirname(__file__), "..", "data", "bluebook.json.gz")
 with gzip.open(p, "wt") as f:
