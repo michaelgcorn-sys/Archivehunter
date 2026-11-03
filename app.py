@@ -15,7 +15,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 100
+APP_CODE_VERSION = 101
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -1770,6 +1770,16 @@ def cia_ufo(v=APP_CODE_VERSION):
         return []
 
 
+@st.cache_data(show_spinner=False)
+def nara_uap(v=APP_CODE_VERSION):
+    import json
+    try:
+        with open(os.path.join(os.path.dirname(__file__), "data", "nara_uap.json")) as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+
 def _bb_open(ident):
     ss.bb_open = ident
     ss.scroll_to = ".st-key-ufo-box"
@@ -2060,7 +2070,8 @@ def ufo_box():
                     f'<div class="intro">In 2026 the Pentagon began releasing its UFO files: {n} records so far, including '
                     f'{nv} videos, from the military, FBI, CIA, NASA and State Department. Plus '
                     f'{len(bluebook(APP_CODE_VERSION)):,} case files from Project Blue Book, the Air Force\'s own '
-                    f'UFO investigation, and {len(cia_ufo(APP_CODE_VERSION)):,} CIA documents. Pilots, agents, astronauts and ordinary people, in their own words.</div>', unsafe_allow_html=True)
+                    f'UFO investigation, {len(cia_ufo(APP_CODE_VERSION)):,} CIA documents and '
+                    f'{len(nara_uap(APP_CODE_VERSION)):,} records from the National Archives\' UAP collection. Pilots, agents, astronauts and ordinary people, in their own words.</div>', unsafe_allow_html=True)
         bb = bluebook(APP_CODE_VERSION)
         if ss.get("bb_open"):
             r = next((x for x in bb if x["id"] == ss.bb_open), None)
@@ -2159,6 +2170,25 @@ def ufo_box():
                                     f'<div class="ufo-hook">{html.escape(x["title"][:110])}</div>', unsafe_allow_html=True)
                         st.button("Open the file", key=f"ciau-o-{x['id'][-50:]}", on_click=open_dossier, args=(x["id"],),
                                   type="tertiary")
+        nu = nara_uap(APP_CODE_VERSION)
+        if nu:
+            npage = ss.get("nara_uap_page", 0)
+            norder = sorted(range(len(nu)), key=lambda k: (not nu[k].get("image"), random.Random(seed + 4 + k).random()))
+            with st.container(horizontal=True, vertical_alignment="center", key="nuap-head"):
+                st.markdown(f'<div class="exp-sub">🏛 NATIONAL ARCHIVES UAP COLLECTION · {len(nu):,} records</div>',
+                            unsafe_allow_html=True)
+                st.button("🔄 More records", key="nuap-more", type="tertiary",
+                          on_click=lambda: ss.__setitem__("nara_uap_page", ss.get("nara_uap_page", 0) + 1))
+            with st.container(horizontal=True, gap="small", key="nuap-rail"):
+                start = (npage * 8) % len(norder)
+                for k in (norder + norder)[start:start + 8]:
+                    x = nu[k]
+                    with st.container(border=True, key=f"nuap-mini-{x['naId']}"):
+                        img = (f'<img class="ufo-th" src="{html.escape(x["image"])}" alt="">' if x.get("image")
+                               else '<div class="ufo-th ufo-noth">🏛</div>')
+                        st.markdown(img + f'<div class="ufo-when">{x["year"] or "Undated"} · National Archives</div>'
+                                    f'<div class="ufo-hook">{html.escape(x["title"][:110])}</div>', unsafe_allow_html=True)
+                        st.link_button("Open the record ↗", x["url"], type="tertiary")
         with st.form("ufo-form", border=False):
             uq = st.text_input("Search the UFO files", value=ss.get("ufo_q", ""), label_visibility="collapsed",
                                placeholder="Search the UFO files: orb, triangle, pilot, Utah…")
@@ -2174,6 +2204,15 @@ def ufo_box():
             words = [w for w in re.findall(r"[\w'-]+", q.lower()) if len(w) > 1]
             ciarows = [x for x in cia if words and all(w in (x["title"] + " " + x.get("desc", "") + " " + str(x["year"])).lower()
                                                        for w in words)][:30]
+            nurows = [x for x in nu if words and all(w in (x["title"] + " " + x.get("snippet", "") + " " + str(x["year"])).lower()
+                                                     for w in words)][:30]
+            if nurows:
+                st.markdown(f'<div class="exp-sub">🏛 NATIONAL ARCHIVES UAP COLLECTION · {len(nurows)} matching</div>',
+                            unsafe_allow_html=True)
+                for x in nurows[:15]:
+                    st.markdown(f'<div class="fav-t"><b>🏛</b> <a href="{html.escape(x["url"])}" target="_blank">'
+                                f'{html.escape(x["title"][:100])}</a><span>{x["year"] or "Undated"}</span></div>',
+                                unsafe_allow_html=True)
             if ciarows:
                 st.markdown(f'<div class="exp-sub">🕵 CIA UFO FILES · {len(ciarows)} matching</div>', unsafe_allow_html=True)
                 for x in ciarows[:15]:
@@ -2182,7 +2221,7 @@ def ufo_box():
                                     f'<span>{x["year"] or "Undated"}</span></div>', unsafe_allow_html=True)
                         st.button("Open", key=f"ciau-ro-{x['id'][-50:]}", on_click=open_dossier, args=(x["id"],),
                                   type="tertiary")
-            if not rows and not bbrows and not ciarows:
+            if not rows and not bbrows and not ciarows and not nurows:
                 st.caption("Nothing matched. Try one simple word, like orb, disc, pilot or a state.")
             if bbrows:
                 st.markdown(f'<div class="exp-sub">📁 PROJECT BLUE BOOK · {len(bbrows)}{"+" if len(bbrows) >= 60 else ""} '
@@ -2659,4 +2698,4 @@ st.button("📱 Switch to phone layout" if WIDE else "🖥 Switch to desktop lay
           on_click=_set_view, args=("phone" if WIDE else "desktop",), type="tertiary")
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 100 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 101 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
