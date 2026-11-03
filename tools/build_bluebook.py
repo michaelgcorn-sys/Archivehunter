@@ -29,7 +29,7 @@ while True:
     if not cursor:
         break
 
-CASE = re.compile(r"^\s*((?:19)?\d\d)[\s_-]+(\d\d|xx|XX)[\s_-]+(?:(\d{5,9})[\s_-]+)?(.+)$")
+CASE = re.compile(r"^\s*((?:19)?\d\d)[\s_-]+(\d\d|xx|XX|Spring|Summer|Fall|Winter)[\s_-]+(?:(\d{5,9})[\s_-]+)?(.+)$")
 out, colls, unmatched = [], {}, []
 for d in rows:
     t = d.get("title") or ""
@@ -49,7 +49,7 @@ for d in rows:
     mo = m.group(2)
     place = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", m.group(4)).replace("-", " ").replace("_", " ")
     place = re.sub(r"\s+\d+\s*$", "", place).strip()   # "NorthSacramento" -> "North Sacramento"
-    out.append({"id": d["identifier"], "title": t.strip(), "year": y, "month": None if mo.lower() == "xx" else int(mo),
+    out.append({"id": d["identifier"], "title": t.strip(), "year": y, "month": int(mo) if mo.isdigit() else None,
                 "place": place, "pages": d.get("imagecount")})
 out.sort(key=lambda r: (r["year"], r["month"] or 0))
 print("::notice::Blue Book case files indexed:", len(out), "of", len(rows), "matching items", flush=True)
