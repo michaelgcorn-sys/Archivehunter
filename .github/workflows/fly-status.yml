@@ -1,0 +1,25 @@
+name: Fly status (machines, addresses, cost check)
+
+on:
+  workflow_dispatch:
+    inputs:
+      single:
+        description: "Scale down to one machine (yes/no)"
+        required: false
+        default: "no"
+
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Report
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          APP=$(grep -E '^app *=' fly.toml | sed -E 's/.*"(.*)".*/\1/')
+          if [ "${{ github.event.inputs.single }}" = "yes" ]; then flyctl scale count 1 -a "$APP" --yes; fi
+          flyctl machines list -a "$APP" --json | python3 -c "import json,sys; m=json.load(sys.stdin); print('::notice::machines:', len(m), [(x.get('region'), x.get('state'), x.get('config',{}).get('guest')) for x in m])"
+          flyctl ips list -a "$APP" | sed 's/^/::notice::ip /'
+          flyctl volumes list -a "$APP" 2>/dev/null | sed 's/^/::notice::volume /' || true
