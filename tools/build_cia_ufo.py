@@ -32,14 +32,17 @@ def one(v):
     return (v[0] if isinstance(v, list) and v else v) or ""
 
 
+UFO_RX = re.compile(r"(?i)\bUFOs?\b|flying saucer|flying dis[ck]|unidentified (?:flying|aerial|anomalous)|\bUAPs?\b|saucer")
 out = []
 for d in rows:
     t = re.sub(r"^CIA Reading Room\s+[\w-]+:\s*", "", one(d.get("title"))).strip()
     desc = re.sub(r"\s+", " ", one(d.get("description")))[:400]
+    if not UFO_RX.search(t + " " + desc):        # skip files that only mention UFOs somewhere in the scanned text
+        continue
     m = re.search(r"(19|20)\d\d", one(d.get("date")) or t)
     out.append({"id": d["identifier"], "title": t or d["identifier"], "year": int(m.group()) if m else None,
                 "desc": desc, "pages": d.get("imagecount")})
 out.sort(key=lambda r: (r["year"] or 9999, r["title"]))
 p = os.path.join(os.path.dirname(__file__), "..", "data", "cia_ufo.json")
 json.dump(out, open(p, "w"), ensure_ascii=False, separators=(",", ":"))
-print(f"::notice::CIA UFO documents indexed: {len(out)}; sample: {[r['title'][:60] for r in out[:4]]}", flush=True)
+print(f"::notice::CIA UFO documents indexed: {len(out)} of {len(rows)} hits; sample: {[r['title'][:60] for r in out[:4]]}", flush=True)

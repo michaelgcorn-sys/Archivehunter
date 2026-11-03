@@ -1,4 +1,4 @@
-name: Build UFO indexes (Blue Book, CIA)
+name: Build record indexes (Blue Book, CIA UFO, 2025 assassination releases)
 
 on:
   workflow_dispatch:
@@ -20,11 +20,12 @@ jobs:
       - run: pip install -q requests
       - run: python tools/build_bluebook.py
       - run: python tools/build_cia_ufo.py
+      - run: python tools/build_assassination_2025.py
       - name: Commit
         run: |
           git config user.name "archivehunter-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/bluebook.json.gz data/cia_ufo.json
+          git add data/bluebook.json.gz data/cia_ufo.json data/assassination_2025.json
           git diff --cached --quiet && exit 0
-          git commit -m "UFO indexes (Blue Book, CIA)"
+          git commit -m "Record indexes"
           for i in 1 2 3; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 5; done
