@@ -15,7 +15,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 102
+APP_CODE_VERSION = 103
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -71,6 +71,10 @@ st.markdown("""
 .ts-head{display:flex;align-items:center;gap:.6rem;margin:.2rem 0 .4rem}
 .ts-head b{font:700 .72rem 'Courier New',monospace;letter-spacing:.2em;color:#c4544a;white-space:nowrap}
 .ts-head span{font-size:.75rem;opacity:.55}
+.ts-intro{border-top:2px solid #c4544a;margin:1.6rem 0 .2rem;padding-top:.8rem}
+.ts-kicker{font:700 .72rem 'Courier New',monospace;letter-spacing:.18em;color:#c4544a}
+.ts-title-big{font-family:Georgia,serif;font-size:1.45rem;color:#f3e6c8;margin:.15rem 0 .3rem}
+.ts-blurb{font-size:.92rem;line-height:1.45;color:#e1d6bd;opacity:.9}
 .ts-strip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 10px;
           -webkit-overflow-scrolling:touch;scrollbar-width:thin}
 .ts-card{flex:0 0 190px;scroll-snap-align:start;position:relative;display:flex;flex-direction:column;
@@ -422,13 +426,19 @@ def top_secret_strip():
             f'<span class="ts-stamp">TOP SECRET</span></div><div class="ts-body">'
             f'<span class="ts-src">{html.escape(r["source"])}{year}</span>'
             f'<span class="ts-title">{html.escape(r["title"])}</span></div></a>')
+    st.markdown(
+        '<div class="ts-intro"><div class="ts-kicker">● TOP SECRET · SPIES, COUPS & COVERT OPERATIONS</div>'
+        '<div class="ts-title-big">The files they stamped Top Secret</div>'
+        '<div class="ts-blurb">The highest classification the U.S. government uses: spy reports, assassination plots, '
+        'nuclear plans and covert operations, from the CIA, the National Security Archive and the Energy Department. '
+        'Every one of these was once locked away and has since been declassified. Swipe, then tap one to read it.</div>'
+        '</div>', unsafe_allow_html=True)
     if st.button("🔄 Show another batch", key="ts-reroll", type="tertiary",
                  help="Swap in a different set of documents marked Top Secret"):
         ss.ts_seed = random.randrange(10 ** 6)
         st.rerun(scope="fragment")
     st.markdown(
-        f'<div class="ts-head"><b>● TOP SECRET</b><span>{len(pool)} document{"" if len(pool) == 1 else "s"} marked Top Secret · '
-        f'swipe and tap to open</span></div>'
+        f'<div class="ts-head"><b>{len(pool)} DOCUMENTS</b><span>a new mix every day · swipe →</span></div>'
         f'<div class="ts-strip">{"".join(cards)}</div>', unsafe_allow_html=True)
 
 
@@ -2090,105 +2100,122 @@ def ufo_box():
         hand = {i: (l, h) for i, l, h in UFO_EYEWITNESS}
         acc_order = list(dict.fromkeys([i for i, _l, _h in UFO_EYEWITNESS] + accounts))
         random.Random(seed).shuffle(acc_order)
-        apage = ss.get("ufo_acc_page", 0)
-        with st.container(horizontal=True, vertical_alignment="center", key="ufo-acc-head"):
-            st.markdown(f'<div class="exp-sub">👁 EYEWITNESS · {len(acc_order)} accounts</div>',
-                        unsafe_allow_html=True)
-            st.button("🔄 More accounts", key="ufo-acc-more", type="tertiary",
-                      on_click=lambda: ss.__setitem__("ufo_acc_page", ss.get("ufo_acc_page", 0) + 1))
-        with st.container(horizontal=True, gap="small", key="ufo-rail"):
-            start = (apage * 8) % max(1, len(acc_order))
-            for rid in (acc_order + acc_order)[start:start + 8]:
-                r = ufo_by_id(rid)
-                if not r:
-                    continue
-                if rid in hand:
-                    label, hook = hand[rid]
-                elif rid in UFO_HOOKS:
-                    label, hook = _account_label(r), UFO_HOOKS[rid]
-                else:
-                    first = re.split(r"(?<=[.!?])\s", r["description"])[0]
-                    label, hook = _account_label(r), first[:130] + ("…" if len(first) > 130 else "")
-                ufo_mini(r, label, hook, f"a{rid}")
-        pool = ufo_picture_pool(APP_CODE_VERSION)
-        page = ss.get("ufo_pic_page", 0)
-        order = list(dict.fromkeys(list(UFO_PICTURES) + sorted(pool)))
-        random.Random(seed + 1).shuffle(order)
-        start = (page * 7) % max(1, len(order))
-        pics = (order + order)[start:start + 7]
-        with st.container(horizontal=True, vertical_alignment="center", key="ufo-pics-head"):
-            st.markdown(f'<div class="exp-sub">📷 PICTURES & FILM · {len(order)} with witness accounts</div>',
-                        unsafe_allow_html=True)
-            st.button("🔄 New pictures", key="ufo-reroll", type="tertiary",
-                      on_click=lambda: ss.__setitem__("ufo_pic_page", ss.get("ufo_pic_page", 0) + 1))
-        with st.container(horizontal=True, gap="small", key="ufo-rail2"):
-            for rid in pics:
-                r = ufo_by_id(rid)
-                if r and (_ufo_thumb(r) or r.get("dvidsVideoId")):
-                    when = " · ".join(x for x in (str(r.get("incidentDate") or ""), r.get("incidentLocation") or "")
-                                      if x and x != "N/A")
-                    first = re.split(r"(?<=[.!?])\s", r["description"])[0]
-                    ufo_mini(r, f'{sources.ufo_kind(r)} · {when}'.strip(" ·"), first[:110] + ("…" if len(first) > 110 else ""),
-                             f"p{rid}")
-        if bb:
-            bpage = ss.get("bb_page", 0)
-            border = list(range(len(bb)))
-            random.Random(seed + 2).shuffle(border)
-            yrs = [x["year"] for x in bb]
-            with st.container(horizontal=True, vertical_alignment="center", key="bb-head"):
-                st.markdown(f'<div class="exp-sub">📁 PROJECT BLUE BOOK · {len(bb):,} Air Force case files, '
-                            f'{min(yrs)}–{max(yrs)}</div>', unsafe_allow_html=True)
-                st.button("🔄 More cases", key="bb-more", type="tertiary",
-                          on_click=lambda: ss.__setitem__("bb_page", ss.get("bb_page", 0) + 1))
-            with st.container(horizontal=True, gap="small", key="bb-rail"):
-                start = (bpage * 8) % len(border)
-                for k in (border + border)[start:start + 8]:
-                    x = bb[k]
-                    with st.container(border=True, key=f"bb-mini-{x['id'][:60]}"):
-                        st.markdown(f'<img class="ufo-th" src="https://archive.org/services/img/{html.escape(x["id"])}" alt="">'
-                                    f'<div class="ufo-when">{x["year"]} · Air Force case file</div>'
-                                    f'<div class="ufo-hook">{html.escape(sources.bluebook_place(x) or "Unknown place")}</div>',
-                                    unsafe_allow_html=True)
-                        st.button("Open the file", key=f"bb-o-{x['id'][:60]}", on_click=_bb_open, args=(x["id"],),
-                                  type="tertiary")
         cia = cia_ufo(APP_CODE_VERSION)
-        if cia:
-            cpage = ss.get("cia_ufo_page", 0)
-            corder = list(range(len(cia)))
-            random.Random(seed + 3).shuffle(corder)
-            with st.container(horizontal=True, vertical_alignment="center", key="ciau-head"):
-                st.markdown(f'<div class="exp-sub">🕵 CIA UFO FILES · {len(cia):,} documents</div>', unsafe_allow_html=True)
-                st.button("🔄 More CIA files", key="ciau-more", type="tertiary",
-                          on_click=lambda: ss.__setitem__("cia_ufo_page", ss.get("cia_ufo_page", 0) + 1))
-            with st.container(horizontal=True, gap="small", key="ciau-rail"):
-                start = (cpage * 8) % len(corder)
-                for k in (corder + corder)[start:start + 8]:
-                    x = cia[k]
-                    with st.container(border=True, key=f"ciau-mini-{x['id'][-50:]}"):
-                        st.markdown(f'<img class="ufo-th" src="https://archive.org/services/img/{html.escape(x["id"])}" alt="">'
-                                    f'<div class="ufo-when">{x["year"] or "Undated"} · CIA document</div>'
-                                    f'<div class="ufo-hook">{html.escape(x["title"][:110])}</div>', unsafe_allow_html=True)
-                        st.button("Open the file", key=f"ciau-o-{x['id'][-50:]}", on_click=open_dossier, args=(x["id"],),
-                                  type="tertiary")
         nu = nara_uap(APP_CODE_VERSION)
-        if nu:
-            npage = ss.get("nara_uap_page", 0)
-            norder = sorted(range(len(nu)), key=lambda k: (not nu[k].get("image"), random.Random(seed + 4 + k).random()))
-            with st.container(horizontal=True, vertical_alignment="center", key="nuap-head"):
-                st.markdown(f'<div class="exp-sub">🏛 NATIONAL ARCHIVES UAP COLLECTION · {len(nu):,} records</div>',
+        vids = [r["id"] for r in ufo_records(APP_CODE_VERSION) if r.get("dvidsVideoId") and _ufo_visual(r)
+                and r.get("type") == "VID"]
+        stills = [r["id"] for r in ufo_records(APP_CODE_VERSION) if not r.get("dvidsVideoId") and _ufo_visual(r)]
+        counts = {"👁 Eyewitness": len(acc_order), "🎥 Videos": len(vids), "🎨 Drawings & photos": len(stills),
+                  "📁 Blue Book": len(bb), "🕵 CIA": len(cia), "🏛 National Archives": len(nu)}
+        views = [k for k, v in counts.items() if v]
+        st.markdown('<div class="exp-sub">BROWSE THE FILES · tap a collection</div>', unsafe_allow_html=True)
+        view = st.pills("Collection", views, default=views[0], key="ufo_view", label_visibility="collapsed",
+                        format_func=lambda k: f"{k} · {counts[k]:,}") or views[0]
+        if view == "👁 Eyewitness":
+            apage = ss.get("ufo_acc_page", 0)
+            with st.container(horizontal=True, vertical_alignment="center", key="ufo-acc-head"):
+                st.markdown(f'<div class="exp-sub">👁 EYEWITNESS · {len(acc_order)} accounts</div>',
                             unsafe_allow_html=True)
-                st.button("🔄 More records", key="nuap-more", type="tertiary",
-                          on_click=lambda: ss.__setitem__("nara_uap_page", ss.get("nara_uap_page", 0) + 1))
-            with st.container(horizontal=True, gap="small", key="nuap-rail"):
-                start = (npage * 8) % len(norder)
-                for k in (norder + norder)[start:start + 8]:
-                    x = nu[k]
-                    with st.container(border=True, key=f"nuap-mini-{x['naId']}"):
-                        img = (f'<img class="ufo-th" src="{html.escape(x["image"])}" alt="">' if x.get("image")
-                               else '<div class="ufo-th ufo-noth">🏛</div>')
-                        st.markdown(img + f'<div class="ufo-when">{x["year"] or "Undated"} · National Archives</div>'
-                                    f'<div class="ufo-hook">{html.escape(x["title"][:110])}</div>', unsafe_allow_html=True)
-                        st.link_button("Open the record ↗", x["url"], type="tertiary")
+                st.button("🔄 More accounts", key="ufo-acc-more", type="tertiary",
+                          on_click=lambda: ss.__setitem__("ufo_acc_page", ss.get("ufo_acc_page", 0) + 1))
+            with st.container(horizontal=True, gap="small", key="ufo-rail"):
+                start = (apage * 8) % max(1, len(acc_order))
+                for rid in (acc_order + acc_order)[start:start + 8]:
+                    r = ufo_by_id(rid)
+                    if not r:
+                        continue
+                    if rid in hand:
+                        label, hook = hand[rid]
+                    elif rid in UFO_HOOKS:
+                        label, hook = _account_label(r), UFO_HOOKS[rid]
+                    else:
+                        first = re.split(r"(?<=[.!?])\s", r["description"])[0]
+                        label, hook = _account_label(r), first[:130] + ("…" if len(first) > 130 else "")
+                    ufo_mini(r, label, hook, f"a{rid}")
+        if view in ("🎥 Videos", "🎨 Drawings & photos"):
+            is_vid = view == "🎥 Videos"
+            order = vids if is_vid else stills
+            random.Random(seed + (1 if is_vid else 5)).shuffle(order)
+            pk = "ufo_vid_page" if is_vid else "ufo_pic_page"
+            page = ss.get(pk, 0)
+            start = (page * 8) % max(1, len(order))
+            with st.container(horizontal=True, vertical_alignment="center", key="ufo-pics-head"):
+                st.markdown(f'<div class="exp-sub">{"🎥 MILITARY & FBI VIDEO" if is_vid else "🎨 DRAWINGS & PHOTOS"} · '
+                            f'{len(order)}</div>', unsafe_allow_html=True)
+                st.button("🔄 Show more", key="ufo-reroll", type="tertiary",
+                          on_click=lambda k=pk: ss.__setitem__(k, ss.get(k, 0) + 1))
+            with st.container(horizontal=True, gap="small", key="ufo-rail2"):
+                for rid in (order + order)[start:start + 8]:
+                    r = ufo_by_id(rid)
+                    if not r:
+                        continue
+                    when = " · ".join(x for x in (str(r.get("incidentDate") or ""), r.get("incidentLocation") or "")
+                                      if x and x not in ("N/A", "Undated"))
+                    hook = UFO_VISUAL_HOOKS.get(rid)
+                    if not hook:
+                        first = re.split(r"(?<=[.!?])\s", r["description"])[0]
+                        hook = first[:110] + ("…" if len(first) > 110 else "")
+                    ufo_mini(r, f'{sources.ufo_kind(r)} · {when}'.strip(" ·"), hook, f"p{rid}")
+        if view == "📁 Blue Book" and bb:
+            if bb:
+                bpage = ss.get("bb_page", 0)
+                border = list(range(len(bb)))
+                random.Random(seed + 2).shuffle(border)
+                yrs = [x["year"] for x in bb]
+                with st.container(horizontal=True, vertical_alignment="center", key="bb-head"):
+                    st.markdown(f'<div class="exp-sub">📁 PROJECT BLUE BOOK · {len(bb):,} Air Force case files, '
+                                f'{min(yrs)}–{max(yrs)}</div>', unsafe_allow_html=True)
+                    st.button("🔄 More cases", key="bb-more", type="tertiary",
+                              on_click=lambda: ss.__setitem__("bb_page", ss.get("bb_page", 0) + 1))
+                with st.container(horizontal=True, gap="small", key="bb-rail"):
+                    start = (bpage * 8) % len(border)
+                    for k in (border + border)[start:start + 8]:
+                        x = bb[k]
+                        with st.container(border=True, key=f"bb-mini-{x['id'][:60]}"):
+                            st.markdown(f'<img class="ufo-th" src="https://archive.org/services/img/{html.escape(x["id"])}" alt="">'
+                                        f'<div class="ufo-when">{x["year"]} · Air Force case file</div>'
+                                        f'<div class="ufo-hook">{html.escape(sources.bluebook_place(x) or "Unknown place")}</div>',
+                                        unsafe_allow_html=True)
+                            st.button("Open the file", key=f"bb-o-{x['id'][:60]}", on_click=_bb_open, args=(x["id"],),
+                                      type="tertiary")
+        if view == "🕵 CIA":
+            if cia:
+                cpage = ss.get("cia_ufo_page", 0)
+                corder = list(range(len(cia)))
+                random.Random(seed + 3).shuffle(corder)
+                with st.container(horizontal=True, vertical_alignment="center", key="ciau-head"):
+                    st.markdown(f'<div class="exp-sub">🕵 CIA UFO FILES · {len(cia):,} documents</div>', unsafe_allow_html=True)
+                    st.button("🔄 More CIA files", key="ciau-more", type="tertiary",
+                              on_click=lambda: ss.__setitem__("cia_ufo_page", ss.get("cia_ufo_page", 0) + 1))
+                with st.container(horizontal=True, gap="small", key="ciau-rail"):
+                    start = (cpage * 8) % len(corder)
+                    for k in (corder + corder)[start:start + 8]:
+                        x = cia[k]
+                        with st.container(border=True, key=f"ciau-mini-{x['id'][-50:]}"):
+                            st.markdown(f'<img class="ufo-th" src="https://archive.org/services/img/{html.escape(x["id"])}" alt="">'
+                                        f'<div class="ufo-when">{x["year"] or "Undated"} · CIA document</div>'
+                                        f'<div class="ufo-hook">{html.escape(x["title"][:110])}</div>', unsafe_allow_html=True)
+                            st.button("Open the file", key=f"ciau-o-{x['id'][-50:]}", on_click=open_dossier, args=(x["id"],),
+                                      type="tertiary")
+        if view == "🏛 National Archives":
+            if nu:
+                npage = ss.get("nara_uap_page", 0)
+                norder = sorted(range(len(nu)), key=lambda k: (not nu[k].get("image"), random.Random(seed + 4 + k).random()))
+                with st.container(horizontal=True, vertical_alignment="center", key="nuap-head"):
+                    st.markdown(f'<div class="exp-sub">🏛 NATIONAL ARCHIVES UAP COLLECTION · {len(nu):,} records</div>',
+                                unsafe_allow_html=True)
+                    st.button("🔄 More records", key="nuap-more", type="tertiary",
+                              on_click=lambda: ss.__setitem__("nara_uap_page", ss.get("nara_uap_page", 0) + 1))
+                with st.container(horizontal=True, gap="small", key="nuap-rail"):
+                    start = (npage * 8) % len(norder)
+                    for k in (norder + norder)[start:start + 8]:
+                        x = nu[k]
+                        with st.container(border=True, key=f"nuap-mini-{x['naId']}"):
+                            img = (f'<img class="ufo-th" src="{html.escape(x["image"])}" alt="">' if x.get("image")
+                                   else '<div class="ufo-th ufo-noth">🏛</div>')
+                            st.markdown(img + f'<div class="ufo-when">{x["year"] or "Undated"} · National Archives</div>'
+                                        f'<div class="ufo-hook">{html.escape(x["title"][:110])}</div>', unsafe_allow_html=True)
+                            st.link_button("Open the record ↗", x["url"], type="tertiary")
         with st.form("ufo-form", border=False):
             uq = st.text_input("Search the UFO files", value=ss.get("ufo_q", ""), label_visibility="collapsed",
                                placeholder="Search the UFO files: orb, triangle, pilot, Utah…")
@@ -2717,4 +2744,4 @@ st.button("📱 Switch to phone layout" if WIDE else "🖥 Switch to desktop lay
           on_click=_set_view, args=("phone" if WIDE else "desktop",), type="tertiary")
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 102 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 103 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
