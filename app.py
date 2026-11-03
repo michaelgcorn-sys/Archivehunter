@@ -15,7 +15,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 99
+APP_CODE_VERSION = 100
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -1760,6 +1760,16 @@ def cached_bluebook_text(ident, v=APP_CODE_VERSION):
     return sources.bluebook_text(ident)
 
 
+@st.cache_data(show_spinner=False)
+def cia_ufo(v=APP_CODE_VERSION):
+    import json
+    try:
+        with open(os.path.join(os.path.dirname(__file__), "data", "cia_ufo.json")) as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+
 def _bb_open(ident):
     ss.bb_open = ident
     ss.scroll_to = ".st-key-ufo-box"
@@ -2050,7 +2060,7 @@ def ufo_box():
                     f'<div class="intro">In 2026 the Pentagon began releasing its UFO files: {n} records so far, including '
                     f'{nv} videos, from the military, FBI, CIA, NASA and State Department. Plus '
                     f'{len(bluebook(APP_CODE_VERSION)):,} case files from Project Blue Book, the Air Force\'s own '
-                    f'UFO investigation. Pilots, agents, astronauts and ordinary people, in their own words.</div>', unsafe_allow_html=True)
+                    f'UFO investigation, and {len(cia_ufo(APP_CODE_VERSION)):,} CIA documents. Pilots, agents, astronauts and ordinary people, in their own words.</div>', unsafe_allow_html=True)
         bb = bluebook(APP_CODE_VERSION)
         if ss.get("bb_open"):
             r = next((x for x in bb if x["id"] == ss.bb_open), None)
@@ -2130,6 +2140,25 @@ def ufo_box():
                                     unsafe_allow_html=True)
                         st.button("Open the file", key=f"bb-o-{x['id'][:60]}", on_click=_bb_open, args=(x["id"],),
                                   type="tertiary")
+        cia = cia_ufo(APP_CODE_VERSION)
+        if cia:
+            cpage = ss.get("cia_ufo_page", 0)
+            corder = list(range(len(cia)))
+            random.Random(seed + 3).shuffle(corder)
+            with st.container(horizontal=True, vertical_alignment="center", key="ciau-head"):
+                st.markdown(f'<div class="exp-sub">🕵 CIA UFO FILES · {len(cia):,} documents</div>', unsafe_allow_html=True)
+                st.button("🔄 More CIA files", key="ciau-more", type="tertiary",
+                          on_click=lambda: ss.__setitem__("cia_ufo_page", ss.get("cia_ufo_page", 0) + 1))
+            with st.container(horizontal=True, gap="small", key="ciau-rail"):
+                start = (cpage * 8) % len(corder)
+                for k in (corder + corder)[start:start + 8]:
+                    x = cia[k]
+                    with st.container(border=True, key=f"ciau-mini-{x['id'][-50:]}"):
+                        st.markdown(f'<img class="ufo-th" src="https://archive.org/services/img/{html.escape(x["id"])}" alt="">'
+                                    f'<div class="ufo-when">{x["year"] or "Undated"} · CIA document</div>'
+                                    f'<div class="ufo-hook">{html.escape(x["title"][:110])}</div>', unsafe_allow_html=True)
+                        st.button("Open the file", key=f"ciau-o-{x['id'][-50:]}", on_click=open_dossier, args=(x["id"],),
+                                  type="tertiary")
         with st.form("ufo-form", border=False):
             uq = st.text_input("Search the UFO files", value=ss.get("ufo_q", ""), label_visibility="collapsed",
                                placeholder="Search the UFO files: orb, triangle, pilot, Utah…")
@@ -2142,7 +2171,18 @@ def ufo_box():
             top[0].markdown(f'<div class="sect">UFO FILES · “{html.escape(q)}” · {len(rows)}</div>', unsafe_allow_html=True)
             top[1].button("✕ Clear", key="ufo-clear", on_click=lambda: ss.pop("ufo_q", None), type="tertiary")
             bbrows = sources.search_bluebook(bb, q) if bb else []
-            if not rows and not bbrows:
+            words = [w for w in re.findall(r"[\w'-]+", q.lower()) if len(w) > 1]
+            ciarows = [x for x in cia if words and all(w in (x["title"] + " " + x.get("desc", "") + " " + str(x["year"])).lower()
+                                                       for w in words)][:30]
+            if ciarows:
+                st.markdown(f'<div class="exp-sub">🕵 CIA UFO FILES · {len(ciarows)} matching</div>', unsafe_allow_html=True)
+                for x in ciarows[:15]:
+                    with st.container(horizontal=True, vertical_alignment="center", gap="small", key=f"ciau-row-{x['id'][-50:]}"):
+                        st.markdown(f'<div class="fav-t"><b>🕵 CIA</b> {html.escape(x["title"][:90])}'
+                                    f'<span>{x["year"] or "Undated"}</span></div>', unsafe_allow_html=True)
+                        st.button("Open", key=f"ciau-ro-{x['id'][-50:]}", on_click=open_dossier, args=(x["id"],),
+                                  type="tertiary")
+            if not rows and not bbrows and not ciarows:
                 st.caption("Nothing matched. Try one simple word, like orb, disc, pilot or a state.")
             if bbrows:
                 st.markdown(f'<div class="exp-sub">📁 PROJECT BLUE BOOK · {len(bbrows)}{"+" if len(bbrows) >= 60 else ""} '
@@ -2619,4 +2659,4 @@ st.button("📱 Switch to phone layout" if WIDE else "🖥 Switch to desktop lay
           on_click=_set_view, args=("phone" if WIDE else "desktop",), type="tertiary")
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 99 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 100 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)

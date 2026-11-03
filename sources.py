@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 99
+CODE_VERSION = 100
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -1245,8 +1245,41 @@ def search_ucsf(q, limit=15):
                        limit, url_must_match=r"/docs/", hint="industry documents")
 
 
+_A2025 = None
+
+
+def search_assassination_2025(q, limit=15):
+    """The 2025 JFK, RFK and MLK assassination-records releases (archives.gov), from a local index of titles."""
+    global _A2025
+    import json
+    if _A2025 is None:
+        try:
+            with open(os.path.join(os.path.dirname(__file__), "data", "assassination_2025.json")) as f:
+                _A2025 = json.load(f)
+        except Exception:
+            _A2025 = []
+    words = [w for w in re.findall(r"[\w'-]+", normalize_query(q).lower()) if len(w) > 1]
+    if not words:
+        return []
+    hits = []
+    for r in _A2025:
+        hay = f'{r["set"]} {r["title"]} {r["file"]}'.lower()
+        if all(w in hay for w in words):
+            hits.append((sum(hay.count(w) for w in words), r))
+    hits.sort(key=lambda x: -x[0])
+    def name(r):
+        f = re.sub(r"\s*\(DocID \d+\)", "", r["file"]).strip()
+        if re.fullmatch(r"[\d-]+", f):
+            return f"{r['set']} record {f}"
+        return f[:1].upper() + f[1:]
+    return [_res("2025 JFK/RFK/MLK releases", name(r), r["url"], date=r["date"],
+                 kind=f'{r["set"]} assassination records · released {r["date"]}', doc_url=r["url"], file_url=r["url"])
+            for _s, r in hits[:limit]]
+
+
 SOURCES = {
     "CIA": search_cia,
+    "2025 JFK/RFK/MLK releases": search_assassination_2025,
     "FBI Vault": search_fbi,
     "GWU Natl Security Archive": search_gwu,
     "DOJ Epstein Library": search_doj_epstein,
@@ -1266,7 +1299,7 @@ SOURCES = {
 NARA_ON = bool(_nara_key())          # the National Archives gets its own box in the app, not the main search
 # Declassified sources rank a little higher when relevance is otherwise equal.
 SOURCE_WEIGHT = {"CIA": 3, "FBI Vault": 3, "GWU Natl Security Archive": 3, "Black Vault": 2,
-                 "DOJ Epstein Library": 2, "MuckRock": 2,
+                 "DOJ Epstein Library": 2, "MuckRock": 2, "2025 JFK/RFK/MLK releases": 3,
                  "National Archives": 3, "NSA": 2, "NRO": 2, "State Dept FOIA": 2, "War Dept (war.gov)": 1, "Wilson Center": 2, "Nixon Library": 2, "DIA (Defense Intelligence)": 2, "NATO Archives": 1, "NASA": 1, "Dept of Energy": 1}
 
 
