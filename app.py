@@ -15,7 +15,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 103
+APP_CODE_VERSION = 104
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -511,10 +511,10 @@ def _share_component():
     return st.components.v2.component("ah_share", html=SHARE_HTML, css=SHARE_CSS, js=SHARE_JS)
 
 
-def share_site_button():
-    url = app_link().rstrip("?") or "https://archivehunter.streamlit.app/"
+def share_site_button(key="share-site"):
+    url = app_link().rstrip("?") or "https://archivehunter.fly.dev/"
     try:
-        _share_component()(key="share-site", data={"url": url})
+        _share_component()(key=key, data={"url": url})
     except Exception:
         st.caption(f"Share this link: {url}")
 
@@ -2344,6 +2344,7 @@ def todays_exhibit():
         st.button("Open today's exhibit →", key="exhibit-go", on_click=_exhibit_go, args=(kind, ref), type="primary",
                   width="stretch")
 
+share_site_button("share-top")      # top of the page: the phone's share sheet, or copy the link
 tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
 
 with tab_search:
@@ -2744,4 +2745,4 @@ st.button("📱 Switch to phone layout" if WIDE else "🖥 Switch to desktop lay
           on_click=_set_view, args=("phone" if WIDE else "desktop",), type="tertiary")
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 103 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 104 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
