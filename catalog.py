@@ -8,7 +8,7 @@ documents live from the CIA reading room mirror, so those titles are the CIA's o
 
 import requests
 
-CATALOG_VERSION = 104   # keep in step with APP_CODE_VERSION in app.py
+CATALOG_VERSION = 105   # keep in step with APP_CODE_VERSION in app.py
 
 from sources import HEADERS, _res
 
@@ -390,3 +390,23 @@ UFO_VISUAL_HOOKS = {
     331: "A small metallic object with a reflective underside off the East Coast",
     346: "A triangle in the sky over Bagram Air Base, drawn by the FBI",
 }
+
+
+# Release 08 (war.gov, Nov 20, 2026) — headlines drawn from each file's own text (see data/ufo_extra.json)
+UFO_HOOKS.update({
+    90018: "Levelland, Texas, 1957: a 200-foot oval hovers or rests on the ground for up to five minutes",
+    90019: "A Nebraska man says he spent 30 minutes inside a landed craft and talked with its crew of six",
+    90032: "Two Air Force jet pilots chase a half-sphere on radar; it leaves at up to 1,800 knots",
+    90033: "Lockheed's legendary engineer Kelly Johnson reports a “flying saucer”; the Air Force says cloud",
+    90007: "A 2023 radar track implies Mach 2.5 at up to 70,000 feet, or eight separate blips",
+    90002: "The CIA director asks whether flying saucers could be used for psychological warfare",
+    90020: "Two Army military-police patrols see an unidentified object near White Sands",
+    90022: "Air traffic controllers in the Kirtland Air Force Base tower watch an unidentified object",
+    90017: "An Air Force captain on a fishing trip off Cape Cod sees a cylinder with protrusions",
+    90024: "Stargazers watch a “meteorite” level off and pass 150 yards away at 225 mph",
+    90008: "538 pages from the Pentagon-funded program run by Bigelow Aerospace",
+    90010: "Senator Harry Reid asks the Pentagon to seal off its advanced aerospace program",
+    90003: "The CIA's 1952 verdict: of up to 2,000 saucer reports, fewer than 100 credible and unexplained",
+    90021: "A missile-center technician sees an object while driving south of Orogrande, New Mexico",
+})
+UFO_NEW_FEATURED = [90018, 90033, 90032, 90019, 90007, 90002, 90008, 90020, 90022, 90017, 90024, 90010, 90003, 90021]

@@ -15,7 +15,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 104
+APP_CODE_VERSION = 105
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -35,7 +35,7 @@ for _m in (dossier_mod, explainers, extras, geo, newsday, redactions, tr):
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url, search_gwu,
                      pdb_on_this_day, search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
-from catalog import ANCIENT, CATEGORIES, CORPORATE, EXHIBITS, PICKS, TEASERS, UFO_EYEWITNESS, UFO_HOOKS, UFO_PICTURES, UFO_VISUAL_HOOKS, met_gallery, met_image
+from catalog import ANCIENT, CATEGORIES, CORPORATE, EXHIBITS, PICKS, TEASERS, UFO_EYEWITNESS, UFO_HOOKS, UFO_PICTURES, UFO_VISUAL_HOOKS, UFO_NEW_FEATURED, met_gallery, met_image
 from dossier import folder_files, ident_from_url, is_cia_ident, load_dossier, redaction_estimate
 import streamlit.components.v1 as components
 
@@ -2105,12 +2105,29 @@ def ufo_box():
         vids = [r["id"] for r in ufo_records(APP_CODE_VERSION) if r.get("dvidsVideoId") and _ufo_visual(r)
                 and r.get("type") == "VID"]
         stills = [r["id"] for r in ufo_records(APP_CODE_VERSION) if not r.get("dvidsVideoId") and _ufo_visual(r)]
-        counts = {"👁 Eyewitness": len(acc_order), "🎥 Videos": len(vids), "🎨 Drawings & photos": len(stills),
+        new_ids = [r["id"] for r in ufo_records(APP_CODE_VERSION) if str(r.get("releaseDate")) == "11/20/2026"]
+        new_ids = [i for i in UFO_NEW_FEATURED if i in new_ids] + [i for i in new_ids if i not in UFO_NEW_FEATURED]
+        counts = {"🆕 New Nov 20": len(new_ids), "👁 Eyewitness": len(acc_order), "🎥 Videos": len(vids), "🎨 Drawings & photos": len(stills),
                   "📁 Blue Book": len(bb), "🕵 CIA": len(cia), "🏛 National Archives": len(nu)}
         views = [k for k, v in counts.items() if v]
         st.markdown('<div class="exp-sub">BROWSE THE FILES · tap a collection</div>', unsafe_allow_html=True)
-        view = st.pills("Collection", views, default=views[0], key="ufo_view", label_visibility="collapsed",
+        view = st.pills("Collection", views, default="👁 Eyewitness" if "👁 Eyewitness" in views else views[0],
+                        key="ufo_view", label_visibility="collapsed",
                         format_func=lambda k: f"{k} · {counts[k]:,}") or views[0]
+        if view == "🆕 New Nov 20":
+            npg = ss.get("ufo_new_page", 0)
+            with st.container(horizontal=True, vertical_alignment="center", key="ufo-new-head"):
+                st.markdown(f'<div class="exp-sub">🆕 THE PENTAGON’S EIGHTH RELEASE · NOV 20, 2026 · {len(new_ids)} files</div>',
+                            unsafe_allow_html=True)
+                st.button("🔄 Show more", key="ufo-new-more", type="tertiary",
+                          on_click=lambda: ss.__setitem__("ufo_new_page", ss.get("ufo_new_page", 0) + 1))
+            with st.container(horizontal=True, gap="small", key="ufo-new-rail"):
+                start = (npg * 8) % max(1, len(new_ids))
+                for rid in (new_ids + new_ids)[start:start + 8]:
+                    r = ufo_by_id(rid)
+                    if r:
+                        hook = UFO_HOOKS.get(rid) or (r["description"][:120] + "…")
+                        ufo_mini(r, _account_label(r), hook, f"n{rid}")
         if view == "👁 Eyewitness":
             apage = ss.get("ufo_acc_page", 0)
             with st.container(horizontal=True, vertical_alignment="center", key="ufo-acc-head"):
@@ -2745,4 +2762,4 @@ st.button("📱 Switch to phone layout" if WIDE else "🖥 Switch to desktop lay
           on_click=_set_view, args=("phone" if WIDE else "desktop",), type="tertiary")
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 104 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 105 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)

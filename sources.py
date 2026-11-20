@@ -23,7 +23,7 @@ import requests
 
 # Bump together with APP_CODE_VERSION in app.py on every update, so a running
 # server that still has an old copy of this file in memory reloads it.
-CODE_VERSION = 104
+CODE_VERSION = 105
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -810,8 +810,21 @@ def load_ufo_records(remote=True):
     if not recs:
         with open(UFO_BUNDLED) as f:
             recs = json.load(f)
-    return [{k: x.get(k, "") for k in _UFO_KEYS} for x in recs if x.get("id") is not None]
+    recs = [{k: x.get(k, "") for k in _UFO_KEYS} for x in recs if x.get("id") is not None]
+    # files we hold ourselves (e.g. a new war.gov release the public mirror hasn't picked up yet); skipped once the
+    # mirror has the same file, matched by its official code (e.g. DOW-UAP-D191)
+    try:
+        with open(UFO_EXTRA) as f:
+            extra = json.load(f)
+        have = {m.group(1) for m in (re.match(r"([A-Z]{2,4}-UAP-[A-Z]*\d+)", r["title"]) for r in recs) if m}
+        recs += [{k: x.get(k, "") for k in _UFO_KEYS} for x in extra if x.get("code") not in have]
+    except Exception:
+        pass
+    return recs
 
+
+UFO_EXTRA = os.path.join(os.path.dirname(__file__), "data", "ufo_extra.json")
+UFO_EXTRA_TEXT = os.path.join(os.path.dirname(__file__), "data", "ufo_extra_text")
 
 UFO_TEXT_URLS = ("https://raw.githubusercontent.com/abigailhaddad/ufo-releases/main/data/text/{id}.txt",
                  "https://pub-a5fc1ae0b89944dba0ab60286076ab1e.r2.dev/text/{id}.txt")
@@ -819,6 +832,10 @@ UFO_TEXT_URLS = ("https://raw.githubusercontent.com/abigailhaddad/ufo-releases/m
 
 def ufo_text(rid):
     """Machine-read text of a released UFO file (from the public mirror), or ''."""
+    local = os.path.join(UFO_EXTRA_TEXT, f"{rid}.txt")
+    if os.path.exists(local):
+        with open(local, errors="ignore") as f:
+            return f.read()
     for tpl in UFO_TEXT_URLS:
         try:
             r = requests.get(tpl.format(id=rid), headers=HEADERS, timeout=15)
