@@ -15,7 +15,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 105
+APP_CODE_VERSION = 106
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -35,7 +35,7 @@ for _m in (dossier_mod, explainers, extras, geo, newsday, redactions, tr):
 
 from sources import (BROWSER_ONLY, SOURCES, TEST_QUERIES, diagnose_cia, find_passages, saved_copy_url, search_gwu,
                      pdb_on_this_day, search_all, search_cia, search_pdb, search_ucsf, top_secret_pool)
-from catalog import ANCIENT, CATEGORIES, CORPORATE, EXHIBITS, PICKS, TEASERS, UFO_EYEWITNESS, UFO_HOOKS, UFO_PICTURES, UFO_VISUAL_HOOKS, UFO_NEW_FEATURED, met_gallery, met_image
+from catalog import ANCIENT, CATEGORIES, CORPORATE, EXHIBITS, PICKS, TEASERS, UFO_EYEWITNESS, UFO_HOOKS, UFO_PICTURES, UFO_VISUAL_HOOKS, UFO_NEW_FEATURED, UFO_CODE_HOOKS, met_gallery, met_image
 from dossier import folder_files, ident_from_url, is_cia_ident, load_dossier, redaction_estimate
 import streamlit.components.v1 as components
 
@@ -236,6 +236,40 @@ st.markdown("""
 .img-wrap{position:relative;display:block}
 .img-tag{position:absolute;top:6px;left:6px;z-index:2;font:700 .7rem system-ui,sans-serif;color:#111;background:#f0c869;
          border-radius:3px;padding:2px 6px;box-shadow:0 1px 4px rgba(0,0,0,.5)}
+/* ── Breaking tab ── */
+@keyframes brkpulse{0%{box-shadow:0 0 0 0 rgba(255,59,48,.7)}70%{box-shadow:0 0 0 10px rgba(255,59,48,0)}100%{box-shadow:0 0 0 0 rgba(255,59,48,0)}}
+.brk-hero{position:relative;overflow:hidden;border-radius:10px;padding:1.2rem 1.1rem 1rem;margin:.2rem 0 1rem;
+          background:radial-gradient(120% 140% at 0% 0%,#5c0f0b 0%,#2a0806 45%,#0e0b09 100%);border:1px solid #7a1c15}
+.brk-hero::after{content:"TOP SECRET";position:absolute;right:-30px;top:18px;transform:rotate(18deg);font:900 2.6rem 'Courier New',monospace;
+                 color:rgba(255,80,60,.08);letter-spacing:.1em;pointer-events:none}
+.brk-live{display:flex;align-items:center;gap:.5rem;font:800 .74rem 'Courier New',monospace;letter-spacing:.2em;color:#ff6b5e}
+.brk-live .dot{width:10px;height:10px;border-radius:50%;background:#ff3b30;animation:brkpulse 1.6s infinite}
+.brk-h1{font-family:Georgia,serif;font-size:1.75rem;line-height:1.15;color:#fff;margin:.45rem 0 .5rem;text-shadow:0 2px 12px #000}
+.brk-deck{font-size:.98rem;line-height:1.5;color:#f0dcc4;max-width:46rem}
+.brk-stats{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.9rem}
+.brk-stats div{background:rgba(0,0,0,.35);border:1px solid rgba(255,107,94,.35);border-radius:6px;padding:.35rem .7rem;min-width:5.5rem}
+.brk-stats b{display:block;font:800 1.25rem Georgia,serif;color:#ffcf99}
+.brk-stats span{font:.68rem 'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase;color:#e3c8a8}
+.brk-sec{font:800 .8rem 'Courier New',monospace;letter-spacing:.2em;color:#ff6b5e;margin:1.3rem 0 .5rem;
+         border-bottom:1px solid rgba(255,107,94,.3);padding-bottom:.3rem}
+.brk-num{font:900 2.4rem Georgia,serif;color:rgba(255,107,94,.55);line-height:1;margin:.9rem 0 -.2rem}
+.brk-item{display:flex;gap:.8rem;align-items:flex-start;margin:.3rem 0 .35rem}
+.brk-thumb{position:relative;flex:none;display:block}
+.brk-thumb img{width:84px;height:108px;object-fit:cover;object-position:top;border-radius:4px;border:1px solid #3a3426;
+               filter:sepia(.25) contrast(1.05);background:#f2ead8}
+.brk-item.big .brk-thumb img{width:110px;height:142px}
+.brk-new{position:absolute;top:6px;left:-4px;background:#ff3b30;color:#fff;font:800 .6rem 'Courier New',monospace;
+         letter-spacing:.1em;padding:1px 5px;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.6)}
+.brk-when{font:700 .68rem 'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase;color:#c8a96e}
+.brk-hook{font-family:Georgia,serif;font-size:1.08rem;line-height:1.25;color:#f6ead2;margin:.15rem 0 .3rem}
+.brk-item.big .brk-hook{font-size:1.3rem}
+.brk-sum{font-size:.88rem;line-height:1.45;color:#d9cdb4;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.brk-code{font-size:.68rem;opacity:.45;margin-top:.25rem}
+.brk-full{font-size:.92rem;line-height:1.5;color:#efe3c9;border-left:3px solid #ff6b5e;padding:.2rem 0 .2rem .7rem;margin:.3rem 0 .6rem}
+.brk-banner{display:flex;align-items:center;gap:.55rem;background:linear-gradient(90deg,#5c0f0b,#1a0907);border:1px solid #7a1c15;
+            border-radius:8px;padding:.55rem .8rem;margin:.1rem 0 .3rem;color:#fff;font-size:.92rem}
+.brk-banner b{font:800 .7rem 'Courier New',monospace;letter-spacing:.18em;color:#ff6b5e;white-space:nowrap}
+.brk-banner .dot{width:9px;height:9px;flex:none;border-radius:50%;background:#ff3b30;animation:brkpulse 1.6s infinite}
 .ex-row{display:flex;gap:.7rem;align-items:flex-start;margin-top:.4rem}
 .ex-hero{position:relative;height:330px;margin:-.2rem -.2rem .5rem;border-radius:8px;overflow:hidden;background:#000 center/cover no-repeat}
 .ex-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 25%,rgba(0,0,0,.6) 55%,rgba(0,0,0,.95))}
@@ -1057,6 +1091,7 @@ def render_passages(r, uid, q_used):
 
 
 TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP = "🔎  Search", "🗂  Explore", "🏺  Ancient", "🏢  Corporate"
+TAB_BREAKING = "🚨  Breaking"
 TOPIC_LABELS = [f"{icon} {name}" for name, icon, *_ in CATEGORIES]
 ss.setdefault("topic", TOPIC_LABELS[0])
 
@@ -2105,8 +2140,7 @@ def ufo_box():
         vids = [r["id"] for r in ufo_records(APP_CODE_VERSION) if r.get("dvidsVideoId") and _ufo_visual(r)
                 and r.get("type") == "VID"]
         stills = [r["id"] for r in ufo_records(APP_CODE_VERSION) if not r.get("dvidsVideoId") and _ufo_visual(r)]
-        new_ids = [r["id"] for r in ufo_records(APP_CODE_VERSION) if str(r.get("releaseDate")) == "11/20/2026"]
-        new_ids = [i for i in UFO_NEW_FEATURED if i in new_ids] + [i for i in new_ids if i not in UFO_NEW_FEATURED]
+        new_ids = [r["id"] for r in breaking_records()]
         counts = {"🆕 New Nov 20": len(new_ids), "👁 Eyewitness": len(acc_order), "🎥 Videos": len(vids), "🎨 Drawings & photos": len(stills),
                   "📁 Blue Book": len(bb), "🕵 CIA": len(cia), "🏛 National Archives": len(nu)}
         views = [k for k, v in counts.items() if v]
@@ -2126,7 +2160,7 @@ def ufo_box():
                 for rid in (new_ids + new_ids)[start:start + 8]:
                     r = ufo_by_id(rid)
                     if r:
-                        hook = UFO_HOOKS.get(rid) or (r["description"][:120] + "…")
+                        hook = ufo_hook(r) or (r["description"][:120] + "…")
                         ufo_mini(r, _account_label(r), hook, f"n{rid}")
         if view == "👁 Eyewitness":
             apage = ss.get("ufo_acc_page", 0)
@@ -2143,8 +2177,8 @@ def ufo_box():
                         continue
                     if rid in hand:
                         label, hook = hand[rid]
-                    elif rid in UFO_HOOKS:
-                        label, hook = _account_label(r), UFO_HOOKS[rid]
+                    elif ufo_hook(r):
+                        label, hook = _account_label(r), ufo_hook(r)
                     else:
                         first = re.split(r"(?<=[.!?])\s", r["description"])[0]
                         label, hook = _account_label(r), first[:130] + ("…" if len(first) > 130 else "")
@@ -2296,6 +2330,143 @@ def _exhibit_go(kind, ref):
         ss.scroll_to = ".st-key-nixon-box"
 
 
+# ── Breaking: the latest war.gov UFO drop, as a front page of its own ─────────────────────────────────────────────
+BREAKING_TOP = ["DOW-UAP-D191", "DOW-UAP-D206", "DOW-UAP-PR168", "DOW-UAP-D205", "DOW-UAP-D192"]
+BREAKING_GROUPS = [
+    ("✈", "The 1957 wave", "Air Force intelligence reports from the autumn the sky seemed full: Levelland, White Sands, a landed craft in Nebraska, and sightings from Japan to Peru.", lambda r: "Air Intelligence" in r["title"]),
+    ("🏛", "The Harry Reid files", "How the Pentagon's secret advanced-aerospace program began: the DIA contract, the Bigelow Aerospace report and the senator's letters, 2008–2010.", lambda r: any(k in r["title"] for k in ("AAWSAP", "AATIP", "BAASS", "Reid"))),
+    ("🕵", "CIA, 1952: the saucer summer", "The CIA scrambles after a wave of reports and a White House question, and its director wonders about psychological warfare.", lambda r: r["agency"] == "CIA"),
+    ("📁", "California cold cases, 1949–1966", "Project Blue Book records, including the sighting by Lockheed's Kelly Johnson.", lambda r: "Unresolved UAP Report" in r["title"]),
+    ("🎥", "New military video", "Infrared and camera footage from U.S. Central Command, 2020–2026, including footage from this year.", lambda r: r.get("type") == "VID"),
+    ("📡", "A 2023 radar mystery", "Eight radar hits that may have been one very fast object.", lambda r: "Radar" in r["title"]),
+]
+
+
+def ufo_code(r):
+    m = re.match(r"([A-Z]{2,4}-UAP-[A-Z]*\d+)", r.get("title", ""))
+    return m.group(1) if m else ""
+
+
+def ufo_hook(r):
+    return UFO_HOOKS.get(r["id"]) or UFO_CODE_HOOKS.get(ufo_code(r))
+
+
+BREAKING_DATES = {"11/20/26", "11/20/2026"}
+
+
+def ufo_year(r):
+    """The year from the official title ("..., Texas, 1957"); the date fields vary in format."""
+    m = re.findall(r"(?:19|20)\d\d", r.get("title", ""))
+    return m[-1] if m else ""
+
+
+@st.cache_data(show_spinner=False)
+def ufo_extra_by_code(v=APP_CODE_VERSION):
+    """Our own copies of the latest release: short plain-English summaries and reliable page thumbnails."""
+    import json
+    try:
+        with open(os.path.join(os.path.dirname(__file__), "data", "ufo_extra.json")) as f:
+            return {x["code"]: x for x in json.load(f)}
+    except Exception:
+        return {}
+
+
+def breaking_records():
+    recs = [r for r in ufo_records(APP_CODE_VERSION) if str(r.get("releaseDate")) in BREAKING_DATES]
+    order = {c: i for i, c in enumerate(UFO_NEW_FEATURED)}
+    return sorted(recs, key=lambda r: (order.get(ufo_code(r), 999), r["title"]))
+
+
+def _brk_set(k):
+    ss.brk_read = None if ss.get("brk_read") == k else k
+
+
+def _brk_item(r, key, big=False):
+    hook = ufo_hook(r) or r["title"]
+    when = " · ".join(x for x in (ufo_year(r), r.get("incidentLocation")) if x and x != "N/A")
+    mine = ufo_extra_by_code(APP_CODE_VERSION).get(ufo_code(r), {})
+    thumb = mine.get("thumbnailUrl") or _ufo_thumb(r) or _ufo_visual(r)
+    summary = mine.get("description") or r["description"]
+    link = r.get("fileUrl") or (f'https://www.dvidshub.net/video/{r["dvidsVideoId"]}' if r.get("dvidsVideoId") else "#")
+    st.markdown(f'<div class="brk-item{" big" if big else ""}">'
+                f'<a href="{html.escape(link)}" target="_blank" class="brk-thumb">'
+                f'<img src="{html.escape(thumb)}" alt=""><span class="brk-new">{"▶ VIDEO" if r.get("dvidsVideoId") else "NEW"}</span></a>'
+                f'<div class="brk-body"><div class="brk-when">{html.escape(r["agency"])} · {html.escape(when)}</div>'
+                f'<div class="brk-hook">{html.escape(hook)}</div>'
+                f'<div class="brk-sum">{html.escape(summary)}</div>'
+                f'<div class="brk-code">{html.escape(r["title"])}</div></div></div>', unsafe_allow_html=True)
+    with st.container(horizontal=True, gap="small", key=f"brk-act-{key}"):
+        reading = ss.get("brk_read") == key
+        vid = bool(r.get("dvidsVideoId"))
+        st.button(("✕ Close" if reading else "▶ Watch it here") if vid else ("✕ Close the text" if reading else "📄 Read it here"),
+                  key=f"brk-r-{key}", on_click=_brk_set, args=(key,), type="secondary" if reading else "primary")
+        if not vid:
+            st.link_button("Original scan ↗", link)
+        fav_button({"url": link, "title": r["title"], "source": "UFO Files",
+                    "date": str(r.get("incidentDate") or "")[:4], "kind": "UFO file"}, f"brk-f-{key}")
+    if ss.get("brk_read") == key:
+        st.markdown(f'<div class="brk-full"><b>The government’s description:</b> {html.escape(r["description"])}</div>',
+                    unsafe_allow_html=True)
+    if ss.get("brk_read") == key and r.get("dvidsVideoId"):
+        st.iframe(f'https://www.dvidshub.net/video/embed/{r["dvidsVideoId"]}', height=260)
+        st.caption("Government video via DVIDS. The time-coded description is the government's own and is not an analytical conclusion.")
+    elif ss.get("brk_read") == key:
+        with st.spinner("Opening the file…"):
+            txt = cached_ufo_text(r["id"], APP_CODE_VERSION)
+        st.caption("Machine-read from the government's scan, so expect some garbled words. The original is one tap away.")
+        st.markdown('<div class="ufo-report">' + html.escape(txt[:30000]).replace("\n", "<br>") + "</div>",
+                    unsafe_allow_html=True)
+
+
+def breaking_tab():
+    recs = breaking_records()
+    if not recs:
+        st.info("No new release right now. Check the UFO Files on the Search tab.")
+        return
+    by_code = {ufo_code(r): r for r in recs}
+    years = sorted(int(ufo_year(r)) for r in recs if ufo_year(r))
+    n_cia = sum(1 for r in recs if r["agency"] == "CIA")
+    n_57 = sum(1 for r in recs if ufo_year(r) == "1957")
+    stats = (f'<div><b>{len(recs)}</b><span>new files</span></div>'
+             + (f'<div><b>{years[0]}–{years[-1]}</b><span>years covered</span></div>' if years else "")
+             + f'<div><b>{n_57}</b><span>from the 1957 wave</span></div>'
+             + f'<div><b>{n_cia}</b><span>from the CIA</span></div>')
+    st.markdown(
+        '<div class="brk-hero"><div class="brk-live"><span class="dot"></span>BREAKING · NOVEMBER 20, 2026</div>'
+        f'<div class="brk-h1">The Pentagon just opened another drawer of UFO files</div>'
+        '<div class="brk-deck">The eighth release from war.gov/UFO: the Air Force\'s investigation of the famous Levelland '
+        'sightings, a "flying saucer" reported by Lockheed\'s legendary engineer Kelly Johnson, two jet pilots chasing a radar '
+        'target over Japan, the Harry Reid letters behind the Pentagon\'s secret advanced-aerospace program, and military '
+        'video shot as recently as this year.</div>'
+        f'<div class="brk-stats">{stats}</div></div>', unsafe_allow_html=True)
+    st.markdown('<div class="brk-sec">🔥 THE BIG FIVE</div>', unsafe_allow_html=True)
+    for n, code in enumerate([c for c in BREAKING_TOP if c in by_code], 1):
+        st.markdown(f'<div class="brk-num">{n:02d}</div>', unsafe_allow_html=True)
+        _brk_item(by_code[code], f"top{n}", big=True)
+    st.markdown(f'<div class="brk-sec">🗂 EVERYTHING IN THE DROP · {len(recs)} FILES</div>', unsafe_allow_html=True)
+    shown = set()
+    for icon, name, blurb, test in BREAKING_GROUPS:
+        items = [r for r in recs if test(r) and r["id"] not in shown]
+        if not items:
+            continue
+        shown.update(r["id"] for r in items)
+        with st.expander(f"{icon}  {name} · {len(items)}"):
+            st.markdown(f'<div class="intro">{html.escape(blurb)}</div>', unsafe_allow_html=True)
+            for r in items:
+                _brk_item(r, f"g{r['id']}")
+    rest = [r for r in recs if r["id"] not in shown]
+    if rest:
+        with st.expander(f"📎  Other files · {len(rest)}"):
+            for r in rest:
+                _brk_item(r, f"o{r['id']}")
+    st.caption("Source: Department of War, war.gov/UFO, release of November 20, 2026. Summaries and headlines are Archive "
+               "Hunter's, written from each file's own text; witness accounts are what was reported, not verified findings.")
+
+
+def _go_breaking():
+    ss.main_tabs = TAB_BREAKING
+
+
 def todays_exhibit():
     from datetime import datetime
     from zoneinfo import ZoneInfo
@@ -2362,7 +2533,10 @@ def todays_exhibit():
                   width="stretch")
 
 share_site_button("share-top")      # top of the page: the phone's share sheet, or copy the link
-tab_search, tab_explore, tab_ancient, tab_corp = st.tabs([TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
+tab_search, tab_breaking, tab_explore, tab_ancient, tab_corp = st.tabs(
+    [TAB_SEARCH, TAB_BREAKING, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP], key="main_tabs", on_change="rerun")
+with tab_breaking:
+    breaking_tab()
 
 with tab_search:
     # ── Search box ───────────────────────────────────────────────────────────────
@@ -2385,6 +2559,11 @@ with tab_search:
         ss.main_tabs = TAB_SEARCH
 
     ss.setdefault("qbox", "")
+    if not ss.get("status"):
+        st.markdown('<div class="brk-banner"><span class="dot"></span><b>BREAKING</b>'
+                    '<span>The Pentagon released 40 more UFO files today, from Levelland to Kelly Johnson.</span></div>',
+                    unsafe_allow_html=True)
+        st.button("🚨 Read the breaking coverage →", key="brk-go", on_click=_go_breaking, type="tertiary")
     _sw = st.container(key="searchwrap")
     with _sw, st.form("search", border=False):
         st.markdown(f'<div class="q-label">🔎 SEARCH CIA, FBI, NSA + {len(ALL) - 3} MORE ARCHIVES</div>', unsafe_allow_html=True)
@@ -2762,4 +2941,4 @@ st.button("📱 Switch to phone layout" if WIDE else "🖥 Switch to desktop lay
           on_click=_set_view, args=("phone" if WIDE else "desktop",), type="tertiary")
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 105 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 106 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
