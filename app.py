@@ -15,7 +15,7 @@ import importlib
 
 import sources
 
-APP_CODE_VERSION = 106
+APP_CODE_VERSION = 107
 if getattr(sources, "CODE_VERSION", None) != APP_CODE_VERSION:
     # Streamlit Cloud can keep an old copy of sources.py in memory after an update.
     sources = importlib.reload(sources)
@@ -1091,7 +1091,7 @@ def render_passages(r, uid, q_used):
 
 
 TAB_SEARCH, TAB_EXPLORE, TAB_ANCIENT, TAB_CORP = "🔎  Search", "🗂  Explore", "🏺  Ancient", "🏢  Corporate"
-TAB_BREAKING = "🚨  Breaking"
+TAB_BREAKING = "🆕  Most Recent Batch"
 TOPIC_LABELS = [f"{icon} {name}" for name, icon, *_ in CATEGORIES]
 ss.setdefault("topic", TOPIC_LABELS[0])
 
@@ -2141,17 +2141,17 @@ def ufo_box():
                 and r.get("type") == "VID"]
         stills = [r["id"] for r in ufo_records(APP_CODE_VERSION) if not r.get("dvidsVideoId") and _ufo_visual(r)]
         new_ids = [r["id"] for r in breaking_records()]
-        counts = {"🆕 New Nov 20": len(new_ids), "👁 Eyewitness": len(acc_order), "🎥 Videos": len(vids), "🎨 Drawings & photos": len(stills),
+        counts = {"🆕 Most recent batch": len(new_ids), "👁 Eyewitness": len(acc_order), "🎥 Videos": len(vids), "🎨 Drawings & photos": len(stills),
                   "📁 Blue Book": len(bb), "🕵 CIA": len(cia), "🏛 National Archives": len(nu)}
         views = [k for k, v in counts.items() if v]
         st.markdown('<div class="exp-sub">BROWSE THE FILES · tap a collection</div>', unsafe_allow_html=True)
         view = st.pills("Collection", views, default="👁 Eyewitness" if "👁 Eyewitness" in views else views[0],
                         key="ufo_view", label_visibility="collapsed",
                         format_func=lambda k: f"{k} · {counts[k]:,}") or views[0]
-        if view == "🆕 New Nov 20":
+        if view == "🆕 Most recent batch":
             npg = ss.get("ufo_new_page", 0)
             with st.container(horizontal=True, vertical_alignment="center", key="ufo-new-head"):
-                st.markdown(f'<div class="exp-sub">🆕 THE PENTAGON’S EIGHTH RELEASE · NOV 20, 2026 · {len(new_ids)} files</div>',
+                st.markdown(f'<div class="exp-sub">🆕 MOST RECENT BATCH · RELEASED NOV 20, 2026 · {len(new_ids)} files</div>',
                             unsafe_allow_html=True)
                 st.button("🔄 Show more", key="ufo-new-more", type="tertiary",
                           on_click=lambda: ss.__setitem__("ufo_new_page", ss.get("ufo_new_page", 0) + 1))
@@ -2421,7 +2421,7 @@ def _brk_item(r, key, big=False):
 def breaking_tab():
     recs = breaking_records()
     if not recs:
-        st.info("No new release right now. Check the UFO Files on the Search tab.")
+        st.info("No recent batch to show. Check the UFO Files on the Search tab.")
         return
     by_code = {ufo_code(r): r for r in recs}
     years = sorted(int(ufo_year(r)) for r in recs if ufo_year(r))
@@ -2432,12 +2432,12 @@ def breaking_tab():
              + f'<div><b>{n_57}</b><span>from the 1957 wave</span></div>'
              + f'<div><b>{n_cia}</b><span>from the CIA</span></div>')
     st.markdown(
-        '<div class="brk-hero"><div class="brk-live"><span class="dot"></span>BREAKING · NOVEMBER 20, 2026</div>'
-        f'<div class="brk-h1">The Pentagon just opened another drawer of UFO files</div>'
+        '<div class="brk-hero"><div class="brk-live"><span class="dot"></span>MOST RECENT BATCH · RELEASED NOVEMBER 20, 2026</div>'
+        f'<div class="brk-h1">The Pentagon’s most recent batch of UFO files</div>'
         '<div class="brk-deck">The eighth release from war.gov/UFO: the Air Force\'s investigation of the famous Levelland '
         'sightings, a "flying saucer" reported by Lockheed\'s legendary engineer Kelly Johnson, two jet pilots chasing a radar '
         'target over Japan, the Harry Reid letters behind the Pentagon\'s secret advanced-aerospace program, and military '
-        'video shot as recently as this year.</div>'
+        'video shot as recently as 2026.</div>'
         f'<div class="brk-stats">{stats}</div></div>', unsafe_allow_html=True)
     st.markdown('<div class="brk-sec">🔥 THE BIG FIVE</div>', unsafe_allow_html=True)
     for n, code in enumerate([c for c in BREAKING_TOP if c in by_code], 1):
@@ -2560,10 +2560,10 @@ with tab_search:
 
     ss.setdefault("qbox", "")
     if not ss.get("status"):
-        st.markdown('<div class="brk-banner"><span class="dot"></span><b>BREAKING</b>'
-                    '<span>The Pentagon released 40 more UFO files today, from Levelland to Kelly Johnson.</span></div>',
+        st.markdown('<div class="brk-banner"><span class="dot"></span><b>MOST RECENT BATCH</b>'
+                    '<span>The Pentagon’s latest UFO release: 43 files, from Levelland to Kelly Johnson.</span></div>',
                     unsafe_allow_html=True)
-        st.button("🚨 Read the breaking coverage →", key="brk-go", on_click=_go_breaking, type="tertiary")
+        st.button("🆕 See the most recent batch →", key="brk-go", on_click=_go_breaking, type="tertiary")
     _sw = st.container(key="searchwrap")
     with _sw, st.form("search", border=False):
         st.markdown(f'<div class="q-label">🔎 SEARCH CIA, FBI, NSA + {len(ALL) - 3} MORE ARCHIVES</div>', unsafe_allow_html=True)
@@ -2941,4 +2941,4 @@ st.button("📱 Switch to phone layout" if WIDE else "🖥 Switch to desktop lay
           on_click=_set_view, args=("phone" if WIDE else "desktop",), type="tertiary")
 st.markdown('<div class="q-label">FOUND SOMETHING GOOD? PASS IT ON</div>', unsafe_allow_html=True)
 share_site_button()
-st.markdown('<div class="ver">Version 106 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="ver">Version 107 · Archive Hunter 2.0 · updated Oct 11, 2026</div>', unsafe_allow_html=True)
